@@ -14,20 +14,21 @@
 <meta name="author" content="YUAN">
 
 
-    
-    
 
-
-<meta name="description" content="温故而知新">
-<meta property="og:type" content="website">
-<meta property="og:title" content="MyNotes">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/yuanjinxiugithub.io/index.html">
+<meta name="description" content="jap 简介12java 持久层api是java 规范 用于在java 对象和数据库之间保存数据。 JPA充当面向对象领域和关系数据库之间的桥梁。JPA 只是一个规范，它本身不执行任何操作。它需要一个实现。因此，像hibernate toplink ibatis 这样的工具具体实现了JPA数据持久性规范。 jpa 发展 2006年 发布1.0版本 2009年 发布2.0版本 2013年 发布2.1">
+<meta name="keywords" content="java orm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JPA进阶(Java持久层API)">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="温故而知新">
+<meta property="og:description" content="jap 简介12java 持久层api是java 规范 用于在java 对象和数据库之间保存数据。 JPA充当面向对象领域和关系数据库之间的桥梁。JPA 只是一个规范，它本身不执行任何操作。它需要一个实现。因此，像hibernate toplink ibatis 这样的工具具体实现了JPA数据持久性规范。 jpa 发展 2006年 发布1.0版本 2009年 发布2.0版本 2013年 发布2.1">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="c:/Users/yjx/AppData/Roaming/Typora/typora-user-images/1547115370479.png">
+<meta property="og:updated_time" content="2019-02-14T03:43:09.554Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MyNotes">
-<meta name="twitter:description" content="温故而知新">
+<meta name="twitter:title" content="JPA进阶(Java持久层API)">
+<meta name="twitter:description" content="jap 简介12java 持久层api是java 规范 用于在java 对象和数据库之间保存数据。 JPA充当面向对象领域和关系数据库之间的桥梁。JPA 只是一个规范，它本身不执行任何操作。它需要一个实现。因此，像hibernate toplink ibatis 这样的工具具体实现了JPA数据持久性规范。 jpa 发展 2006年 发布1.0版本 2009年 发布2.0版本 2013年 发布2.1">
+<meta name="twitter:image" content="c:/Users/yjx/AppData/Roaming/Typora/typora-user-images/1547115370479.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -55,13 +56,11 @@
 <link rel="stylesheet" href="/yuanjinxiugithub.io/css/style.css">
 
 
-    <style> .article { opacity: 0;} </style>
-
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>MyNotes</title>
+<title>JPA进阶(Java持久层API) | MyNotes</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -70,8 +69,8 @@
     var yiliaConfig = {
         fancybox: true,
         animate: true,
-        isHome: true,
-        isPost: false,
+        isHome: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -265,263 +264,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-你好，Hexo" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/yuanjinxiugithub.io/2019/02/13/你好，Hexo/" class="article-date">
-      <time datetime="2019-02-13T11:00:01.000Z" itemprop="datePublished">2019-02-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/yuanjinxiugithub.io/2019/02/13/你好，Hexo/">你好，Hexo</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h6 id="使用Hexo-是非常简单的一件事。"><a href="#使用Hexo-是非常简单的一件事。" class="headerlink" title="使用Hexo,是非常简单的一件事。"></a>使用Hexo,是非常简单的一件事。</h6>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/yuanjinxiugithub.io/2019/02/13/hello-world/" class="article-date">
-      <time datetime="2019-02-13T08:49:16.791Z" itemprop="datePublished">2019-02-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/yuanjinxiugithub.io/2019/02/13/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="_posts-HTTP-教程总结" class="article article-type-_posts" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/" class="article-date">
-      <time datetime="2019-01-10T03:42:10.000Z" itemprop="datePublished">2019-01-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="http-head-里面的Content-type"><a href="#http-head-里面的Content-type" class="headerlink" title="http head 里面的Content-type"></a>http head 里面的Content-type</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>post 请求中的Content-type方式一般有三种：</p>
-<ul>
-<li><p><code>application/x-www-form-urlencoded</code>：数据被编码为名称/值对。这是标准的编码格式。</p>
-</li>
-<li><p><code>multipart/form-data</code>： 数据被编码为一条消息，页上的每个控件对应消息中的一个部分。</p>
-</li>
-<li><p><code>text/plain</code>： 数据以纯文本形式(text/json/xml/html)进行编码，其中不含任何控件或格式字符。postman软件里标的是RAW。</p>
-</li>
-<li><p>form的<code>enctype</code>属性为编码方式，常用有两种：<code>application/x-www-form-urlencoded</code>和<code>multipart/form-data</code>，默认为<code>application/x-www-form-urlencoded</code></p>
-<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url。</p>
-<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url</p>
-</li>
-<li><p>application/json 用来告诉服务器端消息主体是序列化后的json字符串</p>
-</li>
-</ul>
-<h3 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>客户端/浏览器接受并显示网页时，此网页所在的服务器会返回一个包含http状态码的信息头用以响应浏览器的请求。 HTTP status code。</p>
-<p>下面是常见的HTTP状态码：</p>
-<p>​    200—请求成功</p>
-<p>​        301– 重定向错误（资源被永久移除到其它URL）</p>
-<p>​        404– 请求的网页不存在（客户端错误）</p>
-<p>​        500– 内部服务器错误（服务器错误）</p>
-<h3 id="http请求方法"><a href="#http请求方法" class="headerlink" title="http请求方法"></a>http请求方法</h3><p>根据http标准，http请求可以使用多种请求方法：</p>
-<p>http1.0定义了三种请求方法：GET POST HEAD</p>
-<p>http2.0新增了五种请求方法： PUT DELETE COMMECT OPTIONS  TANCE </p>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>GET</td>
-<td>请求指定的页面信息，并返回实体主体。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>HEAD</td>
-<td>类似于get请求，只不过返回的响应中没有具体的内容，用于获取报头</td>
-</tr>
-<tr>
-<td>3</td>
-<td>POST</td>
-<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST请求可能会导致新的资源的建立和/或已有资源的修改。</td>
-</tr>
-<tr>
-<td>4</td>
-<td>PUT</td>
-<td>从客户端向服务器传送的数据取代指定的文档的内容。</td>
-</tr>
-<tr>
-<td>5</td>
-<td>DELETE</td>
-<td>请求服务器删除指定的页面。</td>
-</tr>
-<tr>
-<td>6</td>
-<td>CONNECT</td>
-<td>HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。</td>
-</tr>
-<tr>
-<td>7</td>
-<td>OPTIONS</td>
-<td>允许客户端查看服务器的性能。</td>
-</tr>
-<tr>
-<td>8</td>
-<td>TRACE</td>
-<td>回显服务器收到的请求，主要用于测试或诊断。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="http-消息结构"><a href="#http-消息结构" class="headerlink" title="http 消息结构"></a>http 消息结构</h3><p>http 是基于客户端/服务器的机构模型，无状态的请求/响应协议。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yuanjinxiugithub.io/tags/http协议-前端/">http协议 前端</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="_posts-JPA进阶-Java持久层API" class="article article-type-_posts" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="_posts-JPA进阶-Java持久层API" class="article article-type-_posts" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/" class="article-date">
@@ -539,12 +282,23 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a>
+    <h1 class="article-title" itemprop="name">
+      JPA进阶(Java持久层API)
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yuanjinxiugithub.io/tags/java-orm/">java orm</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -637,23 +391,85 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yuanjinxiugithub.io/tags/java-orm/">java orm</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
+        <p><span>发布时间:</span>2019-01-10, 11:41:38</p>
+        <p><span>最后更新:</span>2019-02-14, 11:43:09</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/" title="JPA进阶(Java持久层API)">https://yuanjinxiugithub.github.io/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/">
+                    HTTP 教程总结
+                </a>
+            </div>
+        
+        
+    </nav>
+
   
 </article>
 
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#jap-简介"><span class="toc-number">1.</span> <span class="toc-text">jap 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jpa-发展"><span class="toc-number">2.</span> <span class="toc-text">jpa 发展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jpa-对象关系映射-ORM"><span class="toc-number">3.</span> <span class="toc-text">jpa 对象关系映射 ORM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jpa-实体"><span class="toc-number">4.</span> <span class="toc-text">jpa 实体</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实体属性"><span class="toc-number">4.1.</span> <span class="toc-text">实体属性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jpa创建实体"><span class="toc-number">5.</span> <span class="toc-text">jpa创建实体</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常用注解"><span class="toc-number">5.1.</span> <span class="toc-text">常用注解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-data-jpa的使用"><span class="toc-number">6.</span> <span class="toc-text">spring-data-jpa的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">6.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本查询"><span class="toc-number">6.2.</span> <span class="toc-text">基本查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#预先生成方法"><span class="toc-number">6.3.</span> <span class="toc-text">预先生成方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义简单查询"><span class="toc-number">6.4.</span> <span class="toc-text">自定义简单查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#复杂查询"><span class="toc-number">6.5.</span> <span class="toc-text">复杂查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分页查询"><span class="toc-number">6.6.</span> <span class="toc-text">分页查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义sql-查询"><span class="toc-number">6.7.</span> <span class="toc-text">自定义sql 查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多表查询"><span class="toc-number">6.8.</span> <span class="toc-text">多表查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多数据源的支持"><span class="toc-number">6.9.</span> <span class="toc-text">多数据源的支持</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#同源数据库的多源支持"><span class="toc-number">6.9.1.</span> <span class="toc-text">同源数据库的多源支持</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异构数据库多源支持"><span class="toc-number">6.10.</span> <span class="toc-text">异构数据库多源支持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-number">6.11.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#使用枚举"><span class="toc-number">6.11.1.</span> <span class="toc-text">使用枚举</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#spring-data-jpa-注解"><span class="toc-number">6.12.</span> <span class="toc-text">spring data jpa 注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#spring-data-jpa的核心概念"><span class="toc-number">6.13.</span> <span class="toc-text">spring data jpa的核心概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#spring-data-jpa-Query-定义中的SpEL的支持"><span class="toc-number">6.14.</span> <span class="toc-text">spring data jpa @Query 定义中的SpEL的支持</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#方法参数表达式"><span class="toc-number">6.14.1.</span> <span class="toc-text">方法参数表达式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#高级表达式"><span class="toc-number">6.15.</span> <span class="toc-text">高级表达式</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"JPA进阶(Java持久层API)　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
 
 
 
@@ -661,9 +477,33 @@
 
 
 
+    
 
-  
-  
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/" title="上一篇: HTTP 教程总结">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/yuanjinxiugithub.io/2019/02/13/你好，Hexo/">你好，Hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/yuanjinxiugithub.io/2019/02/13/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
