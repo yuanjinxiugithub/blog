@@ -16,15 +16,15 @@
 
 
 <meta name="description" content="jap 简介12java 持久层api是java 规范 用于在java 对象和数据库之间保存数据。 JPA充当面向对象领域和关系数据库之间的桥梁。JPA 只是一个规范，它本身不执行任何操作。它需要一个实现。因此，像hibernate toplink ibatis 这样的工具具体实现了JPA数据持久性规范。 jpa 发展 2006年 发布1.0版本 2009年 发布2.0版本 2013年 发布2.1">
-<meta name="keywords" content="-java -持久层">
+<meta name="keywords" content="java,持久层">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JPA进阶(Java持久层API)">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/index.html">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/blog/2019/01/10/JPA进阶-Java持久层API/index.html">
 <meta property="og:site_name" content="MyNotes">
 <meta property="og:description" content="jap 简介12java 持久层api是java 规范 用于在java 对象和数据库之间保存数据。 JPA充当面向对象领域和关系数据库之间的桥梁。JPA 只是一个规范，它本身不执行任何操作。它需要一个实现。因此，像hibernate toplink ibatis 这样的工具具体实现了JPA数据持久性规范。 jpa 发展 2006年 发布1.0版本 2009年 发布2.0版本 2013年 发布2.1">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="c:/Users/yjx/AppData/Roaming/Typora/typora-user-images/1547115370479.png">
-<meta property="og:updated_time" content="2019-02-14T09:42:02.779Z">
+<meta property="og:updated_time" content="2019-02-14T09:44:39.279Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JPA进阶(Java持久层API)">
 <meta name="twitter:description" content="jap 简介12java 持久层api是java 规范 用于在java 对象和数据库之间保存数据。 JPA充当面向对象领域和关系数据库之间的桥梁。JPA 只是一个规范，它本身不执行任何操作。它需要一个实现。因此，像hibernate toplink ibatis 这样的工具具体实现了JPA数据持久性规范。 jpa 发展 2006年 发布1.0版本 2009年 发布2.0版本 2013年 发布2.1">
@@ -53,7 +53,7 @@
     <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/yuanjinxiugithub.io/css/style.css">
+<link rel="stylesheet" href="/blog/css/style.css">
 
 
 
@@ -99,11 +99,11 @@
     <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
-        <a href="/yuanjinxiugithub.io/" class="profilepic">
+        <a href="/blog/" class="profilepic">
             <img src="/yuanjinxiugithub.io/img/me.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/yuanjinxiugithub.io/">YUAN</a></h1>
+          <h1 class="header-author"><a href="/blog/">YUAN</a></h1>
         </hgroup>
 
         
@@ -161,13 +161,13 @@
                     <nav class="header-menu">
                         <ul>
                         
-                            <li><a href="/yuanjinxiugithub.io/">主页</a></li>
+                            <li><a href="/blog/">主页</a></li>
                         
-                            <li><a href="/yuanjinxiugithub.io/archives/">所有文章</a></li>
+                            <li><a href="/blog/archives/">所有文章</a></li>
                         
-                            <li><a href="/yuanjinxiugithub.io/tags/">标签云</a></li>
+                            <li><a href="/blog/tags/">标签云</a></li>
                         
-                            <li><a href="/yuanjinxiugithub.io/about/">关于我</a></li>
+                            <li><a href="/blog/about/">关于我</a></li>
                         
                         </ul>
                     </nav>
@@ -178,7 +178,7 @@
                             
                                 <a class="fa GitHub" href="#" title="GitHub"></a>
                             
-                                <a class="fa RSS" href="/yuanjinxiugithub.io/atom.xml" title="RSS"></a>
+                                <a class="fa RSS" href="/blog/atom.xml" title="RSS"></a>
                             
                         </ul>
                     </nav>
@@ -187,7 +187,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/yuanjinxiugithub.io/tags/java-持久层/">-java -持久层</a></li><li class="tag-list-item"><a class="tag-list-link" href="/yuanjinxiugithub.io/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/yuanjinxiugithub.io/tags/前端/">前端</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
                     </div>
                 </section>
                 
@@ -226,11 +226,11 @@
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
-            <a href="/yuanjinxiugithub.io/" class="profilepic">
+            <a href="/blog/" class="profilepic">
                 <img src="/yuanjinxiugithub.io/img/me.png" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/yuanjinxiugithub.io/" title="回到主页">YUAN</a></h1>
+              <h1 class="header-author"><a href="/blog/" title="回到主页">YUAN</a></h1>
             </hgroup>
             
             <p class="header-subtitle">温故而知新</p>
@@ -238,13 +238,13 @@
             <nav class="header-menu">
                 <ul>
                 
-                    <li><a href="/yuanjinxiugithub.io/">主页</a></li>
+                    <li><a href="/blog/">主页</a></li>
                 
-                    <li><a href="/yuanjinxiugithub.io/archives/">所有文章</a></li>
+                    <li><a href="/blog/archives/">所有文章</a></li>
                 
-                    <li><a href="/yuanjinxiugithub.io/tags/">标签云</a></li>
+                    <li><a href="/blog/tags/">标签云</a></li>
                 
-                    <li><a href="/yuanjinxiugithub.io/about/">关于我</a></li>
+                    <li><a href="/blog/about/">关于我</a></li>
                 
                 <div class="clearfix"></div>
                 </ul>
@@ -256,7 +256,7 @@
                             
                                 <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
                             
-                                <a class="fa RSS" target="_blank" href="/yuanjinxiugithub.io/atom.xml" title="RSS"></a>
+                                <a class="fa RSS" target="_blank" href="/blog/atom.xml" title="RSS"></a>
                             
                         </ul>
             </nav>
@@ -267,7 +267,7 @@
       <div class="body-wrap"><article id="_posts-JPA进阶-Java持久层API" class="article article-type-_posts" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/" class="article-date">
+      <a href="/blog/2019/01/10/JPA进阶-Java持久层API/" class="article-date">
       <time datetime="2019-01-10T03:41:38.000Z" itemprop="datePublished">2019-01-10</time>
 </a>
 
@@ -294,7 +294,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yuanjinxiugithub.io/tags/java-持久层/">-java -持久层</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -395,13 +395,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></p>
+        <p><span>本文标题:</span><a href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
         <p><span>发布时间:</span>2019-01-10, 11:41:38</p>
-        <p><span>最后更新:</span>2019-02-14, 17:42:02</p>
+        <p><span>最后更新:</span>2019-02-14, 17:44:39</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/" title="JPA进阶(Java持久层API)">https://yuanjinxiugithub.github.io/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/blog/2019/01/10/JPA进阶-Java持久层API/" title="JPA进阶(Java持久层API)">https://yuanjinxiugithub.github.io/blog/2019/01/10/JPA进阶-Java持久层API/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/blog/2019/01/10/JPA进阶-Java持久层API/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -414,7 +414,7 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/">
+                <a href="/blog/2019/01/10/HTTP-教程总结/">
                     HTTP 教程总结
                 </a>
             </div>
@@ -484,7 +484,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/" title="上一篇: HTTP 教程总结">
+            <a href="/blog/2019/01/10/HTTP-教程总结/" title="上一篇: HTTP 教程总结">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -496,7 +496,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/yuanjinxiugithub.io/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/yuanjinxiugithub.io/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li></ul>
 
 
 
@@ -539,7 +539,7 @@
 </footer>
     </div>
     
-<script data-main="/yuanjinxiugithub.io/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+<script data-main="/blog/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
 
     <script>
         $(document).ready(function() {
