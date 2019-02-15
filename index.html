@@ -188,7 +188,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
                     </div>
                 </section>
                 
@@ -266,6 +266,61 @@
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-微服务是什么？" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/blog/2019/02/15/微服务是什么？/" class="article-date">
+      <time datetime="2019-02-15T07:03:46.000Z" itemprop="datePublished">2019-02-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2019/02/15/微服务是什么？/">微服务是什么？</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-Java基础知识" class="article article-type-post" itemscope="" itemprop="blogPost">
   
@@ -408,7 +463,7 @@
 <h3 id="java数据类型"><a href="#java数据类型" class="headerlink" title="java数据类型"></a>java数据类型</h3><ol>
 <li><h5 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h5><p>int short long byte char float dubble boolean<br>这种类型的定义是通过诸如int a = 3; long b = 255L;的形式来定义的，称为自动变量。值得注意的是，自动变量存的是字面值，不是类的实例，即不是类的引用，这里并没有类的存在。如int a = 3; 这里的a是一个指向int类型的引用，指向3这个字面值。这些字面值的数据，由于大小可知，生存期可知(这些字面值固定定义在某个程序块里面，程序块退出 后，字段值就消失了)，出于追求速度的原因，就存在于栈中。 另外，栈有一个很重要的特殊性，就是存在栈中的数据可以共享。假设我们同时定义   int a = 3;   int b = 3； 编 译器先处理int a = 3；首先它会在栈中创建一个变量为a的引用，然后查找有没有字面值为3的地址，没找到，就开辟一个存放3这个字面值的地址，然后将a指向3的地址。接着处 理int b = 3；在创建完b的引用变量后，由于在栈中已经有3这个字面值，便将b直接指向3的地址。这样，就出现了a与b同时均指向3的情况。 特 别注意的是，这种字面值的引用与类对象的引用不同。假定两个类对象的引用同时指向一个对象，如果一个对象引用变量修改了这个对象的内部状态，那么另一个对 象引用变量也即刻反映出这个变化。相反，通过字面值的引用来修改其值，不会导致另一个指向此字面值的引用的值也跟着改变的情况。如上例，我们定义完a与 b的值后，再令a=4；那么，b不会等于4，还是等于3。在编译器内部，遇到a=4；时，它就会重新搜索栈中是否有4的字面值，如果没有，重新开辟地址存 放4的值；如果已经有了，则直接将a指向这个地址。因此a值的改变不会影响到b的值。</p>
 </li>
-<li><h5 id="包装类数据"><a href="#包装类数据" class="headerlink" title="包装类数据"></a>包装类数据</h5><p> 如Integer String Double等将相应的基本数据类型包装起来的类。这些类数据全部存在于栈中，java用new()语句来显示地告诉编译器，在运行时才根据需要动态创建，因此比较灵活，但需要占用更多的时间。</p>
+<li><h5 id="包装类类型"><a href="#包装类类型" class="headerlink" title="包装类类型"></a>包装类类型</h5><p> 如Integer String Double等将相应的基本数据类型包装起来的类。这些类数据全部存在于栈中，java用new()语句来显示地告诉编译器，在运行时才根据需要动态创建，因此比较灵活，但需要占用更多的时间。</p>
 </li>
 <li><h5 id="为什么会存在两种类型？"><a href="#为什么会存在两种类型？" class="headerlink" title="为什么会存在两种类型？"></a>为什么会存在两种类型？</h5><p> 我们都知道在Java语言中，new一个对象存储在堆里，我们通过堆栈中的引用来使用这些对象；但是对于经常用到的一系列类型如int，如果我们用new将其存储在堆里就不是很有效——特别是简单的小的变量。<br> 所以就出现了基本类型，同C++一样，Java采用了相似的做法，对于这些类型不是用new关键字来创建，而是直接将变量的值存储在堆栈中，因此更加高效。</p>
 <p> 有了基本类型之后为什么还要有包装器类型呢？我们知道Java是一个面相对象的编程语言，基本类型并不具有对象的性质，为了让基本类型也具有对象的特征，就出现了包装类型（如我们在使用集合类型Collection时就一定要使用包装类型而非基本类型），它相当于将基本类型“包装起来”，使得它具有了对象的性质，并且为其添加了属性和方法，丰富了基本类型的操作。</p>
@@ -727,6 +782,65 @@
 
 
   
+    <article id="post-dubbo-的使用和总结" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/blog/2018/10/15/dubbo-的使用和总结/" class="article-date">
+      <time datetime="2018-10-15T06:58:54.000Z" itemprop="datePublished">2018-10-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/分布式服务框架/">分布式服务框架</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-String-StringBuilder-StringBuffer的区分" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -756,7 +870,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <h3 id="String-的修改原理："><a href="#String-的修改原理：" class="headerlink" title="String 的修改原理："></a>String 的修改原理：</h3><p>String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意append方法并不会new一个新的对象）</p>
+
       
     </div>
     

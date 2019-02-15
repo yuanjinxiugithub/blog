@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/1087853/201612/1087853-20161228171311414-415257293.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/908514/201607/908514-20160720101024841-238269977.jpg">
-<meta property="og:updated_time" content="2019-02-15T06:53:55.590Z">
+<meta property="og:updated_time" content="2019-02-15T07:01:50.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java中的堆内存和栈内存">
 <meta name="twitter:description" content="参考文献 博客1 博客2  java存储数据的6个地方 寄存器（register） 最快的存储区域，位于处理器内部,不同于其他存储区。但是存储器的数量及其有限，所以寄存器由编译器根据需求进行分配。不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。   —– 最快的存储区，由编译器根据需求进行分配，程序无法控制  堆栈（stack）位于通用RAM中,但通过”堆栈指针”可以从处理器哪里获得支持">
@@ -188,7 +188,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
                     </div>
                 </section>
                 
@@ -358,7 +358,7 @@
 <h3 id="java数据类型"><a href="#java数据类型" class="headerlink" title="java数据类型"></a>java数据类型</h3><ol>
 <li><h5 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h5><p>int short long byte char float dubble boolean<br>这种类型的定义是通过诸如int a = 3; long b = 255L;的形式来定义的，称为自动变量。值得注意的是，自动变量存的是字面值，不是类的实例，即不是类的引用，这里并没有类的存在。如int a = 3; 这里的a是一个指向int类型的引用，指向3这个字面值。这些字面值的数据，由于大小可知，生存期可知(这些字面值固定定义在某个程序块里面，程序块退出 后，字段值就消失了)，出于追求速度的原因，就存在于栈中。 另外，栈有一个很重要的特殊性，就是存在栈中的数据可以共享。假设我们同时定义   int a = 3;   int b = 3； 编 译器先处理int a = 3；首先它会在栈中创建一个变量为a的引用，然后查找有没有字面值为3的地址，没找到，就开辟一个存放3这个字面值的地址，然后将a指向3的地址。接着处 理int b = 3；在创建完b的引用变量后，由于在栈中已经有3这个字面值，便将b直接指向3的地址。这样，就出现了a与b同时均指向3的情况。 特 别注意的是，这种字面值的引用与类对象的引用不同。假定两个类对象的引用同时指向一个对象，如果一个对象引用变量修改了这个对象的内部状态，那么另一个对 象引用变量也即刻反映出这个变化。相反，通过字面值的引用来修改其值，不会导致另一个指向此字面值的引用的值也跟着改变的情况。如上例，我们定义完a与 b的值后，再令a=4；那么，b不会等于4，还是等于3。在编译器内部，遇到a=4；时，它就会重新搜索栈中是否有4的字面值，如果没有，重新开辟地址存 放4的值；如果已经有了，则直接将a指向这个地址。因此a值的改变不会影响到b的值。</p>
 </li>
-<li><h5 id="包装类数据"><a href="#包装类数据" class="headerlink" title="包装类数据"></a>包装类数据</h5><p> 如Integer String Double等将相应的基本数据类型包装起来的类。这些类数据全部存在于栈中，java用new()语句来显示地告诉编译器，在运行时才根据需要动态创建，因此比较灵活，但需要占用更多的时间。</p>
+<li><h5 id="包装类类型"><a href="#包装类类型" class="headerlink" title="包装类类型"></a>包装类类型</h5><p> 如Integer String Double等将相应的基本数据类型包装起来的类。这些类数据全部存在于栈中，java用new()语句来显示地告诉编译器，在运行时才根据需要动态创建，因此比较灵活，但需要占用更多的时间。</p>
 </li>
 <li><h5 id="为什么会存在两种类型？"><a href="#为什么会存在两种类型？" class="headerlink" title="为什么会存在两种类型？"></a>为什么会存在两种类型？</h5><p> 我们都知道在Java语言中，new一个对象存储在堆里，我们通过堆栈中的引用来使用这些对象；但是对于经常用到的一系列类型如int，如果我们用new将其存储在堆里就不是很有效——特别是简单的小的变量。<br> 所以就出现了基本类型，同C++一样，Java采用了相似的做法，对于这些类型不是用new关键字来创建，而是直接将变量的值存储在堆栈中，因此更加高效。</p>
 <p> 有了基本类型之后为什么还要有包装器类型呢？我们知道Java是一个面相对象的编程语言，基本类型并不具有对象的性质，为了让基本类型也具有对象的特征，就出现了包装类型（如我们在使用集合类型Collection时就一定要使用包装类型而非基本类型），它相当于将基本类型“包装起来”，使得它具有了对象的性质，并且为其添加了属性和方法，丰富了基本类型的操作。</p>
@@ -381,7 +381,7 @@
         <p><span>本文标题:</span><a href="/blog/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
         <p><span>发布时间:</span>2019-02-15, 10:22:55</p>
-        <p><span>最后更新:</span>2019-02-15, 14:53:55</p>
+        <p><span>最后更新:</span>2019-02-15, 15:01:50</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/blog/2019/02/15/java中的队内存和栈内存/" title="java中的堆内存和栈内存">https://yuanjinxiugithub.github.io/blog/2019/02/15/java中的队内存和栈内存/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/blog/2019/02/15/java中的队内存和栈内存/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -417,7 +417,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java存储数据的6个地方"><span class="toc-number">1.</span> <span class="toc-text">java存储数据的6个地方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈内存和堆内存"><span class="toc-number">2.</span> <span class="toc-text">栈内存和堆内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java数据类型"><span class="toc-number">3.</span> <span class="toc-text">java数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基本数据类型"><span class="toc-number">3.0.1.</span> <span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#包装类数据"><span class="toc-number">3.0.2.</span> <span class="toc-text">包装类数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么会存在两种类型？"><span class="toc-number">3.0.3.</span> <span class="toc-text">为什么会存在两种类型？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二者之间的区别"><span class="toc-number">3.0.4.</span> <span class="toc-text">二者之间的区别</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java存储数据的6个地方"><span class="toc-number">1.</span> <span class="toc-text">java存储数据的6个地方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈内存和堆内存"><span class="toc-number">2.</span> <span class="toc-text">栈内存和堆内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java数据类型"><span class="toc-number">3.</span> <span class="toc-text">java数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基本数据类型"><span class="toc-number">3.0.1.</span> <span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#包装类类型"><span class="toc-number">3.0.2.</span> <span class="toc-text">包装类类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么会存在两种类型？"><span class="toc-number">3.0.3.</span> <span class="toc-text">为什么会存在两种类型？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二者之间的区别"><span class="toc-number">3.0.4.</span> <span class="toc-text">二者之间的区别</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -487,7 +487,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/微服务是什么？/">微服务是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
 
 
 

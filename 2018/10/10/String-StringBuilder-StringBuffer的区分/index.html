@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="温故而知新下">
+<meta name="description" content="String 的修改原理：String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意append方法并不会new一个新的对象）">
 <meta name="keywords" content="java,基础知识">
 <meta property="og:type" content="article">
 <meta property="og:title" content="String,StringBuilder,StringBuffer的区分">
 <meta property="og:url" content="https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="温故而知新下">
+<meta property="og:description" content="String 的修改原理：String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意append方法并不会new一个新的对象）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-15T06:37:07.289Z">
+<meta property="og:updated_time" content="2019-02-15T07:08:25.900Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="String,StringBuilder,StringBuffer的区分">
-<meta name="twitter:description" content="温故而知新下">
+<meta name="twitter:description" content="String 的修改原理：String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意append方法并不会new一个新的对象）">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -185,7 +185,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
                     </div>
                 </section>
                 
@@ -302,7 +302,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <h3 id="String-的修改原理："><a href="#String-的修改原理：" class="headerlink" title="String 的修改原理："></a>String 的修改原理：</h3><p>String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意append方法并不会new一个新的对象）</p>
+
       
     </div>
     
@@ -313,7 +314,7 @@
         <p><span>本文标题:</span><a href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
         <p><span>发布时间:</span>2018-10-10, 14:19:28</p>
-        <p><span>最后更新:</span>2019-02-15, 14:37:07</p>
+        <p><span>最后更新:</span>2019-02-15, 15:08:25</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/" title="String,StringBuilder,StringBuffer的区分">https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -329,8 +330,8 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/blog/2019/01/10/JPA进阶-Java持久层API/">
-                    JPA进阶(Java持久层API)
+                <a href="/blog/2018/10/15/dubbo-的使用和总结/">
+                    dubbo 的使用和总结
                 </a>
             </div>
         
@@ -343,7 +344,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#String-的修改原理："><span class="toc-number">1.</span> <span class="toc-text">String 的修改原理：</span></a></li></ol>
         
     </div>
     <style>
@@ -399,7 +400,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/blog/2019/01/10/JPA进阶-Java持久层API/" title="上一篇: JPA进阶(Java持久层API)">
+            <a href="/blog/2018/10/15/dubbo-的使用和总结/" title="上一篇: dubbo 的使用和总结">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -411,7 +412,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/微服务是什么？/">微服务是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
 
 
 
