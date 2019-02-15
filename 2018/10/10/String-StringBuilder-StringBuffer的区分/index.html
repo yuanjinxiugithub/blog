@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="http head 里面的Content-type1. 简介post 请求中的Content-type方式一般有三种：  application/x-www-form-urlencoded：数据被编码为名称/值对。这是标准的编码格式。  multipart/form-data： 数据被编码为一条消息，页上的每个控件对应消息中的一个部分。  text/plain： 数据以纯文本形式(text/jso">
-<meta name="keywords" content="http协议,前端">
+<meta name="description" content="温故而知新下">
+<meta name="keywords" content="java,基础知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP 教程总结">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/blog/2019/01/10/HTTP-教程总结/index.html">
+<meta property="og:title" content="String,StringBuilder,StringBuffer的区分">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="http head 里面的Content-type1. 简介post 请求中的Content-type方式一般有三种：  application/x-www-form-urlencoded：数据被编码为名称/值对。这是标准的编码格式。  multipart/form-data： 数据被编码为一条消息，页上的每个控件对应消息中的一个部分。  text/plain： 数据以纯文本形式(text/jso">
+<meta property="og:description" content="温故而知新下">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-14T09:39:27.323Z">
+<meta property="og:updated_time" content="2019-02-15T06:37:07.289Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP 教程总结">
-<meta name="twitter:description" content="http head 里面的Content-type1. 简介post 请求中的Content-type方式一般有三种：  application/x-www-form-urlencoded：数据被编码为名称/值对。这是标准的编码格式。  multipart/form-data： 数据被编码为一条消息，页上的每个控件对应消息中的一个部分。  text/plain： 数据以纯文本形式(text/jso">
+<meta name="twitter:title" content="String,StringBuilder,StringBuffer的区分">
+<meta name="twitter:description" content="温故而知新下">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>HTTP 教程总结 | MyNotes</title>
+<title>String,StringBuilder,StringBuffer的区分 | MyNotes</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -262,11 +262,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="_posts-HTTP-教程总结" class="article article-type-_posts" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-String-StringBuilder-StringBuffer的区分" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/blog/2019/01/10/HTTP-教程总结/" class="article-date">
-      <time datetime="2019-01-10T03:42:10.000Z" itemprop="datePublished">2019-01-10</time>
+      <a href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/" class="article-date">
+      <time datetime="2018-10-10T06:19:28.000Z" itemprop="datePublished">2018-10-10</time>
 </a>
 
 
@@ -281,7 +281,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP 教程总结
+      String,StringBuilder,StringBuffer的区分
     </h1>
   
 
@@ -292,7 +292,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/前端/">前端</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -302,83 +302,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="http-head-里面的Content-type"><a href="#http-head-里面的Content-type" class="headerlink" title="http head 里面的Content-type"></a>http head 里面的Content-type</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>post 请求中的Content-type方式一般有三种：</p>
-<ul>
-<li><p><code>application/x-www-form-urlencoded</code>：数据被编码为名称/值对。这是标准的编码格式。</p>
-</li>
-<li><p><code>multipart/form-data</code>： 数据被编码为一条消息，页上的每个控件对应消息中的一个部分。</p>
-</li>
-<li><p><code>text/plain</code>： 数据以纯文本形式(text/json/xml/html)进行编码，其中不含任何控件或格式字符。postman软件里标的是RAW。</p>
-</li>
-<li><p>form的<code>enctype</code>属性为编码方式，常用有两种：<code>application/x-www-form-urlencoded</code>和<code>multipart/form-data</code>，默认为<code>application/x-www-form-urlencoded</code></p>
-<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url。</p>
-<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url</p>
-</li>
-<li><p>application/json 用来告诉服务器端消息主体是序列化后的json字符串</p>
-</li>
-</ul>
-<h3 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>客户端/浏览器接受并显示网页时，此网页所在的服务器会返回一个包含http状态码的信息头用以响应浏览器的请求。 HTTP status code。</p>
-<p>下面是常见的HTTP状态码：</p>
-<p>​    200—请求成功</p>
-<p>​        301– 重定向错误（资源被永久移除到其它URL）</p>
-<p>​        404– 请求的网页不存在（客户端错误）</p>
-<p>​        500– 内部服务器错误（服务器错误）</p>
-<h3 id="http请求方法"><a href="#http请求方法" class="headerlink" title="http请求方法"></a>http请求方法</h3><p>根据http标准，http请求可以使用多种请求方法：</p>
-<p>http1.0定义了三种请求方法：GET POST HEAD</p>
-<p>http2.0新增了五种请求方法： PUT DELETE COMMECT OPTIONS  TANCE </p>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>GET</td>
-<td>请求指定的页面信息，并返回实体主体。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>HEAD</td>
-<td>类似于get请求，只不过返回的响应中没有具体的内容，用于获取报头</td>
-</tr>
-<tr>
-<td>3</td>
-<td>POST</td>
-<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST请求可能会导致新的资源的建立和/或已有资源的修改。</td>
-</tr>
-<tr>
-<td>4</td>
-<td>PUT</td>
-<td>从客户端向服务器传送的数据取代指定的文档的内容。</td>
-</tr>
-<tr>
-<td>5</td>
-<td>DELETE</td>
-<td>请求服务器删除指定的页面。</td>
-</tr>
-<tr>
-<td>6</td>
-<td>CONNECT</td>
-<td>HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。</td>
-</tr>
-<tr>
-<td>7</td>
-<td>OPTIONS</td>
-<td>允许客户端查看服务器的性能。</td>
-</tr>
-<tr>
-<td>8</td>
-<td>TRACE</td>
-<td>回显服务器收到的请求，主要用于测试或诊断。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="http-消息结构"><a href="#http-消息结构" class="headerlink" title="http 消息结构"></a>http 消息结构</h3><p>http 是基于客户端/服务器的机构模型，无状态的请求/响应协议。</p>
-
+        
       
     </div>
     
@@ -386,13 +310,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></p>
+        <p><span>本文标题:</span><a href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
-        <p><span>发布时间:</span>2019-01-10, 11:42:10</p>
-        <p><span>最后更新:</span>2019-02-14, 17:39:27</p>
+        <p><span>发布时间:</span>2018-10-10, 14:19:28</p>
+        <p><span>最后更新:</span>2019-02-15, 14:37:07</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/blog/2019/01/10/HTTP-教程总结/" title="HTTP 教程总结">https://yuanjinxiugithub.github.io/blog/2019/01/10/HTTP-教程总结/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/blog/2019/01/10/HTTP-教程总结/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/" title="String,StringBuilder,StringBuffer的区分">https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -405,17 +329,11 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/blog/2019/02/15/java中的队内存和栈内存/">
-                    java中的堆内存和栈内存
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
                 <a href="/blog/2019/01/10/JPA进阶-Java持久层API/">
                     JPA进阶(Java持久层API)
                 </a>
             </div>
+        
         
     </nav>
 
@@ -425,7 +343,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#http-head-里面的Content-type"><span class="toc-number">1.</span> <span class="toc-text">http head 里面的Content-type</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-简介"><span class="toc-number">1.1.</span> <span class="toc-text">1. 简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http状态码"><span class="toc-number">2.</span> <span class="toc-text">http状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">2.1.</span> <span class="toc-text">简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http请求方法"><span class="toc-number">3.</span> <span class="toc-text">http请求方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-消息结构"><span class="toc-number">4.</span> <span class="toc-text">http 消息结构</span></a></li></ol>
+            
         
     </div>
     <style>
@@ -461,7 +379,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"HTTP 教程总结　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"String,StringBuilder,StringBuffer的区分　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -481,7 +399,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/blog/2019/02/15/java中的队内存和栈内存/" title="上一篇: java中的堆内存和栈内存">
+            <a href="/blog/2019/01/10/JPA进阶-Java持久层API/" title="上一篇: JPA进阶(Java持久层API)">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -489,9 +407,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/blog/2019/01/10/JPA进阶-Java持久层API/" title="下一篇: JPA进阶(Java持久层API)">
-                <i class="fa fa-angle-right"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
     </div>
 
