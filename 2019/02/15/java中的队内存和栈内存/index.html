@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="YUAN">
+
+
+
+<meta name="description" content="参考文献 博客  java存储数据的6个地方 寄存器（register） 最快的存储区域，位于处理器内部,不同于其他存储区。但是存储器的数量及其有限，所以寄存器由编译器根据需求进行分配。不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。   —– 最快的存储区，由编译器根据需求进行分配，程序无法控制  堆栈（stack）位于通用RAM中,但通过”堆栈指针”可以从处理器哪里获得支持。堆栈指针">
+<meta name="keywords" content="java,内存存储机制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java中的队内存和栈内存">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/blog/2019/02/15/java中的队内存和栈内存/index.html">
+<meta property="og:site_name" content="MyNotes">
+<meta property="og:description" content="参考文献 博客  java存储数据的6个地方 寄存器（register） 最快的存储区域，位于处理器内部,不同于其他存储区。但是存储器的数量及其有限，所以寄存器由编译器根据需求进行分配。不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。   —– 最快的存储区，由编译器根据需求进行分配，程序无法控制  堆栈（stack）位于通用RAM中,但通过”堆栈指针”可以从处理器哪里获得支持。堆栈指针">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1087853/201612/1087853-20161228171311414-415257293.png">
+<meta property="og:updated_time" content="2019-02-15T04:00:18.317Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java中的队内存和栈内存">
+<meta name="twitter:description" content="参考文献 博客  java存储数据的6个地方 寄存器（register） 最快的存储区域，位于处理器内部,不同于其他存储区。但是存储器的数量及其有限，所以寄存器由编译器根据需求进行分配。不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。   —– 最快的存储区，由编译器根据需求进行分配，程序无法控制  堆栈（stack）位于通用RAM中,但通过”堆栈指针”可以从处理器哪里获得支持。堆栈指针">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/1087853/201612/1087853-20161228171311414-415257293.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="MyNotes" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/blog/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>java中的队内存和栈内存 | MyNotes</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: 
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/blog/" class="profilepic">
+            <img src="/blog/img/me.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/blog/">YUAN</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">温故而知新</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/blog/">主页</a></li>
+                        
+                            <li><a href="/blog/archives/">所有文章</a></li>
+                        
+                            <li><a href="/blog/tags/">标签云</a></li>
+                        
+                            <li><a href="/blog/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:1871022901@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/blog/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/持久层/">持久层</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于技术</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">YUAN</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/blog/" class="profilepic">
+                <img src="/blog/img/me.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/blog/" title="回到主页">YUAN</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">温故而知新</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/blog/">主页</a></li>
+                
+                    <li><a href="/blog/archives/">所有文章</a></li>
+                
+                    <li><a href="/blog/tags/">标签云</a></li>
+                
+                    <li><a href="/blog/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:1871022901@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/blog/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-java中的队内存和栈内存" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/blog/2019/02/15/java中的队内存和栈内存/" class="article-date">
+      <time datetime="2019-02-15T02:22:55.000Z" itemprop="datePublished">2019-02-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java中的队内存和栈内存
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/内存存储机制/">内存存储机制</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>参考文献 <a href="http://www.cnblogs.com/whgw/archive/2011/09/29/2194997.html" target="_blank" rel="noopener">博客</a></p>
+</blockquote>
+<h3 id="java存储数据的6个地方"><a href="#java存储数据的6个地方" class="headerlink" title="java存储数据的6个地方"></a>java存储数据的6个地方</h3><ol>
+<li><p>寄存器（register）<br> 最快的存储区域，位于处理器内部,不同于其他存储区。但是存储器的数量及其有限，所以寄存器由编译器根据需求进行分配。不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。</p>
+ <font color="grey"> —– 最快的存储区，由编译器根据需求进行分配，程序无法控制</font>
+</li>
+<li><p>堆栈（stack）<br>位于通用RAM中,但通过”堆栈指针”可以从处理器哪里获得支持。<font color="red">堆栈指针向下移动，则分配新的内存；若向上移动，则释放那些内存。这是一种快速有效的分配存储方法，仅次于寄存器。</font>创建程序时，java编译器必须知道存储在堆栈内所有数据的确切大小和生命周期，因为它们必须生成相应的代码。以便上下移动堆栈指针，这一约束限制了程序的灵活性，所以虽然某些JAVA数据存储在堆栈中——特别是对象引用，但是JAVA对象不存储其 中。<font color="red">具体方法结束后，系统自动释放JVM内存资源</font></p>
+<font color="grey">   —– 存放基本类型的变量数据和对象，数组的引用，但对象本身不存放在栈中，而是 存放在堆（new 对象）或者常量池中（字符串常量存放在常量池中）。</font>
+</li>
+<li><p>堆（heap）</p>
+<p> 一种通用的内存池（也存在于RAM中）,用于存放所有的java对象。堆内存不同于堆栈的好处是：编译器不需要知道从堆里分配多少存储区，也不必知道存储数据在堆里面存活时间。因此，堆的灵活性较强。当你需要创建一个对象的时候，只需要new写一行简单的代码，当执行 这行代码时，会自动在堆里进行存储分配。当然，为这种灵活性必须要付出相应的代码。用堆进行存储分配比用堆栈进行存储存储需要更多的时间。<font color="red">一般由程序员分配释放，jvm不定时查看这个对象，如果没有引用指向这个对象就回收</font></p>
+</li>
+</ol>
+<p>​     <font color="grey"> —– 存放所有new 出来的对象</font></p>
+<ol start="4">
+<li><p>静态存储（static storage）–数据区</p>
+<p>这里的“静态”是指“在固定的位置”。静态存储里存放程序运行时一直存在的数据。你可用关键字static来标识一个对象的特定元素是静态的，但JAVA对象本身从来不会存放在静态存储空间里</p>
+ <font color="grey">—– 存放静态成员（static 定义的）</font>
+</li>
+<li><p>常量存储（constant storage）</p>
+<p>常量值通常直接存放在程序代码内部，这样做是安全的，因为它们永远不会被改变。有时，在嵌入式系统中，常量本身会和其他部分分割离开，所以在这种情况下，可以选择将其放在ROM中 。常量池存储于堆中。</p>
+ <font color="grey">——存放字符串常量和基本类型常量（public static final）和对其他类型、方法、字段的<strong>符号引用</strong></font>
+</li>
+<li><p>非RAM存储</p>
+</li>
+</ol>
+<p>​     如果数据完全存活于程序之外，那么它可以不受程序的任何控制，在程序没有运行时也可以存在。</p>
+<p>​       <font color="grey">—–硬盘等永久存储空间</font></p>
+<p>​    <font color="red">就速度而言，有如下关系：寄存器 &gt;堆栈 &gt; 堆 &gt; 其它</font></p>
+<p>下图大致描述了java的内存分配：</p>
+<p><img src="https://images2015.cnblogs.com/blog/1087853/201612/1087853-20161228171311414-415257293.png" alt="img"></p>
+<p>数据段：存放定义的static 定义的静态成员。</p>
+<p>常量区：JVM为每个已加载的类型维护一个常量池，常量池就是这个类型用到的常量的一个有序集合。</p>
+<p>代码段：存放程序中的二进制代码，而且多个对象共享一个代码空间区域</p>
+<h3 id="栈内存和堆内存"><a href="#栈内存和堆内存" class="headerlink" title="栈内存和堆内存"></a>栈内存和堆内存</h3><ol>
+<li><p>java中栈和常量池中的对象可以共享，对于堆中的对象不可以共享。</p>
+</li>
+<li><p>队中的数据大小和生命周期可以确定，当没有引用指向数据时，这个数据就会消失。堆中的对象的由垃圾回收器负责回收，因此大小和生命周期不需要确定，具有很大的灵活性。（堆最大的优势可以在运行期间动态地分配内存大小）</p>
+</li>
+<li><p>对于字符串：其对象的引用都是存储在栈中的，如果是编译期已经创建好(直接用双引号定义的)的就存储在常量池中，如果是运行期（new出来的）才能确定的就存储在堆中。对于equals相等的字符串，在常量池中永远只有一份，在堆中有多份。<br>如下代码：java代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"china"</span>; </span><br><span class="line">  </span><br><span class="line"> String s2 = <span class="string">"china"</span>;</span><br><span class="line">  </span><br><span class="line"> String s3 = <span class="string">"china"</span>; </span><br><span class="line">  </span><br><span class="line"> String ss1 = <span class="keyword">new</span> String(<span class="string">"china"</span>); </span><br><span class="line">  </span><br><span class="line"> String ss2 = <span class="keyword">new</span> String(<span class="string">"china"</span>); </span><br><span class="line">  </span><br><span class="line"> String ss3 = <span class="keyword">new</span> String(<span class="string">"china"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>​     这里解释一下，对于通过 new 产生一个字符串（假设为 ”china” ）时，会先去常量池中查找是否已经有了 ”china” 对象，如果没有则在常量池中创建一个此字符串对象，然后堆中再创建一个常量池中此 ”china” 对象的拷贝对象。</p>
+<p>public class TestStringConstant {<br>​    public static void main(String args[]) {<br>​        // 字符串常量，分配在常量池中，编译器会对其进行优化，  Interned table<br>​        // 即当一个字符串已经存在时，不再重复创建一个相同的对象，而是直接将s2也指向”hello”.<br>​        String s1 = “hello”;<br>​        String s2 = “hello”;<br>​        // new出来的对象，分配在heap中.s3与s4虽然它们指向的字符串内容是相同的，但是是两个不同的对象.<br>​        // 因此==进行比较时，其所存的引用是不同的，故不会相等<br>​        String s3 = new String(“world”);<br>​        String s4 = new String(“world”);<br>​<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestStringConstant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 字符串常量，分配在常量池中，编译器会对其进行优化，  Interned table</span></span><br><span class="line">        <span class="comment">// 即当一个字符串已经存在时，不再重复创建一个相同的对象，而是直接将s2也指向"hello".</span></span><br><span class="line">        String s1 = <span class="string">"hello"</span>;   </span><br><span class="line">        String s2 = <span class="string">"hello"</span>;</span><br><span class="line">        <span class="comment">// new出来的对象，分配在heap中.s3与s4虽然它们指向的字符串内容是相同的，但是是两个不同的对象.</span></span><br><span class="line">        <span class="comment">// 因此==进行比较时，其所存的引用是不同的，故不会相等</span></span><br><span class="line">        String s3 = <span class="keyword">new</span> String(<span class="string">"world"</span>);      </span><br><span class="line">        String s4 = <span class="keyword">new</span> String(<span class="string">"world"</span>);</span><br><span class="line">        </span><br><span class="line">        System.out.println(s1 == s2);   <span class="comment">// true</span></span><br><span class="line">        System.out.println(s3 == s4);   <span class="comment">// false</span></span><br><span class="line">        System.out.println(s3.equals(s4));   <span class="comment">// true   </span></span><br><span class="line">        <span class="comment">// String中equals方法已经被重写过，比较的是内容是否相等.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">【<span class="number">1</span>】</span><br><span class="line">String a = <span class="string">"ab"</span>;   </span><br><span class="line">String bb = <span class="string">"b"</span>;   </span><br><span class="line">String b = <span class="string">"a"</span> + bb;   </span><br><span class="line">System.out.println((a == b)); <span class="comment">//result = false </span></span><br><span class="line">【<span class="number">2</span>】</span><br><span class="line">String a = <span class="string">"ab"</span>;   </span><br><span class="line"><span class="keyword">final</span> String bb = <span class="string">"b"</span>;   </span><br><span class="line">String b = <span class="string">"a"</span> + bb;   </span><br><span class="line">System.out.println((a == b)); <span class="comment">//result = true </span></span><br><span class="line">【<span class="number">3</span>】</span><br><span class="line">String a = <span class="string">"ab"</span>;   </span><br><span class="line"><span class="keyword">final</span> String bb = getBB();   </span><br><span class="line">String b = <span class="string">"a"</span> + bb;   </span><br><span class="line">System.out.println((a == b)); <span class="comment">//result = false   </span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getBB</span><span class="params">()</span> </span>&#123;  </span><br><span class="line"><span class="keyword">return</span> <span class="string">"b"</span>;   </span><br><span class="line">&#125;</span><br><span class="line">分析：</span><br><span class="line"><span class="comment">//【1】中，JVM对于字符串引用，由于在字符串的"+"连接中，有字符串引用存在，而引用的值在程序编译期是无法确定的，即"a" + bb无法被编译器优化，只有在程序运行期来动态分配并将连接后的新地址赋给b。所以上面程序的结果也就为false。</span></span><br></pre></td></tr></table></figure>
+<p>4.</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/blog/2019/02/15/java中的队内存和栈内存/">java中的队内存和栈内存</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
+        <p><span>发布时间:</span>2019-02-15, 10:22:55</p>
+        <p><span>最后更新:</span>2019-02-15, 12:00:18</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/blog/2019/02/15/java中的队内存和栈内存/" title="java中的队内存和栈内存">https://yuanjinxiugithub.github.io/blog/2019/02/15/java中的队内存和栈内存/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/blog/2019/02/15/java中的队内存和栈内存/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/blog/2019/01/10/HTTP-教程总结/">
+                    HTTP 教程总结
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java存储数据的6个地方"><span class="toc-number">1.</span> <span class="toc-text">java存储数据的6个地方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈内存和堆内存"><span class="toc-number">2.</span> <span class="toc-text">栈内存和堆内存</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"java中的队内存和栈内存　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/blog/2019/01/10/HTTP-教程总结/" title="下一篇: HTTP 教程总结">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/java中的队内存和栈内存/">java中的队内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2019 YUAN
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/blog/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
