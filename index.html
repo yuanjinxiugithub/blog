@@ -780,7 +780,8 @@
 <h5 id="3-消息通信"><a href="#3-消息通信" class="headerlink" title="3.消息通信"></a>3.消息通信</h5><p>消息通讯是指，消息队列一般都内置了高效的通信机制，因此也可以用在纯的消息通讯。比如实现点对点消息队列，或者聊天室等。</p>
 <font color="red">消息队列的两种消息模式：点对点模式和分布订阅模式。</font>
 
-<h3 id="消息模式"><a href="#消息模式" class="headerlink" title="消息模式"></a>消息模式</h3><h4 id="1-点对点模式和发布订阅模式：是否可以重复消费"><a href="#1-点对点模式和发布订阅模式：是否可以重复消费" class="headerlink" title="1. 点对点模式和发布订阅模式：是否可以重复消费"></a>1. 点对点模式和发布订阅模式：是否可以重复消费</h4><h5 id="1-1-P2P模式："><a href="#1-1-P2P模式：" class="headerlink" title="1.1 P2P模式："></a><strong>1.1 P2P模式：</strong></h5><p>P2P模式包含三个角色：<strong>消息队列</strong>（Queue），<strong>发送者</strong>(Sender)，<strong>接收者</strong>(Receiver)。每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到他们被消费或超时。<br>P2P的特点</p>
+<h3 id="消息模式"><a href="#消息模式" class="headerlink" title="消息模式"></a>消息模式</h3><h4 id="1-点对点模式和发布订阅模式：是否可以重复消费"><a href="#1-点对点模式和发布订阅模式：是否可以重复消费" class="headerlink" title="1. 点对点模式和发布订阅模式：是否可以重复消费"></a>1. 点对点模式和发布订阅模式：是否可以重复消费</h4><p>1.1 P2P模式：</p>
+<p>P2P模式包含三个角色：<strong>消息队列</strong>（Queue），<strong>发送者</strong>(Sender)，<strong>接收者</strong>(Receiver)。每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到他们被消费或超时。<br>P2P的特点</p>
 <ol>
 <li>每个消息只有一个消费者（Consumer）(即一旦被消费，消息就不再在消息队列中)</li>
 <li>发送者和接收者之间在时间上没有依赖性，也就是说当发送者发送了消息之后，不管接收者有没有正在运行，它不会影响到消息被发送到队列</li>
@@ -788,7 +789,8 @@
 <p>如果希望发送的每个消息都会被成功处理的话，那么需要P2P模式。、</p>
 </li>
 </ol>
-<h5 id="1-2-Pub-sub模式："><a href="#1-2-Pub-sub模式：" class="headerlink" title="1.2 Pub/sub模式："></a><strong>1.2 Pub/sub模式：</strong></h5><p>包含三个角色：<strong>主题</strong>（Topic），<strong>发布者</strong>（<a href="https://www.baidu.com/s?wd=Publisher&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">Publisher</a>），<strong>订阅者</strong>（Subscriber） 。多个发布者将消息发送到Topic,系统将这些消息传递给多个订阅者。<br><strong>Pub/Sub</strong>的特点</p>
+<p>1.2 Pub/sub模式：</p>
+<p>包含三个角色：<strong>主题</strong>（Topic），<strong>发布者</strong>（<a href="https://www.baidu.com/s?wd=Publisher&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">Publisher</a>），<strong>订阅者</strong>（Subscriber） 。多个发布者将消息发送到Topic,系统将这些消息传递给多个订阅者。<br><strong>Pub/Sub</strong>的特点</p>
 <ol>
 <li>每个消息可以有多个消费者</li>
 <li>发布者和订阅者之间有时间上的依赖性。针对某个主题（Topic）的订阅者，它必须创建一个订阅者之后，才能消费发布者的消息。</li>
@@ -809,8 +811,89 @@
 <h3 id="消息队列的优缺点"><a href="#消息队列的优缺点" class="headerlink" title="消息队列的优缺点:"></a>消息队列的优缺点:</h3><p>优点可查看为什么使用MQ所述。</p>
 <p>缺点：</p>
 <h5 id="1-系统可用性降低"><a href="#1-系统可用性降低" class="headerlink" title="1.系统可用性降低"></a>1.<font color="red">系统可用性降低</font></h5><p>系统引入的外部依赖越多，越容易挂掉。本来你就是 A 系统调用 BCD 三个系统的接口就好了，人 ABCD 四个系统好好的，没啥问题，你偏加个 MQ 进来，万一 MQ 挂了咋整，MQ 一挂，整套系统崩溃的，你不就完了？如何保证消息队列的高可用？</p>
-<h5 id="2-系统复杂性提高"><a href="#2-系统复杂性提高" class="headerlink" title="2.系统复杂性提高"></a>2.<font color="red">系统复杂性提高</font></h5><p>硬生生加个 MQ 进来，你怎么<a href="https://www.javazhiyin.com/go?url=https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-that-messages-are-not-repeatedly-consumed.md" target="_blank" rel="noopener">保证消息没有重复消费</a>？怎么<a href="https://www.javazhiyin.com/go?url=https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-the-reliable-transmission-of-messages.md" target="_blank" rel="noopener">处理消息丢失的情况</a>？怎么保证消息传递的顺序性？</p>
-<h3 id="Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："><a href="#Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：" class="headerlink" title="Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："></a>Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：</h3><h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><h3 id="消息队列的原理"><a href="#消息队列的原理" class="headerlink" title="消息队列的原理"></a>消息队列的原理</h3><h3 id="如何保证消息队列的高可用"><a href="#如何保证消息队列的高可用" class="headerlink" title="如何保证消息队列的高可用"></a>如何保证消息队列的高可用</h3>
+<h5 id="2-系统复杂性提高"><a href="#2-系统复杂性提高" class="headerlink" title="2.系统复杂性提高"></a>2.<font color="red">系统复杂性提高</font></h5><p>硬生生加个 MQ 进来，你怎么<a href="https://www.javazhiyin.com/go?url=https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-that-messages-are-not-repeatedly-consumed.md" target="_blank" rel="noopener">保证消息没有重复消费</a>？怎么<a href="https://www.javazhiyin.com/go?url=https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-the-reliable-transmission-of-messages.md" target="_blank" rel="noopener">处理消息丢失的情况</a>？数据一致性？怎么保证消息传递的顺序性？</p>
+<p>但是，我们该用还是要用的。</p>
+<h3 id="Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："><a href="#Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：" class="headerlink" title="Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："></a>Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：</h3><p>(1)中小型软件公司，建议选RabbitMQ.一方面，erlang语言天生具备高并发的特性，而且他的管理界面用起来十分方便。正所谓，成也萧何，败也萧何！他的弊端也在这里，虽然RabbitMQ是开源的，然而国内有几个能定制化开发erlang的程序员呢？所幸，RabbitMQ的社区十分活跃，可以解决开发过程中遇到的bug，这点对于中小型公司来说十分重要。</p>
+<p>不考虑rocketmq和kafka的原因是，一方面中小型软件公司不如互联网公司，数据量没那么大，选消息中间件，应首选功能比较完备的，所以kafka排除。</p>
+<p>不考虑rocketmq的原因是，rocketmq是阿里出品，如果阿里放弃维护rocketmq，中小型公司一般抽不出人来进行rocketmq的定制化开发，因此不推荐。</p>
+<p>(2)大型软件公司，根据具体使用在rocketMq和kafka之间二选一。一方面，大型软件公司，具备足够的资金搭建分布式环境，也具备足够大的数据量。</p>
+<p>针对rocketMQ,大型软件公司也可以抽出人手对rocketMQ进行<font color="red">定制化开发</font>，毕竟国内有能力改JAVA源码的人，还是相当多的。至于kafka，根据业务场景选择，如果有<font color="red">日志采集,大数据领域的实时计算</font>等场景，肯定是首选kafka了,几乎是全世界这个领域的事实性规范。具体该选哪个，看使用场景。</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单机吞吐量</td>
+<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
+<td>同 ActiveMQ</td>
+<td>10 万级，支撑高吞吐</td>
+<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
+</tr>
+<tr>
+<td>topic 数量对吞吐量的影响</td>
+<td></td>
+<td></td>
+<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
+<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>ms 级</td>
+<td>微秒级，这是 RabbitMQ 的一大特点，延迟最低</td>
+<td>ms 级</td>
+<td>延迟在 ms 级以内</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高，基于主从架构实现高可用</td>
+<td>同 ActiveMQ</td>
+<td>非常高，分布式架构</td>
+<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>有较低的概率丢失数据</td>
+<td></td>
+<td>经过参数优化配置，可以做到 0 丢失</td>
+<td>同 RocketMQ</td>
+</tr>
+<tr>
+<td>功能支持</td>
+<td>MQ 领域的功能极其完备</td>
+<td>基于 erlang 开发，并发能力很强，性能极好，延时很低</td>
+<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
+<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
+</tr>
+</tbody>
+</table>
+<p>### </p>
+<h3 id="如何保证消息队列的高可用"><a href="#如何保证消息队列的高可用" class="headerlink" title="如何保证消息队列的高可用:"></a>如何保证消息队列的高可用:</h3><p>分析:在第二点说过了，引入消息队列后，系统的可用性下降。在生产中，没人使用<font color="red">单机模式的消息队列</font>。因此，作为一个合格的程序员，应该对消息队列的高可用有很深刻的了解。</p>
+<p>如果面试的时候，面试官问，你们的消息中间件如何保证高可用的？你的回答只是表明自己只会订阅和发布消息，面试官就会怀疑你是不是只是自己搭着玩，压根没在生产用过。请做一个爱思考，会思考，懂思考的程序员.</p>
+<p><strong>回答</strong>：要对消息队列的集群模式有深刻的了解。</p>
+<p>RabbitMQ的集群模式：普通集群和镜像集群。</p>
+<p>要求，在回答高可用的问题时，应该能逻辑清晰的画出自己的MQ集群架构或清晰的叙述出来。</p>
+<p>————————————- ——–未完待续—————————————————</p>
+<h3 id="如何保证消息不被重复消费："><a href="#如何保证消息不被重复消费：" class="headerlink" title="如何保证消息不被重复消费："></a>如何保证消息不被重复消费：</h3><p>分析:这个问题其实换一种问法就是，如何保证消息队列的幂等性?这个问题可以认为是消息队列领域的基本问题。换句话来说，是在考察你的设计能力，这个问题的回答可以根据具体的业务场景来答，没有固定的答案。</p>
+<p>回答:先来说一下为什么会造成重复消费?</p>
+<p>其实无论是那种消息队列，造成重复消费原因其实都是类似的。<font color="red">正常情况下，消费者在消费消息时候，消费完毕后，会发送一个确认信息给消息队列，消息队列就知道该消息被消费了，就会将该消息从消息队列中删除</font>。只是不同的消息队列发送的确认信息形式不同,例如<font color="red">RabbitMQ是发送一个ACK确认消息</font>，RocketMQ是返回一个CONSUME_SUCCESS成功标志，kafka实际上有个offset的概念，简单说一下(如果还不懂，出门找一个kafka入门到精通教程),就是每一个消息都有一个offset，kafka消费过消息后，需要提交offset，让消息队列知道自己已经消费过了。那造成重复消费的原因?，就是因为网络传输等等故障，确认信息没有传送到消息队列，导致消息队列不知道自己已经消费过该消息了，再次将该消息分发给其他的消费者。</p>
+<p>如何解决?这个问题针对业务场景来答分以下几点</p>
+<p>  (1)比如，你拿到这个消息做数据库的insert操作。那就容易了，给这个消息做一个唯一主键，那么就算出现重复消费的情况，就会导致主键冲突，避免数据库出现脏数据。<br>  (2)再比如，你拿到这个消息做redis的set的操作，那就容易了，不用解决，因为你无论set几次结果都是一样的，set操作本来就算幂等操作。<br>  (3)如果上面两种情况还不行，上大招。准备一个第三方介质,来做消费记录。以redis为例，给消息分配一个全局id，只要消费过该消息，将&lt;id,message&gt;以K-V形式写入redis。那消费者开始消费前，先去redis中查询有没消费记录即可。</p>
+<font color="red">RabbitMQ的ACK消息确认机制：防止消息丢失，如果消息者领取消息后没执行操作就挂掉了，或者执行抛出异常，也就是消费者执行失败了，rabbotMQ无从得知，就会导致消息丢失。</font>
+
+<p>因此RabbitMQ中就有ACK消息确认机制，消息确认有两种模式：</p>
+<p>1.自动模式，我们无需任何操作，在消息被消费者领取后，就会自动确认，消息也会被从队列删除。</p>
+<p>2.手动模式，消息被消费后，我们需要调用RabbitMQ提供的API来实现消息确认。<br>我们在调用：channel.basicConsume()方法的时候，通过指定第二个参数来设置是自动还是手动：</p>
+<h3 id="如何保证消费的可靠性传输："><a href="#如何保证消费的可靠性传输：" class="headerlink" title="如何保证消费的可靠性传输："></a>如何保证消费的可靠性传输：</h3><p>分析:我们在使用消息队列的过程中，应该做到消息不能多消费，也不能少消费。如果无法做到可靠性传输，可能给公司带来千万级别的财产损失。</p>
+<p>个可靠性传输，每种MQ都要从三个角度来分析:生产者弄丢数据、消息队列弄丢数据、消费者弄丢数据</p>
+<p>RabbitMQ</p>
+<font color="red">(1)生产者丢数据</font><br>从生产者弄丢数据这个角度来看，RabbitMQ提供transaction和confirm模式来确保生产者不丢消息。<br>transaction机制就是说，发送消息前，开启事务(channel.txSelect())，然后发送消息，如果发送过程中出现什么异常，事物就会回滚(channel.txRollback())，如果发送成功则提交事物(channel.txCommit())。<br><br>然而缺点就是吞吐量下降了。因此，按照博主的经验，生产上用confirm模式的居多。一旦channel进入confirm模式，所有在该信道上面发布的消息都将会被指派一个唯一的ID(从1开始)，一旦消息被投递到所有匹配的队列之后，rabbitMQ就会发送一个Ack给生产者(包含消息的唯一ID)，这就使得生产者知道消息已经正确到达目的队列了.如果rabiitMQ没能处理该消息，则会发送一个Nack消息给你，你可以进行重试操作。<br><font color="red">(2)消息队列丢数据</font><br>处理消息队列丢数据的情况，一般是开启<font color="red">持久化磁盘的配置</font>。这个持久化配置可以和confirm机制配合使用，你可以在消息持久化磁盘后，再给生产者发送一个Ack信号。这样，如果消息持久化磁盘之前，rabbitMQ阵亡了，那么生产者收不到Ack信号，生产者会自动重发。<br><br>那么如何持久化呢，这里顺便说一下吧，其实也很容易，就下面两步<br><br>1、将queue的持久化标识durable设置为true,则代表是一个持久的队列<br>2、发送消息的时候将deliveryMode=2<br><br>这样设置以后，rabbitMQ就算挂了，重启后也能恢复数据。<br><br><font color="red">(3)消费者丢数据</font><br>消费者丢数据一般是因为采用了自动确认消息模式。这种模式下，消费者会自动确认收到信息。这时rahbitMQ会立即将消息删除，这种情况下如果消费者出现异常而没能处理该消息，就会丢失该消息。<br>至于解决方案，<font color="red">采用手动确认消息</font>即可。<br><br>### 如何保证消息队列数据最终的一致性？<br><br>###  如何保证消息的顺序性？<br><br>分析:其实并非所有的公司都有这种业务需求，但是还是对这个问题要有所复习。<br><br>回答:针对这个问题，通过某种算法，将需要保持先后顺序的消息放到同一个消息队列中(kafka中就是partition,rabbitMq中就是queue)。然后只用一个消费者去消费该队列。<br><br>有的人会问:那如果为了吞吐量，有多个消费者去消费怎么办？<br><br>这个问题，没有固定回答的套路。比如我们有一个微博的操作，发微博、写评论、删除微博，这三个异步操作。如果是这样一个业务场景，那只要重试就行。比如你一个消费者先执行了写评论的操作，但是这时候，微博都还没发，写评论一定是失败的，等一段时间。等另一个消费者，先执行写评论的操作后，再执行，就可以成功。<br><br>总之，针对这个问题，我的观点是保证入队有序就行，出队以后的顺序交给消费者自己去保证，没有固定套路。<br><br><br>### 消息队列实现的原理：<br><br>### 项目中使用到的RabbitMQ的总结：<br><br>### MQTT是什么？<br><br>### RabbitMQ如何作为MQTT服务器使用？<br><br>### 消息队列MQ和RPC远程调用的区别：<br><br>什么是RPC?<br><br>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo<br><br><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"><br><br> RPC的一般需要经历4个步骤：<br><br>1、建立通信<br><br>首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信连接，主要是通过在客户端和服务器之间建立TCP连接。<br><br>2、服务寻址<br><br>要解决寻址的问题，A服务器上如何连接到B服务器（如主机或IP地址）以及特定的端口，方法的名称是什么。<br><br>3、网络传输<br><br>1）序列化<br><br>当A服务器上的应用发起一个RPC调用时，调用方法和参数数据都需要先进行序列化。<br><br>2）反序列化<br><br>当B服务器接收到A服务器的请求之后，又需要对接收到的参数等信息进行反序列化操作。<br><br>4、服务调用<br><br>B服务器进行本地调用（通过代理Proxy）之后得到了返回值，此时还需要再把返回值发送回A服务器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A服务器。<br><br>通常，一次完整的PRC调用需要经历如上4个步骤。<br><br> <strong>MQ(消息队列)</strong><br><br>消息队列（MQ）是一种能实现生产者到消费者单向通信的通信模型，一般来说是指实现这个模型的中间件。<br><br>典型的MQ中间件:<br><br>RabbitMQ、ActiveMQ、Kafka等<br><br>典型的特点：<br><br>1、解耦<br><br>2、可靠投递<br><br>3、广播<br><br>4、最终一致性<br><br>5、流量削峰<br><br>6、消息投递保证<br><br>7、异步通信（支持同步）<br><br>8、提高系统吞吐、健壮性<br><br>典型的使用场景：秒杀业务中利用MQ来实现流量削峰，以及应用解耦使用。<br><br><strong>RPC和MQ的区别和关联</strong><br><br>1.在架构上，RPC和MQ的差异点是，Message有一个中间结点Message Queue，可以把消息存储。<br><br><img src="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png" alt="img"><br><br>2.同步调用：对于要立即等待返回处理结果的场景，RPC是首选。<br><br>3.MQ 的使用，一方面是基于性能的考虑，比如服务端不能快速的响应客户端（或客户端也不要求实时响应），需要在队列里缓存。<br><br>另外一方面，它更侧重数据的传输，因此方式更加多样化，除了点对点外，还有订阅发布等功能。<br><br>4.而且随着业务增长，有的处理端处理量会成为瓶颈，会进行同步调用改造为异步调用，这个时候可以考虑使用MQ。<br><br><font color="red">RPC关注业务逻辑处理结果</font>
       
     </div>
     
