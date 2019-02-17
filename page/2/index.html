@@ -14,21 +14,20 @@
 <meta name="author" content="YUAN">
 
 
+    
+    
 
-<meta name="description" content="参考链接 String 的修改原理String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意：append方法并不会new一个新的对象） String类的了解 查看String源码，发现String类是被final修饰的： 123456789101112131415161718192021public fina">
-<meta name="keywords" content="java,基础知识">
-<meta property="og:type" content="article">
-<meta property="og:title" content="String,StringBuilder,StringBuffer的区分">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/index.html">
+
+<meta name="description" content="温故而知新下">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MyNotes">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/blog/page/2/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="参考链接 String 的修改原理String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意：append方法并不会new一个新的对象） String类的了解 查看String源码，发现String类是被final修饰的： 123456789101112131415161718192021public fina">
+<meta property="og:description" content="温故而知新下">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://images0.cnblogs.com/i/288799/201406/091536144056475.jpg">
-<meta property="og:updated_time" content="2019-02-17T02:52:13.320Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="String,StringBuilder,StringBuffer的区分">
-<meta name="twitter:description" content="参考链接 String 的修改原理String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意：append方法并不会new一个新的对象） String类的了解 查看String源码，发现String类是被final修饰的： 123456789101112131415161718192021public fina">
-<meta name="twitter:image" content="https://images0.cnblogs.com/i/288799/201406/091536144056475.jpg">
+<meta name="twitter:title" content="MyNotes">
+<meta name="twitter:description" content="温故而知新下">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -56,11 +55,13 @@
 <link rel="stylesheet" href="/blog/css/style.css">
 
 
+    <style> .article { opacity: 0;} </style>
+
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>String,StringBuilder,StringBuffer的区分 | MyNotes</title>
+<title>MyNotes</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -69,8 +70,8 @@
     var yiliaConfig = {
         fancybox: true,
         animate: true,
-        isHome: false,
-        isPost: true,
+        isHome: true,
+        isPost: false,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -264,7 +265,9 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-String-StringBuilder-StringBuffer的区分" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap">
+  
+    <article id="post-String-StringBuilder-StringBuffer的区分" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/" class="article-date">
@@ -282,23 +285,12 @@
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      String,StringBuilder,StringBuffer的区分
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a>
     </h1>
   
 
       </header>
-      
-      <div class="article-info article-info-post">
-        
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -358,85 +350,23 @@
       
     </div>
     
-  </div>
-  
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
-        <p><span>发布时间:</span>2018-10-10, 14:19:28</p>
-        <p><span>最后更新:</span>2019-02-17, 10:52:13</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/" title="String,StringBuilder,StringBuffer的区分">https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-        </p>
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/基础知识/">基础知识</a></li></ul>
     </div>
 
-
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/blog/2018/10/15/dubbo-的使用和总结/">
-                    dubbo 的使用和总结
-                </a>
-            </div>
-        
-        
-    </nav>
-
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
   
 </article>
 
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#String-的修改原理"><span class="toc-number">1.</span> <span class="toc-text">String 的修改原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String类的了解"><span class="toc-number">2.</span> <span class="toc-text">String类的了解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深入理解String-StringBuilder-StringBuffer"><span class="toc-number">3.</span> <span class="toc-text">深入理解String StringBuilder StringBuffer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的关于String、StringBuffer的面试题"><span class="toc-number">4.</span> <span class="toc-text">常见的关于String、StringBuffer的面试题</span></a></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
-
-
-    
-<div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
-        </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"String,StringBuilder,StringBuffer的区分　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
-    
-
-    
-</div>
 
 
 
@@ -444,33 +374,13 @@
 
 
 
-    
 
-
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/blog/2018/10/15/dubbo-的使用和总结/" title="上一篇: dubbo 的使用和总结">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-
-        
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
-        
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/12/19/MYSQL-数据库常见锁机制以及存储类型/">MYSQL 数据库常见锁机制以及存储类型</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/12/19/数据库SQl优化总结/">数据库SQl优化总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/16/http和https的区别/">http和https的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/关于消息队列的使用/">关于消息队列的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/微服务是什么？/">微服务是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/blog/">&laquo; Prev</a><a class="page-number" href="/blog/">1</a><span class="page-number current">2</span>
+    </nav>
+  
 </div>
       <footer id="footer">
     <div class="outer">
