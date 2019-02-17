@@ -15,17 +15,21 @@
 
 
 
-<meta name="description" content="温故而知新下">
+<meta name="description" content="项目中使用到的RabbitMQ的总结：MQTT是什么？RabbitMQ如何作为MQTT服务器使用？消息队列MQ和RPC远程调用的区别：什么是RPC? RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo   RPC的一般需要经历4个步骤： 1、建立通信 首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信">
+<meta name="keywords" content="java,消息队列,RabbitMQ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="前端跨域问题?">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/02/17/前端跨域问题/index.html">
+<meta property="og:title" content="浅谈项目中用到的RabbitMQ">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/02/17/浅谈项目中用到的RabbitMQ/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="温故而知新下">
+<meta property="og:description" content="项目中使用到的RabbitMQ的总结：MQTT是什么？RabbitMQ如何作为MQTT服务器使用？消息队列MQ和RPC远程调用的区别：什么是RPC? RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo   RPC的一般需要经历4个步骤： 1、建立通信 首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-17T07:26:42.580Z">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png">
+<meta property="og:updated_time" content="2019-02-17T10:17:21.419Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="前端跨域问题?">
-<meta name="twitter:description" content="温故而知新下">
+<meta name="twitter:title" content="浅谈项目中用到的RabbitMQ">
+<meta name="twitter:description" content="项目中使用到的RabbitMQ的总结：MQTT是什么？RabbitMQ如何作为MQTT服务器使用？消息队列MQ和RPC远程调用的区别：什么是RPC? RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo   RPC的一般需要经历4个步骤： 1、建立通信 首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -57,7 +61,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>前端跨域问题? | MyNotes</title>
+<title>浅谈项目中用到的RabbitMQ | MyNotes</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -261,11 +265,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-前端跨域问题" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-浅谈项目中用到的RabbitMQ" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/02/17/前端跨域问题/" class="article-date">
-      <time datetime="2019-02-17T07:26:42.000Z" itemprop="datePublished">2019-02-17</time>
+      <a href="/2019/02/17/浅谈项目中用到的RabbitMQ/" class="article-date">
+      <time datetime="2019-02-17T10:16:38.000Z" itemprop="datePublished">2019-02-17</time>
 </a>
 
 
@@ -280,7 +284,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      前端跨域问题?
+      浅谈项目中用到的RabbitMQ
     </h1>
   
 
@@ -290,6 +294,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/消息队列/">消息队列</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -297,7 +305,44 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <h3 id="项目中使用到的RabbitMQ的总结："><a href="#项目中使用到的RabbitMQ的总结：" class="headerlink" title="项目中使用到的RabbitMQ的总结："></a>项目中使用到的RabbitMQ的总结：</h3><h3 id="MQTT是什么？"><a href="#MQTT是什么？" class="headerlink" title="MQTT是什么？"></a>MQTT是什么？</h3><h3 id="RabbitMQ如何作为MQTT服务器使用？"><a href="#RabbitMQ如何作为MQTT服务器使用？" class="headerlink" title="RabbitMQ如何作为MQTT服务器使用？"></a>RabbitMQ如何作为MQTT服务器使用？</h3><h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
+<p>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"></p>
+<p> RPC的一般需要经历4个步骤：</p>
+<p>1、建立通信</p>
+<p>首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信连接，主要是通过在客户端和服务器之间建立TCP连接。</p>
+<p>2、服务寻址</p>
+<p>要解决寻址的问题，A服务器上如何连接到B服务器（如主机或IP地址）以及特定的端口，方法的名称是什么。</p>
+<p>3、网络传输</p>
+<p>1）序列化</p>
+<p>当A服务器上的应用发起一个RPC调用时，调用方法和参数数据都需要先进行序列化。</p>
+<p>2）反序列化</p>
+<p>当B服务器接收到A服务器的请求之后，又需要对接收到的参数等信息进行反序列化操作。</p>
+<p>4、服务调用</p>
+<p>B服务器进行本地调用（通过代理Proxy）之后得到了返回值，此时还需要再把返回值发送回A服务器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A服务器。</p>
+<p>通常，一次完整的PRC调用需要经历如上4个步骤。</p>
+<p> <strong>MQ(消息队列)</strong></p>
+<p>消息队列（MQ）是一种能实现生产者到消费者单向通信的通信模型，一般来说是指实现这个模型的中间件。</p>
+<p>典型的MQ中间件:</p>
+<p>RabbitMQ、ActiveMQ、Kafka等</p>
+<p>典型的特点：</p>
+<p>1、解耦</p>
+<p>2、可靠投递</p>
+<p>3、广播</p>
+<p>4、最终一致性</p>
+<p>5、流量削峰</p>
+<p>6、消息投递保证</p>
+<p>7、异步通信（支持同步）</p>
+<p>8、提高系统吞吐、健壮性</p>
+<p>典型的使用场景：秒杀业务中利用MQ来实现流量削峰，以及应用解耦使用。</p>
+<p><strong>RPC和MQ的区别和关联</strong></p>
+<p>1.在架构上，RPC和MQ的差异点是，Message有一个中间结点Message Queue，可以把消息存储。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png" alt="img"></p>
+<p>2.同步调用：对于要立即等待返回处理结果的场景，RPC是首选。</p>
+<p>3.MQ 的使用，一方面是基于性能的考虑，比如服务端不能快速的响应客户端（或客户端也不要求实时响应），需要在队列里缓存。</p>
+<p>另外一方面，它更侧重数据的传输，因此方式更加多样化，除了点对点外，还有订阅发布等功能。</p>
+<p>4.而且随着业务增长，有的处理端处理量会成为瓶颈，会进行同步调用改造为异步调用，这个时候可以考虑使用MQ。</p>
+<font color="red">RPC关注业务逻辑处理结果</font>
       
     </div>
     
@@ -305,13 +350,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/02/17/前端跨域问题/">前端跨域问题?</a></p>
+        <p><span>本文标题:</span><a href="/2019/02/17/浅谈项目中用到的RabbitMQ/">浅谈项目中用到的RabbitMQ</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
-        <p><span>发布时间:</span>2019-02-17, 15:26:42</p>
-        <p><span>最后更新:</span>2019-02-17, 15:26:42</p>
+        <p><span>发布时间:</span>2019-02-17, 18:16:38</p>
+        <p><span>最后更新:</span>2019-02-17, 18:17:21</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/02/17/前端跨域问题/" title="前端跨域问题?">https://yuanjinxiugithub.github.io/2019/02/17/前端跨域问题/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/02/17/前端跨域问题/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/02/17/浅谈项目中用到的RabbitMQ/" title="浅谈项目中用到的RabbitMQ">https://yuanjinxiugithub.github.io/2019/02/17/浅谈项目中用到的RabbitMQ/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/02/17/浅谈项目中用到的RabbitMQ/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -324,15 +369,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/02/17/TCP协议/">
-                    TCP协议
+                <a href="/2019/12/19/数据库SQl优化总结/">
+                    数据库SQl优化总结
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/02/16/http和https的区别/">
-                    http和https的区别
+                <a href="/2019/02/17/ELK日志分析平台/">
+                    ELK日志分析平台
                 </a>
             </div>
         
@@ -344,7 +389,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#项目中使用到的RabbitMQ的总结："><span class="toc-number">1.</span> <span class="toc-text">项目中使用到的RabbitMQ的总结：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MQTT是什么？"><span class="toc-number">2.</span> <span class="toc-text">MQTT是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ如何作为MQTT服务器使用？"><span class="toc-number">3.</span> <span class="toc-text">RabbitMQ如何作为MQTT服务器使用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息队列MQ和RPC远程调用的区别："><span class="toc-number">4.</span> <span class="toc-text">消息队列MQ和RPC远程调用的区别：</span></a></li></ol>
         
     </div>
     <style>
@@ -380,7 +425,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"前端跨域问题?　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"浅谈项目中用到的RabbitMQ　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -400,7 +445,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/02/17/TCP协议/" title="上一篇: TCP协议">
+            <a href="/2019/12/19/数据库SQl优化总结/" title="上一篇: 数据库SQl优化总结">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -408,7 +453,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/02/16/http和https的区别/" title="下一篇: http和https的区别">
+            <a href="/2019/02/17/ELK日志分析平台/" title="下一篇: ELK日志分析平台">
                 <i class="fa fa-angle-right"></i>
             </a>
         

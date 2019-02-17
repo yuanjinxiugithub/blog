@@ -188,7 +188,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQL数据库/">MYSQL数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQl/">MYSQl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-优化/">SQL 优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/持久层/">持久层</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑思维/">逻辑思维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/锁机制/">锁机制</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQL数据库/">MYSQL数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQl/">MYSQl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-优化/">SQL 优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/持久层/">持久层</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑思维/">逻辑思维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/锁机制/">锁机制</a></li></ul>
                     </div>
                 </section>
                 
@@ -366,6 +366,102 @@
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQl/">MYSQl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL-优化/">SQL 优化</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-浅谈项目中用到的RabbitMQ" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/02/17/浅谈项目中用到的RabbitMQ/" class="article-date">
+      <time datetime="2019-02-17T10:16:38.000Z" itemprop="datePublished">2019-02-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/17/浅谈项目中用到的RabbitMQ/">浅谈项目中用到的RabbitMQ</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="项目中使用到的RabbitMQ的总结："><a href="#项目中使用到的RabbitMQ的总结：" class="headerlink" title="项目中使用到的RabbitMQ的总结："></a>项目中使用到的RabbitMQ的总结：</h3><h3 id="MQTT是什么？"><a href="#MQTT是什么？" class="headerlink" title="MQTT是什么？"></a>MQTT是什么？</h3><h3 id="RabbitMQ如何作为MQTT服务器使用？"><a href="#RabbitMQ如何作为MQTT服务器使用？" class="headerlink" title="RabbitMQ如何作为MQTT服务器使用？"></a>RabbitMQ如何作为MQTT服务器使用？</h3><h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
+<p>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"></p>
+<p> RPC的一般需要经历4个步骤：</p>
+<p>1、建立通信</p>
+<p>首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信连接，主要是通过在客户端和服务器之间建立TCP连接。</p>
+<p>2、服务寻址</p>
+<p>要解决寻址的问题，A服务器上如何连接到B服务器（如主机或IP地址）以及特定的端口，方法的名称是什么。</p>
+<p>3、网络传输</p>
+<p>1）序列化</p>
+<p>当A服务器上的应用发起一个RPC调用时，调用方法和参数数据都需要先进行序列化。</p>
+<p>2）反序列化</p>
+<p>当B服务器接收到A服务器的请求之后，又需要对接收到的参数等信息进行反序列化操作。</p>
+<p>4、服务调用</p>
+<p>B服务器进行本地调用（通过代理Proxy）之后得到了返回值，此时还需要再把返回值发送回A服务器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A服务器。</p>
+<p>通常，一次完整的PRC调用需要经历如上4个步骤。</p>
+<p> <strong>MQ(消息队列)</strong></p>
+<p>消息队列（MQ）是一种能实现生产者到消费者单向通信的通信模型，一般来说是指实现这个模型的中间件。</p>
+<p>典型的MQ中间件:</p>
+<p>RabbitMQ、ActiveMQ、Kafka等</p>
+<p>典型的特点：</p>
+<p>1、解耦</p>
+<p>2、可靠投递</p>
+<p>3、广播</p>
+<p>4、最终一致性</p>
+<p>5、流量削峰</p>
+<p>6、消息投递保证</p>
+<p>7、异步通信（支持同步）</p>
+<p>8、提高系统吞吐、健壮性</p>
+<p>典型的使用场景：秒杀业务中利用MQ来实现流量削峰，以及应用解耦使用。</p>
+<p><strong>RPC和MQ的区别和关联</strong></p>
+<p>1.在架构上，RPC和MQ的差异点是，Message有一个中间结点Message Queue，可以把消息存储。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png" alt="img"></p>
+<p>2.同步调用：对于要立即等待返回处理结果的场景，RPC是首选。</p>
+<p>3.MQ 的使用，一方面是基于性能的考虑，比如服务端不能快速的响应客户端（或客户端也不要求实时响应），需要在队列里缓存。</p>
+<p>另外一方面，它更侧重数据的传输，因此方式更加多样化，除了点对点外，还有订阅发布等功能。</p>
+<p>4.而且随着业务增长，有的处理端处理量会成为瓶颈，会进行同步调用改造为异步调用，这个时候可以考虑使用MQ。</p>
+<font color="red">RPC关注业务逻辑处理结果</font>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/消息队列/">消息队列</a></li></ul>
     </div>
 
       
@@ -996,65 +1092,6 @@
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java基础知识" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/15/Java基础知识/" class="article-date">
-      <time datetime="2019-02-15T06:41:22.000Z" itemprop="datePublished">2019-02-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/15/Java基础知识/">Java基础知识</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="1-与equals-的区别"><a href="#1-与equals-的区别" class="headerlink" title="1. == 与equals()的区别"></a>1. == 与equals()的区别</h3><h3 id="2-遍历map的几种方法"><a href="#2-遍历map的几种方法" class="headerlink" title="2. 遍历map的几种方法"></a>2. 遍历map的几种方法</h3><h3 id="3-Map与Set的区别"><a href="#3-Map与Set的区别" class="headerlink" title="3.Map与Set的区别"></a>3.Map与Set的区别</h3><h3 id="4-java-中常用的集合类型"><a href="#4-java-中常用的集合类型" class="headerlink" title="4.java 中常用的集合类型"></a>4.java 中常用的集合类型</h3><h3 id="5-java访问修饰符"><a href="#5-java访问修饰符" class="headerlink" title="5.java访问修饰符"></a>5.java访问修饰符</h3><h3 id="6-hashmap-实现的原理"><a href="#6-hashmap-实现的原理" class="headerlink" title="6.hashmap 实现的原理"></a>6.hashmap 实现的原理</h3>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/基础知识/">基础知识</a></li></ul>
     </div>
 
       
