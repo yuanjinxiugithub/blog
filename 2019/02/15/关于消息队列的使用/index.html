@@ -15,21 +15,21 @@
 
 
 
-<meta name="description" content="参考文章 参考文章2 什么是消息队列？消息队列就是在消息的传输过程中保存消息的容器。  为什么要使用消息队列？1.系统解耦，异步访问看这么个场景。A 系统发送数据到 BCD 三个系统，通过接口调用发送。如果 E 系统也要这个数据呢？那如果 C 系统现在不需要了呢？A 系统负责人几乎崩溃……  在这个场景中，A 系统跟其它各种乱七八糟的系统严重耦合，A 系统产生一条比较关键的数据，很多系统都需要 A">
+<meta name="description" content="参考文章 参考文章2 什么是消息队列？消息队列就是在消息的传输过程中保存消息的容器。 消息队列是分布式应用间交换信息的一种技术。  MQ的基本概念： 1) 队列管理器（Queue Manage） 队列管理器是MQ系统中最上层的一个概念，由它为我们提供基于队列的消息服务。 2) 消息 在MQ中，我们把应用程序交由MQ传输的数据定义为消息。 3) 队列  队列是消息的安全存放地，队列存储消息直到它被应">
 <meta name="keywords" content="java,消息队列">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于消息队列的使用">
 <meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/02/15/关于消息队列的使用/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="参考文章 参考文章2 什么是消息队列？消息队列就是在消息的传输过程中保存消息的容器。  为什么要使用消息队列？1.系统解耦，异步访问看这么个场景。A 系统发送数据到 BCD 三个系统，通过接口调用发送。如果 E 系统也要这个数据呢？那如果 C 系统现在不需要了呢？A 系统负责人几乎崩溃……  在这个场景中，A 系统跟其它各种乱七八糟的系统严重耦合，A 系统产生一条比较关键的数据，很多系统都需要 A">
+<meta property="og:description" content="参考文章 参考文章2 什么是消息队列？消息队列就是在消息的传输过程中保存消息的容器。 消息队列是分布式应用间交换信息的一种技术。  MQ的基本概念： 1) 队列管理器（Queue Manage） 队列管理器是MQ系统中最上层的一个概念，由它为我们提供基于队列的消息服务。 2) 消息 在MQ中，我们把应用程序交由MQ传输的数据定义为消息。 3) 队列  队列是消息的安全存放地，队列存储消息直到它被应">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2714269904,457215482&fm=173&app=25&f=JPEG?w=639&h=330&s=EFE2A5520B085D4708E4D0C00200D0B2">
 <meta property="og:image" content="https://www.javazhiyin.com/wp-content/uploads/2018/12/mq-1.png">
 <meta property="og:image" content="https://www.javazhiyin.com/wp-content/uploads/2018/12/mq-2.png">
-<meta property="og:updated_time" content="2019-02-17T10:21:37.203Z">
+<meta property="og:updated_time" content="2019-02-18T05:34:01.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于消息队列的使用">
-<meta name="twitter:description" content="参考文章 参考文章2 什么是消息队列？消息队列就是在消息的传输过程中保存消息的容器。  为什么要使用消息队列？1.系统解耦，异步访问看这么个场景。A 系统发送数据到 BCD 三个系统，通过接口调用发送。如果 E 系统也要这个数据呢？那如果 C 系统现在不需要了呢？A 系统负责人几乎崩溃……  在这个场景中，A 系统跟其它各种乱七八糟的系统严重耦合，A 系统产生一条比较关键的数据，很多系统都需要 A">
+<meta name="twitter:description" content="参考文章 参考文章2 什么是消息队列？消息队列就是在消息的传输过程中保存消息的容器。 消息队列是分布式应用间交换信息的一种技术。  MQ的基本概念： 1) 队列管理器（Queue Manage） 队列管理器是MQ系统中最上层的一个概念，由它为我们提供基于队列的消息服务。 2) 消息 在MQ中，我们把应用程序交由MQ传输的数据定义为消息。 3) 队列  队列是消息的安全存放地，队列存储消息直到它被应">
 <meta name="twitter:image" content="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2714269904,457215482&fm=173&app=25&f=JPEG?w=639&h=330&s=EFE2A5520B085D4708E4D0C00200D0B2">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -308,7 +308,18 @@
           
         <p><a href="https://www.javazhiyin.com/22897.html" target="_blank" rel="noopener">参考文章</a> <a href="https://blog.csdn.net/qq_39470733/article/details/80576013" target="_blank" rel="noopener">参考文章2</a></p>
 <h3 id="什么是消息队列？"><a href="#什么是消息队列？" class="headerlink" title="什么是消息队列？"></a>什么是消息队列？</h3><p>消息队列就是在消息的传输过程中保存消息的容器。</p>
+<p>消息队列是分布式应用间交换信息的一种技术。</p>
 <p><img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2714269904,457215482&amp;fm=173&amp;app=25&amp;f=JPEG?w=639&amp;h=330&amp;s=EFE2A5520B085D4708E4D0C00200D0B2" alt="img"></p>
+<p>MQ的基本概念：</p>
+<p>1) 队列管理器（Queue Manage）</p>
+<p>队列管理器是MQ系统中最上层的一个概念，由它为我们提供基于队列的消息服务。</p>
+<p>2) 消息</p>
+<p>在MQ中，我们把应用程序交由MQ传输的数据定义为消息。</p>
+<p>3) 队列 </p>
+<p>队列是消息的安全存放地，队列存储消息直到它被应用程序处理。</p>
+<p>4) 通道</p>
+<p>通道是两个管理器之间的一种单向点对点的通信连接，如果需要双向，需要建立一对通道。</p>
+<p>5) 监听器</p>
 <h3 id="为什么要使用消息队列？"><a href="#为什么要使用消息队列？" class="headerlink" title="为什么要使用消息队列？"></a>为什么要使用消息队列？</h3><h5 id="1-系统解耦，异步访问"><a href="#1-系统解耦，异步访问" class="headerlink" title="1.系统解耦，异步访问"></a>1.系统解耦，异步访问</h5><p>看这么个场景。A 系统发送数据到 BCD 三个系统，通过接口调用发送。如果 E 系统也要这个数据呢？那如果 C 系统现在不需要了呢？A 系统负责人几乎崩溃……</p>
 <p><img src="https://www.javazhiyin.com/wp-content/uploads/2018/12/mq-1.png" alt="mq-1"></p>
 <p>在这个场景中，A 系统跟其它各种乱七八糟的系统严重耦合，A 系统产生一条比较关键的数据，很多系统都需要 A 系统将这个数据发送过来。A 系统要时时刻刻考虑 BCDE 四个系统如果挂了该咋办？要不要重发，要不要把消息存起来？头发都白了啊！</p>
@@ -349,6 +360,8 @@
 </ol>
 <h5 id="3-消息通信"><a href="#3-消息通信" class="headerlink" title="3.消息通信"></a>3.消息通信</h5><p>消息通讯是指，消息队列一般都内置了高效的通信机制，因此也可以用在纯的消息通讯。比如实现点对点消息队列，或者聊天室等。</p>
 <font color="red">消息队列的两种消息模式：点对点模式和分布订阅模式。</font>
+
+<font color="red">同步保证结果，异步保证效率</font>
 
 <h3 id="消息模式"><a href="#消息模式" class="headerlink" title="消息模式"></a>消息模式</h3><h4 id="1-点对点模式和发布订阅模式：是否可以重复消费"><a href="#1-点对点模式和发布订阅模式：是否可以重复消费" class="headerlink" title="1. 点对点模式和发布订阅模式：是否可以重复消费"></a>1. 点对点模式和发布订阅模式：是否可以重复消费</h4><p>1.1 P2P模式：</p>
 <p>P2P模式包含三个角色：<strong>消息队列</strong>（Queue），<strong>发送者</strong>(Sender)，<strong>接收者</strong>(Receiver)。每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到他们被消费或超时。<br>P2P的特点</p>
@@ -455,6 +468,12 @@
 <p>其实无论是那种消息队列，造成重复消费原因其实都是类似的。<font color="red">正常情况下，消费者在消费消息时候，消费完毕后，会发送一个确认信息给消息队列，消息队列就知道该消息被消费了，就会将该消息从消息队列中删除</font>。只是不同的消息队列发送的确认信息形式不同,例如<font color="red">RabbitMQ是发送一个ACK确认消息</font>，RocketMQ是返回一个CONSUME_SUCCESS成功标志，kafka实际上有个offset的概念，简单说一下(如果还不懂，出门找一个kafka入门到精通教程),就是每一个消息都有一个offset，kafka消费过消息后，需要提交offset，让消息队列知道自己已经消费过了。那造成重复消费的原因?，就是因为网络传输等等故障，确认信息没有传送到消息队列，导致消息队列不知道自己已经消费过该消息了，再次将该消息分发给其他的消费者。</p>
 <p>如何解决?这个问题针对业务场景来答分以下几点</p>
 <p>  (1)比如，你拿到这个消息做数据库的insert操作。那就容易了，给这个消息做一个唯一主键，那么就算出现重复消费的情况，就会导致主键冲突，避免数据库出现脏数据。<br>  (2)再比如，你拿到这个消息做redis的set的操作，那就容易了，不用解决，因为你无论set几次结果都是一样的，set操作本来就算幂等操作。<br>  (3)如果上面两种情况还不行，上大招。准备一个第三方介质,来做消费记录。以redis为例，给消息分配一个全局id，只要消费过该消息，将&lt;id,message&gt;以K-V形式写入redis。那消费者开始消费前，先去redis中查询有没消费记录即可。</p>
+<p>补充：鉴别消息重复，并幂等处理重复消息：</p>
+<p>1.鉴别重复消息：利用存储系统的唯一键，给每个消息加上一个MessageId.</p>
+<p>2.幂等处理重复消息的方法：</p>
+<p>​    1.跟鉴别消息重复一样，利用messageId,重复即不处理。</p>
+<p>​    2.版本号，每个消息都带一个版本号，只处理比当前存储版本号高的消息</p>
+<p>​    3.状态机，跟业务耦合比较严重，根据业务类型判断。</p>
 <font color="red">RabbitMQ的ACK消息确认机制：防止消息丢失，如果消息者领取消息后没执行操作就挂掉了，或者执行抛出异常，也就是消费者执行失败了，rabbotMQ无从得知，就会导致消息丢失。</font>
 
 <p>因此RabbitMQ中就有ACK消息确认机制，消息确认有两种模式：</p>
@@ -477,7 +496,8 @@
 <p>有的人会问:那如果为了吞吐量，有多个消费者去消费怎么办？</p>
 <p>这个问题，没有固定回答的套路。比如我们有一个微博的操作，发微博、写评论、删除微博，这三个异步操作。如果是这样一个业务场景，那只要重试就行。比如你一个消费者先执行了写评论的操作，但是这时候，微博都还没发，写评论一定是失败的，等一段时间。等另一个消费者，先执行写评论的操作后，再执行，就可以成功。</p>
 <p>总之，针对这个问题，我的观点是保证入队有序就行，出队以后的顺序交给消费者自己去保证，没有固定套路。</p>
-<h3 id="消息队列实现的原理："><a href="#消息队列实现的原理：" class="headerlink" title="消息队列实现的原理："></a>消息队列实现的原理：</h3>
+<h3 id="消息队列实现的原理："><a href="#消息队列实现的原理：" class="headerlink" title="消息队列实现的原理："></a>消息队列实现的原理：</h3><h3 id="JMS-java-message-service"><a href="#JMS-java-message-service" class="headerlink" title="JMS java message service"></a>JMS java message service</h3><p>jms是java平台中一个面向消息中间件的技术规范，MQ可以基于JMS规范实现，也可以基于其他技术规范实现。</p>
+
       
     </div>
     
@@ -488,7 +508,7 @@
         <p><span>本文标题:</span><a href="/2019/02/15/关于消息队列的使用/">关于消息队列的使用</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
         <p><span>发布时间:</span>2019-02-15, 16:46:00</p>
-        <p><span>最后更新:</span>2019-02-17, 18:21:37</p>
+        <p><span>最后更新:</span>2019-02-18, 13:34:01</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/02/15/关于消息队列的使用/" title="关于消息队列的使用">https://yuanjinxiugithub.github.io/2019/02/15/关于消息队列的使用/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/02/15/关于消息队列的使用/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -524,7 +544,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是消息队列？"><span class="toc-number">1.</span> <span class="toc-text">什么是消息队列？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用消息队列？"><span class="toc-number">2.</span> <span class="toc-text">为什么要使用消息队列？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-系统解耦，异步访问"><span class="toc-number">2.0.1.</span> <span class="toc-text">1.系统解耦，异步访问</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-削弱高峰"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.削弱高峰</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-消息通信"><span class="toc-number">2.0.3.</span> <span class="toc-text">3.消息通信</span></a></li></ol></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#消息模式"><span class="toc-number">3.</span> <span class="toc-text">消息模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-点对点模式和发布订阅模式：是否可以重复消费"><span class="toc-number">3.1.</span> <span class="toc-text">1. 点对点模式和发布订阅模式：是否可以重复消费</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-推模式和拉模式：消息的更新者"><span class="toc-number">3.2.</span> <span class="toc-text">2. 推模式和拉模式：消息的更新者</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息队列的优缺点"><span class="toc-number">4.</span> <span class="toc-text">消息队列的优缺点:</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-系统可用性降低"><span class="toc-number">4.0.1.</span> <span class="toc-text">1.系统可用性降低</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-系统复杂性提高"><span class="toc-number">4.0.2.</span> <span class="toc-text">2.系统复杂性提高</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："><span class="toc-number">5.</span> <span class="toc-text">Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息队列的高可用"><span class="toc-number">6.</span> <span class="toc-text">如何保证消息队列的高可用:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息不被重复消费："><span class="toc-number">7.</span> <span class="toc-text">如何保证消息不被重复消费：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消费的可靠性传输："><span class="toc-number">8.</span> <span class="toc-text">如何保证消费的可靠性传输：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息队列数据最终的一致性？"><span class="toc-number">9.</span> <span class="toc-text">如何保证消息队列数据最终的一致性？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息的顺序性？"><span class="toc-number">10.</span> <span class="toc-text">如何保证消息的顺序性？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息队列实现的原理："><span class="toc-number">11.</span> <span class="toc-text">消息队列实现的原理：</span></a></li>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是消息队列？"><span class="toc-number">1.</span> <span class="toc-text">什么是消息队列？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用消息队列？"><span class="toc-number">2.</span> <span class="toc-text">为什么要使用消息队列？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-系统解耦，异步访问"><span class="toc-number">2.0.1.</span> <span class="toc-text">1.系统解耦，异步访问</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-削弱高峰"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.削弱高峰</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-消息通信"><span class="toc-number">2.0.3.</span> <span class="toc-text">3.消息通信</span></a></li></ol></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#消息模式"><span class="toc-number">3.</span> <span class="toc-text">消息模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-点对点模式和发布订阅模式：是否可以重复消费"><span class="toc-number">3.1.</span> <span class="toc-text">1. 点对点模式和发布订阅模式：是否可以重复消费</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-推模式和拉模式：消息的更新者"><span class="toc-number">3.2.</span> <span class="toc-text">2. 推模式和拉模式：消息的更新者</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息队列的优缺点"><span class="toc-number">4.</span> <span class="toc-text">消息队列的优缺点:</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-系统可用性降低"><span class="toc-number">4.0.1.</span> <span class="toc-text">1.系统可用性降低</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-系统复杂性提高"><span class="toc-number">4.0.2.</span> <span class="toc-text">2.系统复杂性提高</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："><span class="toc-number">5.</span> <span class="toc-text">Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息队列的高可用"><span class="toc-number">6.</span> <span class="toc-text">如何保证消息队列的高可用:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息不被重复消费："><span class="toc-number">7.</span> <span class="toc-text">如何保证消息不被重复消费：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消费的可靠性传输："><span class="toc-number">8.</span> <span class="toc-text">如何保证消费的可靠性传输：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息队列数据最终的一致性？"><span class="toc-number">9.</span> <span class="toc-text">如何保证消息队列数据最终的一致性？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何保证消息的顺序性？"><span class="toc-number">10.</span> <span class="toc-text">如何保证消息的顺序性？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息队列实现的原理："><span class="toc-number">11.</span> <span class="toc-text">消息队列实现的原理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMS-java-message-service"><span class="toc-number">12.</span> <span class="toc-text">JMS java message service</span></a></li>
         
     </div>
     <style>
@@ -594,7 +614,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/MYSQL-数据库常见锁机制以及存储类型/">MYSQL 数据库常见锁机制以及存储类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/数据库SQl优化总结/">数据库SQl优化总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/浅谈项目中用到的RabbitMQ/">浅谈项目中用到的RabbitMQ</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/ELK日志分析平台/">ELK日志分析平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/事实和观点-事实有真假-观点无对错/">事实和观点:事实有真假,观点无对错</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/TCP协议/">TCP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/前端跨域问题/">前端跨域问题?</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/http和https的区别/">http和https的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/关于消息队列的使用/">关于消息队列的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/微服务是什么？/">微服务是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/MYSQL-数据库常见锁机制以及存储类型/">MYSQL 数据库常见锁机制以及存储类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/数据库SQl优化总结/">数据库SQl优化总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/基于springsecurity的oauth2-0授权认证/">基于springsecurity的oauth2.0授权认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/“linux环境中常用的命令/">“linux环境中常用的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/基于springsecurity的权限认证/">基于springsecurity的权限认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/浅谈项目中用到的RabbitMQ/">浅谈项目中用到的RabbitMQ</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/ELK日志分析平台/">ELK日志分析平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/事实和观点-事实有真假-观点无对错/">事实和观点:事实有真假,观点无对错</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/TCP协议/">TCP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/前端跨域问题/">前端跨域问题?</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/http和https的区别/">http和https的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/关于消息队列的使用/">关于消息队列的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/微服务是什么？/">微服务是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
 
 
 
