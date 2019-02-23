@@ -188,7 +188,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CORS/">CORS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQL数据库/">MYSQL数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQl/">MYSQl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-优化/">SQL 优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/持久层/">持久层</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络/">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑思维/">逻辑思维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/锁机制/">锁机制</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CORS/">CORS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQL数据库/">MYSQL数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQl/">MYSQl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-优化/">SQL 优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-运行环境/">java 运行环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字节码/">字节码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/持久层/">持久层</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络/">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑思维/">逻辑思维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/锁机制/">锁机制</a></li></ul>
                     </div>
                 </section>
                 
@@ -385,6 +385,145 @@
 
 
   
+    <article id="post-OLTP和OLAP的区别" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/02/22/OLTP和OLAP的区别/" class="article-date">
+      <time datetime="2019-02-22T06:19:13.000Z" itemprop="datePublished">2019-02-22</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/22/OLTP和OLAP的区别/">OLTP和OLAP的区别</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="OLTP和OLAP的介绍和比较"><a href="#OLTP和OLAP的介绍和比较" class="headerlink" title="OLTP和OLAP的介绍和比较"></a>OLTP和OLAP的介绍和比较</h3><h5 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h5><p>数据处理大致分为：</p>
+<p>OLAP(on-line analytical processing )联机分析处理:<font color="red">数据仓库系统</font>的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。<font color="red">OLAP强调数据分析，强调sql执行市场，强调磁盘I/O,强调分区等。</font></p>
+<p>OLTP(on-line transaction processing )l联机事务处理：传统的关系型数据库的主要应用，主要是基本的，日常的事务，例如银行交易。<font color="red">OLTP强调数据库内存效率，强调内存各种指标的命令率</font></p>
+<h5 id="2-比较"><a href="#2-比较" class="headerlink" title="2.比较"></a>2.比较</h5><p><img src="https://img-my.csdn.net/uploads/201212/08/1354896501_9646.jpg" alt="img"></p>
+<p>OLTP：表示事务性非常高的系统，一般是高可用的在线系统，以小的事物以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及ExecuteSQL的数量。</p>
+<p>OLAP:联机分析处理，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。磁盘子系统的吞吐量。</p>
+<p>决策支持系统（DDS,decision support system ）典型的操作是全表扫描，长查询，长事务，但是一般事务的个数很少，往往是一个事务独占系统。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-java-获取字节码以及判断类型" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/02/19/java-获取字节码以及判断类型/" class="article-date">
+      <time datetime="2019-02-19T03:33:17.000Z" itemprop="datePublished">2019-02-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/java-获取字节码以及判断类型/">java 获取字节码以及判断类型</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>一、获取类的字节码的三种方法:
+　　</p>
+<p>　　1.使用Class.class</p>
+<p>　　 1 Class&lt;?&gt; c1=String.class; </p>
+<p>　　2.使用实例.getClass()</p>
+<p>　　 1 String s=new String(“1”); 2 Class&lt;?&gt; c2=s.getClass(); </p>
+<p>　　3.使用Class.forName(“类全名”);</p>
+<p>　　 1 Class&lt;?&gt; c3 = Class.forName(“java.lang.String”);</p>
+<p>二、判断字节码是不是基本类型 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`//判断是不是基本类型``System.out.println(c1.isPrimitive());``//false`</span><br></pre></td></tr></table></figure>
+<p> 三、判断是不是数组：</p>
+<p> 1 //判断是不是数组 2 System.out.println(String[].class.isArray());//true </p>
+<p>四、判断基本类型的详细类型</p>
+<p> 1 // 判断是不是int 基本类型 2 System.out.println(int.class==Integer.TYPE); </p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字节码/">字节码</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-基于springsecurity的oauth2-0授权认证" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -459,7 +598,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/18/“linux环境中常用的命令/">“linux环境中常用的命令</a>
+      <a class="article-title" href="/2019/02/18/“linux环境中常用的命令/">linux环境中常用的命令</a>
     </h1>
   
 
@@ -469,7 +608,62 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <h3 id="java-开发常用的linux命令"><a href="#java-开发常用的linux命令" class="headerlink" title="java 开发常用的linux命令"></a>java 开发常用的linux命令</h3><p>1.查找文件 find / -name filename.txt</p>
+<p>2.find . -name “*.xml” 递归查找所有的xml文件</p>
+<p>3.ls -l | grep “.jar” 查看当前目录中的所有jar文件</p>
+<p>4.</p>
+<p>5.查看一个程序是否运行：</p>
+<p>ps -ef | grep tomcat 查看所有有关tomcat的进程</p>
+<p>6.kill -9 进程号 终止进程号位</p>
+<p>7.查看文件 包含隐藏文件</p>
+<p>ls -al</p>
+<p>8.当前工作目录</p>
+<p>pwd</p>
+<p>9.创建目录</p>
+<p>mkdir newfolder</p>
+<p>10.删除目录</p>
+<p>rmdir deleteEmptyFolder 删除空目录</p>
+<p>rm -rf deleteFile 递归删除目录中所有的内容</p>
+<ol start="11">
+<li><p>查看目录文件</p>
+<p>ll 显示当前目录下文件详细信息</p>
+<p>ls -a 显示当前目录下所有文件</p>
+</li>
+<li><p>查看进程</p>
+<p>ps -a 显示所有进程</p>
+<p>ps -u 有效用户的相关进程</p>
+<p>ps -x 列出较完整的信息</p>
+<p>ps  aux 查询系统所有进程数据</p>
+<p>ps -ef | grep java 表示查看所有进程里cmd是java的进程信息</p>
+</li>
+</ol>
+<pre><code>13 . 查看端口信息
+
+netstat -tunlp | grep 端口号 查看指定的端口号的进程情况
+
+
+
+14 内存信息
+
+free  -m 单位为Mb查看内存信息
+
+top  linux系统下的任务管理器
+
+/ 任务管理器含义
+PID 进程ID
+USER    进程所有者
+PR  优先级
+NI  nice值，负值表示高优先级，正值表示低优先级
+VIRT    进程使用的虚拟内存总量
+RES 进程使用的、未被换出的物理内存大小
+SHR 共享内存大小
+S   进程状态
+%CPU    上次更新到现在的CPU时间占用百分比
+%MEM    进程使用的物理内存百分比
+TIME+   进程使用CPU总时间
+
+--------------------- 
+</code></pre>
       
     </div>
     
@@ -478,6 +672,10 @@
       
 
       
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-运行环境/">java 运行环境</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+    </div>
+
       
       <div class="clearfix"></div>
     </div>
@@ -770,127 +968,9 @@
 
 
   
-    <article id="post-TCP协议" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/17/TCP协议/" class="article-date">
-      <time datetime="2019-02-17T07:48:13.000Z" itemprop="datePublished">2019-02-17</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/17/TCP协议/">TCP协议</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-前端跨域问题" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/17/前端跨域问题/" class="article-date">
-      <time datetime="2019-02-17T07:26:42.000Z" itemprop="datePublished">2019-02-17</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/17/前端跨域问题/">前端跨域问题?</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CORS/">CORS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
