@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="温故而知新下">
-<meta name="keywords" content="ELK,数据分析">
+<meta name="description" content="什么是jvm（java虚拟机）？ java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。 为什么java被称为与平台无关的语言？因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。 什么是平台?CPU和操作系统的总称。 cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统">
+<meta name="keywords" content="java,jvm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ELK日志分析平台">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/02/17/ELK日志分析平台/index.html">
+<meta property="og:title" content="jvm进阶1.0（简介）">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/02/26/jvm进阶1/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="温故而知新下">
+<meta property="og:description" content="什么是jvm（java虚拟机）？ java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。 为什么java被称为与平台无关的语言？因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。 什么是平台?CPU和操作系统的总称。 cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-17T10:20:28.175Z">
+<meta property="og:updated_time" content="2019-02-26T09:21:33.283Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ELK日志分析平台">
-<meta name="twitter:description" content="温故而知新下">
+<meta name="twitter:title" content="jvm进阶1.0（简介）">
+<meta name="twitter:description" content="什么是jvm（java虚拟机）？ java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。 为什么java被称为与平台无关的语言？因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。 什么是平台?CPU和操作系统的总称。 cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>ELK日志分析平台 | MyNotes</title>
+<title>jvm进阶1.0（简介） | MyNotes</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -262,11 +262,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-ELK日志分析平台" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-jvm进阶1" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/02/17/ELK日志分析平台/" class="article-date">
-      <time datetime="2019-02-17T09:01:33.000Z" itemprop="datePublished">2019-02-17</time>
+      <a href="/2019/02/26/jvm进阶1/" class="article-date">
+      <time datetime="2019-02-26T08:52:34.000Z" itemprop="datePublished">2019-02-26</time>
 </a>
 
 
@@ -281,7 +281,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      ELK日志分析平台
+      jvm进阶1.0（简介）
     </h1>
   
 
@@ -292,7 +292,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据分析/">数据分析</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -302,7 +302,14 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <h3 id="什么是jvm（java虚拟机）？"><a href="#什么是jvm（java虚拟机）？" class="headerlink" title="什么是jvm（java虚拟机）？"></a>什么是jvm（java虚拟机）？</h3><p> java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。</p>
+<h3 id="为什么java被称为与平台无关的语言？"><a href="#为什么java被称为与平台无关的语言？" class="headerlink" title="为什么java被称为与平台无关的语言？"></a>为什么java被称为与平台无关的语言？</h3><p>因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。</p>
+<h3 id="什么是平台"><a href="#什么是平台" class="headerlink" title="什么是平台?"></a>什么是平台?</h3><p>CPU和操作系统的总称。</p>
+<p>cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统软件，为计算机提供公共服务。</p>
+<h3 id="什么是跨平台？"><a href="#什么是跨平台？" class="headerlink" title="什么是跨平台？"></a>什么是跨平台？</h3><p>平台无关，不是说源程序（.java）和平台无关，能运行在各个不同的平台；而是说     源程序编译后的.class文件能够在不同的平台上运行（只要不同的平台上安装jvm）</p>
+<p>java源程序不是直接编译成机器码，而是二次编译的。第一次对java源程序被javac编译成.class文件（这个文件与平台无关）。第二次.class文件在被jvm中的解释器编译,解释器为不同平台所需要的机器码。</p>
+<p>javac和jvm都包含在jdk（java developement toolkit）</p>
+
       
     </div>
     
@@ -310,13 +317,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/02/17/ELK日志分析平台/">ELK日志分析平台</a></p>
+        <p><span>本文标题:</span><a href="/2019/02/26/jvm进阶1/">jvm进阶1.0（简介）</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
-        <p><span>发布时间:</span>2019-02-17, 17:01:33</p>
-        <p><span>最后更新:</span>2019-02-17, 18:20:28</p>
+        <p><span>发布时间:</span>2019-02-26, 16:52:34</p>
+        <p><span>最后更新:</span>2019-02-26, 17:21:33</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/02/17/ELK日志分析平台/" title="ELK日志分析平台">https://yuanjinxiugithub.github.io/2019/02/17/ELK日志分析平台/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/02/17/ELK日志分析平台/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/02/26/jvm进阶1/" title="jvm进阶1.0（简介）">https://yuanjinxiugithub.github.io/2019/02/26/jvm进阶1/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/02/26/jvm进阶1/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -329,15 +336,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/02/17/浅谈项目中用到的RabbitMQ/">
-                    浅谈项目中用到的RabbitMQ
+                <a href="/2019/12/19/数据库SQl优化总结/">
+                    数据库SQl优化总结
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/02/17/事实和观点-事实有真假-观点无对错/">
-                    事实和观点:事实有真假,观点无对错
+                <a href="/2019/02/25/JavaScript中的var-let-const的区别/">
+                    JavaScript中的var let const的区别
                 </a>
             </div>
         
@@ -349,7 +356,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是jvm（java虚拟机）？"><span class="toc-number">1.</span> <span class="toc-text">什么是jvm（java虚拟机）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么java被称为与平台无关的语言？"><span class="toc-number">2.</span> <span class="toc-text">为什么java被称为与平台无关的语言？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是平台"><span class="toc-number">3.</span> <span class="toc-text">什么是平台?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是跨平台？"><span class="toc-number">4.</span> <span class="toc-text">什么是跨平台？</span></a></li></ol>
         
     </div>
     <style>
@@ -385,7 +392,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"ELK日志分析平台　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"jvm进阶1.0（简介）　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -405,7 +412,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/02/17/浅谈项目中用到的RabbitMQ/" title="上一篇: 浅谈项目中用到的RabbitMQ">
+            <a href="/2019/12/19/数据库SQl优化总结/" title="上一篇: 数据库SQl优化总结">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -413,7 +420,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/02/17/事实和观点-事实有真假-观点无对错/" title="下一篇: 事实和观点:事实有真假,观点无对错">
+            <a href="/2019/02/25/JavaScript中的var-let-const的区别/" title="下一篇: JavaScript中的var let const的区别">
                 <i class="fa fa-angle-right"></i>
             </a>
         
