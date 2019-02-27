@@ -353,7 +353,75 @@
           
         <h3 id="项目中使用到的RabbitMQ的总结："><a href="#项目中使用到的RabbitMQ的总结：" class="headerlink" title="项目中使用到的RabbitMQ的总结："></a>项目中使用到的RabbitMQ的总结：</h3><p>rabbitMQ 本身基于erlang语言开发，erlang语言具有高并发的特性，其管理界面用起来也十分方便。单机吞吐量为万级，一般多用于中小型企业的消息中间件。</p>
 <h3 id="RabbitMQ结构图"><a href="#RabbitMQ结构图" class="headerlink" title="RabbitMQ结构图"></a>RabbitMQ结构图</h3><p><img src="https://img-blog.csdn.net/20171030200129162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvX2Nob3Nlbl8x/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="è¿éåå¾çæè¿°"></p>
-<h3 id="RabbitMQ的几个概念"><a href="#RabbitMQ的几个概念" class="headerlink" title="RabbitMQ的几个概念"></a>RabbitMQ的几个概念</h3><h3 id="MQTT是什么？"><a href="#MQTT是什么？" class="headerlink" title="MQTT是什么？"></a>MQTT是什么？</h3><h3 id="RabbitMQ如何作为MQTT服务器使用？"><a href="#RabbitMQ如何作为MQTT服务器使用？" class="headerlink" title="RabbitMQ如何作为MQTT服务器使用？"></a>RabbitMQ如何作为MQTT服务器使用？</h3><h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
+<h3 id="几个概念说明"><a href="#几个概念说明" class="headerlink" title="几个概念说明"></a>几个概念说明</h3><p>Broker: 消息交换机  指定消息按什么规则，路由到哪个队列</p>
+<p>Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。</p>
+<p>Queue: 消息队列载体，每个消息都会被投入到一个或多个队列</p>
+<p>Binding:绑定，它的作用就是将exchange 和queue进行绑定起来</p>
+<p>Routing Key: 路由关键字，exchange根据这个关键字进行消息传递</p>
+<p>vhost:虚拟主机，一个broker里可以开设多个vhost,用作不同用户的权限分离</p>
+<p>producer:消息的投递者</p>
+<p>consumer:消息的接收者</p>
+<p>channel:消息通道，在客户端的每个连接里，可建立多个channel,每个channel代表一个会话任务。</p>
+<p>消息队列的使用过程大概如下：</p>
+<p>1.客户端连接消息队列服务器，打开一个channel。</p>
+<p>2.客户端声明一个exchange, 并设置相关属性。</p>
+<p>3.客户端声明一个queue，并设置相关属性。</p>
+<p>4.客户端设置好route key，在exchange和queue之间建立好绑定关系。</p>
+<p>5.客户端投递消息到exchange.</p>
+<h3 id="RabbitMQ-简介"><a href="#RabbitMQ-简介" class="headerlink" title="RabbitMQ 简介"></a>RabbitMQ 简介</h3><p>RabbitMQ是一个消息代理：接受并转发消息，可以看成是一个邮局；</p>
+<p>生产者（Producer）:用于发送消息的程序</p>
+<p>消费者（Consumer）:等待接受消息的程序</p>
+<p>队列：队列只能存在内存或磁盘里，本质上是一个消息转化中心。</p>
+<p>RabbitMQ起源于金融系统，用于在分布式系统中存储转发消息，在易用性，扩展性，高可用性等方面表现不俗。</p>
+<p>需要安装erlang语言开发，erlang语言本身就具有高并发特性。</p>
+<h3 id="spring集成rabbitMQ"><a href="#spring集成rabbitMQ" class="headerlink" title="spring集成rabbitMQ"></a>spring集成rabbitMQ</h3><p>step1: 添加相应的jar包：spring-rabbit amqp-client</p>
+<p>step2:使用外部参数文件 <strong>application.properties</strong></p>
+<p>mq.host=127.0.0.1</p>
+<p>mq.username=queue</p>
+<p>mq.password=1234</p>
+<p>mq.port=8001</p>
+<p>step3:连接rabbitMQ服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 连接配置 --&gt;</span><br><span class="line">&lt;rabbit:connection-factory id=<span class="string">"connectionFactory"</span> host=<span class="string">"$&#123;mq.host&#125;"</span> username=<span class="string">"$&#123;mq.username&#125;"</span></span><br><span class="line">        password=<span class="string">"$&#123;mq.password&#125;"</span> port=<span class="string">"$&#123;mq.port&#125;"</span>  /&gt;</span><br><span class="line">        </span><br><span class="line">&lt;rabbit:admin connection-factory=<span class="string">"connectionFactory"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>step4:声明一个rabbitMQ Template</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:template id=<span class="string">"amqpTemplate"</span> exchange=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> connection-factory=<span class="string">"connectionFactory"</span>  /&gt;</span><br></pre></td></tr></table></figure>
+<p>step5:在application.xml中声明一个交换机</p>
+<p><strong><a href="rabbit:topic-exchange" target="_blank" rel="noopener">rabbit:topic-exchange</a> 标签的 name 属性就是在 RabbitMQ 服务器配置交换机的 name 值。</strong></p>
+<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 queue 属性是 6. <queue> 标签的 id 属性。</queue></strong></p>
+<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 pattern 属性是在 RabbitMQ 服务器配置交换机与队列绑定时的 Routing key 值（路由）。</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:topic-exchange name=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> durable=<span class="string">"true"</span> auto-delete=<span class="string">"false"</span>&gt;</span><br><span class="line">    &lt;rabbit:bindings&gt;</span><br><span class="line">        &lt;rabbit:binding queue=<span class="string">"test_queue"</span> pattern=<span class="string">"$&#123;mq.queue&#125;_patt"</span>/&gt;</span><br><span class="line">    &lt;/rabbit:bindings&gt;</span><br><span class="line">&lt;/rabbit:topic-exchange&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>durable：是否持久化</li>
+<li>exclusive：仅创建者可以使用的私有队列，断开后自动删除</li>
+<li>auto-delete：当所有消费端连接断开后，是否自动删除队列</li>
+</ul>
+<font color="red">交换机的四种模式：</font>
+
+<p>1.direct(直连交换机)：根据routekey 将消息投递给对应队列的； 转发消息到route key 指定的队列上</p>
+<p>2.topic（主题交换机）：对key进行模式匹配，比如ab<em> 可以传到所有的ab</em>的queue</p>
+<p>3.headers:（头交换机）：转发到headers中的键值对完全匹配的队列。性能比较差不建议使用。</p>
+<p>4.fanout:（扇形交换机）：转发消息到所有绑定队列，忽略routingkey</p>
+<p>交换价的属性：</p>
+<p>1.持久性：durable,如果启用，交换器将会在server重启前都有效。</p>
+<p>2.自动删除：如果启用，那么交换器将会在其绑定的队列都被删除掉之后自动删除掉自身。</p>
+<p>3.惰性：如果没有声明交换器，那么在执行到使用的时候会导致异常，并不会主动声明。</p>
+<p>一个交换机可以绑定多个队列，一个队列也可以绑定到多个交换机上。如果没有队列绑定到交换机上，则发送到该交换机上的消息会丢失。</p>
+<h3 id="MQTT是什么？"><a href="#MQTT是什么？" class="headerlink" title="MQTT是什么？"></a>MQTT是什么？</h3><p>第一次接触到mqtt协议是在做海底捞物流配送系统，当时使用到了rabbitmq 消息队列，发现开发同事配置中用到了mqtt协议，本来以为是用到了别的什么中间件，后来在看rabbitmq时无意间发现和mqtt有关联，就自己学习了下，内容如下：</p>
+<p><font color="red">什么是mqtt</font>:message queuing  telemetry transport portocol 的全称是消息队列遥感传输协议的缩写，是一种基于轻量级代理的发布/订阅模式的消息传输协议，运行在TCP协议栈上，为其提供有序，可靠，双向连接的网络连接保证。IBM开发的<font color="red">即时通讯协议</font>，成为物联网的重要组成成分。该协议支持所有的平台，几乎可以把所有物联网物品和外部连接起来，被用来当作传感器和制动器的通信协议。</p>
+<h3 id="MQTT的特点"><a href="#MQTT的特点" class="headerlink" title="MQTT的特点:"></a>MQTT的特点:</h3><p>mqtt协议是为大量计算能力有限，且工作在低带宽，不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：</p>
+<p>1.使用发布/订阅模式，提供一对多的消息发布，解除应用程序耦合。</p>
+<p>2.对负载内容屏蔽的消息传输。</p>
+<p>3.使用TCP/IP提供网络连接。</p>
+<p>4.有三种消息发布服务质量：</p>
+<p>至多一次</p>
+<p>至少一次</p>
+<p>只有一次</p>
+<p>5.小型传输，开销很小 协议交换最小化，以降低网络流量。</p>
+<h3 id="心跳时间：-keep-alive-timer"><a href="#心跳时间：-keep-alive-timer" class="headerlink" title="心跳时间： keep alive timer"></a>心跳时间： keep alive timer</h3><p>以秒为单位，定义服务器端从客户端接受消息的最大时间间隔。一般应用服务会在业务层次检测客户端网络是否连接，不是TCP/IP协议层面的心跳机制。</p>
+<h3 id="如何将消息正确送达？"><a href="#如何将消息正确送达？" class="headerlink" title="如何将消息正确送达？"></a>如何将消息正确送达？</h3><p>MQTT通过“主题”实现将消息从发布者客户端送达至接收者客户端。“主题”是附加在应用消息上的一个标签，发布者客户端将”主题“和消息发送至代理服务器，代理服务器将消息转发每一个订阅了该主题的订阅客户端。</p>
+<h3 id="RabbitMQ如何作为MQTT服务器使用？"><a href="#RabbitMQ如何作为MQTT服务器使用？" class="headerlink" title="RabbitMQ如何作为MQTT服务器使用？"></a>RabbitMQ如何作为MQTT服务器使用？</h3><p>rabbitmq中有实现mqtt插件，具体参考地址：</p>
+<p><a href="http://www.rabbitmq.com/mqtt.html" target="_blank" rel="noopener">http://www.rabbitmq.com/mqtt.html</a></p>
+<p>安装插件，只要启用rabbitmq的MQTT插件即可：rabbitmq-plugins enable rabbitmq-mqtt 启用后重启一下rabbitmq-server</p>
+<h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
 <p>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo</p>
 <p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"></p>
 <p> RPC的一般需要经历4个步骤：</p>
