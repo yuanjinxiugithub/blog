@@ -23,10 +23,12 @@
 <meta property="og:site_name" content="MyNotes">
 <meta property="og:description" content="什么是jvm（java虚拟机）？ java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。 为什么java被称为与平台无关的语言？因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。 什么是平台?CPU和操作系统的总称。 cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-26T09:21:33.283Z">
+<meta property="og:image" content="https://img-blog.csdn.net/20171228224905811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVtaW5nbGlhbmcxOTg3/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2019-02-26T11:59:03.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm进阶1.0（简介）">
 <meta name="twitter:description" content="什么是jvm（java虚拟机）？ java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。 为什么java被称为与平台无关的语言？因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。 什么是平台?CPU和操作系统的总称。 cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20171228224905811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVtaW5nbGlhbmcxOTg3/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -185,7 +187,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CORS/">CORS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQL数据库/">MYSQL数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQl/">MYSQl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-优化/">SQL 优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-运行环境/">java 运行环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字节码/">字节码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/持久层/">持久层</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络/">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑思维/">逻辑思维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/锁机制/">锁机制</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CORS/">CORS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQL数据库/">MYSQL数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MYSQl/">MYSQl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-优化/">SQL 优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc-垃圾回收机制/">gc 垃圾回收机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http协议/">http协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-运行环境/">java 运行环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存存储机制/">内存存储机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式服务框架/">分布式服务框架</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础知识/">基础知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字节码/">字节码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/持久层/">持久层</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络/">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑思维/">逻辑思维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/锁机制/">锁机制</a></li></ul>
                     </div>
                 </section>
                 
@@ -309,6 +311,14 @@
 <h3 id="什么是跨平台？"><a href="#什么是跨平台？" class="headerlink" title="什么是跨平台？"></a>什么是跨平台？</h3><p>平台无关，不是说源程序（.java）和平台无关，能运行在各个不同的平台；而是说     源程序编译后的.class文件能够在不同的平台上运行（只要不同的平台上安装jvm）</p>
 <p>java源程序不是直接编译成机器码，而是二次编译的。第一次对java源程序被javac编译成.class文件（这个文件与平台无关）。第二次.class文件在被jvm中的解释器编译,解释器为不同平台所需要的机器码。</p>
 <p>javac和jvm都包含在jdk（java developement toolkit）</p>
+<h3 id="jvm内存管理"><a href="#jvm内存管理" class="headerlink" title="jvm内存管理"></a>jvm内存管理</h3><p>jvm运行时的几大数据区：</p>
+<p><img src="https://img-blog.csdn.net/20171228224905811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVtaW5nbGlhbmcxOTg3/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<p>方法区，堆，java栈，pc寄存器，本地方法栈。</p>
+<p>堆：存放所有new 对象。堆占据JVM的大部分内存。因此也是java的GC,垃圾收集器的主要工作目标区域。</p>
+<p>方法区：存放类装载进来后的和这个类相关的所有运行时需要的信息（如类的静态变量，常量，类的全局名称，方法信息等）。线程共享区，用于存储已被虚拟机加载的类信息，常量，静态变量，即时编译后的代码等数据。</p>
+<p>运行时常量池：方法区的一部分，用于存放编译器生成的各种字面量和符号引用。</p>
+<p>栈：用于存放基本类型，对象、数组的引用。</p>
+<p>栈内存中存放的可以看做是运行时的临时数据，主要表现为本地变量，操作符，对象引用地址等。这些数据会在方法执行结束后立即会回收，不会驻留。对存储空间的占用也只是执行函数指令时所必须的空间。不会造成内存的瓶颈。而方法区中的对象对应的类信息，函数表，构造函数，静态常量等。这些信息在类加载时按需只会在方法区中存储一份，不会产生额外的存储空间。所以主要的内存消耗是java堆内存。</p>
 
       
     </div>
@@ -320,7 +330,7 @@
         <p><span>本文标题:</span><a href="/2019/02/26/jvm进阶1/">jvm进阶1.0（简介）</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
         <p><span>发布时间:</span>2019-02-26, 16:52:34</p>
-        <p><span>最后更新:</span>2019-02-26, 17:21:33</p>
+        <p><span>最后更新:</span>2019-02-26, 19:59:03</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/02/26/jvm进阶1/" title="jvm进阶1.0（简介）">https://yuanjinxiugithub.github.io/2019/02/26/jvm进阶1/</a>
             <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/02/26/jvm进阶1/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -336,8 +346,8 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/12/19/数据库SQl优化总结/">
-                    数据库SQl优化总结
+                <a href="/2019/02/26/gc垃圾回收机制/">
+                    gc垃圾回收机制
                 </a>
             </div>
         
@@ -356,7 +366,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是jvm（java虚拟机）？"><span class="toc-number">1.</span> <span class="toc-text">什么是jvm（java虚拟机）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么java被称为与平台无关的语言？"><span class="toc-number">2.</span> <span class="toc-text">为什么java被称为与平台无关的语言？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是平台"><span class="toc-number">3.</span> <span class="toc-text">什么是平台?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是跨平台？"><span class="toc-number">4.</span> <span class="toc-text">什么是跨平台？</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是jvm（java虚拟机）？"><span class="toc-number">1.</span> <span class="toc-text">什么是jvm（java虚拟机）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么java被称为与平台无关的语言？"><span class="toc-number">2.</span> <span class="toc-text">为什么java被称为与平台无关的语言？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是平台"><span class="toc-number">3.</span> <span class="toc-text">什么是平台?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是跨平台？"><span class="toc-number">4.</span> <span class="toc-text">什么是跨平台？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jvm内存管理"><span class="toc-number">5.</span> <span class="toc-text">jvm内存管理</span></a></li></ol>
         
     </div>
     <style>
@@ -412,7 +422,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/12/19/数据库SQl优化总结/" title="上一篇: 数据库SQl优化总结">
+            <a href="/2019/02/26/gc垃圾回收机制/" title="上一篇: gc垃圾回收机制">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -426,7 +436,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/MYSQL-数据库常见锁机制以及存储类型/">MYSQL 数据库常见锁机制以及存储类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/数据库SQl优化总结/">数据库SQl优化总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/26/jvm进阶1/">jvm进阶1.0（简介）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/25/JavaScript中的var-let-const的区别/">JavaScript中的var let const的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/22/OLTP和OLAP的区别/">OLTP和OLAP的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/19/java-获取字节码以及判断类型/">java 获取字节码以及判断类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/基于springsecurity的oauth2-0授权认证/">基于springsecurity的oauth2.0授权认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/“linux环境中常用的命令/">linux环境中常用的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/基于springsecurity的权限认证/">基于springsecurity的权限认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/浅谈项目中用到的RabbitMQ/">浅谈项目中用到的RabbitMQ</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/ELK日志分析平台/">ELK日志分析平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/事实和观点-事实有真假-观点无对错/">事实和观点:事实有真假,观点无对错</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/TCP协议/">TCP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/前端跨域问题/">前端跨域问题?</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/http和https的区别/">http和https的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/关于消息队列的使用/">关于消息队列的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/微服务是什么？/">微服务是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/MYSQL-数据库常见锁机制以及存储类型/">MYSQL 数据库常见锁机制以及存储类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/12/19/数据库SQl优化总结/">数据库SQl优化总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/26/java中interface定义变量注意的地方/">java中interface定义变量注意的地方</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/26/gc垃圾回收机制/">gc垃圾回收机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/26/jvm进阶1/">jvm进阶1.0（简介）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/25/JavaScript中的var-let-const的区别/">JavaScript中的var let const的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/22/OLTP和OLAP的区别/">OLTP和OLAP的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/19/java-获取字节码以及判断类型/">java 获取字节码以及判断类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/基于springsecurity的oauth2-0授权认证/">基于springsecurity的oauth2.0授权认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/“linux环境中常用的命令/">linux环境中常用的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/基于springsecurity的权限认证/">基于springsecurity的权限认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/浅谈项目中用到的RabbitMQ/">浅谈项目中用到的RabbitMQ</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/ELK日志分析平台/">ELK日志分析平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/事实和观点-事实有真假-观点无对错/">事实和观点:事实有真假,观点无对错</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/TCP协议/">TCP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/前端跨域问题/">前端跨域问题?</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/http和https的区别/">http和https的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/关于消息队列的使用/">关于消息队列的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/微服务是什么？/">微服务是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Java基础知识/">Java基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/java中的队内存和栈内存/">java中的堆内存和栈内存</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/HTTP-教程总结/">HTTP 教程总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/JPA进阶-Java持久层API/">JPA进阶(Java持久层API)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/15/dubbo-的使用和总结/">dubbo 的使用和总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/10/String-StringBuilder-StringBuffer的区分/">String,StringBuilder,StringBuffer的区分</a></li></ul>
 
 
 
