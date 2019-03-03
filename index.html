@@ -82,173 +82,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/12/19/数据库SQl优化总结/" title="数据库SQl优化总结" itemprop="url">数据库SQl优化总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-12-19T03:31:21.000Z" itemprop="datePublished"> Published 2019-12-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><font color="red" size="4">1</font> 对查询进行优化，要尽量避免全表扫描，应考虑在where及order by 涉及的列上建立索引。</p>
-<p><font color="red">2</font> 应尽量避免在where子句中对字段进行null值判断，否则会导致引擎放弃使用索引而进行全表扫描。</p>
-<p>最好不要给数据库留NULL,尽可能的使用NOT NULL填充数据库。</p>
-<p>备注，评论，描述 之类的可以设置为NULL,其他的，最好不要使用NULL。</p>
-<p>不要以为 NULL 不需要空间，比如：char(100) 型，在字段建立时，空间就固定了， 不管是否插入值（NULL也包含在内），都是占用 100个字符的空间的，如果是varchar这样的变长字段， null 不占用空间。</p>
-<p>可以在num上设置默认值0，确保表中num列没有null值，然后这样查询：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = 0</span><br></pre></td></tr></table></figure>
-<p><font color="red">3</font> 应尽量避免在where字句中使用！=或&lt;&gt;操作符，否则引擎放弃使用索引而进行全表扫描。</p>
-<p><font color="red">4</font> 应尽量避免在where字句中使用or来连接条件，如果一个字段有索引，一个字段没有索引，将导致引擎放弃使用索引而进行全表扫描。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num=10 or Name = &apos;admin&apos;</span><br></pre></td></tr></table></figure>
-<p>可以这样查询：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = 10</span><br><span class="line">union all</span><br><span class="line">select id from t where Name = &apos;admin&apos;</span><br></pre></td></tr></table></figure>
-<p><strong>5.</strong>in 和 not in 也要慎用，否则会导致全表扫描，如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num in(1,2,3)</span><br></pre></td></tr></table></figure>
-<p>对于连续的数值，能用 between 就不要用 in 了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num between 1 and 3</span><br></pre></td></tr></table></figure>
-<p>很多时候用 exists 代替 in 是一个好的选择：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select num from a where num in(select num from b)</span><br></pre></td></tr></table></figure>
-<p>用下面的语句替换：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select num from a where exists(select 1 from b where num=a.num)</span><br></pre></td></tr></table></figure>
-<p><strong>6.</strong>下面的查询也将导致全表扫描：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where name like ‘%abc%’</span><br></pre></td></tr></table></figure>
-<p>若要提高效率，可以考虑全文检索。</p>
-<p><strong>7.</strong>如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = @num</span><br></pre></td></tr></table></figure>
-<p>可以改为强制查询使用索引：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t with(index(索引名)) where num = @num</span><br></pre></td></tr></table></figure>
-<p>8 <strong>.</strong>应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num/2 = 100</span><br></pre></td></tr></table></figure>
-<p>应改为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = 100*2</span><br></pre></td></tr></table></figure>
-<p><strong>9.</strong>应尽量避免在where子句中对字段进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select id from t where substring(name,1,3) = ’abc’       -–name以abc开头的id</span><br><span class="line">select id from t where datediff(day,createdate,’2005-11-30′) = 0    -–‘2005-11-30’    --生成的id</span><br></pre></td></tr></table></figure>
-<p>应改为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select id from t where name like &apos;abc%&apos;</span><br><span class="line">select id from t where createdate &gt;= &apos;2005-11-30&apos; and createdate &lt; &apos;2005-12-1&apos;</span><br></pre></td></tr></table></figure>
-<p><strong>10.</strong>不要在 where 子句中的“=”左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
-<p><strong>11.</strong>在使用索引字段作为条件时，如果该索引是复合索引，那么必须使用到该索引中的第一个字段作为条件时才能保证系统使用该索引，否则该索引将不会被使用，并且应尽可能的让字段顺序与索引顺序相一致。    </p>
-<p><strong>12.</strong>不要写一些没有意义的查询，如需要生成一个空表结构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select col1,col2 into #t from t where 1=0</span><br></pre></td></tr></table></figure>
-<p>这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table #t(…)</span><br></pre></td></tr></table></figure>
-<p><strong>13.</strong>Update 语句，如果只更改1、2个字段，不要Update全部字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志。</p>
-<p><strong>14.</strong>对于多张大数据量（这里几百条就算大了）的表JOIN，要先分页再JOIN，否则逻辑读会很高，性能很差。</p>
-<p><strong>15.</strong>select count(*) from table；这样不带任何条件的count会引起全表扫描，并且没有任何业务意义，是一定要杜绝的。</p>
-<p><strong>16.</strong>索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，因为 insert 或 update 时有可能会重建索引，所以怎样建索引需要慎重考虑，视具体情况而定。一个表的索引数最好不要超过6个，若太多则应考虑一些不常使用到的列上建的索引是否有 必要。</p>
-<p><strong>17.</strong>应尽可能的避免更新 clustered 索引数据列，因为 clustered 索引数据列的顺序就是表记录的物理存储顺序，一旦该列值改变将导致整个表记录的顺序的调整，会耗费相当大的资源。若应用系统需要频繁更新 clustered 索引数据列，那么需要考虑是否应将该索引建为 clustered 索引。</p>
-<p><strong>18.</strong>尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询和连接的性能，并会增加存储开销。这是因为引擎在处理查询和连 接时会逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了。</p>
-<p><strong>19.</strong>尽可能的使用 varchar/nvarchar 代替 char/nchar ，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些。</p>
-<p><strong>20.</strong>任何地方都不要使用 select <em> from t ，用具体的字段列表代替“</em>”，不要返回用不到的任何字段。</p>
-<p><strong>21.</strong>尽量使用表变量来代替临时表。如果表变量包含大量数据，请注意索引非常有限（只有主键索引）。</p>
-<p><strong>22.</strong>避免频繁创建和删除临时表，以减少系统表资源的消耗。临时表并不是不可使用，适当地使用它们可以使某些例程更有效，例如，当需要重复引用大型表或常用表中的某个数据集时。但是，对于一次性事件， 最好使用导出表。</p>
-<p><strong>23.</strong>在新建临时表时，如果一次性插入数据量很大，那么可以使用 select into 代替 create table，避免造成大量 log ，以提高速度；如果数据量不大，为了缓和系统表的资源，应先create table，然后insert。</p>
-<p><strong>24.</strong>如果使用到了临时表，在存储过程的最后务必将所有的临时表显式删除，先 truncate table ，然后 drop table ，这样可以避免系统表的较长时间锁定。</p>
-<p><strong>25.</strong>尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写。</p>
-<p><strong>26.</strong>使用基于游标的方法或临时表方法之前，应先寻找基于集的解决方案来解决问题，基于集的方法通常更有效。</p>
-<p><strong>27.</strong>与临时表一样，游标并不是不可使用。对小型数据集使用 FAST_FORWARD 游标通常要优于其他逐行处理方法，尤其是在必须引用几个表才能获得所需的数据时。在结果集中包括“合计”的例程通常要比使用游标执行的速度快。如果开发时 间允许，基于游标的方法和基于集的方法都可以尝试一下，看哪一种方法的效果更好。</p>
-<p><strong>28.</strong>在所有的存储过程和触发器的开始处设置 SET NOCOUNT ON ，在结束时设置 SET NOCOUNT OFF 。无需在执行存储过程和触发器的每个语句后向客户端发送 DONE_IN_PROC 消息。</p>
-<p><strong>29.</strong>尽量避免大事务操作，提高系统并发能力。</p>
-<p><strong>30.</strong>尽量避免向客户端返回大数据量，若数据量过大，应该考虑相应需求是否合理。</p>
-<p>实际案例分析：拆分大的 DELETE 或INSERT 语句，批量提交SQL语句</p>
-<p>如果你需要在一个在线的网站上去执行一个大的 DELETE 或 INSERT 查询，你需要非常小心，要避免你的操作让你的整个网站停止相应。因为这两个操作是会锁表的，表一锁住了，别的操作都进不来了。</p>
-<p>Apache 会有很多的子进程或线程。所以，其工作起来相当有效率，而我们的服务器也不希望有太多的子进程，线程和数据库链接，这是极大的占服务器资源的事情，尤其是内存。</p>
-<p>如果你把你的表锁上一段时间，比如30秒钟，那么对于一个有很高访问量的站点来说，这30秒所积累的访问进程/线程，数据库链接，打开的文件数，可能不仅仅会让你的WEB服务崩溃，还可能会让你的整台服务器马上挂了。</p>
-<p>所以，如果你有一个大的处理，你一定把其拆分，使用 LIMIT oracle(rownum),sqlserver(top)条件是一个好的方法。下面是一个mysql示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">while(1)&#123;</span><br><span class="line"></span><br><span class="line"> 　　//每次只做1000条</span><br><span class="line"></span><br><span class="line">　　 mysql_query(“delete from logs where log_date &lt;= ’2012-11-01’ limit 1000”);</span><br><span class="line"></span><br><span class="line"> 　　if(mysql_affected_rows() == 0)&#123;</span><br><span class="line"></span><br><span class="line">　　 　　//删除完成，退出！</span><br><span class="line">　　 　　break；</span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">//每次暂停一段时间，释放表让其他进程/线程访问。</span><br><span class="line">usleep(50000)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/MYSQl/">MYSQl</a><a href="/tags/SQL-优化/">SQL 优化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/01/Spring-Boot-Spring-Cloud全家桶/" title="Spring Boot,Spring Cloud全家桶" itemprop="url">Spring Boot,Spring Cloud全家桶</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-01T07:52:33.000Z" itemprop="datePublished"> Published 2019-03-01</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2019/03/01/有关于synchronized和lock的总结/" title="有关于synchronized和lock的总结" itemprop="url">有关于synchronized和lock的总结</a>
   </h1>
   <p class="article-author">By
@@ -279,55 +112,6 @@
   
   <span></span> <a href="/tags/java/">java</a><a href="/tags/锁/">锁</a>
   </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/28/mybatis-总结/" title="mybatis 总结" itemprop="url">mybatis 总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-28T13:21:37.000Z" itemprop="datePublished"> Published 2019-02-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
 
 </div>
 
@@ -802,6 +586,396 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/18/基于springsecurity的权限认证/" title="基于springsecurity的权限认证" itemprop="url">基于springsecurity的权限认证</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-18T01:43:58.000Z" itemprop="datePublished"> Published 2019-02-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>本文在SpringMVC和MyBatis项目框架的基础上整合Spring Security作为权限管理。并且完全实现一套自定义的权限管理规则。</p>
+<p><strong>1.权限管理</strong><br>在本例中所使用的权限管理的思路如下图所示，在系统中存在着许多帐号，同时存在着许多资源，在一个Web系统中一个典型的资源就是访问页面的URL，控制了这个就能够直接控制用户的访问权。</p>
+<p>由于资源非常多，直接针对资源与用户进行设置关系会比较繁琐，因此针对同一类或者同一组的资源打个包，称为一组权限，这样将权限分配给用户的时候，一组权限中的资源也就都分配给用户了。</p>
+<p><img src="https://images2017.cnblogs.com/blog/1071354/201711/1071354-20171114134807999-455536739.png" alt="img"></p>
+<p>这个只是一个非常简单的权限管理方案，并且只能适用于较小的项目，因为此处给出这个只是为了便于理解自定义的Spring Security认证规则。</p>
+<p><strong>2.Spring Security的认证规则</strong><br>要编写自定义的认证规则，首先需要对Spring Security中的认证规则有一定的了解，下面简单介绍下Spring Security的认证规则。</p>
+<p>1）在Spring Security中每个URL都是一个资源，当系统启动的时候，Spring Security会根据配置将所有的URL与访问这个URL所需要的权限的映射数据加载到Spring Security中。</p>
+<p>2）当一个请求访问一个资源时，Spring Security会判断这个URL是否需要权限验证，如果不需要，那么直接访问即可。</p>
+<p>3）如果这个URL需要进行权限验证，那么Spring Security会检查当前请求来源所属用户是否登录，如果没有登录，则跳转到登录页面，进行登录操作，并加载这个用户的相关信息</p>
+<p>4）如果登录，那么判断这个用户所拥有的权限是否包含访问这个URL所需要的权限，如果有则允许访问</p>
+<p>5）如果没有权限，那么就给出相应的提示信息</p>
+<p><strong>3.自定义认证规则思路</strong><br>根据上面一小节介绍的Spring Security认证的过程，我们相应的就能够分析出对于这个过程我们如果要修改的话，需要进行哪些方面的改动。</p>
+<p><strong>3.1.自定义SecurityMetadataSource</strong><br>在Spring Security中的 SecurityMetadataSource 处于上面的步骤一中，也就是用于加载URL与权限对应关系的，对于这个我们需要自己进行定义</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Set;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.access.SecurityConfig;</span><br><span class="line">import org.springframework.security.web.FilterInvocation;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 加载URL与权限资源，并提供根据URL匹配权限的方法</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:18:52</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomSecurityMetadataSource </span><br><span class="line">        implements FilterInvocationSecurityMetadataSource &#123;</span><br><span class="line"> </span><br><span class="line">    private Map&lt;String, List&lt;ConfigAttribute&gt;&gt; resources;</span><br><span class="line">    </span><br><span class="line">    public CustomSecurityMetadataSource() &#123;</span><br><span class="line">        loadAuthorityResources();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private void loadAuthorityResources() &#123;</span><br><span class="line">        // 此处在创建时从数据库中初始化权限数据</span><br><span class="line">        // 将权限与资源数据整理成 Map&lt;resource, List&lt;Authority&gt;&gt; 的形式</span><br><span class="line">        // 注意：加载URL资源时，需要对资源进行排序，要由精确到粗略进行排序，让精确的URL优先匹配</span><br><span class="line">        resources = new HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        // 此处先伪造一些数据</span><br><span class="line">        List&lt;ConfigAttribute&gt; authorityList = new ArrayList&lt;&gt;();</span><br><span class="line">        ConfigAttribute auth = new SecurityConfig(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        authorityList.add(auth);</span><br><span class="line">        resources.put(&quot;/welcome&quot;, authorityList);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAttributes(Object object) throws IllegalArgumentException &#123;</span><br><span class="line">        </span><br><span class="line">        String url = ((FilterInvocation) object).getRequestUrl();</span><br><span class="line">        </span><br><span class="line">        Set&lt;String&gt; keys = resources.keySet();</span><br><span class="line">        </span><br><span class="line">        for (String k : keys) &#123;</span><br><span class="line">            if (url.indexOf(k) &gt;= 0) &#123;</span><br><span class="line">                return resources.get(k);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAllConfigAttributes() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>在这个类中，实现了FilterInvocationSecurityMetadataSource接口，这个接口中的 getAttributes(Object object)方法能够根据请求的URL，获取这个URL所需要的权限，那么我们就可以在这个类初始化的时候将所有需要的权限加载进来，然后根据我们的规则进行获取，因此这里还需要编写一个加载数据的方法 loadAuthorityResources()，并且在构造函数中调用。</p>
+<p>此处加载资源为了简化，只是随意填充了一些数据，实际可以从数据库中获取。</p>
+<p><strong>3.2.自定义AccessDecisionManager</strong><br>编写自定义的决策管理器，决策管理器是Spring Security用来决定对于一个用户的请求是否基于通过的中心控制。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.AccessDecisionManager;</span><br><span class="line">import org.springframework.security.access.AccessDeniedException;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.authentication.InsufficientAuthenticationException;</span><br><span class="line">import org.springframework.security.core.Authentication;</span><br><span class="line">import org.springframework.security.core.GrantedAuthority;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 进行决策，根据URL获得访问这个资源所需要的权限，然后在与当前用户所拥有的权限进行对比</span><br><span class="line"> * 如果当前用户拥有相关权限，就直接返回，否则抛出 AccessDeniedException异常</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:30:40</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomAccessDecisionManager implements AccessDecisionManager &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void decide(Authentication authentication, Object object, Collection&lt;ConfigAttribute&gt; configAttributes)</span><br><span class="line">            throws AccessDeniedException, InsufficientAuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">        LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (configAttributes == null) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (configAttributes.size() &lt;= 0) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Iterator&lt;ConfigAttribute&gt; authorities = configAttributes.iterator();</span><br><span class="line">        String needAuthority = null;</span><br><span class="line">        </span><br><span class="line">        while(authorities.hasNext()) &#123;</span><br><span class="line">            ConfigAttribute authority = authorities.next();</span><br><span class="line">            </span><br><span class="line">            if (authority == null || (needAuthority = authority.getAttribute()) == null) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide == &quot; + needAuthority);</span><br><span class="line">            </span><br><span class="line">            for (GrantedAuthority ga : authentication.getAuthorities()) &#123;</span><br><span class="line">                if (needAuthority.equals(ga.getAuthority().trim())) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        throw new AccessDeniedException(&quot;No Authority&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(ConfigAttribute attribute) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>决策管理器最重要的就是这个 decide()方法，Spring Security会将当前登录用户信息包装到一个 Authentication对象中，并传入这个方法；并且调用 SecurityMetadataSource.getAttributes() 方法获取这个URL相关的权限以参数 Collection<configattribute> 的形式传入这个方法。</configattribute></p>
+<p>然后这个decide方法获取到这两个信息之后就可以进行对比决策了。如果当前用户允许登录，那么直接return即可。如果当前用户不许运行登录，则抛出一个 AccessDeniedException异常。</p>
+<p><strong>3.3.自定义 UserDetailsService 和 AuthenticationProvider</strong></p>
+<p>前面说过，要进行验证，除了有URL与权限的映射关系，还需要有用户的权限信息。要编写自定义的用户数据加载，就需要实现这两个接口。</p>
+<p><strong>3.3.1.UserDetailsService</strong></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">import com.oolong.model.AccountInfoModel;</span><br><span class="line">import com.oolong.model.AuthorityModel;</span><br><span class="line"> </span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsService implements UserDetailsService &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsService&quot;).info(&quot;loadUserByUsername invoke&quot;);</span><br><span class="line"> </span><br><span class="line">        // 提供到数据库查询该用户的权限信息</span><br><span class="line">        // 关于角色和权限的转换关系在此处处理，根据用户与角色的关系、角色与权限的关系，</span><br><span class="line">        // 将用户与权限的管理整理出来</span><br><span class="line">        </span><br><span class="line">        // 此处伪造一些数据</span><br><span class="line">        // 伪造权限</span><br><span class="line">        AuthorityModel authority = new AuthorityModel(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        List&lt;AuthorityModel&gt; authorities = new ArrayList&lt;&gt;();</span><br><span class="line">        authorities.add(authority);</span><br><span class="line">        </span><br><span class="line">        AccountInfoModel account = new AccountInfoModel(&quot;oolong&quot;, &quot;12345&quot;);</span><br><span class="line">        account.setAuthorities(authorities);</span><br><span class="line">        </span><br><span class="line">        return account;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p><strong>3.3.2.AuthenticationProvider</strong><br>AuthenticationProvider用于包装UserDetailsService，并将其提供给 Spring Security使用。这个接口中最重要的是实现 retrieveUser() 方法，这个请参考接口的说明进行实现，此处不再赘述。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.security.authentication.AuthenticationServiceException;</span><br><span class="line">import org.springframework.security.authentication.BadCredentialsException;</span><br><span class="line">import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;</span><br><span class="line">import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;</span><br><span class="line">import org.springframework.security.core.AuthenticationException;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 这两个方法用于添加额外的检查功能，此处不需要添加，因此空着，直接实现这个抽象类即可。</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 下午12:20:27</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider &#123;</span><br><span class="line"> </span><br><span class="line">    @Autowired</span><br><span class="line">    private UserDetailsService userDetailsService;</span><br><span class="line">    </span><br><span class="line">    public UserDetailsService getUserDetailService() &#123;</span><br><span class="line">        return this.userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void setUserDetailService(UserDetailsService userDetailsService) &#123;</span><br><span class="line">        this.userDetailsService = userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected void additionalAuthenticationChecks(UserDetails userDetails,</span><br><span class="line">            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)</span><br><span class="line">            throws AuthenticationException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsAuthenticationProvider&quot;).info(&quot;retrieveUser invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (userDetailsService == null) &#123;</span><br><span class="line">            throw new AuthenticationServiceException(&quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        UserDetails userDetails = userDetailsService.loadUserByUsername(username);</span><br><span class="line">        </span><br><span class="line">        if (userDetails == null) &#123;</span><br><span class="line">            throw new UsernameNotFoundException(username);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (userDetails.getUsername().equals(authentication.getPrincipal().toString()) </span><br><span class="line">                &amp;&amp; userDetails.getPassword().equals(authentication.getCredentials().toString())) &#123;</span><br><span class="line">            return userDetails;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        throw new BadCredentialsException(username + authentication.getCredentials());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p><strong>3.4.UserDetails和GrantedAuthority</strong><br>这两个接口非常简单，请参考源码，此处不再赘述</p>
+<p><strong>4.配置</strong><br>上面编写的这些自定义的实现都有了，但是仅仅这样是没有用的，如何配置能够让它们起作用呢？</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.config;</span><br><span class="line"> </span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.ComponentScan;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;</span><br><span class="line">import org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line">import org.springframework.security.web.access.ExceptionTranslationFilter;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;</span><br><span class="line"> </span><br><span class="line">import com.oolong.customsecurity.CustomAccessDecisionManager;</span><br><span class="line">import com.oolong.customsecurity.CustomSecurityMetadataSource;</span><br><span class="line">import com.oolong.customsecurity.CustomUserDetailsAuthenticationProvider;</span><br><span class="line">import com.oolong.customsecurity.TempHook;</span><br><span class="line"> </span><br><span class="line">@Configuration</span><br><span class="line">@ComponentScan(basePackageClasses=&#123;TempHook.class&#125;)</span><br><span class="line">@EnableWebSecurity</span><br><span class="line">public class SecurityConfig extends WebSecurityConfigurerAdapter &#123;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomUserDetailsAuthenticationProvider customAuthenticationProvider;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomAccessDecisionManager customAccessDecisionManager;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomSecurityMetadataSource customSecurityMetadataSource;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(AuthenticationManagerBuilder auth) throws Exception &#123;</span><br><span class="line">        auth.authenticationProvider(customAuthenticationProvider);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(HttpSecurity http) throws Exception &#123;</span><br><span class="line">        http.addFilterAfter(customFilterSecurityInterceptor(), ExceptionTranslationFilter.class);</span><br><span class="line">        http.formLogin();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Bean</span><br><span class="line">    public FilterSecurityInterceptor customFilterSecurityInterceptor() &#123;</span><br><span class="line">        FilterSecurityInterceptor fsi = new FilterSecurityInterceptor();</span><br><span class="line">        fsi.setAccessDecisionManager(customAccessDecisionManager);</span><br><span class="line">        fsi.setSecurityMetadataSource(customSecurityMetadataSource);</span><br><span class="line">        </span><br><span class="line">        return fsi;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>在Spring MVC中，Spring Security是通过过滤器发挥作用的，因此我们就爱那个决策管理器与数据加载放到一个过滤器中，然后将这个过滤器插入到系统的过滤器链中。</p>
+<p>此外，我们向系统中提供了一个用于检索用户的 AuthenticationProvicer。</p>
+<p>还有，别忘记了，告诉系统，如果用户没有权限应该怎么办，http.formLogin()，告诉Spring Security要跳转到表单登录页面。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/spring-boot/">spring boot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/17/浅谈项目中用到的RabbitMQ/" title="浅谈项目中用到的RabbitMQ" itemprop="url">浅谈项目中用到的RabbitMQ</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-17T10:16:38.000Z" itemprop="datePublished"> Published 2019-02-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="项目中使用到的RabbitMQ的总结："><a href="#项目中使用到的RabbitMQ的总结：" class="headerlink" title="项目中使用到的RabbitMQ的总结："></a>项目中使用到的RabbitMQ的总结：</h3><p>rabbitMQ 本身基于erlang语言开发，erlang语言具有高并发的特性，其管理界面用起来也十分方便。单机吞吐量为万级，一般多用于中小型企业的消息中间件。</p>
+<h3 id="RabbitMQ结构图"><a href="#RabbitMQ结构图" class="headerlink" title="RabbitMQ结构图"></a>RabbitMQ结构图</h3><p><img src="https://img-blog.csdn.net/20171030200129162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvX2Nob3Nlbl8x/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="è¿éåå¾çæè¿°"></p>
+<h3 id="几个概念说明"><a href="#几个概念说明" class="headerlink" title="几个概念说明"></a>几个概念说明</h3><p>Broker: 消息交换机  指定消息按什么规则，路由到哪个队列</p>
+<p>Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。</p>
+<p>Queue: 消息队列载体，每个消息都会被投入到一个或多个队列</p>
+<p>Binding:绑定，它的作用就是将exchange 和queue进行绑定起来</p>
+<p>Routing Key: 路由关键字，exchange根据这个关键字进行消息传递</p>
+<p>vhost:虚拟主机，一个broker里可以开设多个vhost,用作不同用户的权限分离</p>
+<p>producer:消息的投递者</p>
+<p>consumer:消息的接收者</p>
+<p>channel:消息通道，在客户端的每个连接里，可建立多个channel,每个channel代表一个会话任务。</p>
+<p>消息队列的使用过程大概如下：</p>
+<p>1.客户端连接消息队列服务器，打开一个channel。</p>
+<p>2.客户端声明一个exchange, 并设置相关属性。</p>
+<p>3.客户端声明一个queue，并设置相关属性。</p>
+<p>4.客户端设置好route key，在exchange和queue之间建立好绑定关系。</p>
+<p>5.客户端投递消息到exchange.</p>
+<h3 id="RabbitMQ-简介"><a href="#RabbitMQ-简介" class="headerlink" title="RabbitMQ 简介"></a>RabbitMQ 简介</h3><p>RabbitMQ是一个消息代理：接受并转发消息，可以看成是一个邮局；</p>
+<p>生产者（Producer）:用于发送消息的程序</p>
+<p>消费者（Consumer）:等待接受消息的程序</p>
+<p>队列：队列只能存在内存或磁盘里，本质上是一个消息转化中心。</p>
+<p>RabbitMQ起源于金融系统，用于在分布式系统中存储转发消息，在易用性，扩展性，高可用性等方面表现不俗。</p>
+<p>需要安装erlang语言开发，erlang语言本身就具有高并发特性。</p>
+<h3 id="spring集成rabbitMQ"><a href="#spring集成rabbitMQ" class="headerlink" title="spring集成rabbitMQ"></a>spring集成rabbitMQ</h3><p>step1: 添加相应的jar包：spring-rabbit amqp-client</p>
+<p>step2:使用外部参数文件 <strong>application.properties</strong></p>
+<p>mq.host=127.0.0.1</p>
+<p>mq.username=queue</p>
+<p>mq.password=1234</p>
+<p>mq.port=8001</p>
+<p>step3:连接rabbitMQ服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 连接配置 --&gt;</span><br><span class="line">&lt;rabbit:connection-factory id=<span class="string">"connectionFactory"</span> host=<span class="string">"$&#123;mq.host&#125;"</span> username=<span class="string">"$&#123;mq.username&#125;"</span></span><br><span class="line">        password=<span class="string">"$&#123;mq.password&#125;"</span> port=<span class="string">"$&#123;mq.port&#125;"</span>  /&gt;</span><br><span class="line">        </span><br><span class="line">&lt;rabbit:admin connection-factory=<span class="string">"connectionFactory"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>step4:声明一个rabbitMQ Template</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:template id=<span class="string">"amqpTemplate"</span> exchange=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> connection-factory=<span class="string">"connectionFactory"</span>  /&gt;</span><br></pre></td></tr></table></figure>
+<p>step5:在application.xml中声明一个交换机</p>
+<p><strong><a href="rabbit:topic-exchange" target="_blank" rel="noopener">rabbit:topic-exchange</a> 标签的 name 属性就是在 RabbitMQ 服务器配置交换机的 name 值。</strong></p>
+<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 queue 属性是 6. <queue> 标签的 id 属性。</queue></strong></p>
+<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 pattern 属性是在 RabbitMQ 服务器配置交换机与队列绑定时的 Routing key 值（路由）。</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:topic-exchange name=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> durable=<span class="string">"true"</span> auto-delete=<span class="string">"false"</span>&gt;</span><br><span class="line">    &lt;rabbit:bindings&gt;</span><br><span class="line">        &lt;rabbit:binding queue=<span class="string">"test_queue"</span> pattern=<span class="string">"$&#123;mq.queue&#125;_patt"</span>/&gt;</span><br><span class="line">    &lt;/rabbit:bindings&gt;</span><br><span class="line">&lt;/rabbit:topic-exchange&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>durable：是否持久化</li>
+<li>exclusive：仅创建者可以使用的私有队列，断开后自动删除</li>
+<li>auto-delete：当所有消费端连接断开后，是否自动删除队列</li>
+</ul>
+<font color="red">交换机的四种模式：</font>
+
+<p>1.direct(直连交换机)：根据routekey 将消息投递给对应队列的； 转发消息到route key 指定的队列上</p>
+<p>2.topic（主题交换机）：对key进行模式匹配，比如ab<em> 可以传到所有的ab</em>的queue</p>
+<p>3.headers:（头交换机）：转发到headers中的键值对完全匹配的队列。性能比较差不建议使用。</p>
+<p>4.fanout:（扇形交换机）：转发消息到所有绑定队列，忽略routingkey</p>
+<p>交换价的属性：</p>
+<p>1.持久性：durable,如果启用，交换器将会在server重启前都有效。</p>
+<p>2.自动删除：如果启用，那么交换器将会在其绑定的队列都被删除掉之后自动删除掉自身。</p>
+<p>3.惰性：如果没有声明交换器，那么在执行到使用的时候会导致异常，并不会主动声明。</p>
+<p>一个交换机可以绑定多个队列，一个队列也可以绑定到多个交换机上。如果没有队列绑定到交换机上，则发送到该交换机上的消息会丢失。</p>
+<h3 id="MQTT是什么？"><a href="#MQTT是什么？" class="headerlink" title="MQTT是什么？"></a>MQTT是什么？</h3><p>第一次接触到mqtt协议是在做海底捞物流配送系统，当时使用到了rabbitmq 消息队列，发现开发同事配置中用到了mqtt协议，本来以为是用到了别的什么中间件，后来在看rabbitmq时无意间发现和mqtt有关联，就自己学习了下，内容如下：</p>
+<p><font color="red">什么是mqtt</font>:message queuing  telemetry transport portocol 的全称是消息队列遥感传输协议的缩写，是一种基于轻量级代理的发布/订阅模式的消息传输协议，运行在TCP协议栈上，为其提供有序，可靠，双向连接的网络连接保证。IBM开发的<font color="red">即时通讯协议</font>，成为物联网的重要组成成分。该协议支持所有的平台，几乎可以把所有物联网物品和外部连接起来，被用来当作传感器和制动器的通信协议。</p>
+<h3 id="MQTT的特点"><a href="#MQTT的特点" class="headerlink" title="MQTT的特点:"></a>MQTT的特点:</h3><p>mqtt协议是为大量计算能力有限，且工作在低带宽，不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：</p>
+<p>1.使用发布/订阅模式，提供一对多的消息发布，解除应用程序耦合。</p>
+<p>2.对负载内容屏蔽的消息传输。</p>
+<p>3.使用TCP/IP提供网络连接。</p>
+<p>4.有三种消息发布服务质量：</p>
+<p>至多一次</p>
+<p>至少一次</p>
+<p>只有一次</p>
+<p>5.小型传输，开销很小 协议交换最小化，以降低网络流量。</p>
+<h3 id="心跳时间：-keep-alive-timer"><a href="#心跳时间：-keep-alive-timer" class="headerlink" title="心跳时间： keep alive timer"></a>心跳时间： keep alive timer</h3><p>以秒为单位，定义服务器端从客户端接受消息的最大时间间隔。一般应用服务会在业务层次检测客户端网络是否连接，不是TCP/IP协议层面的心跳机制。</p>
+<h3 id="如何将消息正确送达？"><a href="#如何将消息正确送达？" class="headerlink" title="如何将消息正确送达？"></a>如何将消息正确送达？</h3><p>MQTT通过“主题”实现将消息从发布者客户端送达至接收者客户端。“主题”是附加在应用消息上的一个标签，发布者客户端将”主题“和消息发送至代理服务器，代理服务器将消息转发每一个订阅了该主题的订阅客户端。</p>
+<h3 id="RabbitMQ如何作为MQTT服务器使用？"><a href="#RabbitMQ如何作为MQTT服务器使用？" class="headerlink" title="RabbitMQ如何作为MQTT服务器使用？"></a>RabbitMQ如何作为MQTT服务器使用？</h3><p>rabbitmq中有实现mqtt插件，具体参考地址：</p>
+<p><a href="http://www.rabbitmq.com/mqtt.html" target="_blank" rel="noopener">http://www.rabbitmq.com/mqtt.html</a></p>
+<p>安装插件，只要启用rabbitmq的MQTT插件即可：rabbitmq-plugins enable rabbitmq-mqtt 启用后重启一下rabbitmq-server</p>
+<h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
+<p>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"></p>
+<p> RPC的一般需要经历4个步骤：</p>
+<p>1、建立通信</p>
+<p>首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信连接，主要是通过在客户端和服务器之间建立TCP连接。</p>
+<p>2、服务寻址</p>
+<p>要解决寻址的问题，A服务器上如何连接到B服务器（如主机或IP地址）以及特定的端口，方法的名称是什么。</p>
+<p>3、网络传输</p>
+<p>1）序列化</p>
+<p>当A服务器上的应用发起一个RPC调用时，调用方法和参数数据都需要先进行序列化。</p>
+<p>2）反序列化</p>
+<p>当B服务器接收到A服务器的请求之后，又需要对接收到的参数等信息进行反序列化操作。</p>
+<p>4、服务调用</p>
+<p>B服务器进行本地调用（通过代理Proxy）之后得到了返回值，此时还需要再把返回值发送回A服务器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A服务器。</p>
+<p>通常，一次完整的PRC调用需要经历如上4个步骤。</p>
+<p> <strong>MQ(消息队列)</strong></p>
+<p>消息队列（MQ）是一种能实现生产者到消费者单向通信的通信模型，一般来说是指实现这个模型的中间件。</p>
+<p>典型的MQ中间件:</p>
+<p>RabbitMQ、ActiveMQ、Kafka等</p>
+<p>典型的特点：</p>
+<p>1、解耦</p>
+<p>2、可靠投递</p>
+<p>3、广播</p>
+<p>4、最终一致性</p>
+<p>5、流量削峰</p>
+<p>6、消息投递保证</p>
+<p>7、异步通信（支持同步）</p>
+<p>8、提高系统吞吐、健壮性</p>
+<p>典型的使用场景：秒杀业务中利用MQ来实现流量削峰，以及应用解耦使用。</p>
+<p><strong>RPC和MQ的区别和关联</strong></p>
+<p>1.在架构上，RPC和MQ的差异点是，Message有一个中间结点Message Queue，可以把消息存储。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png" alt="img"></p>
+<p>2.同步调用：对于要立即等待返回处理结果的场景，RPC是首选。</p>
+<p>3.MQ 的使用，一方面是基于性能的考虑，比如服务端不能快速的响应客户端（或客户端也不要求实时响应），需要在队列里缓存。</p>
+<p>另外一方面，它更侧重数据的传输，因此方式更加多样化，除了点对点外，还有订阅发布等功能。</p>
+<p>4.而且随着业务增长，有的处理端处理量会成为瓶颈，会进行同步调用改造为异步调用，这个时候可以考虑使用MQ。</p>
+<p><font color="red">RPC关注业务逻辑处理结果</font>。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/消息队列/">消息队列</a><a href="/tags/RabbitMQ/">RabbitMQ</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/17/ELK日志分析平台/" title="ELK日志分析平台" itemprop="url">ELK日志分析平台</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-17T09:01:33.000Z" itemprop="datePublished"> Published 2019-02-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="为什么要用ELK？"><a href="#为什么要用ELK？" class="headerlink" title="为什么要用ELK？"></a>为什么要用ELK？</h3><p>常见的日志分析系统：直接在日志文件中grep,awk 就可以获取自己想要的信息。但在规模较大的场景中，次方法效率比较低。面临问题包括日志量太大如何归档，文本搜索太慢怎么办，如何多维度查询。需要集中化的日志管理，所有服务器上的日志收集汇总。解决思路是建立集中式日志收集系统，将所有节点上的日志统一收集管理，访问。</p>
+<p>一般大型系统是一个分布式部署的架构，不同服务模块部署在不同的服务器上，问题出现时，大部分情况需要根据问题暴露的关键信息，定位到具体的服务器和服务模块，构建一套集中式日志系统，可以提高定位问题的效率。</p>
+<p>一个完整的集中式日志系统。</p>
+<p>一个完整的集中式日志系统，需要包含以下几个主要特点：</p>
+<p>1.收集：采集多种来源的日志数据。</p>
+<p>2.传输：能够稳定的把日志数据传输到中央系统</p>
+<p>3.存储：如何存储日志数据。</p>
+<p>4.分析：可以支持UI分析</p>
+<p>5.警告：能够提供错误报告，监控机制。</p>
+<p>ELK提供了一整套解决方案，并且都市开源软件，之间互相配合使用，完美链接，高效的满足了很多场合的应用。目前主流的一种日志系统。</p>
+<h3 id="ELK简介？"><a href="#ELK简介？" class="headerlink" title="ELK简介？"></a>ELK简介？</h3><p>ELK是三个开源软件的缩写，分别表示：Elasticsearch,LogStash,Kibana 开源软件。 FileBeat 是一个轻量级的日志收集工具。</p>
+<p>elasticsearch：分布式的搜索引擎，提供搜索，分析，存储数据三大功能。它的特点是 分布式，零配置，自动发现，索引自动分片，restful风格接口，多数据源，自动搜索负载等。</p>
+<p>Logstash 主要是用来日志的搜集、分析、过滤日志的工具，支持大量的数据获取方式。一般工作方式为c/s架构，client端安装在需要收集日志的主机上，server端负责将收到的各节点日志进行过滤、修改等操作在一并发往elasticsearch上去。</p>
+<p>Kibana 也是一个开源和免费的工具，Kibana可以为 Logstash 和 ElasticSearch 提供的日志分析友好的 Web 界面，可以帮助汇总、分析和搜索重要数据日志。</p>
+<p>Filebeat隶属于Beats。目前Beats包含四种工具：</p>
+<ol>
+<li><ol>
+<li>Packetbeat（搜集网络流量数据）</li>
+<li>Topbeat（搜集系统、进程和文件系统级别的 CPU 和内存使用情况等数据）</li>
+<li>Filebeat（搜集文件数据）</li>
+<li>Winlogbeat（搜集 Windows 事件日志数据）</li>
+</ol>
+</li>
+</ol>
+<h3 id="官方文档："><a href="#官方文档：" class="headerlink" title="官方文档："></a>官方文档：</h3><p>Filebeat：</p>
+<p><a href="https://www.elastic.co/cn/products/beats/filebeat" target="_blank" rel="noopener">https://www.elastic.co/cn/products/beats/filebeat</a><br><a href="https://www.elastic.co/guide/en/beats/filebeat/5.6/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/beats/filebeat/5.6/index.html</a></p>
+<p>Logstash：<br><a href="https://www.elastic.co/cn/products/logstash" target="_blank" rel="noopener">https://www.elastic.co/cn/products/logstash</a><br><a href="https://www.elastic.co/guide/en/logstash/5.6/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/5.6/index.html</a></p>
+<p>Kibana:</p>
+<p><a href="https://www.elastic.co/cn/products/kibana" target="_blank" rel="noopener">https://www.elastic.co/cn/products/kibana</a></p>
+<p><a href="https://www.elastic.co/guide/en/kibana/5.5/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/kibana/5.5/index.html</a></p>
+<p>Elasticsearch：<br><a href="https://www.elastic.co/cn/products/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/products/elasticsearch</a><br><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.6/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/5.6/index.html</a></p>
+<p>elasticsearch中文社区：<br><a href="https://elasticsearch.cn/" target="_blank" rel="noopener">https://elasticsearch.cn/</a></p>
+<h3 id="ELK架构图："><a href="#ELK架构图：" class="headerlink" title="ELK架构图："></a>ELK架构图：</h3><p>架构图一：</p>
+<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507233846281-213246344.png" alt="img"></p>
+<p>这是最简单的一种ELK架构方式。优点是搭建简单，易于上手。缺点是Logstash耗资源较大，运行占用CPU和内存高。另外没有消息队列缓存，存在数据丢失隐患。</p>
+<p>此架构由Logstash分布于各个节点上搜集相关日志、数据，并经过分析、过滤后发送给远端服务器上的Elasticsearch进行存储。Elasticsearch将数据以分片的形式压缩存储并提供多种API供用户查询，操作。用户亦可以更直观的通过配置Kibana Web方便的对日志查询，并根据数据生成报表。</p>
+<p>架构图二：</p>
+<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507233859333-807727717.png" alt="img"></p>
+<p>此种架构引入了消息队列机制，位于各个节点上的Logstash Agent先将数据/日志传递给Kafka（或者Redis），并将队列中消息或数据间接传递给Logstash，Logstash过滤、分析后将数据传递给Elasticsearch存储。最后由Kibana将日志和数据呈现给用户。因为引入了Kafka（或者Redis）,所以即使远端Logstash server因故障停止运行，数据将会先被存储下来，从而避免数据丢失。</p>
+<p>架构图三：</p>
+<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507233909103-387637909.png" alt="img"></p>
+<p>此种架构将收集端logstash替换为beats，更灵活，消耗资源更少，扩展性更强。同时可配置Logstash 和Elasticsearch 集群用于支持大集群系统的运维日志数据监控和查询。</p>
+<h3 id="Filebeat工作原理："><a href="#Filebeat工作原理：" class="headerlink" title="Filebeat工作原理："></a>Filebeat工作原理：</h3><p>Filebeat由两个主要组件组成：prospectors 和 harvesters。这两个组件协同工作将文件变动发送到指定的输出中。</p>
+<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507234215200-1939816692.png" alt="img"></p>
+<p><strong>Harvester（收割机）：</strong>负责读取单个文件内容。每个文件会启动一个Harvester，每个Harvester会逐行读取各个文件，并将文件内容发送到制定输出中。Harvester负责打开和关闭文件，意味在Harvester运行的时候，文件描述符处于打开状态，如果文件在收集中被重命名或者被删除，Filebeat会继续读取此文件。所以在Harvester关闭之前，磁盘不会被释放。默认情况filebeat会保持文件打开的状态，直到达到<a href="https://www.elastic.co/guide/en/beats/filebeat/5.5/configuration-filebeat-options.html#close-inactive" target="_blank" rel="noopener"><code>close_inactive</code></a>（如果此选项开启，filebeat会在指定时间内将不再更新的文件句柄关闭，时间从harvester读取最后一行的时间开始计时。若文件句柄被关闭后，文件发生变化，则会启动一个新的harvester。关闭文件句柄的时间不取决于文件的修改时间，若此参数配置不当，则可能发生日志不实时的情况，由scan_frequency参数决定，默认10s。Harvester使用内部时间戳来记录文件最后被收集的时间。例如：设置5m，则在Harvester读取文件的最后一行之后，开始倒计时5分钟，若5分钟内文件无变化，则关闭文件句柄。默认5m）。</p>
+<p><strong>Prospector（勘测者）：</strong>负责管理Harvester并找到所有读取源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`filebeat.prospectors:``- input_type: log``  ``paths:``    ``- /apps/logs/*/info.log`</span><br></pre></td></tr></table></figure>
+<p>Prospector会找到/apps/logs/*目录下的所有info.log文件，并为每个文件启动一个Harvester。Prospector会检查每个文件，看Harvester是否已经启动，是否需要启动，或者文件是否可以忽略。若Harvester关闭，只有在文件大小发生变化的时候Prospector才会执行检查。只能检测本地的文件。</p>
+<p><strong>Filebeat如何记录文件状态：</strong></p>
+<p>将文件状态记录在文件中（默认在/var/lib/filebeat/registry）。此状态可以记住Harvester收集文件的偏移量。若连接不上输出设备，如ES等，filebeat会记录发送前的最后一行，并再可以连接的时候继续发送。Filebeat在运行的时候，Prospector状态会被记录在内存中。Filebeat重启的时候，利用registry记录的状态来进行重建，用来还原到重启之前的状态。每个Prospector会为每个找到的文件记录一个状态，对于每个文件，Filebeat存储唯一标识符以检测文件是否先前被收集。</p>
+<p><strong>Filebeat如何保证事件至少被输出一次：</strong></p>
+<p>Filebeat之所以能保证事件至少被传递到配置的输出一次，没有数据丢失，是因为filebeat将每个事件的传递状态保存在文件中。在未得到输出方确认时，filebeat会尝试一直发送，直到得到回应。若filebeat在传输过程中被关闭，则不会再关闭之前确认所有时事件。任何在filebeat关闭之前为确认的时间，都会在filebeat重启之后重新发送。这可确保至少发送一次，但有可能会重复。可通过设置<a href="https://www.elastic.co/guide/en/beats/filebeat/5.5/configuration-global-options.html#shutdown-timeout" target="_blank" rel="noopener"><code>shutdown_timeout</code></a> 参数来设置关闭之前的等待事件回应的时间（默认禁用）。</p>
+<h3 id="Logstash工作原理："><a href="#Logstash工作原理：" class="headerlink" title="Logstash工作原理："></a>Logstash工作原理：</h3><p>Logstash事件处理有三个阶段：inputs → filters → outputs。是一个接收，处理，转发日志的工具。支持系统日志，webserver日志，错误日志，应用日志，总之包括所有可以抛出来的日志类型。</p>
+<p><img src="https://images2017.cnblogs.com/blog/830693/201712/830693-20171214144021295-963037641.png" alt="img"></p>
+<p><strong>Input：输入数据到logstash。</strong></p>
+<p>一些常用的输入为：</p>
+<p>file：从文件系统的文件中读取，类似于tial -f命令</p>
+<p>syslog：在514端口上监听系统日志消息，并根据RFC3164标准进行解析</p>
+<p>redis：从redis service中读取</p>
+<p>beats：从filebeat中读取</p>
+<p><strong>Filters：数据中间处理，对数据进行操作。</strong></p>
+<p>一些常用的过滤器为：</p>
+<p>grok：解析任意文本数据，Grok 是 Logstash 最重要的插件。它的主要作用就是将文本格式的字符串，转换成为具体的结构化的数据，配合正则表达式使用。内置120多个解析语法。</p>
+<p>官方提供的grok表达式：<a href="https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns" target="_blank" rel="noopener">https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns</a><br>grok在线调试：<a href="https://grokdebug.herokuapp.com/" target="_blank" rel="noopener">https://grokdebug.herokuapp.com/</a></p>
+<p>mutate：对字段进行转换。例如对字段进行删除、替换、修改、重命名等。</p>
+<p>drop：丢弃一部分events不进行处理。</p>
+<p>clone：拷贝 event，这个过程中也可以添加或移除字段。</p>
+<p>geoip：添加地理信息(为前台kibana图形化展示使用)</p>
+<p><strong>Outputs：outputs是logstash处理管道的最末端组件。</strong>一个event可以在处理过程中经过多重输出，但是一旦所有的outputs都执行结束，这个event也就完成生命周期。</p>
+<p>一些常见的outputs为：</p>
+<p>elasticsearch：可以高效的保存数据，并且能够方便和简单的进行查询。</p>
+<p>file：将event数据保存到文件中。</p>
+<p>graphite：将event数据发送到图形化组件中，一个很流行的开源存储图形化展示的组件。</p>
+<p><strong>Codecs：codecs 是基于数据流的过滤器，它可以作为input，output的一部分配置</strong>。Codecs可以帮助你轻松的分割发送过来已经被序列化的数据。</p>
+<p>一些常见的codecs：</p>
+<p>json：使用json格式对数据进行编码/解码。</p>
+<p>multiline：将汇多个事件中数据汇总为一个单一的行。比如：java异常信息和堆栈信息。</p>
+<p>分类: <a href="https://www.cnblogs.com/aresxin/category/1130897.html" target="_blank" rel="noopener">ELK</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ELK/">ELK</a><a href="/tags/java/">java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -831,7 +1005,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>24</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>25</sup></a></li>
 			
 		
 			
@@ -863,7 +1037,7 @@
 			
 		
 			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
+				<li><a href="/tags/gc-垃圾回收机制/" title="gc 垃圾回收机制">gc 垃圾回收机制<sup>1</sup></a></li>
 			
 		
 			
@@ -875,11 +1049,11 @@
 			
 		
 			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
@@ -895,11 +1069,11 @@
 			
 		
 			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/gc-垃圾回收机制/" title="gc 垃圾回收机制">gc 垃圾回收机制<sup>1</sup></a></li>
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
