@@ -1,0 +1,613 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>SpringCloud之Fegin | MyNotes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="YUAN">
+    
+
+    
+    <meta name="description" content="1 什么是FeignFeign是一个声明式的web service客户端，她的出现使开发web service客户端变得非常简单。她具备可插拨的注解支持，包括Feign注解和JAX-RS注解。使用Feign的时候只需要创建一个interface再加上@FeignClient就可以。Feign支持编码器和解码器，Spring Cloud Open Feign对Feign进行了增强，使其支持了Spri">
+<meta name="keywords" content="java,微服务,Spring Cloud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud之Fegin">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/01/31/SpringCloud之Fegin/index.html">
+<meta property="og:site_name" content="MyNotes">
+<meta property="og:description" content="1 什么是FeignFeign是一个声明式的web service客户端，她的出现使开发web service客户端变得非常简单。她具备可插拨的注解支持，包括Feign注解和JAX-RS注解。使用Feign的时候只需要创建一个interface再加上@FeignClient就可以。Feign支持编码器和解码器，Spring Cloud Open Feign对Feign进行了增强，使其支持了Spri">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-03T13:22:34.373Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringCloud之Fegin">
+<meta name="twitter:description" content="1 什么是FeignFeign是一个声明式的web service客户端，她的出现使开发web service客户端变得非常简单。她具备可插拨的注解支持，包括Feign注解和JAX-RS注解。使用Feign的时候只需要创建一个interface再加上@FeignClient就可以。Feign支持编码器和解码器，Spring Cloud Open Feign对Feign进行了增强，使其支持了Spri">
+
+    
+    <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="MyNotes" title="MyNotes"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="MyNotes">MyNotes</a></h1>
+				<h2 class="blog-motto">温故而知新</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:yuanjinxiugithub.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/31/SpringCloud之Fegin/" title="SpringCloud之Fegin" itemprop="url">SpringCloud之Fegin</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-31T13:20:46.000Z" itemprop="datePublished"> Published 2019-01-31</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-什么是Feign"><span class="toc-number">1.</span> <span class="toc-text">1 什么是Feign</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-Feign开源地址"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 Feign开源地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-简单整合Feign"><span class="toc-number">2.</span> <span class="toc-text">2 简单整合Feign</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-引入feign的maven依赖"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 引入feign的maven依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-创建主程序并添加-EnableFeignClients注解"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 创建主程序并添加@EnableFeignClients注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-编写Feign接口"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 编写Feign接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-编写Controller"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 编写Controller</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Feign的工作原理"><span class="toc-number">3.</span> <span class="toc-text">3 Feign的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Feign的基础功能"><span class="toc-number">4.</span> <span class="toc-text">4 Feign的基础功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-FeignClient注解介绍"><span class="toc-number">4.1.</span> <span class="toc-text">4.2.1 @FeignClient注解介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-feign开启GZIP压缩"><span class="toc-number">4.2.</span> <span class="toc-text">4.2.2 feign开启GZIP压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-feign-client开启日志"><span class="toc-number">4.3.</span> <span class="toc-text">4.2.3 feign client开启日志</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-1-在application-yml中配置日志输出"><span class="toc-number">4.3.1.</span> <span class="toc-text">4.2.3.1 在application.yml中配置日志输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-2-通过Java代码进行配置"><span class="toc-number">4.3.2.</span> <span class="toc-text">4.2.3.2 通过Java代码进行配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-Feign超时配置"><span class="toc-number">4.4.</span> <span class="toc-text">4.2.4 Feign超时配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Feign文件上传"><span class="toc-number">5.</span> <span class="toc-text">5 Feign文件上传</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-编写文件上传客户端"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 编写文件上传客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-编写Feign文件上传服务端"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 编写Feign文件上传服务端</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="1-什么是Feign"><a href="#1-什么是Feign" class="headerlink" title="1 什么是Feign"></a>1 什么是Feign</h2><p>Feign是一个声明式的web service客户端，她的出现使开发web service客户端变得非常简单。她具备可插拨的注解支持，包括Feign注解和JAX-RS注解。使用Feign的时候只需要创建一个interface再加上@FeignClient就可以。Feign支持编码器和解码器，Spring Cloud Open Feign对Feign进行了增强，使其支持了Spring MVC注解，可以像Spring Web一样使用 <code>HttpMessageConverters</code> 等</p>
+<p>Feign是一种声明式、模板化的HTTP客户端，在Spring Cloud中使用Feign，可以做到使用HTTP请求访问远程控服务，就像调用本地方法一样，开发者完全感觉不到这是在调用远程方法，更加感觉不到这是在访问HTTP请求。以下列出了一些Feign的特性。</p>
+<ul>
+<li>可插播的注解支持，包括Feign注解和JAX-RS注解。</li>
+<li>支持可插拨的HTTP编码器和解码器</li>
+<li>支持Hystrix以及她的fallback机制</li>
+<li>支持ribbon的负载均衡</li>
+<li>支持Http请求和响应的压缩</li>
+</ul>
+<p>Feign是一个声明式的web service客户端，她出现的目的就是让web service调用变得更加简单。她整合了Ribbon和Hystrix，从而不需开发者再将两者进行整合。Feign还提供了HTTP请求的模板，通过编写简单的注解和接口就可以定义好HTTP请求的参数、格式、地址等信息。Feign会完全代理HTTP请求在使用中我们只需要注入相应的接口，传递好参数就行。</p>
+<h3 id="1-1-Feign开源地址"><a href="#1-1-Feign开源地址" class="headerlink" title="1.1 Feign开源地址"></a>1.1 Feign开源地址</h3><p>Spring Cloud Open Feign: <a href="https://github.com/spring-cloud/spring-cloud-openfeign" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-openfeign</a></p>
+<p>Open Feign: <a href="https://github.com/OpenFeign/feign" target="_blank" rel="noopener">https://github.com/OpenFeign/feign</a></p>
+<h2 id="2-简单整合Feign"><a href="#2-简单整合Feign" class="headerlink" title="2 简单整合Feign"></a>2 简单整合Feign</h2><h3 id="2-1-引入feign的maven依赖"><a href="#2-1-引入feign的maven依赖" class="headerlink" title="2.1 引入feign的maven依赖"></a>2.1 引入feign的maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-创建主程序并添加-EnableFeignClients注解"><a href="#2-2-创建主程序并添加-EnableFeignClients注解" class="headerlink" title="2.2 创建主程序并添加@EnableFeignClients注解"></a>2.2 创建主程序并添加<code>@EnableFeignClients</code>注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.openfeign.EnableFeignClients;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;pre&gt;</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Description: 应用程序入口 &lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> wusong</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2018-06-27 11:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      SpringApplication.run(FeignApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的<code>@EnableFeignClients</code>注解表示当前程序启动时，会进行包扫描，扫描所有标识了@FeignClient注解的类并进行处理。</p>
+<h3 id="2-3-编写Feign接口"><a href="#2-3-编写Feign接口" class="headerlink" title="2.3 编写Feign接口"></a>2.3 编写Feign接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(<span class="string">"stores"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StoreClient</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET, value = <span class="string">"/stores"</span>)</span><br><span class="line">    <span class="function">List&lt;Store&gt; <span class="title">getStores</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.POST, value = <span class="string">"/stores/&#123;storeId&#125;"</span>, consumes = <span class="string">"application/json"</span>)</span><br><span class="line">    <span class="function">Store <span class="title">update</span><span class="params">(@PathVariable(<span class="string">"storeId"</span>)</span> Long storeId, Store store)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>@FeignClient</code>注解中<code>stores</code>对应的值是eureka中任何一个客户端的名称。用于创建Ribbon的负载均衡器。你还可以使用<code>url</code>属性（只能是绝对值或仅主机名）指定URL 。应用程序上下文中bean的名称是接口的名称。要指定自己的别名值，可以使用注释<code>@FeignClient</code>的<code>qualifier</code>值。</p>
+<p>在上面代码中，Ribbon客户端负责去发现stores服务的物理地址，如果你在项目中使用了Eureka客户端，那么她将解析的是Eureka服务注册表中的服务，如果没有使用Eureka，则需要在配置文件中配置服务器列表 e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stores:</span><br><span class="line">  ribbon:</span><br><span class="line">    listOfServers: example.com,google.com</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-编写Controller"><a href="#2-4-编写Controller" class="headerlink" title="2.4 编写Controller"></a>2.4 编写Controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloFeignController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> StoreClient storeClient;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 服务消费者对位提供的服务</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(value = <span class="string">"/stores/&#123;storeId&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Store <span class="title">update</span><span class="params">(@PathVariable(value =<span class="string">"storeId"</span>)</span>String storeId) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> storeClient.update(storeId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上就完成了Feign整个调用的基本流程。</p>
+<h2 id="3-Feign的工作原理"><a href="#3-Feign的工作原理" class="headerlink" title="3 Feign的工作原理"></a>3 Feign的工作原理</h2><p>通过上面的整合，我们了解了Feign的基本使用。接着来介绍一下Feign的工作原理：</p>
+<ul>
+<li>在开发微服务时，我们会在主类中加入<code>@EnableFeignClients</code>注解开启对FeignClient的扫描加载处理，根据Feign Client的开发规范，定义接口并加@FeignClient注解</li>
+<li>当程序启动时，会进行包的扫描。扫描所有用<code>@FeignClient</code>注解进行修饰的类并将这些信息注入Spring IOC容器中，当定义Feign接口中的方法被调用时，通过JDK的代理方式，来生成具体的RequestTemplate。当生成代理时，Feign会为每个接口方法创建一个Request Template对象，该对象奉准过了HTTP请求的全部信息，例如请求参数，请求方法等。</li>
+<li>由RequestTemplate生成Request，然后把Request交给Client去处理，这里的client制的是JDK的URLConnection、apache的http client、或者OKhttp。最后client被封装到LoadBalanceClient类中，这个类结合Ribbon负载均衡发起服务之间的调用。</li>
+</ul>
+<h2 id="4-Feign的基础功能"><a href="#4-Feign的基础功能" class="headerlink" title="4 Feign的基础功能"></a>4 Feign的基础功能</h2><h3 id="4-2-1-FeignClient注解介绍"><a href="#4-2-1-FeignClient注解介绍" class="headerlink" title="4.2.1 @FeignClient注解介绍"></a>4.2.1 <code>@FeignClient</code>注解介绍</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright 2013-2016 the original author or authors.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment"> * you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment"> * You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *      http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment"> * distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment"> * See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment"> * limitations under the License.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> org.springframework.cloud.openfeign;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Documented;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.core.annotation.AliasFor;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Annotation for interfaces declaring that a REST client with that interface should be</span></span><br><span class="line"><span class="comment"> * created (e.g. for autowiring into another component). If ribbon is available it will be</span></span><br><span class="line"><span class="comment"> * used to load balance the backend requests, and the load balancer can be configured</span></span><br><span class="line"><span class="comment"> * using a &lt;code&gt;<span class="doctag">@RibbonClient</span>&lt;/code&gt; with the same name (i.e. value) as the feign client.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Spencer Gibb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Venil Noronha</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> FeignClient &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The name of the service with optional protocol prefix. Synonym for &#123;<span class="doctag">@link</span> #name()</span></span><br><span class="line"><span class="comment">	 * name&#125;. A name must be specified for all clients, whether or not a url is provided.</span></span><br><span class="line"><span class="comment">	 * Can be specified as property key, eg: $&#123;propertyKey&#125;.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@AliasFor</span>(<span class="string">"name"</span>)</span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The service id with optional protocol prefix. Synonym for &#123;<span class="doctag">@link</span> #value() value&#125;.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@deprecated</span> use &#123;<span class="doctag">@link</span> #name() name&#125; instead</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function">String <span class="title">serviceId</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The service id with optional protocol prefix. Synonym for &#123;<span class="doctag">@link</span> #value() value&#125;.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@AliasFor</span>(<span class="string">"value"</span>)</span><br><span class="line">	<span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Sets the &lt;code&gt;<span class="doctag">@Qualifier</span>&lt;/code&gt; value for the feign client.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">qualifier</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * An absolute URL or resolvable hostname (the protocol is optional).</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">url</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Whether 404s should be decoded instead of throwing FeignExceptions</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">decode404</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * A custom &lt;code&gt;<span class="doctag">@Configuration</span>&lt;/code&gt; for the feign client. Can contain override</span></span><br><span class="line"><span class="comment">	 * &lt;code&gt;<span class="doctag">@Bean</span>&lt;/code&gt; definition for the pieces that make up the client, for instance</span></span><br><span class="line"><span class="comment">	 * &#123;<span class="doctag">@link</span> feign.codec.Decoder&#125;, &#123;<span class="doctag">@link</span> feign.codec.Encoder&#125;, &#123;<span class="doctag">@link</span> feign.Contract&#125;.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@see</span> FeignClientsConfiguration for the defaults</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;?&gt;[] configuration() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Fallback class for the specified Feign client interface. The fallback class must</span></span><br><span class="line"><span class="comment">	 * implement the interface annotated by this annotation and be a valid spring bean.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;?&gt; fallback() <span class="keyword">default</span> <span class="keyword">void</span>.class;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Define a fallback factory for the specified Feign client interface. The fallback</span></span><br><span class="line"><span class="comment">	 * factory must produce instances of fallback classes that implement the interface</span></span><br><span class="line"><span class="comment">	 * annotated by &#123;<span class="doctag">@link</span> FeignClient&#125;. The fallback factory must be a valid spring</span></span><br><span class="line"><span class="comment">	 * bean.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@see</span> feign.hystrix.FallbackFactory for details.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;?&gt; fallbackFactory() <span class="keyword">default</span> <span class="keyword">void</span>.class;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Path prefix to be used by all method-level mappings. Can be used with or without</span></span><br><span class="line"><span class="comment">	 * &lt;code&gt;<span class="doctag">@RibbonClient</span>&lt;/code&gt;.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">path</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Whether to mark the feign proxy as a primary bean. Defaults to true.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">primary</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>value: 指定FeignClient的名称，如果使用了Ribbon，value属性会作为微服务的名称，用于服务发现</p>
+<p>qualifier: 使用客户端的别名</p>
+<p>url: url用于调试，可以手动指定@FeignClient的调用地址</p>
+<p>decode404: 当发生404错误的时候，如果该字段为true, 会调用decoder进行解码，否则抛出FeignException异常</p>
+<p>configuration：feign配置类，可以自定义Feign的Encoder、Decoder、LogLevel、Contract等</p>
+<p>fallback: 定义容错的处理类，当调用远程接口失败，或超时时，会调用对应接口的容错逻辑，fallback指定的类必须实现@FeignClient标记的接口</p>
+<p>fallbackFactory: 工厂类，用于生成fallback类示例，通过这个属性，我们可以实现每个接口通用的容错逻辑，减少重复的代码</p>
+<p>path: 定义当前FeignClient的统一前缀</p>
+<h3 id="4-2-2-feign开启GZIP压缩"><a href="#4-2-2-feign开启GZIP压缩" class="headerlink" title="4.2.2 feign开启GZIP压缩"></a>4.2.2 feign开启GZIP压缩</h3><p>spring cloud feign支持对请求和响应进行GZIP压缩，以提高通信效率。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">    compression:</span></span><br><span class="line"><span class="attr">        request:</span></span><br><span class="line"><span class="attr">            enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">            mime-types:</span> <span class="string">text/xml,application/xml,application/json</span> <span class="comment"># 配置压缩支持的MIME TYPE</span></span><br><span class="line"><span class="attr">            min-request-size:</span> <span class="number">2048</span>  <span class="comment"># 配置压缩数据大小的下限</span></span><br><span class="line"><span class="attr">        response:</span></span><br><span class="line"><span class="attr">            enabled:</span> <span class="literal">true</span> <span class="comment"># 配置响应GZIP压缩</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-2-3-feign-client开启日志"><a href="#4-2-3-feign-client开启日志" class="headerlink" title="4.2.3 feign client开启日志"></a>4.2.3 feign client开启日志</h3><p>Feign为每个FeignClient都提供了一个feign.Logger实例，可以在配置文件中开启日志，开启方式较为简单，分为两部</p>
+<h4 id="4-2-3-1-在application-yml中配置日志输出"><a href="#4-2-3-1-在application-yml中配置日志输出" class="headerlink" title="4.2.3.1 在application.yml中配置日志输出"></a>4.2.3.1 在application.yml中配置日志输出</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line"><span class="attr">     level:</span></span><br><span class="line">       <span class="string">cn.com.bmsmart.StoreClient:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-2-3-2-通过Java代码进行配置"><a href="#4-2-3-2-通过Java代码进行配置" class="headerlink" title="4.2.3.2 通过Java代码进行配置"></a>4.2.3.2 通过Java代码进行配置</h4><p>通过在主类中配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Bean</span></span><br><span class="line">Logger.<span class="function">Level <span class="title">feignLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Logger.Level.FULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过用<code>@Configuration</code>修饰的类去配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignServiceConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * Logger.Level 的具体级别如下：</span></span><br><span class="line"><span class="comment">     *    NONE：不记录任何信息</span></span><br><span class="line"><span class="comment">     *    BASIC：仅记录请求方法、URL以及响应状态码和执行时间</span></span><br><span class="line"><span class="comment">     *    HEADERS：除了记录 BASIC级别的信息外，还会记录请求和响应的头信息</span></span><br><span class="line"><span class="comment">     *    FULL：记录所有请求与响应的明细，包括头信息、请求体、元数据</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    Logger.<span class="function">Level <span class="title">feignLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Logger.Level.FULL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-4-Feign超时配置"><a href="#4-2-4-Feign超时配置" class="headerlink" title="4.2.4 Feign超时配置"></a>4.2.4 Feign超时配置</h3><ul>
+<li>Feign的调用分两层，即Ribbon的调用和Hystrix的调用，高版本的Hystrix默认是关闭的。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">feign.RetryableException: Read time out execution POST http:<span class="comment">//.....</span></span><br></pre></td></tr></table></figure>
+<p>出现上面报错信息，说明Ribbon处理超时这时设置ribbon的配置信息如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">ribbon.ReadTimeOut:</span> <span class="number">120000</span> <span class="comment"># 请求处理超时时间</span></span><br><span class="line"><span class="string">ribbon.ConnectionTimeout:</span> <span class="number">3000</span> <span class="comment"># 请求连接超时时间</span></span><br></pre></td></tr></table></figure>
+<p> 如果开启Hystrix， hystrix超时报错信息如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.netflix.hystrix.exception.HystrixRuntimeException: Demo#demo() timedout and no fallback available.</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">  hystrix:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">hystrix:</span></span><br><span class="line"><span class="attr">  shareSecurityContext:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  command:</span> </span><br><span class="line"><span class="attr">    default:</span> </span><br><span class="line"><span class="attr">      circuitBreaker:</span> </span><br><span class="line"><span class="attr">        sleepWindowInMilliseconds:</span> <span class="number">10000</span></span><br><span class="line"><span class="attr">        forceClosed:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">      execution:</span> </span><br><span class="line"><span class="attr">        isolation:</span> </span><br><span class="line"><span class="attr">          thread:</span> </span><br><span class="line"><span class="attr">            timeoutInMilliseconds:</span> <span class="number">600000</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-Feign文件上传"><a href="#5-Feign文件上传" class="headerlink" title="5 Feign文件上传"></a>5 Feign文件上传</h2><p>在我们开发中，文件上传是一个比较常见的功能，Feign早先是不支持文件上传的，后来虽然支持，但是仍然有缺陷。</p>
+<h3 id="5-1-编写文件上传客户端"><a href="#5-1-编写文件上传客户端" class="headerlink" title="5.1 编写文件上传客户端"></a>5.1 编写文件上传客户端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Description: 导入词汇&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userId   用户id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tradeId  行业id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> dicId    词典id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> fileName 文件名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> file     文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(value = <span class="string">"/importdic"</span>, consumes = MediaType.MULTIPART_FORM_DATA_VALUE,</span><br><span class="line">            produces = &#123;MediaType.APPLICATION_JSON_VALUE&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity&lt;JsonResult&gt; <span class="title">importDic</span><span class="params">(@RequestParam(value = <span class="string">"userId"</span>)</span> String userId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"tradeId"</span>)</span> String tradeId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"dicId"</span>)</span> String dicId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"fileName"</span>)</span> String fileName,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestPart</span><span class="params">(<span class="string">"file"</span>)</span> MultipartFile file</span></span><br><span class="line"><span class="function">    ) </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bytes = file.getBytes();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        HashMap&lt;String, Object&gt; importDic = dicDetailService.importDic(userId, tradeId, dicId, fileName, bytes);</span><br><span class="line">        <span class="keyword">return</span> ResponseMessageUtil.success(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getStatus(), importDic);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>注意点：</p>
+<ul>
+<li>区分<code>@RequestPart</code>和<code>@RequestParam</code>的区别，参考<a href="https://blog.csdn.net/wd2014610/article/details/79727061" target="_blank" rel="noopener">https://blog.csdn.net/wd2014610/article/details/79727061</a></li>
+<li>consumes和produces必填</li>
+</ul>
+<h3 id="5-2-编写Feign文件上传服务端"><a href="#5-2-编写Feign文件上传服务端" class="headerlink" title="5.2 编写Feign文件上传服务端"></a>5.2 编写Feign文件上传服务端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"smartke-txgl"</span>, configuration = DicDetailFeignClient.MultipartSupportConfig.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DicDetailFeignClient</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Description: 导入词汇&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userId   用户id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tradeId  行业id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> dicId    词典id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> fileName 文件名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> file     文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(value = DIC_DETAIL_FEIGN_CLIENT_PREFIX + <span class="string">"/importdic"</span>, consumes = MediaType.MULTIPART_FORM_DATA_VALUE,</span><br><span class="line">            produces = &#123;MediaType.APPLICATION_JSON_VALUE&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity&lt;JsonResult&gt; <span class="title">importDic</span><span class="params">(@RequestParam(value = <span class="string">"userId"</span>)</span> String userId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"tradeId"</span>)</span> String tradeId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"dicId"</span>)</span> String dicId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"fileName"</span>)</span> String fileName,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestPart</span><span class="params">(<span class="string">"file"</span>)</span> MultipartFile file</span></span><br><span class="line"><span class="function">    )</span>;</span><br><span class="line">    </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Description: 通过少量的配置, 让feign阔以支持MultipartFile &lt;/p&gt;</span></span><br><span class="line"><span class="comment">     * Created by wusong on 2018-08-23 14:15.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Configuration</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MultipartSupportConfig</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Inject</span></span><br><span class="line">        <span class="keyword">private</span> ObjectFactory&lt;HttpMessageConverters&gt; messageConverters;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Inject</span></span><br><span class="line">        <span class="keyword">private</span> HttpServletRequest request;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> RequestInterceptor <span class="title">overrideRequestHeader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (template) -&gt; &#123;</span><br><span class="line">                template.header(<span class="string">"User-Agent"</span>, request.getHeader(<span class="string">"User-Agent"</span>));</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Encoder <span class="title">feignFormEncoder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SpringFormEncoder(<span class="keyword">new</span> SpringEncoder(messageConverters));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上面<code>SpringFormEncoder</code>需要<code>feign-form-spring</code>以及<code>feign-form</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--feign--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.openfeign.form<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>feign-form-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.openfeign.form<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>feign-form<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/Spring-Cloud/">Spring Cloud</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/01/31/SpringCloud之Fegin/" data-title="SpringCloud之Fegin | MyNotes" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2019/02/15/java中的队内存和栈内存/" title="java中的堆内存和栈内存">
+  <strong>上一篇：</strong><br>
+  <span>
+  java中的堆内存和栈内存</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/01/28/SpringCloud之Eureka/" title="SpringCloud之Eureka">
+ <strong>下一篇：</strong><br> 
+ <span>SpringCloud之Eureka
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-什么是Feign"><span class="toc-number">1.</span> <span class="toc-text">1 什么是Feign</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-Feign开源地址"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 Feign开源地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-简单整合Feign"><span class="toc-number">2.</span> <span class="toc-text">2 简单整合Feign</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-引入feign的maven依赖"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 引入feign的maven依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-创建主程序并添加-EnableFeignClients注解"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 创建主程序并添加@EnableFeignClients注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-编写Feign接口"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 编写Feign接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-编写Controller"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 编写Controller</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Feign的工作原理"><span class="toc-number">3.</span> <span class="toc-text">3 Feign的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Feign的基础功能"><span class="toc-number">4.</span> <span class="toc-text">4 Feign的基础功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-FeignClient注解介绍"><span class="toc-number">4.1.</span> <span class="toc-text">4.2.1 @FeignClient注解介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-feign开启GZIP压缩"><span class="toc-number">4.2.</span> <span class="toc-text">4.2.2 feign开启GZIP压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-feign-client开启日志"><span class="toc-number">4.3.</span> <span class="toc-text">4.2.3 feign client开启日志</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-1-在application-yml中配置日志输出"><span class="toc-number">4.3.1.</span> <span class="toc-text">4.2.3.1 在application.yml中配置日志输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-2-通过Java代码进行配置"><span class="toc-number">4.3.2.</span> <span class="toc-text">4.2.3.2 通过Java代码进行配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-Feign超时配置"><span class="toc-number">4.4.</span> <span class="toc-text">4.2.4 Feign超时配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Feign文件上传"><span class="toc-number">5.</span> <span class="toc-text">5 Feign文件上传</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-编写文件上传客户端"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 编写文件上传客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-编写Feign文件上传服务端"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 编写Feign文件上传服务端</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="https://github.com/yuanjinxiugithub" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+</div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gc-垃圾回收机制/" title="gc 垃圾回收机制">gc 垃圾回收机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存存储机制/" title="内存存储机制">内存存储机制<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Yuan. <br>
+			This is my blog,it is justu  to improve my skill.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/1871022901" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/yuanjinxiugithub" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1871022901@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="YUAN">YUAN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

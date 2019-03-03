@@ -82,124 +82,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/28/mysql在windows下常用的命令/" title="mysql在windows下常用的命令" itemprop="url">mysql在windows下常用的命令</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-11-28T09:56:00.000Z" itemprop="datePublished"> Published 2018-11-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <ol>
-<li>登录数据库：首先cd到mysql安装目录下的bin目录，再输入命令：mysql -h localhost[服务器IP] -p 在输入密码</li>
-</ol>
-<p>mysql -h localhost -u root -p</p>
-<ol start="2">
-<li>显示所有的database:show databases;</li>
-<li>跳转到指定数据库： use [数据库名称]；</li>
-<li>显示当前数据库所有表：show tables ;</li>
-<li>显示指定表的字段信息：show columns from table_name where </li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/mysql/">mysql</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/10/15/dubbo-的使用和总结/" title="dubbo 的使用和总结" itemprop="url">dubbo 的使用和总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-10-15T06:58:54.000Z" itemprop="datePublished"> Published 2018-10-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/分布式服务框架/">分布式服务框架</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2018/10/10/String-StringBuilder-StringBuffer的区分/" title="String,StringBuilder,StringBuffer的区分" itemprop="url">String,StringBuilder,StringBuffer的区分</a>
   </h1>
   <p class="article-author">By
@@ -304,6 +186,344 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/06/03/Java单例模式/" title="Java单例模式" itemprop="url">Java单例模式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-06-03T11:17:23.000Z" itemprop="datePublished"> Published 2018-06-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="什么是单例模式"><a href="#什么是单例模式" class="headerlink" title="什么是单例模式"></a>什么是单例模式</h2><p>因程序需要，有时我们只需要某个类同时保留一个对象，不希望有更多对象，此时，我们则应考虑单例模式的设计。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>单例模式只能有一个实例。</li>
+<li>单例类必须创建自己的唯一实例。</li>
+<li>单例类必须向其他对象提供这一实例。</li>
+</ol>
+<h2 id="单例模式VS静态类"><a href="#单例模式VS静态类" class="headerlink" title="单例模式VS静态类"></a>单例模式VS静态类</h2><p>在知道了什么是单例模式后，我想你一定会想到静态类，“既然只使用一个对象，为何不干脆使用静态类？”，这里我会将单例模式和静态类进行一个比较。</p>
+<ol>
+<li>单例可以继承和被继承，方法可以被override，而静态方法不可以。</li>
+<li>静态方法中产生的对象会在执行后被释放，进而被GC清理，不会一直存在于内存中。</li>
+<li>静态类会在第一次运行时初始化，单例模式可以有其他的选择，即可以延迟加载。</li>
+<li>基于2， 3条，由于单例对象往往存在于DAO层（例如sessionFactory），如果反复的初始化和释放，则会占用很多资源，而使用单例模式将其常驻于内存可以更加节约资源。</li>
+<li>静态方法有更高的访问效率。</li>
+<li>单例模式很容易被测试。</li>
+</ol>
+<p>几个关于静态类的误解：</p>
+<ul>
+<li>误解一：静态方法常驻内存而实例方法不是。</li>
+</ul>
+<blockquote>
+<p>实际上，特殊编写的实例方法可以常驻内存，而静态方法需要不断初始化和释放。</p>
+</blockquote>
+<ul>
+<li>误解二：静态方法在堆(heap)上，实例方法在栈(stack)上。</li>
+</ul>
+<blockquote>
+<p>实际上，都是加载到特殊的不可写的代码内存区域中。</p>
+</blockquote>
+<p>静态类和单例模式情景的选择：</p>
+<p>情景一：不需要维持任何状态，仅仅用于全局访问，此时更适合使用静态类。</p>
+<p>情景二：需要维持一些特定的状态，此时更适合使用单例模式。</p>
+<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><h3 id="1-懒汉模式（线程不安全）"><a href="#1-懒汉模式（线程不安全）" class="headerlink" title="1. 懒汉模式（线程不安全）"></a>1. 懒汉模式（线程不安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance==null)&#123;</span><br><span class="line">            instance=new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上，通过提供一个静态的对象instance，利用private权限的构造方法和getInstance()方法来给予访问者一个单例。</p>
+<p>缺点是，没有考虑到线程安全，可能存在多个访问者同时访问，并同时构造了多个对象的问题。</p>
+<p>之所以叫做懒汉模式，主要是因为此种方法可以非常明显的lazy loading。</p>
+<p>针对懒汉模式线程不安全的问题，我们自然想到了，在getInstance()方法前加锁，于是就有了第二种实现。</p>
+<h3 id="2-懒汉模式二-（线程安全）"><a href="#2-懒汉模式二-（线程安全）" class="headerlink" title="2. 懒汉模式二 （线程安全）"></a>2. 懒汉模式二 （线程安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static synchronized SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            instance = new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然而并发其实是一种特殊情况，大多时候这个锁占用的额外资源都浪费了，这种打补丁方式写出来的结构效率很低。</p>
+<h3 id="3-饿汉模式"><a href="#3-饿汉模式" class="headerlink" title="3. 饿汉模式"></a>3. 饿汉模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接在运行这个类的时候进行一次loading，之后直接访问。显然，这种方法没有起到lazy loading的效果，考虑到前面提到的和静态类的对比，这种方法只比静态类多了一个内存常驻而已。</p>
+<h3 id="4-静态类内部加载"><a href="#4-静态类内部加载" class="headerlink" title="4. 静态类内部加载"></a>4. 静态类内部加载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    &#125;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用内部类的好处是，静态内部类不会在单例加载时就加载，而是在调用getInstance()方法时才进行加载，达到了类似懒汉模式的效果，而这种方法又是线程安全的。</p>
+<h3 id="5-枚举方法"><a href="#5-枚举方法" class="headerlink" title="5. 枚举方法"></a>5. 枚举方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">enum SingletonDemo&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    public void otherMethods()&#123;</span><br><span class="line">        System.out.println(&quot;Something&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Hello &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        SingletonDemo.INSTANCE.otherMethods();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>提倡的方式，在我看来简直是来自神的写法。解决了以下三个问题：</p>
+<ul>
+<li>(1)自由序列化。</li>
+<li>(2)保证只有一个实例。</li>
+<li>(3)线程安全。</li>
+</ul>
+<p>这种充满美感的代码真的已经终结了其他一切实现方法了。</p>
+<h3 id="6-双重校验锁法"><a href="#6-双重校验锁法" class="headerlink" title="6. 双重校验锁法"></a>6. 双重校验锁法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            synchronized (SingletonDemo.class)&#123;</span><br><span class="line">                if(instance == null)&#123;</span><br><span class="line">                    instance = new SingletonDemo();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我解释一下在并发时，双重校验锁法会有怎样的情景：</p>
+<p>STEP 1. 线程A访问getInstance()方法，因为单例还没有实例化，所以进入了锁定块。</p>
+<p>STEP 2. 线程B访问getInstance()方法，因为单例还没有实例化，得以访问接下来代码块，而接下来代码块已经被线程1锁定。</p>
+<p>STEP 3. 线程A进入下一判断，因为单例还没有实例化，所以进行单例实例化，成功实例化后退出代码块，解除锁定。</p>
+<p>STEP 4. 线程B进入接下来代码块，锁定线程，进入下一判断，因为已经实例化，退出代码块，解除锁定。</p>
+<p>STEP 5. 线程A初始化并获取到了单例实例并返回，线程B获取了在线程A中初始化的单例。</p>
+<p>理论上双重校验锁法是线程安全的，并且，这种方法实现了lazyloading。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/设计模式/">设计模式</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/28/java实现多线程的方法/" title="java实现多线程的方法" itemprop="url">java实现多线程的方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-05-28T12:14:32.000Z" itemprop="datePublished"> Published 2018-05-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么是线程？"><a href="#什么是线程？" class="headerlink" title="什么是线程？"></a>什么是线程？</h3><p> 是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。线程有就绪、阻塞和运行三种基本状态。</p>
+<h3 id="什么是进程？"><a href="#什么是进程？" class="headerlink" title="什么是进程？"></a>什么是进程？</h3><p>进程是计算机中的程序关于某个数据集合的一次活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。一个可以独立运行的程序单位。是线程的集合。</p>
+<h3 id="什么是多线程"><a href="#什么是多线程" class="headerlink" title="什么是多线程"></a>什么是多线程</h3><p>同一个进程中有多个线程在并发执行。进程的多个执行路径。</p>
+<h3 id="进程和线程之间的区别"><a href="#进程和线程之间的区别" class="headerlink" title="进程和线程之间的区别"></a>进程和线程之间的区别</h3><p>线程是进程的最小运行单位，进程是线程的集合。一个进程由一个或多个线程组成。</p>
+<h3 id="线程的五种状态？—生命周期"><a href="#线程的五种状态？—生命周期" class="headerlink" title="线程的五种状态？—生命周期"></a>线程的五种状态？—生命周期</h3><p>创建（new） 就绪(runnable) 运行(running) 阻塞(blocked) 死亡(dead)</p>
+<p><img src="https://img-blog.csdn.net/20180830182150273?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzNTkxOTAz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<h3 id="为什么要用多线程"><a href="#为什么要用多线程" class="headerlink" title="为什么要用多线程?"></a>为什么要用多线程?</h3><p>单进程会出现阻塞，这时整个进程就会挂掉，直到外部条件发生变化。</p>
+<p>1.异步调用: <font color="red">读写分离</font>，IO操作等。如果是单线程，那么程序就必须等待这些操作执行完成之后才能执行其他的操作。使用多线程，可以将耗时任务放在后台继续执行的同时，执行其他任务。</p>
+<p>2.可以提高程序效率。</p>
+<p>缺点：</p>
+<p>1.多线程消耗系统资源，因为线程需要开辟内存。多线程就需要更多的线程。</p>
+<p>2.需要考虑线程操作对程序的影响，如线程挂起，中止等。</p>
+<p>3.线程使用不当会发生很多问题。</p>
+<p>多线程是异步的，但不代表多线程真的是几个线程是在同时进行，实际上是系统不断地在各个线程之间切换(由于切换速度很快，所以给我们在同时运行的错觉）</p>
+<h3 id="实现多线程的方式"><a href="#实现多线程的方式" class="headerlink" title="实现多线程的方式"></a>实现多线程的方式</h3><p>1.继承Thread()类，重写run()方法</p>
+<p>Thread()类本质上是实现了Runnable接口的一个实例，代表一个线程实例。启动线程的唯一方法就是通过Thread()类的start()方法。start是一个native方法，它将启动一个线程，并执行run()方法。这种实现多线程很简单，通过自己的类extends Thread,并复写run()方法，就可以启动并执行自己定义的run()方法。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"MyThread.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">MyThread myThread1 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">MyThread myThread2 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">myThread1.start();  </span><br><span class="line">myThread2.start();</span><br></pre></td></tr></table></figure>
+<p>start()方法本质是将线程进入就绪状态，等待cpu执行run()方法，如果直接调用thread.run方法，那么就和普通的方法没有区别，不是异步操作。</p>
+<p>2.实现Runnable接口创建线程</p>
+<p>如果自己的类已经继承其他的类，就可以实现Runnable接口，java不支持多继承。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunable</span> <span class="keyword">extends</span> <span class="title">Runnable</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"Runnable.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//启动实现runnable接口创建的线程对象</span></span><br><span class="line">Thread myThread1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunable()); </span><br><span class="line">myThread1.start();</span><br></pre></td></tr></table></figure>
+<p>Runable 避免了java单继承的局限性；更加符合面向对象，线程分为两部分，一部分线程对象，一部分线程任务。</p>
+<p>Runable只是<font color="red">任务，只是定义了线程要执行的任务</font>，Thread才是真正的线程创建者，也就是说线程和任务是分开的，任务放在放在线程里面才会被执行。run()方法是线程的运行者，main只有调用了run()方法才能执行任务。</p>
+<p>strat()方法是创建线程。</p>
+<font color="red">总结：1.start()是线程的启动者；2.run()是线程运行的执行者。</font>
+
+<font color="red">总结：1.实现Runnable接口的实例是线程任务的定义者；2.继承Thread类的实例是线程的创建者</font>
+
+<h3 id="线程的创建，停止，常用方法介绍："><a href="#线程的创建，停止，常用方法介绍：" class="headerlink" title="线程的创建，停止，常用方法介绍："></a>线程的创建，停止，常用方法介绍：</h3><p>停止的3种方法：</p>
+<p>1.线程正常停止，即run()方法运行结束正常停止。</p>
+<p>2.interrupt()方法终止线程。</p>
+<p>3.stop()方法暴力终止。</p>
+<p>　interrupt方法中断线程介绍：</p>
+<p>　　　　interrupt方法其实并不是直接中断线程，只是给线程添加一个中断标志。</p>
+<p>　　判断线程是否是停止状态：</p>
+<p>　　　　this.interrupted(); 判断当前线程是否已经中断。（判断的是这个方法所在的代码对应的线程，而不是调用对象对应的线程）</p>
+<p>　　　　this.isInterrupted(); 判断线程是否已经中断。（谁调用，判断谁）</p>
+<h3 id="什么是线程安全"><a href="#什么是线程安全" class="headerlink" title="什么是线程安全"></a>什么是线程安全</h3><p>当多个线程访问某个类时，这个类始终都能表现出正确的行为，那么就称这个类是线程安全的。</p>
+<h3 id="守护线程："><a href="#守护线程：" class="headerlink" title="守护线程："></a>守护线程：</h3><p>java线程分为两种：</p>
+<p>1.用户线程，运行在前台，执行具体的任务</p>
+<p>2.守护线程，运行在后台，为前台线程服务（GC）</p>
+<p>特点：一旦所有的用户线程都结束运行，守护线程会随着JVM一起结束工作。垃圾回收线程就是一个常见的守护线程。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/多线程/">多线程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/26/gc垃圾回收机制/" title="gc垃圾回收机制" itemprop="url">gc垃圾回收机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-05-26T12:22:08.000Z" itemprop="datePublished"> Published 2018-05-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>GC garbage collection 垃圾收集，垃圾回收机制。</p>
+<p>java中的GC回收完全是自动的，没有提供相应的api手动回收，所有的内存分配和回收权限都在jvm，不再开发人员手里。</p>
+<p>没有绝对的垃圾回收的方法，不过可以这样去做：</p>
+<p>1.对于不再引用的对象，及时把它的引用赋为null. obj = null</p>
+<p>2.如果内存确实很紧张，调用System.gc()方法来建议垃圾回收器开始回收垃圾。通知GC运行，但是java规范并不一定保证GC一定执行。</p>
+<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>线程分为守护线程和非守护线程（即用户线程）</p>
+<p>只要当前jvm实例中尚存在任何一个    非守护线程没有结束，守护线程就全部工程。只有当最后一个非收获线程结束时，守护线程随着JVM一同结束工作。守护线程最典型的就是GC(垃圾回收器)</p>
+<h3 id="native-关键字"><a href="#native-关键字" class="headerlink" title="native 关键字"></a>native 关键字</h3><p>native是用做java和其他语言进行（如C++）进行协作时用的，也就是native后的函数的实现不是用java写的。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/gc-垃圾回收机制/">gc 垃圾回收机制</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/19/java-获取字节码以及判断类型/" title="java 获取字节码以及判断类型" itemprop="url">java 获取字节码以及判断类型</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-05-19T03:33:17.000Z" itemprop="datePublished"> Published 2018-05-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>一、获取类的字节码的三种方法:
+　　</p>
+<p>　　1.使用Class.class</p>
+<p>　　 1 Class&lt;?&gt; c1=String.class; </p>
+<p>　　2.使用实例.getClass()</p>
+<p>　　 1 String s=new String(“1”); 2 Class&lt;?&gt; c2=s.getClass(); </p>
+<p>　　3.使用Class.forName(“类全名”);</p>
+<p>　　 1 Class&lt;?&gt; c3 = Class.forName(“java.lang.String”);</p>
+<p>二、判断字节码是不是基本类型 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`//判断是不是基本类型``System.out.println(c1.isPrimitive());``//false`</span><br></pre></td></tr></table></figure>
+<p> 三、判断是不是数组：</p>
+<p> 1 //判断是不是数组 2 System.out.println(String[].class.isArray());//true </p>
+<p>四、判断基本类型的详细类型</p>
+<p> 1 // 判断是不是int 基本类型 2 System.out.println(int.class==Integer.TYPE); </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/字节码/">字节码</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/03/01/剑指offer-record/" title="剑指offer-record" itemprop="url">剑指offer-record</a>
   </h1>
   <p class="article-author">By
@@ -356,6 +576,179 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/02/28/mysql在windows下常用的命令/" title="mysql在windows下常用的命令" itemprop="url">mysql在windows下常用的命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-02-28T09:56:00.000Z" itemprop="datePublished"> Published 2018-02-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <ol>
+<li>登录数据库：首先cd到mysql安装目录下的bin目录，再输入命令：mysql -h localhost[服务器IP] -p 在输入密码</li>
+</ol>
+<p>mysql -h localhost -u root -p</p>
+<ol start="2">
+<li>显示所有的database:show databases;</li>
+<li>跳转到指定数据库： use [数据库名称]；</li>
+<li>显示当前数据库所有表：show tables ;</li>
+<li>显示指定表的字段信息：show columns from table_name where </li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/mysql/">mysql</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/02/18/“linux环境中常用的命令/" title="linux环境中常用的命令" itemprop="url">linux环境中常用的命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-02-18T02:38:27.000Z" itemprop="datePublished"> Published 2018-02-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="java-开发常用的linux命令"><a href="#java-开发常用的linux命令" class="headerlink" title="java 开发常用的linux命令"></a>java 开发常用的linux命令</h3><p>1.查找文件 find / -name filename.txt</p>
+<p>2.find . -name “*.xml” 递归查找所有的xml文件</p>
+<p>3.ls -l | grep “.jar” 查看当前目录中的所有jar文件</p>
+<p>4.</p>
+<p>5.查看一个程序是否运行：</p>
+<p>ps -ef | grep tomcat 查看所有有关tomcat的进程</p>
+<p>6.kill -9 进程号 终止进程号位</p>
+<p>7.查看文件 包含隐藏文件</p>
+<p>ls -al</p>
+<p>8.当前工作目录</p>
+<p>pwd</p>
+<p>9.创建目录</p>
+<p>mkdir newfolder</p>
+<p>10.删除目录</p>
+<p>rmdir deleteEmptyFolder 删除空目录</p>
+<p>rm -rf deleteFile 递归删除目录中所有的内容</p>
+<ol start="11">
+<li><p>查看目录文件</p>
+<p>ll 显示当前目录下文件详细信息</p>
+<p>ls -a 显示当前目录下所有文件</p>
+</li>
+<li><p>查看进程</p>
+<p>ps -a 显示所有进程</p>
+<p>ps -u 有效用户的相关进程</p>
+<p>ps -x 列出较完整的信息</p>
+<p>ps  aux 查询系统所有进程数据</p>
+<p>ps -ef | grep java 表示查看所有进程里cmd是java的进程信息</p>
+</li>
+</ol>
+<pre><code>13 . 查看端口信息
+
+netstat -tunlp | grep 端口号 查看指定的端口号的进程情况
+
+
+
+14 内存信息
+
+free  -m 单位为Mb查看内存信息  
+
+top  linux系统下的任务管理器
+
+/ 任务管理器含义
+PID 进程ID
+USER    进程所有者
+PR  优先级
+NI  nice值，负值表示高优先级，正值表示低优先级
+VIRT    进程使用的虚拟内存总量
+RES 进程使用的、未被换出的物理内存大小
+SHR 共享内存大小
+S   进程状态
+%CPU    上次更新到现在的CPU时间占用百分比
+%MEM    进程使用的物理内存百分比
+TIME+   进程使用CPU总时间
+
+--------------------- 
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/linux/">linux</a><a href="/tags/java-运行环境/">java 运行环境</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
@@ -385,7 +778,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>19</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>24</sup></a></li>
 			
 		
 			
@@ -393,7 +786,15 @@
 			
 		
 			
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
@@ -401,19 +802,19 @@
 			
 		
 			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
 			
 		
 			
@@ -421,11 +822,15 @@
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
 			
 		
 			
@@ -437,7 +842,7 @@
 			
 		
 			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
@@ -445,23 +850,11 @@
 			
 		
 			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/内存存储机制/" title="内存存储机制">内存存储机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jvm/" title="jvm">jvm<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
 			
 		
 		</ul>

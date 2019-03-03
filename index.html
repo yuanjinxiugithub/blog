@@ -82,249 +82,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/12/19/MYSQL-数据库常见锁机制以及存储类型/" title="MYSQL 数据库 相关知识点" itemprop="url">MYSQL 数据库 相关知识点</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-12-19T03:33:20.000Z" itemprop="datePublished"> Published 2019-12-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Mysql的数据类型"><a href="#Mysql的数据类型" class="headerlink" title="Mysql的数据类型"></a>Mysql的数据类型</h3><p>Mysql中定义的数据类型对数据库的优化是非常重要的。</p>
-<p>mysql支持多种类型，大致可以分为三类：数值，日期/时间和字符串（字符）类型</p>
-<p>1.数值类型</p>
-<p> mysql支持所有的sql数值数据类型。这些数据包括<font color="red">严格数值数据类型</font>（INTEGER,SMALLINT,DECIMAL,NUMERIC）,以及<font color="red">近似数据类型</font>（FLOAT,REAL和DOUBLE）</p>
-<p><img src="https://images2015.cnblogs.com/blog/1101622/201706/1101622-20170622142338116-336967700.png" alt="img"></p>
-<p>2.日期/时间类型</p>
-<p>表示时间值得日期和时间类型为DATETIME,DATE,TIMESTAMP,TIME和YEAR。</p>
-<p>每一个时间类型有一个有效值范值。</p>
-<p>3.字符类型</p>
-<p>CHAR—-定长字符串</p>
-<p> VARCHAR—-变长字符串</p>
-<p> BINARY–</p>
-<font color="red">注意：</font>
-
-<p>1.Mysql一个汉字占多少长度和编码有关：</p>
-<p>UTF-8:一个汉字=3个字节</p>
-<p>GBK： 一个汉字=2个字节</p>
-<p>2.varchar(n)表示n个字符，无论汉字和英文，mysql都能存n个字符，仅是实际字节长度有所区别。</p>
-<p>3.mysql检查长度，length()函数来实现。</p>
-<p>总结：</p>
-<p><strong>1、整型</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义（有符号）</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>tinyint(m)</td>
-<td>1个字节  范围(-128~127)</td>
-</tr>
-<tr>
-<td>smallint(m)</td>
-<td>2个字节  范围(-32768~32767)</td>
-</tr>
-<tr>
-<td>mediumint(m)</td>
-<td>3个字节  范围(-8388608~8388607)</td>
-</tr>
-<tr>
-<td>int(m)</td>
-<td>4个字节  范围(-2147483648~2147483647)</td>
-</tr>
-<tr>
-<td>bigint(m)</td>
-<td>8个字节  范围(+-9.22*10的18次方)</td>
-</tr>
-</tbody>
-</table>
-<p>取值范围如果加了 unsigned，则最大值翻倍，如 tinyint unsigned 的取值范围为(0~255)。</p>
-<p><strong>2、浮点型(float 和 double)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float(m,d)</td>
-<td>单精度浮点型    8位精度(4字节)     m总个数，d小数位</td>
-</tr>
-<tr>
-<td>double(m,d)</td>
-<td>双精度浮点型    16位精度(8字节)    m总个数，d小数位</td>
-</tr>
-</tbody>
-</table>
-<p>设一个字段定义为 float(5,3)，如果插入一个数 123.45678,实际数据库里存的是 123.457，但总个数还以实际为准，即 6 位。</p>
-<p><strong>3、定点数</strong></p>
-<p>浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值。</p>
-<p>decimal(m,d) 参数 m&lt;65 是总个数，d&lt;30 且 d&lt;m 是小数位。</p>
-<p><strong>4、字符串(char,varchar,_text)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>char(n)</td>
-<td>固定长度，最多255个字符</td>
-</tr>
-<tr>
-<td>varchar(n)</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>tinytext</td>
-<td>可变长度，最多255个字符</td>
-</tr>
-<tr>
-<td>text</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>mediumtext</td>
-<td>可变长度，最多2的24次方-1个字符</td>
-</tr>
-<tr>
-<td>longtext</td>
-<td>可变长度，最多2的32次方-1个字符</td>
-</tr>
-</tbody>
-</table>
-<p>char 和 varchar：</p>
-<ul>
-<li>1.char(n) 若存入字符数小于n，则以空格补于其后，查询之时再将空格去掉。所以 char 类型存储的字符串末尾不能有空格，varchar 不限于此。</li>
-<li>2.char(n) 固定长度，char(4) 不管是存入几个字符，都将占用 4 个字节，varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或2个字节(n&gt;255)，所以 varchar(4),存入 3 个字符将占用 4 个字节。</li>
-<li>3.char 类型的字符串检索速度要比 varchar 类型的快。</li>
-</ul>
-<p>varchar 和 text：</p>
-<ul>
-<li>1.varchar 可指定 n，text 不能指定，内部存储 varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节(n&gt;255)，text 是实际字符数 +2 个字节。</li>
-<li>2.text 类型不能有默认值。</li>
-<li>3.varchar 可直接创建索引，text 创建索引要指定前多少个字符。varchar 查询速度快于 text, 在都创建索引的情况下，text 的索引似乎不起作用。</li>
-</ul>
-<h3 id="mysql的存储过程"><a href="#mysql的存储过程" class="headerlink" title="mysql的存储过程"></a>mysql的存储过程</h3><h5 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h5><h5 id="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"><a href="#什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。" class="headerlink" title="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"></a>什么是存储过程：一组<font color="red">sql语句集</font>，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。</h5><p>mysql 5.0以前并不支持存储过程，在5.0以后支持存储过程，可以大大提高数据库的处理过程，同时可以提高</p>
-<p>是主动调用的，功能比触发器更加强大。</p>
-<h5 id="存储过程的优点："><a href="#存储过程的优点：" class="headerlink" title="存储过程的优点："></a>存储过程的优点：</h5><p>1.增强SQL语言的功能和灵活性。</p>
-<p>2.标准组件式编程。</p>
-<p>3.较快的执行速度。</p>
-<h5 id="存储过程的创建："><a href="#存储过程的创建：" class="headerlink" title="存储过程的创建："></a>存储过程的创建：</h5><h5 id="存储过程的三个参数：IN-OUT-INOUT"><a href="#存储过程的三个参数：IN-OUT-INOUT" class="headerlink" title="存储过程的三个参数：IN OUT INOUT"></a>存储过程的三个参数：IN OUT INOUT</h5><p>存储过程根据需要会有输入，输出，输入输出参数，如果有多个参数用， 分割开。存储过程的参数用在存储过程的定义。</p>
-<p><strong>IN</strong>参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值</p>
-<p><strong>OUT**</strong>:**该值可在存储过程内部被改变，并可返回</p>
-<p><strong>INOUT**</strong>:**调用时指定，并且可被改变和返回</p>
-<h5 id="存储过程使用的案例：（只保留近三天的数据）"><a href="#存储过程使用的案例：（只保留近三天的数据）" class="headerlink" title="存储过程使用的案例：（只保留近三天的数据）"></a>存储过程使用的案例：（只保留近三天的数据）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	#Routine body goes here...</span><br><span class="line">	DECLARE s int DEFAULT 0;</span><br><span class="line">  DECLARE tableName VARCHAR(32);</span><br><span class="line">	DECLARE c_tableNames CURSOR FOR select table_name from information_schema.tables where table_schema=&apos;ikms_exec&apos; and table_name NOT LIKE &apos;base%&apos; AND table_name  LIKE &apos;%_his&apos;;</span><br><span class="line">	DECLARE CONTINUE HANDLER FOR SQLSTATE &apos;02000&apos; SET s=1;</span><br><span class="line">	set @timenow=DATE_ADD(NOW(),INTERVAL -3 DAY);</span><br><span class="line">	OPEN c_tableNames;</span><br><span class="line">		while s &lt;&gt; 1 DO</span><br><span class="line">	 		FETCH c_tableNames into tableName;</span><br><span class="line">			SET @v_sql=CONCAT(&quot;DELETE FROM &quot;,tableName,&quot; WHERE create_time&lt;&apos;&quot;,@timenow,&quot;&apos;&quot;);</span><br><span class="line">			prepare stmt from @v_sql;</span><br><span class="line">			EXECUTE stmt;</span><br><span class="line">      deallocate prepare stmt;</span><br><span class="line">	 	end while;</span><br><span class="line">	CLOSE c_tableNames;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-<p>如何执行存储过程：CALL procedure_name()</p>
-<h5 id="mysql存储过程的查询："><a href="#mysql存储过程的查询：" class="headerlink" title="mysql存储过程的查询："></a>mysql存储过程的查询：</h5><p>select name from mysql.proc where db = “数据库名”</p>
-<p>修改 Alert</p>
-<p>删除 DROP </p>
-<h3 id="MYSQL-创建视图"><a href="#MYSQL-创建视图" class="headerlink" title="MYSQL 创建视图"></a>MYSQL 创建视图</h3><h5 id="什么是视图："><a href="#什么是视图：" class="headerlink" title="什么是视图："></a>什么是视图：</h5><p>select　语句返回的结果。</p>
-<h5 id="视图的特性："><a href="#视图的特性：" class="headerlink" title="视图的特性："></a>视图的特性：</h5><p>视图是若张基本表的引用，一张虚拟表；查询语句执行的结果，不存储具体的数据，只能做查询，基本的表数据发生了变化，视图就跟着发生变化。</p>
-<h5 id="视图的作用："><a href="#视图的作用：" class="headerlink" title="视图的作用："></a>视图的作用：</h5><p>方便操作，特别是查询操作，减少负责的ＳＱＬ语句，增强可读性；</p>
-<h5 id="视图的优点："><a href="#视图的优点：" class="headerlink" title="视图的优点："></a>视图的优点：</h5><p>1.使用视图可以执行用户数据，聚集特定数据。</p>
-<p>2.使用视图，可以简化数据操作。</p>
-<p>3.使用视图，基表的数据就有一定的安全性，因为视图是虚拟的，物理上是不存在的，只是存储</p>
-<p>4.可以合并分离的数据，创建分区视图。</p>
-<h5 id="视图的缺点："><a href="#视图的缺点：" class="headerlink" title="视图的缺点："></a>视图的缺点：</h5><p>1性能差：需要将对视图查询转化成对基表的查询，需要花费一点的时间。</p>
-<p>2.修改权限：如果需要修改视图的某些信息后，数据库必须把它转化成对基本表的某些信息的修改。</p>
-<h5 id="使用场合"><a href="#使用场合" class="headerlink" title="使用场合"></a>使用场合</h5><p>多表复杂查询的时候，返回用户特性信息时。</p>
-<h3 id="MYSQL索引"><a href="#MYSQL索引" class="headerlink" title="MYSQL索引"></a>MYSQL索引</h3><p>mysql目前支持的索引有：普通索引，唯一索引，主键索引，组合索引，全文唯一</p>
-<h5 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h5><p>最基本的索引，没有任何限制 INDEX</p>
-<h5 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h5><p>唯一索引的值必须是唯一的，但是允许有空值。如果是组合索引的话，则列值的组合必须是唯一，它有以下几种创建方式。 UNION INDEX</p>
-<h5 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h5><p>主键索引是特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般在创建表的时候创建主键索引。</p>
-<h5 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h5><p>指多个字段上创建的索引，只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。遵循最左原则。</p>
-<h5 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h5><p>主要用来查找文本的关键字，而不是直接与索引中的值相比较。 FULLTEXT</p>
-<p>FULLTEXT索引跟其它索引大不相同，它更像是一个搜索引擎，而不是简单的where语句的参数匹配。FULLTEXT索引配合match against操作使用，而不是一般的where语句加like.目前只支持 char，varchar，text列上可以创建全文索引</p>
-<h5 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h5><p>1.虽然索引提高了查询速度，同时会降低更新表的速度。 因为更新表时，不仅要保存数据，还要保存一下索引文件。</p>
-<p>2.建立索引会占用磁盘空间的索引文件。一般情况这个问题不太严重，但如果你在一个大表上创建了多种组合索引，索引文件的会增长很快。</p>
-<h3 id="MYSQL优化"><a href="#MYSQL优化" class="headerlink" title="MYSQL优化"></a>MYSQL优化</h3><h5 id="1-sql语句优化："><a href="#1-sql语句优化：" class="headerlink" title="1.sql语句优化："></a>1.sql语句优化：</h5><p>（1）使用limit对查询结果的记录进行限定<br>（2）避免select *，将需要查找的字段列出来<br>（3）使用连接（join）来代替子查询<br>（4）拆分大的delete或insert语句</p>
-<h5 id="2-选择合适的数据类型"><a href="#2-选择合适的数据类型" class="headerlink" title="2.选择合适的数据类型"></a>2.选择合适的数据类型</h5><p>1）使用可存下数据的最小的数据类型，整型 &lt; date,time &lt; char,varchar &lt; blob<br>（2）使用简单的数据类型，整型比字符处理开销更小，因为字符串的比较更复杂。如，int类型存储时间类型，bigint类型转ip函数<br>（3）使用合理的字段属性长度，固定长度的表会更快。使用enum、char而不是varchar<br>（4）尽可能使用not null定义字段<br>（5）尽量少用text，非用不可最好分表</p>
-<h5 id="3-选择合适的索引列"><a href="#3-选择合适的索引列" class="headerlink" title="3.选择合适的索引列"></a>3.选择合适的索引列</h5><p>（1）查询频繁的列，在where，group by，order by，on从句中出现的列<br>（2）where条件中&lt;，&lt;=，=，&gt;，&gt;=，between，in，以及like 字符串+通配符（%）出现的列<br>（3）长度小的列，索引字段越小越好，因为数据库的存储单位是页，一页中能存下的数据越多越好<br>（4）离散度大（不同的值多）的列，放在联合索引前面。查看离散度，通过统计不同的列值来实现，count越大，离散程度越高：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h5 id="4-用命令分析"><a href="#4-用命令分析" class="headerlink" title="4.用命令分析"></a>4.用命令分析</h5><p>（1）SHOW查看状态<br>1.显示状态信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW [SESSION|GLOBAL] STATUS LIKE &apos;%Status_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>session（默认）：取出当前窗口的执行<br>global：从mysql启动到现在<br>（a）查看查询次数（插入次数com_insert、修改次数com_insert、删除次数com_delete）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;com_select&apos;;</span><br></pre></td></tr></table></figure>
-<p>（b）查看连接数(登录次数)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;connections&apos;;</span><br></pre></td></tr></table></figure>
-<p>（c）数据库运行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;uptime&apos;;</span><br></pre></td></tr></table></figure>
-<p>（d）查看慢查询次数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;slow_queries&apos;;</span><br></pre></td></tr></table></figure>
-<p>（e）查看索引使用的情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;handler_read%&apos;;</span><br></pre></td></tr></table></figure>
-<p>handler_read_key：这个值越高越好，越高表示使用索引查询到的次数。<br>handler_read_rnd_next：这个值越高，说明查询低效。</p>
-<p>2.显示系统变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &apos;%Variables_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>3.显示InnoDB存储引擎的状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW ENGINE INNODB STATUS;</span><br></pre></td></tr></table></figure>
-<p>（2）EXPLAIN分析查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT column_name FROM table_name;</span><br></pre></td></tr></table></figure>
-<p>explain查询sql执行计划，各列含义：<br>table：表名；<br>type：连接的类型<br>​    -const：主键、索引；<br>​    -eq_reg：主键、索引的范围查找；<br>​    -ref：连接的查找（join）<br>​    -range：索引的范围查找；<br>​    -index：索引的扫描；<br>​    -all：全表扫描；<br>possible_keys：可能用到的索引；<br>key：实际使用的索引；<br>key_len：索引的长度，越短越好；<br>ref：索引的哪一列被使用了，常数较好；<br>rows：mysql认为必须检查的用来返回请求数据的行数；<br>extra：using filesort、using temporary（常出现在使用order by时）时需要优化。<br>​    -Using filesort  额外排序。看到这个的时候，查询就需要优化了<br>​    -Using temporary 使用了临时表。看到这个的时候，也需要优化<br>（3）PROFILING分析SQL语句<br>1.开启profile。查看当前SQL执行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET PROFILING=ON; </span><br><span class="line">mysql&gt; SHOW profiles;</span><br></pre></td></tr></table></figure>
-<p>2.查看所有用户的当前连接。包括执行状态、是否锁表等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW processlist;</span><br></pre></td></tr></table></figure>
-<p>（4）PROCEDURE ANALYSE()取得建议<br>通过分析select查询结果对现有的表的每一列给出优化的建议</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT column_name FROM table_name PROCEDURE ANALYSE();</span><br></pre></td></tr></table></figure>
-<p>（5）OPTIMIZE TABLE回收闲置的数据库空间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; OPTIMIZE TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>对于MyISAM表，当表上的数据行被删除时，所占据的磁盘空间并没有立即被回收，使用命令后这些空间将被回收，并且对磁盘上的数据行进行重排（注意：是磁盘上，而非数据库）。<br>对于InnoDB表，OPTIMIZE TABLE被映射到ALTER TABLE上，这会重建表。重建操作能更新索引统计数据并释放成簇索引中的未使用的空间。<br>只需在批量删除数据行之后，或定期（每周一次或每月一次）进行一次数据表优化操作即可，只对那些特定的表运行。<br>（6）REPAIR TABLE修复被破坏的表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; REPAIR TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>（7）CHECK TABLE检查表是否有错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CHECK TABLE table_name;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/MYSQL数据库/">MYSQL数据库</a><a href="/tags/锁机制/">锁机制</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2019/12/19/数据库SQl优化总结/" title="数据库SQl优化总结" itemprop="url">数据库SQl优化总结</a>
   </h1>
   <p class="article-author">By
@@ -416,186 +173,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/MYSQl/">MYSQl</a><a href="/tags/SQL-优化/">SQL 优化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/03/Java单例模式/" title="Java单例模式" itemprop="url">Java单例模式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-03T11:17:23.000Z" itemprop="datePublished"> Published 2019-03-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="什么是单例模式"><a href="#什么是单例模式" class="headerlink" title="什么是单例模式"></a>什么是单例模式</h2><p>因程序需要，有时我们只需要某个类同时保留一个对象，不希望有更多对象，此时，我们则应考虑单例模式的设计。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
-<li>单例模式只能有一个实例。</li>
-<li>单例类必须创建自己的唯一实例。</li>
-<li>单例类必须向其他对象提供这一实例。</li>
-</ol>
-<h2 id="单例模式VS静态类"><a href="#单例模式VS静态类" class="headerlink" title="单例模式VS静态类"></a>单例模式VS静态类</h2><p>在知道了什么是单例模式后，我想你一定会想到静态类，“既然只使用一个对象，为何不干脆使用静态类？”，这里我会将单例模式和静态类进行一个比较。</p>
-<ol>
-<li>单例可以继承和被继承，方法可以被override，而静态方法不可以。</li>
-<li>静态方法中产生的对象会在执行后被释放，进而被GC清理，不会一直存在于内存中。</li>
-<li>静态类会在第一次运行时初始化，单例模式可以有其他的选择，即可以延迟加载。</li>
-<li>基于2， 3条，由于单例对象往往存在于DAO层（例如sessionFactory），如果反复的初始化和释放，则会占用很多资源，而使用单例模式将其常驻于内存可以更加节约资源。</li>
-<li>静态方法有更高的访问效率。</li>
-<li>单例模式很容易被测试。</li>
-</ol>
-<p>几个关于静态类的误解：</p>
-<ul>
-<li>误解一：静态方法常驻内存而实例方法不是。</li>
-</ul>
-<blockquote>
-<p>实际上，特殊编写的实例方法可以常驻内存，而静态方法需要不断初始化和释放。</p>
-</blockquote>
-<ul>
-<li>误解二：静态方法在堆(heap)上，实例方法在栈(stack)上。</li>
-</ul>
-<blockquote>
-<p>实际上，都是加载到特殊的不可写的代码内存区域中。</p>
-</blockquote>
-<p>静态类和单例模式情景的选择：</p>
-<p>情景一：不需要维持任何状态，仅仅用于全局访问，此时更适合使用静态类。</p>
-<p>情景二：需要维持一些特定的状态，此时更适合使用单例模式。</p>
-<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><h3 id="1-懒汉模式（线程不安全）"><a href="#1-懒汉模式（线程不安全）" class="headerlink" title="1. 懒汉模式（线程不安全）"></a>1. 懒汉模式（线程不安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance==null)&#123;</span><br><span class="line">            instance=new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上，通过提供一个静态的对象instance，利用private权限的构造方法和getInstance()方法来给予访问者一个单例。</p>
-<p>缺点是，没有考虑到线程安全，可能存在多个访问者同时访问，并同时构造了多个对象的问题。</p>
-<p>之所以叫做懒汉模式，主要是因为此种方法可以非常明显的lazy loading。</p>
-<p>针对懒汉模式线程不安全的问题，我们自然想到了，在getInstance()方法前加锁，于是就有了第二种实现。</p>
-<h3 id="2-懒汉模式二-（线程安全）"><a href="#2-懒汉模式二-（线程安全）" class="headerlink" title="2. 懒汉模式二 （线程安全）"></a>2. 懒汉模式二 （线程安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static synchronized SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            instance = new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然而并发其实是一种特殊情况，大多时候这个锁占用的额外资源都浪费了，这种打补丁方式写出来的结构效率很低。</p>
-<h3 id="3-饿汉模式"><a href="#3-饿汉模式" class="headerlink" title="3. 饿汉模式"></a>3. 饿汉模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>直接在运行这个类的时候进行一次loading，之后直接访问。显然，这种方法没有起到lazy loading的效果，考虑到前面提到的和静态类的对比，这种方法只比静态类多了一个内存常驻而已。</p>
-<h3 id="4-静态类内部加载"><a href="#4-静态类内部加载" class="headerlink" title="4. 静态类内部加载"></a>4. 静态类内部加载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    &#125;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用内部类的好处是，静态内部类不会在单例加载时就加载，而是在调用getInstance()方法时才进行加载，达到了类似懒汉模式的效果，而这种方法又是线程安全的。</p>
-<h3 id="5-枚举方法"><a href="#5-枚举方法" class="headerlink" title="5. 枚举方法"></a>5. 枚举方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">enum SingletonDemo&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    public void otherMethods()&#123;</span><br><span class="line">        System.out.println(&quot;Something&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Hello &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        SingletonDemo.INSTANCE.otherMethods();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>提倡的方式，在我看来简直是来自神的写法。解决了以下三个问题：</p>
-<ul>
-<li>(1)自由序列化。</li>
-<li>(2)保证只有一个实例。</li>
-<li>(3)线程安全。</li>
-</ul>
-<p>这种充满美感的代码真的已经终结了其他一切实现方法了。</p>
-<h3 id="6-双重校验锁法"><a href="#6-双重校验锁法" class="headerlink" title="6. 双重校验锁法"></a>6. 双重校验锁法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            synchronized (SingletonDemo.class)&#123;</span><br><span class="line">                if(instance == null)&#123;</span><br><span class="line">                    instance = new SingletonDemo();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>接下来我解释一下在并发时，双重校验锁法会有怎样的情景：</p>
-<p>STEP 1. 线程A访问getInstance()方法，因为单例还没有实例化，所以进入了锁定块。</p>
-<p>STEP 2. 线程B访问getInstance()方法，因为单例还没有实例化，得以访问接下来代码块，而接下来代码块已经被线程1锁定。</p>
-<p>STEP 3. 线程A进入下一判断，因为单例还没有实例化，所以进行单例实例化，成功实例化后退出代码块，解除锁定。</p>
-<p>STEP 4. 线程B进入接下来代码块，锁定线程，进入下一判断，因为已经实例化，退出代码块，解除锁定。</p>
-<p>STEP 5. 线程A初始化并获取到了单例实例并返回，线程B获取了在线程A中初始化的单例。</p>
-<p>理论上双重校验锁法是线程安全的，并且，这种方法实现了lazyloading。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/设计模式/">设计模式</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/03/spring-boot-入门篇-构建微服务/" title="spring boot 入门篇(构建微服务)" itemprop="url">spring boot 入门篇(构建微服务)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-03T03:19:57.000Z" itemprop="datePublished"> Published 2019-03-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么是Spring-boot"><a href="#什么是Spring-boot" class="headerlink" title="什么是Spring-boot"></a>什么是Spring-boot</h3><p>设计目的是为了简化新spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，而使开发人员不需要定义样板化的配置。只是默认配置了很多框架的使用方式，类似maven整合了所有的jar包。</p>
-<h3 id="使用spring-boot的优势"><a href="#使用spring-boot的优势" class="headerlink" title="使用spring-boot的优势"></a>使用spring-boot的优势</h3><ol>
-<li><p>简化编码：可以快速开启一个web容器</p>
-</li>
-<li><p>简化配置：java ee轻量级框架，但是其配置比较繁琐。spring boot 更多的采用java config的方式，对spring进行配置。</p>
-</li>
-<li><p>简化部署：spring boot 内嵌tomcat，只需要将项目打成jar包，使用java -jar xxx.jar 一键启动项目即可。</p>
-</li>
-<li><p>简化监控：使用spring-boot-start-actuator依赖，直接使用REST方式来获取进程的运行期性能参数，从而达到监控的目的。</p>
-</li>
-<li><p>但是spring -boot只是微架构，没有提供相应的服务发现和注册的配套功能，没有外围监控集成方案，没有外围的安全管理方案，所以在微服务架构中，还需要spring cloud配套使用。</p>
-<h3 id="未来的发展趋势"><a href="#未来的发展趋势" class="headerlink" title="未来的发展趋势"></a>未来的发展趋势</h3><p>微服务是未来发展的趋势，项目会从传统架构慢慢转向微服务架构，使用独立的技术，更安全更频繁的部署。</p>
-</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/spring-boot/">spring boot</a>
   </div>
 
 </div>
@@ -751,102 +328,6 @@
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/28/java实现多线程的方法/" title="java实现多线程的方法" itemprop="url">java实现多线程的方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-28T12:14:32.000Z" itemprop="datePublished"> Published 2019-02-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么是线程？"><a href="#什么是线程？" class="headerlink" title="什么是线程？"></a>什么是线程？</h3><p> 是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。线程有就绪、阻塞和运行三种基本状态。</p>
-<h3 id="什么是进程？"><a href="#什么是进程？" class="headerlink" title="什么是进程？"></a>什么是进程？</h3><p>进程是计算机中的程序关于某个数据集合的一次活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。一个可以独立运行的程序单位。是线程的集合。</p>
-<h3 id="什么是多线程"><a href="#什么是多线程" class="headerlink" title="什么是多线程"></a>什么是多线程</h3><p>同一个进程中有多个线程在并发执行。进程的多个执行路径。</p>
-<h3 id="进程和线程之间的区别"><a href="#进程和线程之间的区别" class="headerlink" title="进程和线程之间的区别"></a>进程和线程之间的区别</h3><p>线程是进程的最小运行单位，进程是线程的集合。一个进程由一个或多个线程组成。</p>
-<h3 id="线程的五种状态？—生命周期"><a href="#线程的五种状态？—生命周期" class="headerlink" title="线程的五种状态？—生命周期"></a>线程的五种状态？—生命周期</h3><p>创建（new） 就绪(runnable) 运行(running) 阻塞(blocked) 死亡(dead)</p>
-<p><img src="https://img-blog.csdn.net/20180830182150273?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzNTkxOTAz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
-<h3 id="为什么要用多线程"><a href="#为什么要用多线程" class="headerlink" title="为什么要用多线程?"></a>为什么要用多线程?</h3><p>单进程会出现阻塞，这时整个进程就会挂掉，直到外部条件发生变化。</p>
-<p>1.异步调用: <font color="red">读写分离</font>，IO操作等。如果是单线程，那么程序就必须等待这些操作执行完成之后才能执行其他的操作。使用多线程，可以将耗时任务放在后台继续执行的同时，执行其他任务。</p>
-<p>2.可以提高程序效率。</p>
-<p>缺点：</p>
-<p>1.多线程消耗系统资源，因为线程需要开辟内存。多线程就需要更多的线程。</p>
-<p>2.需要考虑线程操作对程序的影响，如线程挂起，中止等。</p>
-<p>3.线程使用不当会发生很多问题。</p>
-<p>多线程是异步的，但不代表多线程真的是几个线程是在同时进行，实际上是系统不断地在各个线程之间切换(由于切换速度很快，所以给我们在同时运行的错觉）</p>
-<h3 id="实现多线程的方式"><a href="#实现多线程的方式" class="headerlink" title="实现多线程的方式"></a>实现多线程的方式</h3><p>1.继承Thread()类，重写run()方法</p>
-<p>Thread()类本质上是实现了Runnable接口的一个实例，代表一个线程实例。启动线程的唯一方法就是通过Thread()类的start()方法。start是一个native方法，它将启动一个线程，并执行run()方法。这种实现多线程很简单，通过自己的类extends Thread,并复写run()方法，就可以启动并执行自己定义的run()方法。例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"MyThread.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">MyThread myThread1 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">MyThread myThread2 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">myThread1.start();  </span><br><span class="line">myThread2.start();</span><br></pre></td></tr></table></figure>
-<p>start()方法本质是将线程进入就绪状态，等待cpu执行run()方法，如果直接调用thread.run方法，那么就和普通的方法没有区别，不是异步操作。</p>
-<p>2.实现Runnable接口创建线程</p>
-<p>如果自己的类已经继承其他的类，就可以实现Runnable接口，java不支持多继承。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunable</span> <span class="keyword">extends</span> <span class="title">Runnable</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"Runnable.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//启动实现runnable接口创建的线程对象</span></span><br><span class="line">Thread myThread1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunable()); </span><br><span class="line">myThread1.start();</span><br></pre></td></tr></table></figure>
-<p>Runable 避免了java单继承的局限性；更加符合面向对象，线程分为两部分，一部分线程对象，一部分线程任务。</p>
-<p>Runable只是<font color="red">任务，只是定义了线程要执行的任务</font>，Thread才是真正的线程创建者，也就是说线程和任务是分开的，任务放在放在线程里面才会被执行。run()方法是线程的运行者，main只有调用了run()方法才能执行任务。</p>
-<p>strat()方法是创建线程。</p>
-<font color="red">总结：1.start()是线程的启动者；2.run()是线程运行的执行者。</font>
-
-<font color="red">总结：1.实现Runnable接口的实例是线程任务的定义者；2.继承Thread类的实例是线程的创建者</font>
-
-<h3 id="线程的创建，停止，常用方法介绍："><a href="#线程的创建，停止，常用方法介绍：" class="headerlink" title="线程的创建，停止，常用方法介绍："></a>线程的创建，停止，常用方法介绍：</h3><p>停止的3种方法：</p>
-<p>1.线程正常停止，即run()方法运行结束正常停止。</p>
-<p>2.interrupt()方法终止线程。</p>
-<p>3.stop()方法暴力终止。</p>
-<p>　interrupt方法中断线程介绍：</p>
-<p>　　　　interrupt方法其实并不是直接中断线程，只是给线程添加一个中断标志。</p>
-<p>　　判断线程是否是停止状态：</p>
-<p>　　　　this.interrupted(); 判断当前线程是否已经中断。（判断的是这个方法所在的代码对应的线程，而不是调用对象对应的线程）</p>
-<p>　　　　this.isInterrupted(); 判断线程是否已经中断。（谁调用，判断谁）</p>
-<h3 id="什么是线程安全"><a href="#什么是线程安全" class="headerlink" title="什么是线程安全"></a>什么是线程安全</h3><p>当多个线程访问某个类时，这个类始终都能表现出正确的行为，那么就称这个类是线程安全的。</p>
-<h3 id="守护线程："><a href="#守护线程：" class="headerlink" title="守护线程："></a>守护线程：</h3><p>java线程分为两种：</p>
-<p>1.用户线程，运行在前台，执行具体的任务</p>
-<p>2.守护线程，运行在后台，为前台线程服务（GC）</p>
-<p>特点：一旦所有的用户线程都结束运行，守护线程会随着JVM一起结束工作。垃圾回收线程就是一个常见的守护线程。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/多线程/">多线程</a>
-  </div>
 
 </div>
 
@@ -1076,6 +557,251 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/26/jvm进阶1/" title="jvm进阶1.0（简介）" itemprop="url">jvm进阶1.0（简介）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-26T08:52:34.000Z" itemprop="datePublished"> Published 2019-02-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么是jvm（java虚拟机）？"><a href="#什么是jvm（java虚拟机）？" class="headerlink" title="什么是jvm（java虚拟机）？"></a>什么是jvm（java虚拟机）？</h3><p> java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。</p>
+<h3 id="为什么java被称为与平台无关的语言？"><a href="#为什么java被称为与平台无关的语言？" class="headerlink" title="为什么java被称为与平台无关的语言？"></a>为什么java被称为与平台无关的语言？</h3><p>因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。</p>
+<h3 id="什么是平台"><a href="#什么是平台" class="headerlink" title="什么是平台?"></a>什么是平台?</h3><p>CPU和操作系统的总称。</p>
+<p>cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统软件，为计算机提供公共服务。</p>
+<h3 id="什么是跨平台？"><a href="#什么是跨平台？" class="headerlink" title="什么是跨平台？"></a>什么是跨平台？</h3><p>平台无关，不是说源程序（.java）和平台无关，能运行在各个不同的平台；而是说     源程序编译后的.class文件能够在不同的平台上运行（只要不同的平台上安装jvm）</p>
+<p>java源程序不是直接编译成机器码，而是二次编译的。第一次对java源程序被javac编译成.class文件（这个文件与平台无关）。第二次.class文件在被jvm中的解释器编译,解释器为不同平台所需要的机器码。</p>
+<p>javac和jvm都包含在jdk（java developement toolkit）</p>
+<h3 id="jvm内存管理"><a href="#jvm内存管理" class="headerlink" title="jvm内存管理"></a>jvm内存管理</h3><p>jvm运行时的几大数据区：</p>
+<p><img src="https://img-blog.csdn.net/20171228224905811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVtaW5nbGlhbmcxOTg3/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<p>方法区，堆，java栈，pc寄存器，本地方法栈。</p>
+<p>堆：存放所有new 对象。堆占据JVM的大部分内存。因此也是java的GC,垃圾收集器的主要工作目标区域。</p>
+<p>方法区：存放类装载进来后的和这个类相关的所有运行时需要的信息（如类的静态变量，常量，类的全局名称，方法信息等）。线程共享区，用于存储已被虚拟机加载的类信息，常量，静态变量，即时编译后的代码等数据。</p>
+<p>运行时常量池：方法区的一部分，用于存放编译器生成的各种字面量和符号引用。</p>
+<p>栈：用于存放基本类型，对象、数组的引用。</p>
+<p>栈内存中存放的可以看做是运行时的临时数据，主要表现为本地变量，操作符，对象引用地址等。这些数据会在方法执行结束后立即会回收，不会驻留。对存储空间的占用也只是执行函数指令时所必须的空间。不会造成内存的瓶颈。而方法区中的对象对应的类信息，函数表，构造函数，静态常量等。这些信息在类加载时按需只会在方法区中存储一份，不会产生额外的存储空间。所以主要的内存消耗是java堆内存。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/jvm/">jvm</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/25/JavaScript中的var-let-const的区别/" title="JavaScript中的var let const的区别" itemprop="url">JavaScript中的var let const的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-25T12:27:10.000Z" itemprop="datePublished"> Published 2019-02-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在ES6出现之前，js中声明变量就只有通过var关键字，函数声明是通过function关键字，而在ES6之后，声明的方式有var,let，const,function,class,现在主要考虑var const let的区别；</p>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><ol>
+<li>如果使用关键字 var 声明一个变量，那么这个变量就属于当前的函数作用域。</li>
+</ol>
+<p>​      var定义的变量可以修改，如果没有进行初始化会输出undefined,不会报错。</p>
+<ol start="2">
+<li><p>let 声明的变量只在它所在的代码块有效；块作用域由{}包括，if语句和for语句里面的{}也属于块作用域。</p>
+<p>let是块级作用域，函数内部使用let定义后，对函数外部无影响。只能在块作用域里访问，也不能跨函数访问。</p>
+</li>
+<li><p>const 定义的变量无法修改，而且必须初始化。只能在块作用域里访问。</p>
+</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/javascript/">javascript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/22/OLTP和OLAP的区别/" title="OLTP和OLAP的区别" itemprop="url">OLTP和OLAP的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-22T06:19:13.000Z" itemprop="datePublished"> Published 2019-02-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="OLTP和OLAP的介绍和比较"><a href="#OLTP和OLAP的介绍和比较" class="headerlink" title="OLTP和OLAP的介绍和比较"></a>OLTP和OLAP的介绍和比较</h3><h5 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h5><p>数据处理大致分为：</p>
+<p>OLAP(on-line analytical processing )联机分析处理:<font color="red">数据仓库系统</font>的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。<font color="red">OLAP强调数据分析，强调sql执行市场，强调磁盘I/O,强调分区等。</font></p>
+<p>OLTP(on-line transaction processing )l联机事务处理：传统的关系型数据库的主要应用，主要是基本的，日常的事务，例如银行交易。<font color="red">OLTP强调数据库内存效率，强调内存各种指标的命令率</font></p>
+<h5 id="2-比较"><a href="#2-比较" class="headerlink" title="2.比较"></a>2.比较</h5><p><img src="https://img-my.csdn.net/uploads/201212/08/1354896501_9646.jpg" alt="img"></p>
+<p>OLTP：表示事务性非常高的系统，一般是高可用的在线系统，以小的事物以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及ExecuteSQL的数量。</p>
+<p>OLAP:联机分析处理，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。磁盘子系统的吞吐量。</p>
+<p>决策支持系统（DDS,decision support system ）典型的操作是全表扫描，长查询，长事务，但是一般事务的个数很少，往往是一个事务独占系统。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/18/基于springsecurity的oauth2-0授权认证/" title="基于springsecurity的oauth2.0授权认证" itemprop="url">基于springsecurity的oauth2.0授权认证</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-18T07:51:51.000Z" itemprop="datePublished"> Published 2019-02-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1105,7 +831,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>19</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>24</sup></a></li>
 			
 		
 			
@@ -1113,7 +839,15 @@
 			
 		
 			
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
@@ -1121,19 +855,19 @@
 			
 		
 			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
 			
 		
 			
@@ -1141,11 +875,15 @@
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
 			
 		
 			
@@ -1157,7 +895,7 @@
 			
 		
 			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
@@ -1165,23 +903,11 @@
 			
 		
 			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/内存存储机制/" title="内存存储机制">内存存储机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jvm/" title="jvm">jvm<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
 			
 		
 		</ul>
