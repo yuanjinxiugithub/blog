@@ -19,10 +19,12 @@
 <meta property="og:site_name" content="MyNotes">
 <meta property="og:description" content="什么叫重入锁？博客 重入锁：可重复可递归调用的锁，在外层调用锁，在内层仍然可以使用，并且不发生死锁（前提是同一个对象或者class），ReentrantLock和sychronized都是重入锁。 不可重入锁：即当前线程执行某个方法已经获取到了该锁，那么在方法中尝试在次获取锁时，就会获取不到被阻塞。 可中断锁：在等待获取锁的过程可以被中断。 公平锁:按等待获取锁的线程的等待时间进行获取，等待时间长">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-03T13:45:04.973Z">
+<meta property="og:image" content="file:///C:/Users/yjx/AppData/Local/Temp/msohtmlclip1/02/clip_image001.jpg">
+<meta property="og:updated_time" content="2019-03-03T13:51:26.709Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="有关于synchronized和lock的总结">
 <meta name="twitter:description" content="什么叫重入锁？博客 重入锁：可重复可递归调用的锁，在外层调用锁，在内层仍然可以使用，并且不发生死锁（前提是同一个对象或者class），ReentrantLock和sychronized都是重入锁。 不可重入锁：即当前线程执行某个方法已经获取到了该锁，那么在方法中尝试在次获取锁时，就会获取不到被阻塞。 可中断锁：在等待获取锁的过程可以被中断。 公平锁:按等待获取锁的线程的等待时间进行获取，等待时间长">
+<meta name="twitter:image" content="file:///C:/Users/yjx/AppData/Local/Temp/msohtmlclip1/02/clip_image001.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -98,7 +100,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么叫重入锁？"><span class="toc-number">1.</span> <span class="toc-text">什么叫重入锁？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized与lock的区别？"><span class="toc-number">2.</span> <span class="toc-text">synchronized与lock的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lock常用方法"><span class="toc-number">3.</span> <span class="toc-text">lock常用方法</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么叫重入锁？"><span class="toc-number">1.</span> <span class="toc-text">什么叫重入锁？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized与lock的区别？"><span class="toc-number">2.</span> <span class="toc-text">synchronized与lock的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lock常用方法"><span class="toc-number">3.</span> <span class="toc-text">lock常用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么时候用ReentrantLock取代synchronied："><span class="toc-number">4.</span> <span class="toc-text">什么时候用ReentrantLock取代synchronied：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有关于synchronized代码同步块的说明："><span class="toc-number">5.</span> <span class="toc-text">有关于synchronized代码同步块的说明：</span></a></li></ol>
 		
 		</div>
 		
@@ -151,17 +153,19 @@
 </tbody>
 </table>
 <h3 id="lock常用方法"><a href="#lock常用方法" class="headerlink" title="lock常用方法"></a>lock常用方法</h3><ul>
-<li><p>lock()：获取锁，如果锁被暂用则一直等待</p>
-</li>
-<li><p>unlock():释放锁</p>
-</li>
-<li><p>tryLock():      注意返回类型是boolean，如果获取锁的时候锁被占用就返回false，否则返回true</p>
-</li>
-<li><p>tryLock(long time, TimeUnit      unit)：比起tryLock()就是给了一个时间期限，保证等待参数时间</p>
-</li>
-<li><p>lockInterruptibly()：用该锁的获得方式，如果线程在获取锁的阶段进入了等待，那么可以中断此线程，先去做别的事</p>
-</li>
+<li>lock()：获取锁，如果锁被暂用则一直等待</li>
+<li>unlock():释放锁</li>
+<li>tryLock():      注意返回类型是boolean，如果获取锁的时候锁被占用就返回false，否则返回true</li>
+<li>tryLock(long time, TimeUnit      unit)：比起tryLock()就是给了一个时间期限，保证等待参数时间</li>
+<li>lockInterruptibly()：用该锁的获得方式，如果线程在获取锁的阶段进入了等待，那么可以中断此线程，先去做别的事</li>
 </ul>
+<h3 id="什么时候用ReentrantLock取代synchronied："><a href="#什么时候用ReentrantLock取代synchronied：" class="headerlink" title="什么时候用ReentrantLock取代synchronied："></a>什么时候用ReentrantLock取代synchronied：</h3><p>时间锁等候，无块结构锁，多个条件变量或者锁投票；性能更高：jvm将花费更少的时间来调度线程，把更多的时间用在执行程序上。必须使用finally来释放锁。</p>
+<h3 id="有关于synchronized代码同步块的说明："><a href="#有关于synchronized代码同步块的说明：" class="headerlink" title="有关于synchronized代码同步块的说明："></a>有关于synchronized代码同步块的说明：</h3><p><img src="file:///C:/Users/yjx/AppData/Local/Temp/msohtmlclip1/02/clip_image001.jpg" alt="æ¼«ç» | Javaå¤çº¿ç¨ä¸å¹¶åï¼ä¸ï¼"></p>
+<p>自我总结：</p>
+<p>1.当一个线程在访问一个对象的同步方法时，另一个线程可以同时访问这个对象的非同步方法。</p>
+<p>2.当一个线程访问一个对象的同步方法时，另一个线程是不能同时访问这个同步方法。</p>
+<p>3.当一个线程访问一个对象的同步方法时，另一个线程不能同时访问这个对象的另一个同步方法。</p>
+<p>当一个线程访问的一个对象的同步代码块时，需要视情况而定，看sychronized锁住的是什么，如果锁住的是整个对象的话，当有另一个线程访问该方法还是对象中的其他同步代码块时都是不能同时访问的，但如果锁住的不是同一个对象，是可以同时访问对象中的其他代码块。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -192,6 +196,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev">
+ <a href="/2019/03/03/IO和NIO/" title="IO和NIO">
+  <strong>上一篇：</strong><br>
+  <span>
+  IO和NIO</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2019/02/27/面试内容梳理-20190227/" title="面试内容梳理-20190227">
@@ -213,7 +225,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么叫重入锁？"><span class="toc-number">1.</span> <span class="toc-text">什么叫重入锁？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized与lock的区别？"><span class="toc-number">2.</span> <span class="toc-text">synchronized与lock的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lock常用方法"><span class="toc-number">3.</span> <span class="toc-text">lock常用方法</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么叫重入锁？"><span class="toc-number">1.</span> <span class="toc-text">什么叫重入锁？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized与lock的区别？"><span class="toc-number">2.</span> <span class="toc-text">synchronized与lock的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lock常用方法"><span class="toc-number">3.</span> <span class="toc-text">lock常用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么时候用ReentrantLock取代synchronied："><span class="toc-number">4.</span> <span class="toc-text">什么时候用ReentrantLock取代synchronied：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有关于synchronized代码同步块的说明："><span class="toc-number">5.</span> <span class="toc-text">有关于synchronized代码同步块的说明：</span></a></li></ol>
  
   </div>
 
@@ -238,7 +250,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>25</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>26</sup></a></li>
 			
 		
 			
@@ -270,6 +282,10 @@
 			
 		
 			
+				<li><a href="/tags/gc-垃圾回收机制/" title="gc 垃圾回收机制">gc 垃圾回收机制<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
@@ -278,7 +294,7 @@
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
@@ -286,7 +302,7 @@
 			
 		
 			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
 			
 		
 			
@@ -306,15 +322,11 @@
 			
 		
 			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/内存存储机制/" title="内存存储机制">内存存储机制<sup>1</sup></a></li>
 			
 		
 		</ul>

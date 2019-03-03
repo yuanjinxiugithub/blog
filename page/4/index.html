@@ -82,6 +82,110 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/10/10/String-StringBuilder-StringBuffer的区分/" title="String,StringBuilder,StringBuffer的区分" itemprop="url">String,StringBuilder,StringBuffer的区分</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-10-10T06:19:28.000Z" itemprop="datePublished"> Published 2018-10-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><a href="https://www.cnblogs.com/dolphin0520/p/3778589.html" target="_blank" rel="noopener">参考链接</a></p>
+<h3 id="String-的修改原理"><a href="#String-的修改原理" class="headerlink" title="String 的修改原理"></a>String 的修改原理</h3><p>String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意：append方法并不会new一个新的对象）</p>
+<h3 id="String类的了解"><a href="#String类的了解" class="headerlink" title="String类的了解"></a>String类的了解</h3><p> 查看String源码，发现String类是被final修饰的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** The offset is the first index of the storage that is used. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> offset;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** The count is the number of characters in the String. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> count;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** Cache the hash code for the string */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> hash; <span class="comment">// Default to 0</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** use serialVersionUID from JDK 1.0.2 for interoperability */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">6849794470754667710L</span>;</span><br><span class="line"> </span><br><span class="line">    ......</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　从上面可以看出几点：</p>
+<p>　　1）String类是final类，也即意味着String类不能被继承，并且它的成员方法都默认为final方法。在Java中，被final修饰的类是不允许被继承的，并且该类中的成员方法都默认为final方法。</p>
+<p>​       2) 从上面的三个方法可以看出，无论是sub操、concat还是replace操作都不是在原有的字符串上进行的，而是重新生成了一个新的字符串对象。也就是说进行这些操作后，最原始的字符串并没有被改变。</p>
+<h3 id="深入理解String-StringBuilder-StringBuffer"><a href="#深入理解String-StringBuilder-StringBuffer" class="headerlink" title="深入理解String StringBuilder StringBuffer"></a>深入理解String StringBuilder StringBuffer</h3><ol>
+<li><p>String str=”hello world”和String str=new String(“hello world”)的区别</p>
+<font color="red">JVM内存机制：在class文件中有一部分来存储编译期间生成的字面常量和符号引用，这部分叫做class文件的常量池。在运行期间对应着方法区运行时的常量池。</font>
+
+<p>　因此在上述代码中，String str1 = “hello world”;和String str3 = “hello world”; 都在编译期间生成了 字面常量和符号引用，运行期间字面常量”hello world”被存储在运行时常量池（当然只保存了一份）。通过这种方式来将String对象跟引用绑定的话，JVM执行引擎会先在运行时常量池查找是否存在相同的字面常量，如果存在，则直接将引用指向已经存在的字面常量；否则在运行时常量池开辟一个空间来存储该字面常量，并将引用指向该字面常量。</p>
+<p>　　总所周知，通过new关键字来生成对象是在堆区进行的，而在<font color="red">堆区进行对象生成的过程是不会去检测该对象是否已经存在的。因此通过new来创建对象，创建出的一定是不同的对象，即使字符串的内容是相同的</font>。</p>
+<p>2.String StringBuilder StringBuffer的区别：</p>
+<p>String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。</p>
+<p>　那么有人会问既然有了StringBuilder类，为什么还需要StringBuffer类？查看源代码便一目了然，事实上，StringBuilder和StringBuffer类拥有的成员属性以及成员方法基本相同，区别是StringBuffer类的成员方法前面多了一个关键字：synchronized，不用多说，这个关键字是在多线程访问时起到安全保护作用的,也就是说StringBuffer是线程安全的。</p>
+<p>　1）对于直接相加字符串，效率很高，因为在编译器便确定了它的值，也就是说形如”I”+”love”+”java”; 的字符串相加，在编译期间便被优化成了”Ilovejava”。这个可以用javap -c命令反编译生成的class文件进行验证。</p>
+<p>　　对于间接相加（即包含字符串引用），形如s1+s2+s3; 效率要比直接相加低，因为在编译器不会对引用变量进行优化。</p>
+<p>2）String、StringBuilder、StringBuffer三者的执行效率：</p>
+<p>　　StringBuilder &gt; StringBuffer &gt; String</p>
+<p>　当然这个是相对的，不一定在所有情况下都是这样。</p>
+<p>　　比如String str = “hello”+ “world”的效率就比 StringBuilder st  = new StringBuilder().append(“hello”).append(“world”)要高。</p>
+<p>　　因此，这三个类是各有利弊，应当根据不同的情况来进行选择使用：</p>
+<p>　　当字符串相加操作或者改动较少的情况下，建议使用 String str=”hello”这种形式；</p>
+<p>　　当字符串相加操作较多的情况下，建议使用StringBuilder，如果采用了多线程，则使用StringBuffer。</p>
+</li>
+</ol>
+<h3 id="常见的关于String、StringBuffer的面试题"><a href="#常见的关于String、StringBuffer的面试题" class="headerlink" title="常见的关于String、StringBuffer的面试题"></a>常见的关于String、StringBuffer的面试题</h3><p>下面是一些常见的关于String、StringBuffer的一些面试笔试题，若有不正之处，请谅解和批评指正。</p>
+<ol>
+<li>下面这段代码的输出结果是什么？</li>
+</ol>
+<p>　　String a = “hello2”; 　　String b = “hello” + 2; 　　System.out.println((a == b));</p>
+<p>　　输出结果为：true。原因很简单，”hello”+2在编译期间就已经被优化成”hello2”，因此在运行期间，变量a和变量b指向的是同一个对象。</p>
+<p>2.下面这段代码的输出结果是什么？</p>
+<p>　　String a = “hello2”; 　  String b = “hello”;       String c = b + 2;       System.out.println((a == c));</p>
+<p>　　输出结果为:false。由于有符号引用的存在，所以  String c = b + 2;不会在编译期间被优化，不会把b+2当做字面常量来处理的，因此这种方式生成的对象事实上是保存在堆上的。因此a和c指向的并不是同一个对象.</p>
+<p>3.下面这段代码的输出结果是什么？</p>
+<p>　　String a = “hello2”;   　 final String b = “hello”;       String c = b + 2;       System.out.println((a == c));</p>
+<p>　　输出结果为：true。对于被final修饰的变量，会在class文件常量池中保存一个副本，也就是说不会通过连接而进行访问，对final变量的访问在编译期间都会直接被替代为真实的值。那么String c = b + 2;在编译期间就会被优化成：String c = “hello” + 2; </p>
+<p>4.下面这段代码输出结果为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`<span class="keyword">public</span>` `<span class="class"><span class="keyword">class</span>` `<span class="title">Main</span> </span>&#123;``    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``        ``String a = ``<span class="string">"hello2"</span>``;``        ``<span class="keyword">final</span>` `String b = getHello();``        ``String c = b + ``<span class="number">2</span>``;``        ``System.out.println((a == c));``    ``&#125;``    ` `    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="function">String <span class="title">getHello</span><span class="params">()</span> </span>&#123;``        ``<span class="keyword">return</span>` `<span class="string">"hello"</span>``;``    ``&#125;``&#125;`</span><br></pre></td></tr></table></figure>
+<p>　　输出结果为false。这里面虽然将b用final修饰了，但是由于其赋值是通过方法调用返回的，那么它的值只能在运行期间确定，因此a和c指向的不是同一个对象。</p>
+<p>5.下面这段代码的输出结果是什么？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`<span class="keyword">public</span>` `<span class="class"><span class="keyword">class</span>` `<span class="title">Main</span> </span>&#123;``    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``        ``String a = ``<span class="string">"hello"</span>``;``        ``String b =  ``<span class="keyword">new</span>` `String(``<span class="string">"hello"</span>``);``        ``String c =  ``<span class="keyword">new</span>` `String(``<span class="string">"hello"</span>``);``        ``String d = b.intern();``        ` `        ``System.out.println(a==b);``        ``System.out.println(b==c);``        ``System.out.println(b==d);``        ``System.out.println(a==d);``    ``&#125;``&#125;`</span><br></pre></td></tr></table></figure>
+<p>　　输出结果为（JDK版本 JDK6)：</p>
+<p>　　<img src="https://images0.cnblogs.com/i/288799/201406/091536144056475.jpg" alt="img"></p>
+<p>　　这里面涉及到的是String.intern方法的使用。在String类中，intern方法是一个本地方法，在JAVA SE6之前，intern方法会在运行时常量池中查找是否存在内容相同的字符串，如果存在则返回指向该字符串的引用，如果不存在，则会将该字符串入池，并返回一个指向该字符串的引用。因此，a和d指向的是同一个对象。</p>
+<p>7.下面这段代码1）和2）的区别是什么？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`<span class="keyword">public</span>` `<span class="class"><span class="keyword">class</span>` `<span class="title">Main</span> </span>&#123;``    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``        ``String str1 = ``<span class="string">"I"</span>``;``        ``<span class="comment">//str1 += "love"+"java";        1)``        ``str1 = str1+``"love"``+``"java"``;      ``//2)``        ` `    ``&#125;``&#125;`</span></span><br></pre></td></tr></table></figure>
+<p>　　1）的效率比2）的效率要高，1）中的”love”+”java”在编译期间会被优化成”lovejava”，而2）中的不会被优化</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/06/03/Java单例模式/" title="Java单例模式" itemprop="url">Java单例模式</a>
   </h1>
   <p class="article-author">By
@@ -675,7 +779,7 @@ TIME+   进程使用CPU总时间
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>25</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>26</sup></a></li>
 			
 		
 			
@@ -707,6 +811,10 @@ TIME+   进程使用CPU总时间
 			
 		
 			
+				<li><a href="/tags/gc-垃圾回收机制/" title="gc 垃圾回收机制">gc 垃圾回收机制<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
@@ -715,7 +823,7 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
@@ -723,7 +831,7 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
 			
 		
 			
@@ -743,15 +851,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/内存存储机制/" title="内存存储机制">内存存储机制<sup>1</sup></a></li>
 			
 		
 		</ul>
