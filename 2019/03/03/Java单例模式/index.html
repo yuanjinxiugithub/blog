@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="什么叫重入锁？博客 synchronized与lock的区别？博客">
-<meta name="keywords" content="java,锁">
+<meta name="description" content="什么是单例模式因程序需要，有时我们只需要某个类同时保留一个对象，不希望有更多对象，此时，我们则应考虑单例模式的设计。 特点 单例模式只能有一个实例。 单例类必须创建自己的唯一实例。 单例类必须向其他对象提供这一实例。  单例模式VS静态类在知道了什么是单例模式后，我想你一定会想到静态类，“既然只使用一个对象，为何不干脆使用静态类？”，这里我会将单例模式和静态类进行一个比较。  单例可以继承和被继承">
+<meta name="keywords" content="java,设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="有关于synchronized和lock的总结">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/01/有关于synchronized和lock的总结/index.html">
+<meta property="og:title" content="Java单例模式">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/03/Java单例模式/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="什么叫重入锁？博客 synchronized与lock的区别？博客">
+<meta property="og:description" content="什么是单例模式因程序需要，有时我们只需要某个类同时保留一个对象，不希望有更多对象，此时，我们则应考虑单例模式的设计。 特点 单例模式只能有一个实例。 单例类必须创建自己的唯一实例。 单例类必须向其他对象提供这一实例。  单例模式VS静态类在知道了什么是单例模式后，我想你一定会想到静态类，“既然只使用一个对象，为何不干脆使用静态类？”，这里我会将单例模式和静态类进行一个比较。  单例可以继承和被继承">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-01T07:50:20.443Z">
+<meta property="og:updated_time" content="2019-03-03T11:20:55.257Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="有关于synchronized和lock的总结">
-<meta name="twitter:description" content="什么叫重入锁？博客 synchronized与lock的区别？博客">
+<meta name="twitter:title" content="Java单例模式">
+<meta name="twitter:description" content="什么是单例模式因程序需要，有时我们只需要某个类同时保留一个对象，不希望有更多对象，此时，我们则应考虑单例模式的设计。 特点 单例模式只能有一个实例。 单例类必须创建自己的唯一实例。 单例类必须向其他对象提供这一实例。  单例模式VS静态类在知道了什么是单例模式后，我想你一定会想到静态类，“既然只使用一个对象，为何不干脆使用静态类？”，这里我会将单例模式和静态类进行一个比较。  单例可以继承和被继承">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>有关于synchronized和lock的总结 | MyNotes</title>
+<title>Java单例模式 | MyNotes</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -262,11 +262,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-有关于synchronized和lock的总结" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Java单例模式" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/01/有关于synchronized和lock的总结/" class="article-date">
-      <time datetime="2019-03-01T00:56:15.000Z" itemprop="datePublished">2019-03-01</time>
+      <a href="/2019/03/03/Java单例模式/" class="article-date">
+      <time datetime="2019-03-03T11:17:23.000Z" itemprop="datePublished">2019-03-03</time>
 </a>
 
 
@@ -281,7 +281,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      有关于synchronized和lock的总结
+      Java单例模式
     </h1>
   
 
@@ -292,7 +292,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/锁/">锁</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -302,8 +302,64 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="什么叫重入锁？"><a href="#什么叫重入锁？" class="headerlink" title="什么叫重入锁？"></a>什么叫重入锁？</h3><p><a href="https://blog.csdn.net/rickiyeat/article/details/78314451" target="_blank" rel="noopener">博客</a></p>
-<h3 id="synchronized与lock的区别？"><a href="#synchronized与lock的区别？" class="headerlink" title="synchronized与lock的区别？"></a>synchronized与lock的区别？</h3><p><a href="https://www.cnblogs.com/iyyy/p/7993788.html" target="_blank" rel="noopener">博客</a></p>
+        <h2 id="什么是单例模式"><a href="#什么是单例模式" class="headerlink" title="什么是单例模式"></a>什么是单例模式</h2><p>因程序需要，有时我们只需要某个类同时保留一个对象，不希望有更多对象，此时，我们则应考虑单例模式的设计。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>单例模式只能有一个实例。</li>
+<li>单例类必须创建自己的唯一实例。</li>
+<li>单例类必须向其他对象提供这一实例。</li>
+</ol>
+<h2 id="单例模式VS静态类"><a href="#单例模式VS静态类" class="headerlink" title="单例模式VS静态类"></a>单例模式VS静态类</h2><p>在知道了什么是单例模式后，我想你一定会想到静态类，“既然只使用一个对象，为何不干脆使用静态类？”，这里我会将单例模式和静态类进行一个比较。</p>
+<ol>
+<li>单例可以继承和被继承，方法可以被override，而静态方法不可以。</li>
+<li>静态方法中产生的对象会在执行后被释放，进而被GC清理，不会一直存在于内存中。</li>
+<li>静态类会在第一次运行时初始化，单例模式可以有其他的选择，即可以延迟加载。</li>
+<li>基于2， 3条，由于单例对象往往存在于DAO层（例如sessionFactory），如果反复的初始化和释放，则会占用很多资源，而使用单例模式将其常驻于内存可以更加节约资源。</li>
+<li>静态方法有更高的访问效率。</li>
+<li>单例模式很容易被测试。</li>
+</ol>
+<p>几个关于静态类的误解：</p>
+<ul>
+<li>误解一：静态方法常驻内存而实例方法不是。</li>
+</ul>
+<blockquote>
+<p>实际上，特殊编写的实例方法可以常驻内存，而静态方法需要不断初始化和释放。</p>
+</blockquote>
+<ul>
+<li>误解二：静态方法在堆(heap)上，实例方法在栈(stack)上。</li>
+</ul>
+<blockquote>
+<p>实际上，都是加载到特殊的不可写的代码内存区域中。</p>
+</blockquote>
+<p>静态类和单例模式情景的选择：</p>
+<p>情景一：不需要维持任何状态，仅仅用于全局访问，此时更适合使用静态类。</p>
+<p>情景二：需要维持一些特定的状态，此时更适合使用单例模式。</p>
+<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><h3 id="1-懒汉模式（线程不安全）"><a href="#1-懒汉模式（线程不安全）" class="headerlink" title="1. 懒汉模式（线程不安全）"></a>1. 懒汉模式（线程不安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance==null)&#123;</span><br><span class="line">            instance=new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上，通过提供一个静态的对象instance，利用private权限的构造方法和getInstance()方法来给予访问者一个单例。</p>
+<p>缺点是，没有考虑到线程安全，可能存在多个访问者同时访问，并同时构造了多个对象的问题。</p>
+<p>之所以叫做懒汉模式，主要是因为此种方法可以非常明显的lazy loading。</p>
+<p>针对懒汉模式线程不安全的问题，我们自然想到了，在getInstance()方法前加锁，于是就有了第二种实现。</p>
+<h3 id="2-懒汉模式二-（线程安全）"><a href="#2-懒汉模式二-（线程安全）" class="headerlink" title="2. 懒汉模式二 （线程安全）"></a>2. 懒汉模式二 （线程安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static synchronized SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            instance = new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然而并发其实是一种特殊情况，大多时候这个锁占用的额外资源都浪费了，这种打补丁方式写出来的结构效率很低。</p>
+<h3 id="3-饿汉模式"><a href="#3-饿汉模式" class="headerlink" title="3. 饿汉模式"></a>3. 饿汉模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接在运行这个类的时候进行一次loading，之后直接访问。显然，这种方法没有起到lazy loading的效果，考虑到前面提到的和静态类的对比，这种方法只比静态类多了一个内存常驻而已。</p>
+<h3 id="4-静态类内部加载"><a href="#4-静态类内部加载" class="headerlink" title="4. 静态类内部加载"></a>4. 静态类内部加载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    &#125;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用内部类的好处是，静态内部类不会在单例加载时就加载，而是在调用getInstance()方法时才进行加载，达到了类似懒汉模式的效果，而这种方法又是线程安全的。</p>
+<h3 id="5-枚举方法"><a href="#5-枚举方法" class="headerlink" title="5. 枚举方法"></a>5. 枚举方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">enum SingletonDemo&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    public void otherMethods()&#123;</span><br><span class="line">        System.out.println(&quot;Something&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Hello &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        SingletonDemo.INSTANCE.otherMethods();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>提倡的方式，在我看来简直是来自神的写法。解决了以下三个问题：</p>
+<ul>
+<li>(1)自由序列化。</li>
+<li>(2)保证只有一个实例。</li>
+<li>(3)线程安全。</li>
+</ul>
+<p>这种充满美感的代码真的已经终结了其他一切实现方法了。</p>
+<h3 id="6-双重校验锁法"><a href="#6-双重校验锁法" class="headerlink" title="6. 双重校验锁法"></a>6. 双重校验锁法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            synchronized (SingletonDemo.class)&#123;</span><br><span class="line">                if(instance == null)&#123;</span><br><span class="line">                    instance = new SingletonDemo();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我解释一下在并发时，双重校验锁法会有怎样的情景：</p>
+<p>STEP 1. 线程A访问getInstance()方法，因为单例还没有实例化，所以进入了锁定块。</p>
+<p>STEP 2. 线程B访问getInstance()方法，因为单例还没有实例化，得以访问接下来代码块，而接下来代码块已经被线程1锁定。</p>
+<p>STEP 3. 线程A进入下一判断，因为单例还没有实例化，所以进行单例实例化，成功实例化后退出代码块，解除锁定。</p>
+<p>STEP 4. 线程B进入接下来代码块，锁定线程，进入下一判断，因为已经实例化，退出代码块，解除锁定。</p>
+<p>STEP 5. 线程A初始化并获取到了单例实例并返回，线程B获取了在线程A中初始化的单例。</p>
+<p>理论上双重校验锁法是线程安全的，并且，这种方法实现了lazyloading。</p>
 
       
     </div>
@@ -312,13 +368,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/03/01/有关于synchronized和lock的总结/">有关于synchronized和lock的总结</a></p>
+        <p><span>本文标题:</span><a href="/2019/03/03/Java单例模式/">Java单例模式</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">YUAN</a></p>
-        <p><span>发布时间:</span>2019-03-01, 08:56:15</p>
-        <p><span>最后更新:</span>2019-03-01, 15:50:20</p>
+        <p><span>发布时间:</span>2019-03-03, 19:17:23</p>
+        <p><span>最后更新:</span>2019-03-03, 19:20:55</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/03/01/有关于synchronized和lock的总结/" title="有关于synchronized和lock的总结">https://yuanjinxiugithub.github.io/2019/03/01/有关于synchronized和lock的总结/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/03/01/有关于synchronized和lock的总结/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/03/03/Java单例模式/" title="Java单例模式">https://yuanjinxiugithub.github.io/2019/03/03/Java单例模式/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yuanjinxiugithub.github.io/2019/03/03/Java单例模式/　　作者: YUAN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -331,15 +387,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/03/01/Spring-Boot-Spring-Cloud全家桶/">
-                    Spring Boot,Spring Cloud全家桶
+                <a href="/2019/12/19/数据库SQl优化总结/">
+                    数据库SQl优化总结
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/02/28/mybatis-总结/">
-                    mybatis 总结
+                <a href="/2019/03/03/spring-boot-入门篇-构建微服务/">
+                    spring boot 入门篇(构建微服务)
                 </a>
             </div>
         
@@ -351,7 +407,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么叫重入锁？"><span class="toc-number">1.</span> <span class="toc-text">什么叫重入锁？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized与lock的区别？"><span class="toc-number">2.</span> <span class="toc-text">synchronized与lock的区别？</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是单例模式"><span class="toc-number">1.</span> <span class="toc-text">什么是单例模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特点"><span class="toc-number">2.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单例模式VS静态类"><span class="toc-number">3.</span> <span class="toc-text">单例模式VS静态类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单例模式的实现"><span class="toc-number">4.</span> <span class="toc-text">单例模式的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-懒汉模式（线程不安全）"><span class="toc-number">4.1.</span> <span class="toc-text">1. 懒汉模式（线程不安全）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-懒汉模式二-（线程安全）"><span class="toc-number">4.2.</span> <span class="toc-text">2. 懒汉模式二 （线程安全）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-饿汉模式"><span class="toc-number">4.3.</span> <span class="toc-text">3. 饿汉模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-静态类内部加载"><span class="toc-number">4.4.</span> <span class="toc-text">4. 静态类内部加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-枚举方法"><span class="toc-number">4.5.</span> <span class="toc-text">5. 枚举方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-双重校验锁法"><span class="toc-number">4.6.</span> <span class="toc-text">6. 双重校验锁法</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -387,7 +443,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"有关于synchronized和lock的总结　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"Java单例模式　| MyNotes　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -407,7 +463,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/03/01/Spring-Boot-Spring-Cloud全家桶/" title="上一篇: Spring Boot,Spring Cloud全家桶">
+            <a href="/2019/12/19/数据库SQl优化总结/" title="上一篇: 数据库SQl优化总结">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -415,7 +471,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/02/28/mybatis-总结/" title="下一篇: mybatis 总结">
+            <a href="/2019/03/03/spring-boot-入门篇-构建微服务/" title="下一篇: spring boot 入门篇(构建微服务)">
                 <i class="fa fa-angle-right"></i>
             </a>
         
