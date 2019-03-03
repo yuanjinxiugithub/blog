@@ -96,7 +96,65 @@
     <div class="article-content">
         
         <h3 id="什么叫重入锁？"><a href="#什么叫重入锁？" class="headerlink" title="什么叫重入锁？"></a>什么叫重入锁？</h3><p><a href="https://blog.csdn.net/rickiyeat/article/details/78314451" target="_blank" rel="noopener">博客</a></p>
+<p>重入锁：可重复可递归调用的锁，在外层调用锁，在内层仍然可以使用，并且不发生死锁（前提是同一个对象或者class），ReentrantLock和sychronized都是重入锁。</p>
+<p>不可重入锁：即当前线程执行某个方法已经获取到了该锁，那么在方法中尝试在次获取锁时，就会获取不到被阻塞。</p>
+<p>可中断锁：在等待获取锁的过程可以被中断。</p>
+<p>公平锁:按等待获取锁的线程的等待时间进行获取，等待时间长的具有优先获取锁权利。</p>
+<p>读写锁：对资源读取和写入的时候拆分为2部分处理，读的时候可以多线程一起读，写的时候必须同步的写。</p>
 <h3 id="synchronized与lock的区别？"><a href="#synchronized与lock的区别？" class="headerlink" title="synchronized与lock的区别？"></a>synchronized与lock的区别？</h3><p><a href="https://www.cnblogs.com/iyyy/p/7993788.html" target="_blank" rel="noopener">博客</a></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>synchronized</th>
+<th>Lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存在层次</td>
+<td>Java的关键字，在jvm层面上</td>
+<td>是一个类</td>
+</tr>
+<tr>
+<td>锁的释放</td>
+<td>1、以获取锁的线程执行完同步代码，释放锁   2、线程执行发生异常，jvm会让线程释放锁</td>
+<td>在finally中必须释放锁，不然容易造成线程死锁</td>
+</tr>
+<tr>
+<td>锁的获取</td>
+<td>假设A线程获得锁，B线程等待。如果A线程阻塞，B线程会一直等待</td>
+<td>分情况而定，Lock有多个锁获取的方式，具体下面会说道，大致就是可以尝试获得锁，线程可以不用一直等待</td>
+</tr>
+<tr>
+<td>锁状态</td>
+<td>无法判断</td>
+<td>可以判断</td>
+</tr>
+<tr>
+<td>锁类型</td>
+<td>可重入 不可中断 非公平</td>
+<td>可重入 可判断 可公平（两者皆可）</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>少量同步</td>
+<td>大量同步</td>
+</tr>
+</tbody>
+</table>
+<h3 id="lock常用方法"><a href="#lock常用方法" class="headerlink" title="lock常用方法"></a>lock常用方法</h3><ul>
+<li><p>lock()：获取锁，如果锁被暂用则一直等待</p>
+</li>
+<li><p>unlock():释放锁</p>
+</li>
+<li><p>tryLock():      注意返回类型是boolean，如果获取锁的时候锁被占用就返回false，否则返回true</p>
+</li>
+<li><p>tryLock(long time, TimeUnit      unit)：比起tryLock()就是给了一个时间期限，保证等待参数时间</p>
+</li>
+<li><p>lockInterruptibly()：用该锁的获得方式，如果线程在获取锁的阶段进入了等待，那么可以中断此线程，先去做别的事</p>
+</li>
+</ul>
 
         
         
@@ -1049,15 +1107,19 @@
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
 			
 		
 			
@@ -1066,10 +1128,6 @@
 		
 			
 				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
 			
 		
 			
