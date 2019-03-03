@@ -20,7 +20,7 @@
 <meta property="og:description" content="什么是线程？ 是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。线程有就绪、阻塞和运行三种基本状态。 什么是进程？进程是计算机中的程序关于某个数据集合的一次活动，是系统进行资源分配和调度的基本单位，是操作系统结">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://img-blog.csdn.net/20180830182150273?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzNTkxOTAz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-03-03T13:19:06.551Z">
+<meta property="og:updated_time" content="2019-03-03T13:49:07.845Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java实现多线程的方法">
 <meta name="twitter:description" content="什么是线程？ 是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。线程有就绪、阻塞和运行三种基本状态。 什么是进程？进程是计算机中的程序关于某个数据集合的一次活动，是系统进行资源分配和调度的基本单位，是操作系统结">
@@ -100,7 +100,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程？"><span class="toc-number">1.</span> <span class="toc-text">什么是线程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是进程？"><span class="toc-number">2.</span> <span class="toc-text">什么是进程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是多线程"><span class="toc-number">3.</span> <span class="toc-text">什么是多线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程和线程之间的区别"><span class="toc-number">4.</span> <span class="toc-text">进程和线程之间的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的五种状态？—生命周期"><span class="toc-number">5.</span> <span class="toc-text">线程的五种状态？—生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要用多线程"><span class="toc-number">6.</span> <span class="toc-text">为什么要用多线程?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现多线程的方式"><span class="toc-number">7.</span> <span class="toc-text">实现多线程的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的创建，停止，常用方法介绍："><span class="toc-number">8.</span> <span class="toc-text">线程的创建，停止，常用方法介绍：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程安全"><span class="toc-number">9.</span> <span class="toc-text">什么是线程安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#守护线程："><span class="toc-number">10.</span> <span class="toc-text">守护线程：</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程？"><span class="toc-number">1.</span> <span class="toc-text">什么是线程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是进程？"><span class="toc-number">2.</span> <span class="toc-text">什么是进程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是多线程"><span class="toc-number">3.</span> <span class="toc-text">什么是多线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程和线程之间的区别"><span class="toc-number">4.</span> <span class="toc-text">进程和线程之间的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的五种状态？—生命周期"><span class="toc-number">5.</span> <span class="toc-text">线程的五种状态？—生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要用多线程"><span class="toc-number">6.</span> <span class="toc-text">为什么要用多线程?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现多线程的方式"><span class="toc-number">7.</span> <span class="toc-text">实现多线程的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的创建，停止，常用方法介绍："><span class="toc-number">8.</span> <span class="toc-text">线程的创建，停止，常用方法介绍：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程安全"><span class="toc-number">9.</span> <span class="toc-text">什么是线程安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#守护线程："><span class="toc-number">10.</span> <span class="toc-text">守护线程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-和run-方法"><span class="toc-number">11.</span> <span class="toc-text">Start()和run()方法</span></a></li></ol>
 		
 		</div>
 		
@@ -146,6 +146,7 @@
 <p>1.用户线程，运行在前台，执行具体的任务</p>
 <p>2.守护线程，运行在后台，为前台线程服务（GC）</p>
 <p>特点：一旦所有的用户线程都结束运行，守护线程会随着JVM一起结束工作。垃圾回收线程就是一个常见的守护线程。</p>
+<h3 id="Start-和run-方法"><a href="#Start-和run-方法" class="headerlink" title="Start()和run()方法"></a>Start()和run()方法</h3><p><strong>1.start（）</strong>方法来启动线程，真正实现了多线程运行。这时无需等待run方法体代码执行完毕，可以直接继续执行下面的代码；通过调用Thread类的start()方法来启动一个线程， 这时此线程是处于就绪状态， 并没有运行。 然后通过此Thread类调用方法run()来完成其运行操作的， 这里方法run()称为线程体，它包含了要执行的这个线程的内容， Run方法运行结束， 此线程终止。然后CPU再调度其它线程。<br><strong>2.run（）</strong>方法当作普通方法的方式调用。程序还是要顺序执行，要等待run方法体执行完毕后，才可继续执行下面的代码； 程序中只有主线程——这一个线程， 其程序执行路径还是只有一条， 这样就没有达到写线程的目的。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -205,7 +206,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程？"><span class="toc-number">1.</span> <span class="toc-text">什么是线程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是进程？"><span class="toc-number">2.</span> <span class="toc-text">什么是进程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是多线程"><span class="toc-number">3.</span> <span class="toc-text">什么是多线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程和线程之间的区别"><span class="toc-number">4.</span> <span class="toc-text">进程和线程之间的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的五种状态？—生命周期"><span class="toc-number">5.</span> <span class="toc-text">线程的五种状态？—生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要用多线程"><span class="toc-number">6.</span> <span class="toc-text">为什么要用多线程?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现多线程的方式"><span class="toc-number">7.</span> <span class="toc-text">实现多线程的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的创建，停止，常用方法介绍："><span class="toc-number">8.</span> <span class="toc-text">线程的创建，停止，常用方法介绍：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程安全"><span class="toc-number">9.</span> <span class="toc-text">什么是线程安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#守护线程："><span class="toc-number">10.</span> <span class="toc-text">守护线程：</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程？"><span class="toc-number">1.</span> <span class="toc-text">什么是线程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是进程？"><span class="toc-number">2.</span> <span class="toc-text">什么是进程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是多线程"><span class="toc-number">3.</span> <span class="toc-text">什么是多线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程和线程之间的区别"><span class="toc-number">4.</span> <span class="toc-text">进程和线程之间的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的五种状态？—生命周期"><span class="toc-number">5.</span> <span class="toc-text">线程的五种状态？—生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要用多线程"><span class="toc-number">6.</span> <span class="toc-text">为什么要用多线程?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现多线程的方式"><span class="toc-number">7.</span> <span class="toc-text">实现多线程的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的创建，停止，常用方法介绍："><span class="toc-number">8.</span> <span class="toc-text">线程的创建，停止，常用方法介绍：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程安全"><span class="toc-number">9.</span> <span class="toc-text">什么是线程安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#守护线程："><span class="toc-number">10.</span> <span class="toc-text">守护线程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-和run-方法"><span class="toc-number">11.</span> <span class="toc-text">Start()和run()方法</span></a></li></ol>
  
   </div>
 
@@ -262,7 +263,7 @@
 			
 		
 			
-				<li><a href="/tags/gc-垃圾回收机制/" title="gc 垃圾回收机制">gc 垃圾回收机制<sup>1</sup></a></li>
+				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
 			
@@ -278,15 +279,11 @@
 			
 		
 			
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
 			
 		
 			
@@ -298,7 +295,11 @@
 			
 		
 			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
 			
 		
 			
