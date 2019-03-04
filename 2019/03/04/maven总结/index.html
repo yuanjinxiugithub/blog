@@ -4,25 +4,25 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>Git 如何删除远程文件/文件夹 | MyNotes</title>
+    <title>Maven总结 | MyNotes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YUAN">
     
 
     
-    <meta name="description" content="step1: git rm “文件名”      git rm -r “文件夹名称/” step2:  git commint -m    提交内容 step3： git push pushgit服务器上 有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了 git rm –cached filename/-r directorygit commi">
-<meta name="keywords" content="git,版本控制工具">
+    <meta name="description" content="clean: 清除target目录; install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的; package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包; deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。">
+<meta name="keywords" content="Maven,mvn命令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git 如何删除远程文件&#x2F;文件夹">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/04/Git-如何删除远程文件-文件夹/index.html">
+<meta property="og:title" content="Maven总结">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/04/maven总结/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="step1: git rm “文件名”      git rm -r “文件夹名称/” step2:  git commint -m    提交内容 step3： git push pushgit服务器上 有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了 git rm –cached filename/-r directorygit commi">
+<meta property="og:description" content="clean: 清除target目录; install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的; package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包; deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-04T13:35:41.029Z">
+<meta property="og:updated_time" content="2019-03-04T14:55:03.547Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git 如何删除远程文件&#x2F;文件夹">
-<meta name="twitter:description" content="step1: git rm “文件名”      git rm -r “文件夹名称/” step2:  git commint -m    提交内容 step3： git push pushgit服务器上 有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了 git rm –cached filename/-r directorygit commi">
+<meta name="twitter:title" content="Maven总结">
+<meta name="twitter:description" content="clean: 清除target目录; install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的; package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包; deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/03/04/Git-如何删除远程文件-文件夹/" title="Git 如何删除远程文件/文件夹" itemprop="url">Git 如何删除远程文件/文件夹</a>
+      <a href="/2019/03/04/maven总结/" title="Maven总结" itemprop="url">Maven总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
 		
   </p><p class="article-time">
-    <time datetime="2019-03-04T13:33:05.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    <time datetime="2019-03-04T14:54:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
     
   </p>
 </header>
@@ -102,14 +102,10 @@
 		
 		</div>
 		
-		<p>step1: git rm “文件名”      git rm -r “文件夹名称/”</p>
-<p>step2:  git commint -m    提交内容</p>
-<p>step3： git push pushgit服务器上</p>
-<p>有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了</p>
-<p>git rm –cached filename/-r directory<br>git commit “xxxx”<br>git push<br>1.删除github文件,本地保留</p>
-<p>git rm –cached test.<br>txt<br>git commit -m “delete file”<br>git push<br>此时github上已经不存在了</p>
-<p>2.删除远程code 文件夹,本地保留<br>一定要注意，删除文件夹要使用-r 参数</p>
-<p>git rm –cached -r code<br>git commit -m “delete directory”<br>git pus</p>
+		<p>clean: 清除target目录;</p>
+<p>install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的;</p>
+<p>package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包;</p>
+<p>deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -118,7 +114,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
+  <span></span> <a href="/tags/Maven/">Maven</a><a href="/tags/mvn命令/">mvn命令</a>
   </div>
 
 </div>
@@ -127,7 +123,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://yuanjinxiugithub.github.io/2019/03/04/Git-如何删除远程文件-文件夹/" data-title="Git 如何删除远程文件/文件夹 | MyNotes" data-tsina="" class="share clearfix">
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/03/04/maven总结/" data-title="Maven总结 | MyNotes" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +136,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev">
- <a href="/2019/03/04/maven总结之install命令/" title="Maven总结之install命令">
-  <strong>上一篇：</strong><br>
-  <span>
-  Maven总结之install命令</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2019/03/04/Git使用中出现的问题/" title="Git使用中出现的问题">
+<a href="/2019/03/04/maven总结之install命令/" title="Maven总结之install命令">
  <strong>下一篇：</strong><br> 
- <span>Git使用中出现的问题
+ <span>Maven总结之install命令
 </span>
 </a>
 </div>

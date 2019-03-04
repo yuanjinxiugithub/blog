@@ -82,6 +82,125 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/04/maven总结/" title="Maven总结" itemprop="url">Maven总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-04T14:54:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>clean: 清除target目录;</p>
+<p>install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的;</p>
+<p>package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包;</p>
+<p>deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Maven/">Maven</a><a href="/tags/mvn命令/">mvn命令</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/04/maven总结之install命令/" title="Maven总结之install命令" itemprop="url">Maven总结之install命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-04T14:53:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>1，maven的install最大的作用就是将项目本身编译并打包，并且其他项目引用本项目的jar包时不用去私服上下载jar包，直接从本地就可以拿到刚刚编译打包好的项目的jar包，很灵活，避免每次都需要重新往私服发布jar包的痛苦；</p>
+<p>2，修改服务端比如manage层和dao层的项目的时候如果eclipse没有自动编译，则在调试的时候容易出很奇怪的错误，就是明明代码已经改好了，但是debug的时候还是在报错，这就是没有项目没有编译完成造成的，看到的改好的代码没有变成class，因此，服务端的文件改动之后如果发现没有效果的时候要记得问题可能是没有编译，这时候可以使用maven的install命令编译一下；</p>
+<p>3，install有时候会报错Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin…，这种情况下可以检查项目里有没有出现编译错误，如果没有，就检查一下pom文件中surefire的配置；参考如下</p>
+<p>clean: 清除target目录;</p>
+<p>install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的;</p>
+<p>package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包;</p>
+<h2 id="deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。"><a href="#deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。" class="headerlink" title="deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。"></a>deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</h2><p>作者：卢子墨<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/lukabruce/article/details/80569789" target="_blank" rel="noopener">https://blog.csdn.net/lukabruce/article/details/80569789</a><br>版权声明：本文为博主原创文章，转载请附上博文链接！</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Maven/">Maven</a><a href="/tags/mvn命令/">mvn命令</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/04/Git-如何删除远程文件-文件夹/" title="Git 如何删除远程文件/文件夹" itemprop="url">Git 如何删除远程文件/文件夹</a>
   </h1>
   <p class="article-author">By
@@ -766,133 +885,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/25/JavaScript中的var-let-const的区别/" title="JavaScript中的var let const的区别" itemprop="url">JavaScript中的var let const的区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-25T12:27:10.000Z" itemprop="datePublished"> Published 2019-02-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在ES6出现之前，js中声明变量就只有通过var关键字，函数声明是通过function关键字，而在ES6之后，声明的方式有var,let，const,function,class,现在主要考虑var const let的区别；</p>
-<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><ol>
-<li>如果使用关键字 var 声明一个变量，那么这个变量就属于当前的函数作用域。</li>
-</ol>
-<p>​      var定义的变量可以修改，如果没有进行初始化会输出undefined,不会报错。</p>
-<ol start="2">
-<li><p>let 声明的变量只在它所在的代码块有效；块作用域由{}包括，if语句和for语句里面的{}也属于块作用域。</p>
-<p>let是块级作用域，函数内部使用let定义后，对函数外部无影响。只能在块作用域里访问，也不能跨函数访问。</p>
-</li>
-<li><p>const 定义的变量无法修改，而且必须初始化。只能在块作用域里访问。</p>
-</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/javascript/">javascript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/22/OLTP和OLAP的区别/" title="OLTP和OLAP的区别" itemprop="url">OLTP和OLAP的区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-22T06:19:13.000Z" itemprop="datePublished"> Published 2019-02-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="OLTP和OLAP的介绍和比较"><a href="#OLTP和OLAP的介绍和比较" class="headerlink" title="OLTP和OLAP的介绍和比较"></a>OLTP和OLAP的介绍和比较</h3><h5 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h5><p>数据处理大致分为：</p>
-<p>OLAP(on-line analytical processing )联机分析处理:<font color="red">数据仓库系统</font>的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。<font color="red">OLAP强调数据分析，强调sql执行市场，强调磁盘I/O,强调分区等。</font></p>
-<p>OLTP(on-line transaction processing )l联机事务处理：传统的关系型数据库的主要应用，主要是基本的，日常的事务，例如银行交易。<font color="red">OLTP强调数据库内存效率，强调内存各种指标的命令率</font></p>
-<h5 id="2-比较"><a href="#2-比较" class="headerlink" title="2.比较"></a>2.比较</h5><p><img src="https://img-my.csdn.net/uploads/201212/08/1354896501_9646.jpg" alt="img"></p>
-<p>OLTP：表示事务性非常高的系统，一般是高可用的在线系统，以小的事物以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及ExecuteSQL的数量。</p>
-<p>OLAP:联机分析处理，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。磁盘子系统的吞吐量。</p>
-<p>决策支持系统（DDS,decision support system ）典型的操作是全表扫描，长查询，长事务，但是一般事务的个数很少，往往是一个事务独占系统。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/数据库/">数据库</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -926,11 +918,11 @@
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
 			
 		
 			
@@ -938,11 +930,11 @@
 			
 		
 			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
@@ -950,15 +942,7 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -966,7 +950,19 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
 			
 		
 			
@@ -974,15 +970,11 @@
 			
 		
 			
-				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
 			
@@ -990,15 +982,15 @@
 			
 		
 			
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 		</ul>

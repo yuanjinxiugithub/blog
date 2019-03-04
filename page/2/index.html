@@ -82,6 +82,133 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/02/25/JavaScript中的var-let-const的区别/" title="JavaScript中的var let const的区别" itemprop="url">JavaScript中的var let const的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-25T12:27:10.000Z" itemprop="datePublished"> Published 2019-02-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在ES6出现之前，js中声明变量就只有通过var关键字，函数声明是通过function关键字，而在ES6之后，声明的方式有var,let，const,function,class,现在主要考虑var const let的区别；</p>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><ol>
+<li>如果使用关键字 var 声明一个变量，那么这个变量就属于当前的函数作用域。</li>
+</ol>
+<p>​      var定义的变量可以修改，如果没有进行初始化会输出undefined,不会报错。</p>
+<ol start="2">
+<li><p>let 声明的变量只在它所在的代码块有效；块作用域由{}包括，if语句和for语句里面的{}也属于块作用域。</p>
+<p>let是块级作用域，函数内部使用let定义后，对函数外部无影响。只能在块作用域里访问，也不能跨函数访问。</p>
+</li>
+<li><p>const 定义的变量无法修改，而且必须初始化。只能在块作用域里访问。</p>
+</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/javascript/">javascript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/22/OLTP和OLAP的区别/" title="OLTP和OLAP的区别" itemprop="url">OLTP和OLAP的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-22T06:19:13.000Z" itemprop="datePublished"> Published 2019-02-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="OLTP和OLAP的介绍和比较"><a href="#OLTP和OLAP的介绍和比较" class="headerlink" title="OLTP和OLAP的介绍和比较"></a>OLTP和OLAP的介绍和比较</h3><h5 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h5><p>数据处理大致分为：</p>
+<p>OLAP(on-line analytical processing )联机分析处理:<font color="red">数据仓库系统</font>的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。<font color="red">OLAP强调数据分析，强调sql执行市场，强调磁盘I/O,强调分区等。</font></p>
+<p>OLTP(on-line transaction processing )l联机事务处理：传统的关系型数据库的主要应用，主要是基本的，日常的事务，例如银行交易。<font color="red">OLTP强调数据库内存效率，强调内存各种指标的命令率</font></p>
+<h5 id="2-比较"><a href="#2-比较" class="headerlink" title="2.比较"></a>2.比较</h5><p><img src="https://img-my.csdn.net/uploads/201212/08/1354896501_9646.jpg" alt="img"></p>
+<p>OLTP：表示事务性非常高的系统，一般是高可用的在线系统，以小的事物以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及ExecuteSQL的数量。</p>
+<p>OLAP:联机分析处理，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。磁盘子系统的吞吐量。</p>
+<p>决策支持系统（DDS,decision support system ）典型的操作是全表扫描，长查询，长事务，但是一般事务的个数很少，往往是一个事务独占系统。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/18/基于springsecurity的oauth2-0授权认证/" title="基于springsecurity的oauth2.0授权认证" itemprop="url">基于springsecurity的oauth2.0授权认证</a>
   </h1>
   <p class="article-author">By
@@ -493,7 +620,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/ELK/">ELK</a><a href="/tags/java/">java</a>
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/ELK/">ELK</a>
   </div>
 
 </div>
@@ -770,372 +897,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/15/关于消息队列的使用/" title="关于消息队列的使用" itemprop="url">关于消息队列的使用</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-15T08:46:00.000Z" itemprop="datePublished"> Published 2019-02-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="https://www.javazhiyin.com/22897.html" target="_blank" rel="noopener">参考文章</a> <a href="https://blog.csdn.net/qq_39470733/article/details/80576013" target="_blank" rel="noopener">参考文章2</a></p>
-<h3 id="什么是消息队列？"><a href="#什么是消息队列？" class="headerlink" title="什么是消息队列？"></a>什么是消息队列？</h3><p>消息队列就是在消息的传输过程中保存消息的容器。</p>
-<p>消息队列是分布式应用间交换信息的一种技术。</p>
-<p><img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2714269904,457215482&amp;fm=173&amp;app=25&amp;f=JPEG?w=639&amp;h=330&amp;s=EFE2A5520B085D4708E4D0C00200D0B2" alt="img"></p>
-<p>MQ的基本概念：</p>
-<p>1) 队列管理器（Queue Manage）</p>
-<p>队列管理器是MQ系统中最上层的一个概念，由它为我们提供基于队列的消息服务。</p>
-<p>2) 消息</p>
-<p>在MQ中，我们把应用程序交由MQ传输的数据定义为消息。</p>
-<p>3) 队列 </p>
-<p>队列是消息的安全存放地，队列存储消息直到它被应用程序处理。</p>
-<p>4) 通道</p>
-<p>通道是两个管理器之间的一种单向点对点的通信连接，如果需要双向，需要建立一对通道。</p>
-<p>5) 监听器</p>
-<h3 id="为什么要使用消息队列？"><a href="#为什么要使用消息队列？" class="headerlink" title="为什么要使用消息队列？"></a>为什么要使用消息队列？</h3><h5 id="1-系统解耦，异步访问"><a href="#1-系统解耦，异步访问" class="headerlink" title="1.系统解耦，异步访问"></a>1.系统解耦，异步访问</h5><p>看这么个场景。A 系统发送数据到 BCD 三个系统，通过接口调用发送。如果 E 系统也要这个数据呢？那如果 C 系统现在不需要了呢？A 系统负责人几乎崩溃……</p>
-<p><img src="https://www.javazhiyin.com/wp-content/uploads/2018/12/mq-1.png" alt="mq-1"></p>
-<p>在这个场景中，A 系统跟其它各种乱七八糟的系统严重耦合，A 系统产生一条比较关键的数据，很多系统都需要 A 系统将这个数据发送过来。A 系统要时时刻刻考虑 BCDE 四个系统如果挂了该咋办？要不要重发，要不要把消息存起来？头发都白了啊！</p>
-<p>如果使用 MQ，A 系统产生一条数据，发送到 MQ 里面去，哪个系统需要数据自己去 MQ 里面消费。如果新系统需要数据，直接从 MQ 里消费即可；如果某个系统不需要这条数据了，就取消对 MQ 消息的消费即可。这样下来，A 系统压根儿不需要去考虑要给谁发送数据，不需要维护这个代码，也不需要考虑人家是否调用成功、失败超时等情况。</p>
-<p><img src="https://www.javazhiyin.com/wp-content/uploads/2018/12/mq-2.png" alt="mq-2"></p>
-<font color="red">场景说明：用户下单后，订单系统需要通知库存系统。传统的做法是，订单系统调用库存系统的接口；</font>
-
-<p>传统模式的缺点：</p>
-<p>1) 假如库存系统无法访问，则订单减库存将失败,从而导致订单失败。</p>
-<p>2) 订单系统和库存系统耦合。</p>
-<p>而消息队列的出现解决了传统模式带来的弊端：</p>
-<p>1) 订单系统：用户下单后，订单系统完成持久化处理，将消息写入消息队列，返回用户订单下单成功。</p>
-<p>2)库存系统：订阅下单的消息，采用推拉的方式，获取下单信息，库存系统根据下单信息，进行库存操作。</p>
-<ul>
-<li>假如：在下单时库存系统不能正常使用。也不影响正常下单，因为下单后，订单系统写入消息队列就不再关心其他的后续操作了。实现订单系统与库存系统的应用解耦。<font color="red">也减少用户请求的响应时间。</font></li>
-</ul>
-<h5 id="2-削弱高峰"><a href="#2-削弱高峰" class="headerlink" title="2.削弱高峰"></a>2.削弱高峰</h5><p>流量削峰也是消息队列中常用场景，一般在秒杀或团抢活动中使用广泛。</p>
-<font color="red">应用场景：秒杀活动，一般会因为流量过大，导致流量暴增，应用挂掉。为解决这个问题，一般需要在应用前端加入消息队列。</font>
-
-<p>传统处理模式：</p>
-<ol>
-<li>可以控制活动的人数；</li>
-<li><p>可以缓解短时间内高流量压垮应用；</p>
-<p>消息队列处理模式：</p>
-</li>
-<li><p>用户的请求，<a href="https://www.baidu.com/s?wd=%E6%9C%8D%E5%8A%A1%E5%99%A8&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">服务器</a>接收后，首先写入消息队列。假如消息队列长度超过最大数量，则直接抛弃用户请求或跳转到错误页面；</p>
-</li>
-<li><p>秒杀业务根据消息队列中的请求信息，再做后续处理。</p>
-<p>传统模式的缺点：</p>
-<ul>
-<li>并发量大的时候，所有的请求直接怼到数据库，造成数据库连接异常</li>
-</ul>
-<p>中间件模式的的优点：</p>
-<ul>
-<li>系统A慢慢的按照数据库能处理的并发量，从消息队列中慢慢拉取消息。在生产中，这个短暂的高峰期积压是允许的。</li>
-</ul>
-</li>
-</ol>
-<h5 id="3-消息通信"><a href="#3-消息通信" class="headerlink" title="3.消息通信"></a>3.消息通信</h5><p>消息通讯是指，消息队列一般都内置了高效的通信机制，因此也可以用在纯的消息通讯。比如实现点对点消息队列，或者聊天室等。</p>
-<font color="red">消息队列的两种消息模式：点对点模式和分布订阅模式。</font>
-
-<font color="red">同步保证结果，异步保证效率</font>
-
-<h3 id="消息模式"><a href="#消息模式" class="headerlink" title="消息模式"></a>消息模式</h3><h4 id="1-点对点模式和发布订阅模式：是否可以重复消费"><a href="#1-点对点模式和发布订阅模式：是否可以重复消费" class="headerlink" title="1. 点对点模式和发布订阅模式：是否可以重复消费"></a>1. 点对点模式和发布订阅模式：是否可以重复消费</h4><p>1.1 P2P模式：</p>
-<p>P2P模式包含三个角色：<strong>消息队列</strong>（Queue），<strong>发送者</strong>(Sender)，<strong>接收者</strong>(Receiver)。每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到他们被消费或超时。<br>P2P的特点</p>
-<ol>
-<li>每个消息只有一个消费者（Consumer）(即一旦被消费，消息就不再在消息队列中)</li>
-<li>发送者和接收者之间在时间上没有依赖性，也就是说当发送者发送了消息之后，不管接收者有没有正在运行，它不会影响到消息被发送到队列</li>
-<li><p>接收者在成功接收消息之后需向队列应答成功</p>
-<p>如果希望发送的每个消息都会被成功处理的话，那么需要P2P模式。、</p>
-</li>
-</ol>
-<p>1.2 Pub/sub模式：</p>
-<p>包含三个角色：<strong>主题</strong>（Topic），<strong>发布者</strong>（<a href="https://www.baidu.com/s?wd=Publisher&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">Publisher</a>），<strong>订阅者</strong>（Subscriber） 。多个发布者将消息发送到Topic,系统将这些消息传递给多个订阅者。<br><strong>Pub/Sub</strong>的特点</p>
-<ol>
-<li>每个消息可以有多个消费者</li>
-<li>发布者和订阅者之间有时间上的依赖性。针对某个主题（Topic）的订阅者，它必须创建一个订阅者之后，才能消费发布者的消息。</li>
-<li>为了消费消息，订阅者必须保持运行的状态。</li>
-</ol>
-<p>为了缓和这样严格的时间相关性，JMS允许订阅者创建一个可持久化的订阅。这样，即使订阅者没有被激活（运行），它也能接收到发布者的消息。</p>
-<p>如果希望发送的消息可以不被做任何处理、或者只被一个消息者处理、或者可以被多个消费者处理的话，那么可以采用Pub/Sub模型。</p>
-<h4 id="2-推模式和拉模式：消息的更新者"><a href="#2-推模式和拉模式：消息的更新者" class="headerlink" title="2. 推模式和拉模式：消息的更新者"></a>2. 推模式和拉模式：消息的更新者</h4><p><strong>推(push)模式</strong>是一种基于C/S机制、由<strong>服务器主动将信息送到客户器</strong>的技术。</p>
-<ol>
-<li><p>在push模式应用中，服务器把信息送给客户器之前，并没有明显的客户请求<strong>。push事务由服务器发起。push模式可以让信息主动、快速地寻找用户/客户器，信息的</strong>主动性和实时性**比较好。但精确性较差，可能推送的信息并不一定满足客户的需求。</p>
-</li>
-<li><p>推送模式不能保证能把信息送到客户器，因为推模式采用了广播机制，如果客户器正好联网并且和服务器在同一个频道上，推送模式才是有效的。</p>
-</li>
-<li><p>push模式<strong>无法跟踪状态</strong>，采用了开环控制模式，没有用户反馈信息。在实际应用中，由客户器向服务器发送一个申请，并把自己的地址（如IP、port）告知服务器，然后服务器就<a href="https://www.baidu.com/s?wd=%E6%BA%90%E6%BA%90%E4%B8%8D%E6%96%AD&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">源源不断</a>地把信息推送到指定地址。在多媒体信息广播中也采用了推模式。</p>
-</li>
-</ol>
-<p>拉（pull）模式<strong>与推模式相反，是</strong>由客户器主动发起的事务。</p>
-<h3 id="消息队列的优缺点"><a href="#消息队列的优缺点" class="headerlink" title="消息队列的优缺点:"></a>消息队列的优缺点:</h3><p>优点可查看为什么使用MQ所述。</p>
-<p>缺点：</p>
-<h5 id="1-系统可用性降低"><a href="#1-系统可用性降低" class="headerlink" title="1.系统可用性降低"></a>1.<font color="red">系统可用性降低</font></h5><p>系统引入的外部依赖越多，越容易挂掉。本来你就是 A 系统调用 BCD 三个系统的接口就好了，人 ABCD 四个系统好好的，没啥问题，你偏加个 MQ 进来，万一 MQ 挂了咋整，MQ 一挂，整套系统崩溃的，你不就完了？如何保证消息队列的高可用？</p>
-<h5 id="2-系统复杂性提高"><a href="#2-系统复杂性提高" class="headerlink" title="2.系统复杂性提高"></a>2.<font color="red">系统复杂性提高</font></h5><p>硬生生加个 MQ 进来，你怎么<a href="https://www.javazhiyin.com/go?url=https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-that-messages-are-not-repeatedly-consumed.md" target="_blank" rel="noopener">保证消息没有重复消费</a>？怎么<a href="https://www.javazhiyin.com/go?url=https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-the-reliable-transmission-of-messages.md" target="_blank" rel="noopener">处理消息丢失的情况</a>？数据一致性？怎么保证消息传递的顺序性？</p>
-<p>但是，我们该用还是要用的。</p>
-<h3 id="Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："><a href="#Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：" class="headerlink" title="Kafka、ActiveMQ、RabbitMQ、RocketMQ对比："></a>Kafka、ActiveMQ、RabbitMQ、RocketMQ对比：</h3><p>(1)中小型软件公司，建议选RabbitMQ.一方面，erlang语言天生具备高并发的特性，而且他的管理界面用起来十分方便。正所谓，成也萧何，败也萧何！他的弊端也在这里，虽然RabbitMQ是开源的，然而国内有几个能定制化开发erlang的程序员呢？所幸，RabbitMQ的社区十分活跃，可以解决开发过程中遇到的bug，这点对于中小型公司来说十分重要。</p>
-<p>不考虑rocketmq和kafka的原因是，一方面中小型软件公司不如互联网公司，数据量没那么大，选消息中间件，应首选功能比较完备的，所以kafka排除。</p>
-<p>不考虑rocketmq的原因是，rocketmq是阿里出品，如果阿里放弃维护rocketmq，中小型公司一般抽不出人来进行rocketmq的定制化开发，因此不推荐。</p>
-<p>(2)大型软件公司，根据具体使用在rocketMq和kafka之间二选一。一方面，大型软件公司，具备足够的资金搭建分布式环境，也具备足够大的数据量。</p>
-<p>针对rocketMQ,大型软件公司也可以抽出人手对rocketMQ进行<font color="red">定制化开发</font>，毕竟国内有能力改JAVA源码的人，还是相当多的。至于kafka，根据业务场景选择，如果有<font color="red">日志采集,大数据领域的实时计算</font>等场景，肯定是首选kafka了,几乎是全世界这个领域的事实性规范。具体该选哪个，看使用场景。</p>
-<table>
-<thead>
-<tr>
-<th>特性</th>
-<th>ActiveMQ</th>
-<th>RabbitMQ</th>
-<th>RocketMQ</th>
-<th>Kafka</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>单机吞吐量</td>
-<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
-<td>同 ActiveMQ</td>
-<td>10 万级，支撑高吞吐</td>
-<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
-</tr>
-<tr>
-<td>topic 数量对吞吐量的影响</td>
-<td></td>
-<td></td>
-<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
-<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
-</tr>
-<tr>
-<td>时效性</td>
-<td>ms 级</td>
-<td>微秒级，这是 RabbitMQ 的一大特点，延迟最低</td>
-<td>ms 级</td>
-<td>延迟在 ms 级以内</td>
-</tr>
-<tr>
-<td>可用性</td>
-<td>高，基于主从架构实现高可用</td>
-<td>同 ActiveMQ</td>
-<td>非常高，分布式架构</td>
-<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
-</tr>
-<tr>
-<td>消息可靠性</td>
-<td>有较低的概率丢失数据</td>
-<td></td>
-<td>经过参数优化配置，可以做到 0 丢失</td>
-<td>同 RocketMQ</td>
-</tr>
-<tr>
-<td>功能支持</td>
-<td>MQ 领域的功能极其完备</td>
-<td>基于 erlang 开发，并发能力很强，性能极好，延时很低</td>
-<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
-<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
-</tr>
-</tbody>
-</table>
-<p>### </p>
-<h3 id="如何保证消息队列的高可用"><a href="#如何保证消息队列的高可用" class="headerlink" title="如何保证消息队列的高可用:"></a>如何保证消息队列的高可用:</h3><p>分析:在第二点说过了，引入消息队列后，系统的可用性下降。在生产中，没人使用<font color="red">单机模式的消息队列</font>。因此，作为一个合格的程序员，应该对消息队列的高可用有很深刻的了解。</p>
-<p>如果面试的时候，面试官问，你们的消息中间件如何保证高可用的？你的回答只是表明自己只会订阅和发布消息，面试官就会怀疑你是不是只是自己搭着玩，压根没在生产用过。请做一个爱思考，会思考，懂思考的程序员.</p>
-<p><strong>回答</strong>：要对消息队列的集群模式有深刻的了解。</p>
-<p>RabbitMQ的集群模式：普通集群和镜像集群。</p>
-<p>要求，在回答高可用的问题时，应该能逻辑清晰的画出自己的MQ集群架构或清晰的叙述出来。</p>
-<p>————————————- ——–未完待续—————————————————</p>
-<h3 id="如何保证消息不被重复消费："><a href="#如何保证消息不被重复消费：" class="headerlink" title="如何保证消息不被重复消费："></a>如何保证消息不被重复消费：</h3><p>分析:这个问题其实换一种问法就是，如何保证消息队列的幂等性?这个问题可以认为是消息队列领域的基本问题。换句话来说，是在考察你的设计能力，这个问题的回答可以根据具体的业务场景来答，没有固定的答案。</p>
-<p>回答:先来说一下为什么会造成重复消费?</p>
-<p>其实无论是那种消息队列，造成重复消费原因其实都是类似的。<font color="red">正常情况下，消费者在消费消息时候，消费完毕后，会发送一个确认信息给消息队列，消息队列就知道该消息被消费了，就会将该消息从消息队列中删除</font>。只是不同的消息队列发送的确认信息形式不同,例如<font color="red">RabbitMQ是发送一个ACK确认消息</font>，RocketMQ是返回一个CONSUME_SUCCESS成功标志，kafka实际上有个offset的概念，简单说一下(如果还不懂，出门找一个kafka入门到精通教程),就是每一个消息都有一个offset，kafka消费过消息后，需要提交offset，让消息队列知道自己已经消费过了。那造成重复消费的原因?，就是因为网络传输等等故障，确认信息没有传送到消息队列，导致消息队列不知道自己已经消费过该消息了，再次将该消息分发给其他的消费者。</p>
-<p>如何解决?这个问题针对业务场景来答分以下几点</p>
-<p>  (1)比如，你拿到这个消息做数据库的insert操作。那就容易了，给这个消息做一个唯一主键，那么就算出现重复消费的情况，就会导致主键冲突，避免数据库出现脏数据。<br>  (2)再比如，你拿到这个消息做redis的set的操作，那就容易了，不用解决，因为你无论set几次结果都是一样的，set操作本来就算幂等操作。<br>  (3)如果上面两种情况还不行，上大招。准备一个第三方介质,来做消费记录。以redis为例，给消息分配一个全局id，只要消费过该消息，将&lt;id,message&gt;以K-V形式写入redis。那消费者开始消费前，先去redis中查询有没消费记录即可。</p>
-<p>补充：鉴别消息重复，并幂等处理重复消息：</p>
-<p>1.鉴别重复消息：利用存储系统的唯一键，给每个消息加上一个MessageId.</p>
-<p>2.幂等处理重复消息的方法：</p>
-<p>​    1.跟鉴别消息重复一样，利用messageId,重复即不处理。</p>
-<p>​    2.版本号，每个消息都带一个版本号，只处理比当前存储版本号高的消息</p>
-<p>​    3.状态机，跟业务耦合比较严重，根据业务类型判断。</p>
-<font color="red">RabbitMQ的ACK消息确认机制：防止消息丢失，如果消息者领取消息后没执行操作就挂掉了，或者执行抛出异常，也就是消费者执行失败了，rabbotMQ无从得知，就会导致消息丢失。</font>
-
-<p>因此RabbitMQ中就有ACK消息确认机制，消息确认有两种模式：</p>
-<p>1.自动模式，我们无需任何操作，在消息被消费者领取后，就会自动确认，消息也会被从队列删除。</p>
-<p>2.手动模式，消息被消费后，我们需要调用RabbitMQ提供的API来实现消息确认。<br>我们在调用：channel.basicConsume()方法的时候，通过指定第二个参数来设置是自动还是手动：</p>
-<h3 id="如何保证消费的可靠性传输："><a href="#如何保证消费的可靠性传输：" class="headerlink" title="如何保证消费的可靠性传输："></a>如何保证消费的可靠性传输：</h3><p>分析:我们在使用消息队列的过程中，应该做到消息不能多消费，也不能少消费。如果无法做到可靠性传输，可能给公司带来千万级别的财产损失。</p>
-<p>个可靠性传输，每种MQ都要从三个角度来分析:生产者弄丢数据、消息队列弄丢数据、消费者弄丢数据</p>
-<p>RabbitMQ</p>
-<p><font color="red">(1)生产者丢数据</font><br>从生产者弄丢数据这个角度来看，RabbitMQ提供transaction和confirm模式来确保生产者不丢消息。<br>transaction机制就是说，发送消息前，开启事务(channel.txSelect())，然后发送消息，如果发送过程中出现什么异常，事物就会回滚(channel.txRollback())，如果发送成功则提交事物(channel.txCommit())。</p>
-<p>然而缺点就是吞吐量下降了。因此，按照博主的经验，生产上用confirm模式的居多。一旦channel进入confirm模式，所有在该信道上面发布的消息都将会被指派一个唯一的ID(从1开始)，一旦消息被投递到所有匹配的队列之后，rabbitMQ就会发送一个Ack给生产者(包含消息的唯一ID)，这就使得生产者知道消息已经正确到达目的队列了.如果rabiitMQ没能处理该消息，则会发送一个Nack消息给你，你可以进行重试操作。</p>
-<p><font color="red">(2)消息队列丢数据</font><br>处理消息队列丢数据的情况，一般是开启<font color="red">持久化磁盘的配置</font>。这个持久化配置可以和confirm机制配合使用，你可以在消息持久化磁盘后，再给生产者发送一个Ack信号。这样，如果消息持久化磁盘之前，rabbitMQ阵亡了，那么生产者收不到Ack信号，生产者会自动重发。</p>
-<p>那么如何持久化呢，这里顺便说一下吧，其实也很容易，就下面两步</p>
-<p>1、将queue的持久化标识durable设置为true,则代表是一个持久的队列<br>2、发送消息的时候将deliveryMode=2</p>
-<p>这样设置以后，rabbitMQ就算挂了，重启后也能恢复数据。</p>
-<p><font color="red">(3)消费者丢数据</font><br>消费者丢数据一般是因为采用了自动确认消息模式。这种模式下，消费者会自动确认收到信息。这时rahbitMQ会立即将消息删除，这种情况下如果消费者出现异常而没能处理该消息，就会丢失该消息。<br>至于解决方案，<font color="red">采用手动确认消息</font>即可。</p>
-<h3 id="如何保证消息队列数据最终的一致性？"><a href="#如何保证消息队列数据最终的一致性？" class="headerlink" title="如何保证消息队列数据最终的一致性？"></a>如何保证消息队列数据最终的一致性？</h3><p>依靠消息凭证完成最终一致性。</p>
-<p>——————————待完善——————-</p>
-<h3 id="如何保证消息的顺序性？"><a href="#如何保证消息的顺序性？" class="headerlink" title="如何保证消息的顺序性？"></a>如何保证消息的顺序性？</h3><p>分析:其实并非所有的公司都有这种业务需求，但是还是对这个问题要有所复习。</p>
-<p>回答:针对这个问题，通过某种算法，将需要保持先后顺序的消息放到同一个消息队列中(kafka中就是partition,rabbitMq中就是queue)。然后只用一个消费者去消费该队列。</p>
-<p>有的人会问:那如果为了吞吐量，有多个消费者去消费怎么办？</p>
-<p>这个问题，没有固定回答的套路。比如我们有一个微博的操作，发微博、写评论、删除微博，这三个异步操作。如果是这样一个业务场景，那只要重试就行。比如你一个消费者先执行了写评论的操作，但是这时候，微博都还没发，写评论一定是失败的，等一段时间。等另一个消费者，先执行写评论的操作后，再执行，就可以成功。</p>
-<p>总之，针对这个问题，我的观点是保证入队有序就行，出队以后的顺序交给消费者自己去保证，没有固定套路。</p>
-<h3 id="消息队列实现的原理："><a href="#消息队列实现的原理：" class="headerlink" title="消息队列实现的原理："></a>消息队列实现的原理：</h3><h3 id="JMS-java-message-service"><a href="#JMS-java-message-service" class="headerlink" title="JMS java message service"></a>JMS java message service</h3><p>jms是java平台中一个面向消息中间件的技术规范，MQ可以基于JMS规范实现，也可以基于其他技术规范实现。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/消息队列/">消息队列</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/15/java中的队内存和栈内存/" title="java中的堆内存和栈内存" itemprop="url">java中的堆内存和栈内存</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-15T02:22:55.000Z" itemprop="datePublished"> Published 2019-02-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>参考文献<br> <a href="http://www.cnblogs.com/whgw/archive/2011/09/29/2194997.html" target="_blank" rel="noopener">博客1</a> <a href="https://www.cnblogs.com/itcqx/p/5486174.html" target="_blank" rel="noopener">博客2</a></p>
-</blockquote>
-<h3 id="java存储数据的6个地方"><a href="#java存储数据的6个地方" class="headerlink" title="java存储数据的6个地方"></a>java存储数据的6个地方</h3><ol>
-<li><p>寄存器（register）<br> 最快的存储区域，位于处理器内部,不同于其他存储区。但是存储器的数量及其有限，所以寄存器由编译器根据需求进行分配。不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。</p>
- <font color="grey"> —– 最快的存储区，由编译器根据需求进行分配，程序无法控制</font>
-</li>
-<li><p>堆栈（stack）<br>位于通用RAM中,但通过”堆栈指针”可以从处理器哪里获得支持。<font color="red">堆栈指针向下移动，则分配新的内存；若向上移动，则释放那些内存。这是一种快速有效的分配存储方法，仅次于寄存器。</font>创建程序时，java编译器必须知道存储在堆栈内所有数据的确切大小和生命周期，因为它们必须生成相应的代码。以便上下移动堆栈指针，这一约束限制了程序的灵活性，所以虽然某些JAVA数据存储在堆栈中——特别是对象引用，但是JAVA对象不存储其 中。<font color="red">具体方法结束后，系统自动释放JVM内存资源</font></p>
-<font color="grey">   —– 存放基本类型的变量数据和对象，数组的引用，但对象本身不存放在栈中，而是 存放在堆（new 对象）或者常量池中（字符串常量存放在常量池中）。</font>
-</li>
-<li><p>堆（heap）</p>
-<p> 一种通用的内存池（也存在于RAM中）,用于存放所有的java对象。堆内存不同于堆栈的好处是：编译器不需要知道从堆里分配多少存储区，也不必知道存储数据在堆里面存活时间。因此，堆的灵活性较强。当你需要创建一个对象的时候，只需要new写一行简单的代码，当执行 这行代码时，会自动在堆里进行存储分配。当然，为这种灵活性必须要付出相应的代码。用堆进行存储分配比用堆栈进行存储存储需要更多的时间。<font color="red">一般由程序员分配释放，jvm不定时查看这个对象，如果没有引用指向这个对象就回收</font></p>
-</li>
-</ol>
-<p>​     <font color="grey"> —– 存放所有new 出来的对象</font></p>
-<ol start="4">
-<li><p>静态存储（static storage）–数据区</p>
-<p>这里的“静态”是指“在固定的位置”。静态存储里存放程序运行时一直存在的数据。你可用关键字static来标识一个对象的特定元素是静态的，但JAVA对象本身从来不会存放在静态存储空间里</p>
- <font color="grey">—– 存放静态成员（static 定义的）</font>
-</li>
-<li><p>常量存储（constant storage）</p>
-<p>常量值通常直接存放在程序代码内部，这样做是安全的，因为它们永远不会被改变。有时，在嵌入式系统中，常量本身会和其他部分分割离开，所以在这种情况下，可以选择将其放在ROM中 。常量池存储于堆中。</p>
- <font color="grey">——存放字符串常量和基本类型常量（public static final）和对其他类型、方法、字段的<strong>符号引用</strong></font>
-</li>
-<li><p>非RAM存储</p>
-</li>
-</ol>
-<p>​     如果数据完全存活于程序之外，那么它可以不受程序的任何控制，在程序没有运行时也可以存在。</p>
-<p>​       <font color="grey">—–硬盘等永久存储空间</font></p>
-<p>​    <font color="red">就速度而言，有如下关系：寄存器 &gt;堆栈 &gt; 堆 &gt; 其它</font></p>
-<p>下图大致描述了java的内存分配：</p>
-<p><img src="https://images2015.cnblogs.com/blog/1087853/201612/1087853-20161228171311414-415257293.png" alt="img"></p>
-<p>数据段：存放定义的static 定义的静态成员。</p>
-<p>常量区：JVM为每个已加载的类型维护一个常量池，常量池就是这个类型用到的常量的一个有序集合。</p>
-<p>代码段：存放程序中的二进制代码，而且多个对象共享一个代码空间区域</p>
-<h3 id="栈内存和堆内存"><a href="#栈内存和堆内存" class="headerlink" title="栈内存和堆内存"></a>栈内存和堆内存</h3><ol>
-<li><p>java中栈和常量池中的对象可以共享，对于堆中的对象不可以共享。</p>
-</li>
-<li><p>堆栈中的数据大小和生命周期可以确定，当没有引用指向数据时，这个数据就会消失。堆中的对象的由垃圾回收器负责回收，因此大小和生命周期不需要确定，具有很大的灵活性。（堆最大的优势可以在运行期间动态地分配内存大小）</p>
-</li>
-<li><p>对于字符串：其对象的引用都是存储在栈中的，如果是编译期已经创建好(直接用双引号定义的)的就存储在常量池中，如果是运行期（new出来的）才能确定的就存储在堆中。对于equals相等的字符串，在常量池中永远只有一份，在堆中有多份。<br> 如下代码：java代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"china"</span>; </span><br><span class="line">  </span><br><span class="line"> String s2 = <span class="string">"china"</span>;</span><br><span class="line">  </span><br><span class="line"> String s3 = <span class="string">"china"</span>; </span><br><span class="line">  </span><br><span class="line"> String ss1 = <span class="keyword">new</span> String(<span class="string">"china"</span>); </span><br><span class="line">  </span><br><span class="line"> String ss2 = <span class="keyword">new</span> String(<span class="string">"china"</span>); </span><br><span class="line">  </span><br><span class="line"> String ss3 = <span class="keyword">new</span> String(<span class="string">"china"</span>);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><img src="https://images2015.cnblogs.com/blog/908514/201607/908514-20160720101024841-238269977.jpg" alt="img"></p>
-<p>​     这里解释一下，对于通过 new 产生一个字符串（假设为 ”china” ）时，会先去常量池中查找是否已经有了 ”china” 对象，如果没有则在常量池中创建一个此字符串对象，然后堆中再创建一个常量池中此 ”china” 对象的拷贝对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestStringConstant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 字符串常量，分配在常量池中，编译器会对其进行优化，  Interned table</span></span><br><span class="line">        <span class="comment">// 即当一个字符串已经存在时，不再重复创建一个相同的对象，而是直接将s2也指向"hello".</span></span><br><span class="line">        String s1 = <span class="string">"hello"</span>;   </span><br><span class="line">        String s2 = <span class="string">"hello"</span>;</span><br><span class="line">        <span class="comment">// new出来的对象，分配在heap中.s3与s4虽然它们指向的字符串内容是相同的，但是是两个不同的对象.</span></span><br><span class="line">        <span class="comment">// 因此==进行比较时，其所存的引用是不同的，故不会相等</span></span><br><span class="line">        String s3 = <span class="keyword">new</span> String(<span class="string">"world"</span>);      </span><br><span class="line">        String s4 = <span class="keyword">new</span> String(<span class="string">"world"</span>);</span><br><span class="line">        </span><br><span class="line">        System.out.println(s1 == s2);   <span class="comment">// true</span></span><br><span class="line">        System.out.println(s3 == s4);   <span class="comment">// false</span></span><br><span class="line">        System.out.println(s3.equals(s4));   <span class="comment">// true   </span></span><br><span class="line">        <span class="comment">// String中equals方法已经被重写过，比较的是内容是否相等.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">【<span class="number">1</span>】</span><br><span class="line">String a = <span class="string">"ab"</span>;   </span><br><span class="line">String bb = <span class="string">"b"</span>;   </span><br><span class="line">String b = <span class="string">"a"</span> + bb;   </span><br><span class="line">System.out.println((a == b)); <span class="comment">//result = false </span></span><br><span class="line">【<span class="number">2</span>】</span><br><span class="line">String a = <span class="string">"ab"</span>;   </span><br><span class="line"><span class="keyword">final</span> String bb = <span class="string">"b"</span>;   </span><br><span class="line">String b = <span class="string">"a"</span> + bb;   </span><br><span class="line">System.out.println((a == b)); <span class="comment">//result = true </span></span><br><span class="line">【<span class="number">3</span>】</span><br><span class="line">String a = <span class="string">"ab"</span>;   </span><br><span class="line"><span class="keyword">final</span> String bb = getBB();   </span><br><span class="line">String b = <span class="string">"a"</span> + bb;   </span><br><span class="line">System.out.println((a == b)); <span class="comment">//result = false   </span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getBB</span><span class="params">()</span> </span>&#123;  </span><br><span class="line"><span class="keyword">return</span> <span class="string">"b"</span>;   </span><br><span class="line">&#125;</span><br><span class="line">分析：</span><br><span class="line">【<span class="number">1</span>】中，JVM对于字符串引用，由于在字符串的<span class="string">"+"</span>连接中，有字符串引用存在，而引用的值在程序编译期是无法确定的，即<span class="string">"a"</span> + bb无法被编译器优化，只有在程序运行期来动态分配并将连接后的新地址赋给b。所以上面程序的结果也就为<span class="keyword">false</span>。　</span><br><span class="line">【<span class="number">2</span>】和【<span class="number">1</span>】中唯一不同的是bb字符串加了<span class="keyword">final</span>修饰，对于<span class="keyword">final</span>修饰的变量，它在编译时被解析为常量值的一个本地拷贝存储到自己的常量池中或嵌入到它的字节码流中。所以此时的<span class="string">"a"</span> + bb和<span class="string">"a"</span> + <span class="string">"b"</span>效果是一样的。故上面程序的结果为<span class="keyword">true</span>。</span><br><span class="line">【<span class="number">3</span>】JVM对于字符串引用bb，它的值在编译期无法确定，只有在程序运行期调用方法后，将方法的返回值和<span class="string">"a"</span>来动态连接并分配地址为b，故上面程序的结果为<span class="keyword">false</span>。</span><br></pre></td></tr></table></figure>
-<p>4.对于基础类型的变量和常量：变量和引用存储在栈中，常量存储在常量池中。</p>
-<p>引申问题：对于成员变量和局部变量：成员变量就是方法之外，类内部定义的变量；局部变量就是方法或语句内部定义的变量。局部变量必须初始化。形参是局部变量，局部变量的数据存在栈内存中，栈内存中的局部变量随着方法的消失而消失。成员变量存储在堆中的对象中，由垃圾回收机制负责回收。</p>
-<h3 id="java数据类型"><a href="#java数据类型" class="headerlink" title="java数据类型"></a>java数据类型</h3><ol>
-<li><h5 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h5><p>int short long byte char float dubble boolean<br>这种类型的定义是通过诸如int a = 3; long b = 255L;的形式来定义的，称为自动变量。值得注意的是，自动变量存的是字面值，不是类的实例，即不是类的引用，这里并没有类的存在。如int a = 3; 这里的a是一个指向int类型的引用，指向3这个字面值。这些字面值的数据，由于大小可知，生存期可知(这些字面值固定定义在某个程序块里面，程序块退出 后，字段值就消失了)，出于追求速度的原因，就存在于栈中。 另外，栈有一个很重要的特殊性，就是存在栈中的数据可以共享。假设我们同时定义   int a = 3;   int b = 3； 编 译器先处理int a = 3；首先它会在栈中创建一个变量为a的引用，然后查找有没有字面值为3的地址，没找到，就开辟一个存放3这个字面值的地址，然后将a指向3的地址。接着处 理int b = 3；在创建完b的引用变量后，由于在栈中已经有3这个字面值，便将b直接指向3的地址。这样，就出现了a与b同时均指向3的情况。 特 别注意的是，这种字面值的引用与类对象的引用不同。假定两个类对象的引用同时指向一个对象，如果一个对象引用变量修改了这个对象的内部状态，那么另一个对 象引用变量也即刻反映出这个变化。相反，通过字面值的引用来修改其值，不会导致另一个指向此字面值的引用的值也跟着改变的情况。如上例，我们定义完a与 b的值后，再令a=4；那么，b不会等于4，还是等于3。在编译器内部，遇到a=4；时，它就会重新搜索栈中是否有4的字面值，如果没有，重新开辟地址存 放4的值；如果已经有了，则直接将a指向这个地址。因此a值的改变不会影响到b的值。</p>
-</li>
-<li><h5 id="包装类类型"><a href="#包装类类型" class="headerlink" title="包装类类型"></a>包装类类型</h5><p> 如Integer String Double等将相应的基本数据类型包装起来的类。这些类数据的引用全部存在于栈中，java用new()语句来显示地告诉编译器，<font color="red">在运行时才根据需要动态创建</font>，因此比较灵活，但需要占用更多的时间。</p>
-</li>
-<li><h5 id="为什么会存在两种类型？"><a href="#为什么会存在两种类型？" class="headerlink" title="为什么会存在两种类型？"></a>为什么会存在两种类型？</h5><p> 我们都知道在Java语言中，new一个对象存储在堆里，我们通过堆栈中的引用来使用这些对象；但是对于经常用到的一系列类型如int，如果我们用new将其存储在堆里就不是很有效——特别是简单的小的变量。<br> 所以就出现了基本类型，同C++一样，Java采用了相似的做法，对于这些类型不是用new关键字来创建，而是直接将变量的值存储在堆栈中，因此更加高效。</p>
-<p> 有了基本类型之后为什么还要有包装器类型呢？我们知道Java是一个面相对象的编程语言，基本类型并不具有对象的性质，为了让基本类型也具有对象的特征，就出现了包装类型（如我们在使用集合类型Collection时就一定要使用包装类型而非基本类型），它相当于将基本类型“包装起来”，使得它具有了对象的性质，并且为其添加了属性和方法，丰富了基本类型的操作。</p>
-</li>
-<li><h5 id="二者之间的区别"><a href="#二者之间的区别" class="headerlink" title="二者之间的区别"></a><font color="red">二者之间的区别</font></h5><p> 1.<font color="red">声明方式不同，基本类型不适用new关键字，而包装类型需要使用new关键字来在堆中分配存储空间；</font></p>
-<p> 2.<font color="red">存储方式及位置不同，基本类型是直接将变量值存储在堆栈中，而包装类型是将对象放在堆中，然后通过引用来使用；</font></p>
-<p> 3.<font color="red">初始值不同，基本类型的初始值如int为0，boolean为false，而包装类型的初始值为null</font></p>
-<p> 4.使用方式不同，基本类型直接赋值直接使用就好，而包装类型在集合如Collection、Map时会使用到。</p>
-<p> 5.<font color="red">当比较包装类里面的数值是否相等时，用equals()方法；当测试两个包装类的引用是否指向同一个对象时，用==。</font></p>
-</li>
-</ol>
-<h3 id="总结栈内存和堆内存"><a href="#总结栈内存和堆内存" class="headerlink" title="总结栈内存和堆内存"></a>总结栈内存和堆内存</h3><p>1.存储数据：栈用于存储基本数据类型和对象，数组的引用；堆存储所有new出来的对象。<br>2.灵活性：堆栈中的存储数据数据大小和生命周期都确定，当没有引用指向数据，数据就会消失。堆中的数据是在运行期间动态创建，因此数据大小和生命周期不确定。也因此灵活性更强。<br>3.回收机制：栈中数据在具体方法结束后，jvm自动释放资源；一般由程序员释放，jvm定期查看，如果没有引用指向该对象就回收。</p>
-<p>4.共享性：栈和常量池中的数据共享，堆中的数据不共享。同一份数据在栈或常量池中只能有一份，堆中可以有多分。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/内存存储机制/">内存存储机制</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1169,11 +930,11 @@
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
 			
 		
 			
@@ -1181,11 +942,11 @@
 			
 		
 			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
@@ -1193,15 +954,7 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -1209,7 +962,19 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
 			
 		
 			
@@ -1217,15 +982,11 @@
 			
 		
 			
-				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
 			
@@ -1233,15 +994,15 @@
 			
 		
 			
+				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 		</ul>

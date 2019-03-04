@@ -4,25 +4,25 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>Git 如何删除远程文件/文件夹 | MyNotes</title>
+    <title>Maven总结之install命令 | MyNotes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YUAN">
     
 
     
-    <meta name="description" content="step1: git rm “文件名”      git rm -r “文件夹名称/” step2:  git commint -m    提交内容 step3： git push pushgit服务器上 有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了 git rm –cached filename/-r directorygit commi">
-<meta name="keywords" content="git,版本控制工具">
+    <meta name="description" content="1，maven的install最大的作用就是将项目本身编译并打包，并且其他项目引用本项目的jar包时不用去私服上下载jar包，直接从本地就可以拿到刚刚编译打包好的项目的jar包，很灵活，避免每次都需要重新往私服发布jar包的痛苦； 2，修改服务端比如manage层和dao层的项目的时候如果eclipse没有自动编译，则在调试的时候容易出很奇怪的错误，就是明明代码已经改好了，但是debug的时候还是">
+<meta name="keywords" content="Maven,mvn命令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git 如何删除远程文件&#x2F;文件夹">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/04/Git-如何删除远程文件-文件夹/index.html">
+<meta property="og:title" content="Maven总结之install命令">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/04/maven总结之install命令/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="step1: git rm “文件名”      git rm -r “文件夹名称/” step2:  git commint -m    提交内容 step3： git push pushgit服务器上 有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了 git rm –cached filename/-r directorygit commi">
+<meta property="og:description" content="1，maven的install最大的作用就是将项目本身编译并打包，并且其他项目引用本项目的jar包时不用去私服上下载jar包，直接从本地就可以拿到刚刚编译打包好的项目的jar包，很灵活，避免每次都需要重新往私服发布jar包的痛苦； 2，修改服务端比如manage层和dao层的项目的时候如果eclipse没有自动编译，则在调试的时候容易出很奇怪的错误，就是明明代码已经改好了，但是debug的时候还是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-04T13:35:41.029Z">
+<meta property="og:updated_time" content="2019-03-04T14:54:07.521Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git 如何删除远程文件&#x2F;文件夹">
-<meta name="twitter:description" content="step1: git rm “文件名”      git rm -r “文件夹名称/” step2:  git commint -m    提交内容 step3： git push pushgit服务器上 有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了 git rm –cached filename/-r directorygit commi">
+<meta name="twitter:title" content="Maven总结之install命令">
+<meta name="twitter:description" content="1，maven的install最大的作用就是将项目本身编译并打包，并且其他项目引用本项目的jar包时不用去私服上下载jar包，直接从本地就可以拿到刚刚编译打包好的项目的jar包，很灵活，避免每次都需要重新往私服发布jar包的痛苦； 2，修改服务端比如manage层和dao层的项目的时候如果eclipse没有自动编译，则在调试的时候容易出很奇怪的错误，就是明明代码已经改好了，但是debug的时候还是">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/03/04/Git-如何删除远程文件-文件夹/" title="Git 如何删除远程文件/文件夹" itemprop="url">Git 如何删除远程文件/文件夹</a>
+      <a href="/2019/03/04/maven总结之install命令/" title="Maven总结之install命令" itemprop="url">Maven总结之install命令</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
 		
   </p><p class="article-time">
-    <time datetime="2019-03-04T13:33:05.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    <time datetime="2019-03-04T14:53:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
     
   </p>
 </header>
@@ -98,18 +98,17 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。"><span class="toc-number">1.</span> <span class="toc-text">deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</span></a></li></ol>
 		
 		</div>
 		
-		<p>step1: git rm “文件名”      git rm -r “文件夹名称/”</p>
-<p>step2:  git commint -m    提交内容</p>
-<p>step3： git push pushgit服务器上</p>
-<p>有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了</p>
-<p>git rm –cached filename/-r directory<br>git commit “xxxx”<br>git push<br>1.删除github文件,本地保留</p>
-<p>git rm –cached test.<br>txt<br>git commit -m “delete file”<br>git push<br>此时github上已经不存在了</p>
-<p>2.删除远程code 文件夹,本地保留<br>一定要注意，删除文件夹要使用-r 参数</p>
-<p>git rm –cached -r code<br>git commit -m “delete directory”<br>git pus</p>
+		<p>1，maven的install最大的作用就是将项目本身编译并打包，并且其他项目引用本项目的jar包时不用去私服上下载jar包，直接从本地就可以拿到刚刚编译打包好的项目的jar包，很灵活，避免每次都需要重新往私服发布jar包的痛苦；</p>
+<p>2，修改服务端比如manage层和dao层的项目的时候如果eclipse没有自动编译，则在调试的时候容易出很奇怪的错误，就是明明代码已经改好了，但是debug的时候还是在报错，这就是没有项目没有编译完成造成的，看到的改好的代码没有变成class，因此，服务端的文件改动之后如果发现没有效果的时候要记得问题可能是没有编译，这时候可以使用maven的install命令编译一下；</p>
+<p>3，install有时候会报错Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin…，这种情况下可以检查项目里有没有出现编译错误，如果没有，就检查一下pom文件中surefire的配置；参考如下</p>
+<p>clean: 清除target目录;</p>
+<p>install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的;</p>
+<p>package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包;</p>
+<h2 id="deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。"><a href="#deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。" class="headerlink" title="deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。"></a>deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</h2><p>作者：卢子墨<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/lukabruce/article/details/80569789" target="_blank" rel="noopener">https://blog.csdn.net/lukabruce/article/details/80569789</a><br>版权声明：本文为博主原创文章，转载请附上博文链接！</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -118,7 +117,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
+  <span></span> <a href="/tags/Maven/">Maven</a><a href="/tags/mvn命令/">mvn命令</a>
   </div>
 
 </div>
@@ -127,7 +126,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://yuanjinxiugithub.github.io/2019/03/04/Git-如何删除远程文件-文件夹/" data-title="Git 如何删除远程文件/文件夹 | MyNotes" data-tsina="" class="share clearfix">
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/03/04/maven总结之install命令/" data-title="Maven总结之install命令 | MyNotes" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -141,18 +140,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev">
- <a href="/2019/03/04/maven总结之install命令/" title="Maven总结之install命令">
+ <a href="/2019/03/04/maven总结/" title="Maven总结">
   <strong>上一篇：</strong><br>
   <span>
-  Maven总结之install命令</span>
+  Maven总结</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2019/03/04/Git使用中出现的问题/" title="Git使用中出现的问题">
+<a href="/2019/03/04/Git-如何删除远程文件-文件夹/" title="Git 如何删除远程文件/文件夹">
  <strong>下一篇：</strong><br> 
- <span>Git使用中出现的问题
+ <span>Git 如何删除远程文件/文件夹
 </span>
 </a>
 </div>
@@ -169,7 +168,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。"><span class="toc-number">1.</span> <span class="toc-text">deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</span></a></li></ol>
  
   </div>
 
