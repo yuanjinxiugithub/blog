@@ -82,249 +82,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/12/19/MYSQL-数据库常见锁机制以及存储类型/" title="MYSQL 数据库 相关知识点" itemprop="url">MYSQL 数据库 相关知识点</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-12-19T03:33:20.000Z" itemprop="datePublished"> Published 2018-12-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Mysql的数据类型"><a href="#Mysql的数据类型" class="headerlink" title="Mysql的数据类型"></a>Mysql的数据类型</h3><p>Mysql中定义的数据类型对数据库的优化是非常重要的。</p>
-<p>mysql支持多种类型，大致可以分为三类：数值，日期/时间和字符串（字符）类型</p>
-<p>1.数值类型</p>
-<p> mysql支持所有的sql数值数据类型。这些数据包括<font color="red">严格数值数据类型</font>（INTEGER,SMALLINT,DECIMAL,NUMERIC）,以及<font color="red">近似数据类型</font>（FLOAT,REAL和DOUBLE）</p>
-<p><img src="https://images2015.cnblogs.com/blog/1101622/201706/1101622-20170622142338116-336967700.png" alt="img"></p>
-<p>2.日期/时间类型</p>
-<p>表示时间值得日期和时间类型为DATETIME,DATE,TIMESTAMP,TIME和YEAR。</p>
-<p>每一个时间类型有一个有效值范值。</p>
-<p>3.字符类型</p>
-<p>CHAR—-定长字符串</p>
-<p> VARCHAR—-变长字符串</p>
-<p> BINARY–</p>
-<font color="red">注意：</font>
-
-<p>1.Mysql一个汉字占多少长度和编码有关：</p>
-<p>UTF-8:一个汉字=3个字节</p>
-<p>GBK： 一个汉字=2个字节</p>
-<p>2.varchar(n)表示n个字符，无论汉字和英文，mysql都能存n个字符，仅是实际字节长度有所区别。</p>
-<p>3.mysql检查长度，length()函数来实现。</p>
-<p>总结：</p>
-<p><strong>1、整型</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义（有符号）</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>tinyint(m)</td>
-<td>1个字节  范围(-128~127)</td>
-</tr>
-<tr>
-<td>smallint(m)</td>
-<td>2个字节  范围(-32768~32767)</td>
-</tr>
-<tr>
-<td>mediumint(m)</td>
-<td>3个字节  范围(-8388608~8388607)</td>
-</tr>
-<tr>
-<td>int(m)</td>
-<td>4个字节  范围(-2147483648~2147483647)</td>
-</tr>
-<tr>
-<td>bigint(m)</td>
-<td>8个字节  范围(+-9.22*10的18次方)</td>
-</tr>
-</tbody>
-</table>
-<p>取值范围如果加了 unsigned，则最大值翻倍，如 tinyint unsigned 的取值范围为(0~255)。</p>
-<p><strong>2、浮点型(float 和 double)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float(m,d)</td>
-<td>单精度浮点型    8位精度(4字节)     m总个数，d小数位</td>
-</tr>
-<tr>
-<td>double(m,d)</td>
-<td>双精度浮点型    16位精度(8字节)    m总个数，d小数位</td>
-</tr>
-</tbody>
-</table>
-<p>设一个字段定义为 float(5,3)，如果插入一个数 123.45678,实际数据库里存的是 123.457，但总个数还以实际为准，即 6 位。</p>
-<p><strong>3、定点数</strong></p>
-<p>浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值。</p>
-<p>decimal(m,d) 参数 m&lt;65 是总个数，d&lt;30 且 d&lt;m 是小数位。</p>
-<p><strong>4、字符串(char,varchar,_text)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>char(n)</td>
-<td>固定长度，最多255个字符</td>
-</tr>
-<tr>
-<td>varchar(n)</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>tinytext</td>
-<td>可变长度，最多255个字符</td>
-</tr>
-<tr>
-<td>text</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>mediumtext</td>
-<td>可变长度，最多2的24次方-1个字符</td>
-</tr>
-<tr>
-<td>longtext</td>
-<td>可变长度，最多2的32次方-1个字符</td>
-</tr>
-</tbody>
-</table>
-<p>char 和 varchar：</p>
-<ul>
-<li>1.char(n) 若存入字符数小于n，则以空格补于其后，查询之时再将空格去掉。所以 char 类型存储的字符串末尾不能有空格，varchar 不限于此。</li>
-<li>2.char(n) 固定长度，char(4) 不管是存入几个字符，都将占用 4 个字节，varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或2个字节(n&gt;255)，所以 varchar(4),存入 3 个字符将占用 4 个字节。</li>
-<li>3.char 类型的字符串检索速度要比 varchar 类型的快。</li>
-</ul>
-<p>varchar 和 text：</p>
-<ul>
-<li>1.varchar 可指定 n，text 不能指定，内部存储 varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节(n&gt;255)，text 是实际字符数 +2 个字节。</li>
-<li>2.text 类型不能有默认值。</li>
-<li>3.varchar 可直接创建索引，text 创建索引要指定前多少个字符。varchar 查询速度快于 text, 在都创建索引的情况下，text 的索引似乎不起作用。</li>
-</ul>
-<h3 id="mysql的存储过程"><a href="#mysql的存储过程" class="headerlink" title="mysql的存储过程"></a>mysql的存储过程</h3><h5 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h5><h5 id="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"><a href="#什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。" class="headerlink" title="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"></a>什么是存储过程：一组<font color="red">sql语句集</font>，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。</h5><p>mysql 5.0以前并不支持存储过程，在5.0以后支持存储过程，可以大大提高数据库的处理过程，同时可以提高</p>
-<p>是主动调用的，功能比触发器更加强大。</p>
-<h5 id="存储过程的优点："><a href="#存储过程的优点：" class="headerlink" title="存储过程的优点："></a>存储过程的优点：</h5><p>1.增强SQL语言的功能和灵活性。</p>
-<p>2.标准组件式编程。</p>
-<p>3.较快的执行速度。</p>
-<h5 id="存储过程的创建："><a href="#存储过程的创建：" class="headerlink" title="存储过程的创建："></a>存储过程的创建：</h5><h5 id="存储过程的三个参数：IN-OUT-INOUT"><a href="#存储过程的三个参数：IN-OUT-INOUT" class="headerlink" title="存储过程的三个参数：IN OUT INOUT"></a>存储过程的三个参数：IN OUT INOUT</h5><p>存储过程根据需要会有输入，输出，输入输出参数，如果有多个参数用， 分割开。存储过程的参数用在存储过程的定义。</p>
-<p><strong>IN</strong>参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值</p>
-<p><strong>OUT**</strong>:**该值可在存储过程内部被改变，并可返回</p>
-<p><strong>INOUT**</strong>:**调用时指定，并且可被改变和返回</p>
-<h5 id="存储过程使用的案例：（只保留近三天的数据）"><a href="#存储过程使用的案例：（只保留近三天的数据）" class="headerlink" title="存储过程使用的案例：（只保留近三天的数据）"></a>存储过程使用的案例：（只保留近三天的数据）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	#Routine body goes here...</span><br><span class="line">	DECLARE s int DEFAULT 0;</span><br><span class="line">  DECLARE tableName VARCHAR(32);</span><br><span class="line">	DECLARE c_tableNames CURSOR FOR select table_name from information_schema.tables where table_schema=&apos;ikms_exec&apos; and table_name NOT LIKE &apos;base%&apos; AND table_name  LIKE &apos;%_his&apos;;</span><br><span class="line">	DECLARE CONTINUE HANDLER FOR SQLSTATE &apos;02000&apos; SET s=1;</span><br><span class="line">	set @timenow=DATE_ADD(NOW(),INTERVAL -3 DAY);</span><br><span class="line">	OPEN c_tableNames;</span><br><span class="line">		while s &lt;&gt; 1 DO</span><br><span class="line">	 		FETCH c_tableNames into tableName;</span><br><span class="line">			SET @v_sql=CONCAT(&quot;DELETE FROM &quot;,tableName,&quot; WHERE create_time&lt;&apos;&quot;,@timenow,&quot;&apos;&quot;);</span><br><span class="line">			prepare stmt from @v_sql;</span><br><span class="line">			EXECUTE stmt;</span><br><span class="line">      deallocate prepare stmt;</span><br><span class="line">	 	end while;</span><br><span class="line">	CLOSE c_tableNames;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-<p>如何执行存储过程：CALL procedure_name()</p>
-<h5 id="mysql存储过程的查询："><a href="#mysql存储过程的查询：" class="headerlink" title="mysql存储过程的查询："></a>mysql存储过程的查询：</h5><p>select name from mysql.proc where db = “数据库名”</p>
-<p>修改 Alert</p>
-<p>删除 DROP </p>
-<h3 id="MYSQL-创建视图"><a href="#MYSQL-创建视图" class="headerlink" title="MYSQL 创建视图"></a>MYSQL 创建视图</h3><h5 id="什么是视图："><a href="#什么是视图：" class="headerlink" title="什么是视图："></a>什么是视图：</h5><p>select　语句返回的结果。</p>
-<h5 id="视图的特性："><a href="#视图的特性：" class="headerlink" title="视图的特性："></a>视图的特性：</h5><p>视图是若张基本表的引用，一张虚拟表；查询语句执行的结果，不存储具体的数据，只能做查询，基本的表数据发生了变化，视图就跟着发生变化。</p>
-<h5 id="视图的作用："><a href="#视图的作用：" class="headerlink" title="视图的作用："></a>视图的作用：</h5><p>方便操作，特别是查询操作，减少负责的ＳＱＬ语句，增强可读性；</p>
-<h5 id="视图的优点："><a href="#视图的优点：" class="headerlink" title="视图的优点："></a>视图的优点：</h5><p>1.使用视图可以执行用户数据，聚集特定数据。</p>
-<p>2.使用视图，可以简化数据操作。</p>
-<p>3.使用视图，基表的数据就有一定的安全性，因为视图是虚拟的，物理上是不存在的，只是存储</p>
-<p>4.可以合并分离的数据，创建分区视图。</p>
-<h5 id="视图的缺点："><a href="#视图的缺点：" class="headerlink" title="视图的缺点："></a>视图的缺点：</h5><p>1性能差：需要将对视图查询转化成对基表的查询，需要花费一点的时间。</p>
-<p>2.修改权限：如果需要修改视图的某些信息后，数据库必须把它转化成对基本表的某些信息的修改。</p>
-<h5 id="使用场合"><a href="#使用场合" class="headerlink" title="使用场合"></a>使用场合</h5><p>多表复杂查询的时候，返回用户特性信息时。</p>
-<h3 id="MYSQL索引"><a href="#MYSQL索引" class="headerlink" title="MYSQL索引"></a>MYSQL索引</h3><p>mysql目前支持的索引有：普通索引，唯一索引，主键索引，组合索引，全文唯一</p>
-<h5 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h5><p>最基本的索引，没有任何限制 INDEX</p>
-<h5 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h5><p>唯一索引的值必须是唯一的，但是允许有空值。如果是组合索引的话，则列值的组合必须是唯一，它有以下几种创建方式。 UNION INDEX</p>
-<h5 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h5><p>主键索引是特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般在创建表的时候创建主键索引。</p>
-<h5 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h5><p>指多个字段上创建的索引，只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。遵循最左原则。</p>
-<h5 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h5><p>主要用来查找文本的关键字，而不是直接与索引中的值相比较。 FULLTEXT</p>
-<p>FULLTEXT索引跟其它索引大不相同，它更像是一个搜索引擎，而不是简单的where语句的参数匹配。FULLTEXT索引配合match against操作使用，而不是一般的where语句加like.目前只支持 char，varchar，text列上可以创建全文索引</p>
-<h5 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h5><p>1.虽然索引提高了查询速度，同时会降低更新表的速度。 因为更新表时，不仅要保存数据，还要保存一下索引文件。</p>
-<p>2.建立索引会占用磁盘空间的索引文件。一般情况这个问题不太严重，但如果你在一个大表上创建了多种组合索引，索引文件的会增长很快。</p>
-<h3 id="MYSQL优化"><a href="#MYSQL优化" class="headerlink" title="MYSQL优化"></a>MYSQL优化</h3><h5 id="1-sql语句优化："><a href="#1-sql语句优化：" class="headerlink" title="1.sql语句优化："></a>1.sql语句优化：</h5><p>（1）使用limit对查询结果的记录进行限定<br>（2）避免select *，将需要查找的字段列出来<br>（3）使用连接（join）来代替子查询<br>（4）拆分大的delete或insert语句</p>
-<h5 id="2-选择合适的数据类型"><a href="#2-选择合适的数据类型" class="headerlink" title="2.选择合适的数据类型"></a>2.选择合适的数据类型</h5><p>1）使用可存下数据的最小的数据类型，整型 &lt; date,time &lt; char,varchar &lt; blob<br>（2）使用简单的数据类型，整型比字符处理开销更小，因为字符串的比较更复杂。如，int类型存储时间类型，bigint类型转ip函数<br>（3）使用合理的字段属性长度，固定长度的表会更快。使用enum、char而不是varchar<br>（4）尽可能使用not null定义字段<br>（5）尽量少用text，非用不可最好分表</p>
-<h5 id="3-选择合适的索引列"><a href="#3-选择合适的索引列" class="headerlink" title="3.选择合适的索引列"></a>3.选择合适的索引列</h5><p>（1）查询频繁的列，在where，group by，order by，on从句中出现的列<br>（2）where条件中&lt;，&lt;=，=，&gt;，&gt;=，between，in，以及like 字符串+通配符（%）出现的列<br>（3）长度小的列，索引字段越小越好，因为数据库的存储单位是页，一页中能存下的数据越多越好<br>（4）离散度大（不同的值多）的列，放在联合索引前面。查看离散度，通过统计不同的列值来实现，count越大，离散程度越高：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h5 id="4-用命令分析"><a href="#4-用命令分析" class="headerlink" title="4.用命令分析"></a>4.用命令分析</h5><p>（1）SHOW查看状态<br>1.显示状态信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW [SESSION|GLOBAL] STATUS LIKE &apos;%Status_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>session（默认）：取出当前窗口的执行<br>global：从mysql启动到现在<br>（a）查看查询次数（插入次数com_insert、修改次数com_insert、删除次数com_delete）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;com_select&apos;;</span><br></pre></td></tr></table></figure>
-<p>（b）查看连接数(登录次数)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;connections&apos;;</span><br></pre></td></tr></table></figure>
-<p>（c）数据库运行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;uptime&apos;;</span><br></pre></td></tr></table></figure>
-<p>（d）查看慢查询次数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;slow_queries&apos;;</span><br></pre></td></tr></table></figure>
-<p>（e）查看索引使用的情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;handler_read%&apos;;</span><br></pre></td></tr></table></figure>
-<p>handler_read_key：这个值越高越好，越高表示使用索引查询到的次数。<br>handler_read_rnd_next：这个值越高，说明查询低效。</p>
-<p>2.显示系统变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &apos;%Variables_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>3.显示InnoDB存储引擎的状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW ENGINE INNODB STATUS;</span><br></pre></td></tr></table></figure>
-<p>（2）EXPLAIN分析查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT column_name FROM table_name;</span><br></pre></td></tr></table></figure>
-<p>explain查询sql执行计划，各列含义：<br>table：表名；<br>type：连接的类型<br>​    -const：主键、索引；<br>​    -eq_reg：主键、索引的范围查找；<br>​    -ref：连接的查找（join）<br>​    -range：索引的范围查找；<br>​    -index：索引的扫描；<br>​    -all：全表扫描；<br>possible_keys：可能用到的索引；<br>key：实际使用的索引；<br>key_len：索引的长度，越短越好；<br>ref：索引的哪一列被使用了，常数较好；<br>rows：mysql认为必须检查的用来返回请求数据的行数；<br>extra：using filesort、using temporary（常出现在使用order by时）时需要优化。<br>​    -Using filesort  额外排序。看到这个的时候，查询就需要优化了<br>​    -Using temporary 使用了临时表。看到这个的时候，也需要优化<br>（3）PROFILING分析SQL语句<br>1.开启profile。查看当前SQL执行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET PROFILING=ON; </span><br><span class="line">mysql&gt; SHOW profiles;</span><br></pre></td></tr></table></figure>
-<p>2.查看所有用户的当前连接。包括执行状态、是否锁表等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW processlist;</span><br></pre></td></tr></table></figure>
-<p>（4）PROCEDURE ANALYSE()取得建议<br>通过分析select查询结果对现有的表的每一列给出优化的建议</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT column_name FROM table_name PROCEDURE ANALYSE();</span><br></pre></td></tr></table></figure>
-<p>（5）OPTIMIZE TABLE回收闲置的数据库空间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; OPTIMIZE TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>对于MyISAM表，当表上的数据行被删除时，所占据的磁盘空间并没有立即被回收，使用命令后这些空间将被回收，并且对磁盘上的数据行进行重排（注意：是磁盘上，而非数据库）。<br>对于InnoDB表，OPTIMIZE TABLE被映射到ALTER TABLE上，这会重建表。重建操作能更新索引统计数据并释放成簇索引中的未使用的空间。<br>只需在批量删除数据行之后，或定期（每周一次或每月一次）进行一次数据表优化操作即可，只对那些特定的表运行。<br>（6）REPAIR TABLE修复被破坏的表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; REPAIR TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>（7）CHECK TABLE检查表是否有错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CHECK TABLE table_name;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/MYSQL数据库/">MYSQL数据库</a><a href="/tags/锁机制/">锁机制</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2018/12/19/数据库SQl优化总结/" title="数据库SQl优化总结" itemprop="url">数据库SQl优化总结</a>
   </h1>
   <p class="article-author">By
@@ -416,6 +173,125 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/MYSQl/">MYSQl</a><a href="/tags/SQL-优化/">SQL 优化</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/Git起步/" title="Git起步" itemprop="url">Git起步</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-11-19T11:21:27.000Z" itemprop="datePublished"> Published 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>安装好第一步一定是配置用户名和邮箱.</p>
+</blockquote>
+<h2 id="配置用户名邮箱"><a href="#配置用户名邮箱" class="headerlink" title="配置用户名邮箱"></a>配置用户名邮箱</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;yuanjinxiugithub&quot;</span><br><span class="line">$ git config --global user.email 1871022901@qq.com</span><br></pre></td></tr></table></figure>
+<p>再次强调，如果使用了 –global 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情， Git 都会使用那些信息。 当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运行没有 –global 选项的命令来配置。</p>
+<h2 id="检查配置"><a href="#检查配置" class="headerlink" title="检查配置"></a>检查配置</h2><p>如果想要检查你的配置，可以使用 git config –list 命令来列出所有 Git 当时能找到的配置。</p>
+<p>$ git config –list<br>core.symlinks=false<br>core.autocrlf=true<br>core.fscache=true<br>color.diff=auto<br>color.status=auto<br>color.branch=auto<br>color.interactive=true<br>help.format=html<br>rebase.autosquash=true<br>http.sslcainfo=D:/Git/mingw64/ssl/certs/ca-bundle.crt<br>http.sslbackend=openssl<br>diff.astextplain.textconv=astextplain<br>filter.lfs.clean=git-lfs clean – %f<br>filter.lfs.smudge=git-lfs smudge – %f<br>filter.lfs.required=true<br>filter.lfs.process=git-lfs filter-process<br>credential.helper=manager<br>user.name=yuanjinxiu<br><a href="mailto:user.email=1871022901@qq.com" target="_blank" rel="noopener">user.email=1871022901@qq.com</a><br>credential.helper=store</p>
+<h3 id="Git帮助"><a href="#Git帮助" class="headerlink" title="Git帮助"></a>Git帮助</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">若你使用 Git 时需要获取帮助，有三种方法可以找到 Git 命令的使用手册：</span><br><span class="line">$ git help &lt;verb&gt;</span><br><span class="line">$ git &lt;verb&gt; --help</span><br></pre></td></tr></table></figure>
+<p>例如，要想获得 config 命令的手册，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git help config</span><br></pre></td></tr></table></figure>
+<h3 id="Git安装"><a href="#Git安装" class="headerlink" title="Git安装"></a>Git安装</h3><p>Linux 安装Git:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">检查是否安装Git</span><br><span class="line">git --version </span><br><span class="line"></span><br><span class="line">在 Ubuntu 这类 Debian 体系的系统上，可以用 apt-get 安装：</span><br><span class="line">sudo apt-get install git</span><br><span class="line"></span><br><span class="line">CentOs:</span><br><span class="line">yum install -y git</span><br></pre></td></tr></table></figure>
+<p>window安装比较简单不多说。</p>
+<p>Git帮助</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">若你使用 Git 时需要获取帮助，有三种方法可以找到 Git 命令的使用手册：</span><br><span class="line">$ git help &lt;verb&gt;</span><br><span class="line">$ git &lt;verb&gt; --help</span><br></pre></td></tr></table></figure>
+<p>例如，要想获得 config 命令的手册，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git help config</span><br></pre></td></tr></table></figure>
+<h2 id="获取-Git-仓库"><a href="#获取-Git-仓库" class="headerlink" title="获取 Git 仓库"></a>获取 Git 仓库</h2><p>有两种取得 Git 项目仓库的方法。 </p>
+<ul>
+<li>第一种是在现有项目或目录下导入所有文件到 Git 中</li>
+<li>第二种是从一个服务器克隆一个现有的 Git 仓库</li>
+</ul>
+<h2 id="在现有目录初始化"><a href="#在现有目录初始化" class="headerlink" title="在现有目录初始化"></a>在现有目录初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>该命令将创建一个名为 .git 的子目录，这个子目录含有你初始化的 Git 仓库中所有的必须文件，这些文件是 Git 仓库的骨干。 但是，在这个时候，我们仅仅是做了一个初始化的操作，你的项目里的文件还没有被跟踪。</p>
+</blockquote>
+<h2 id="克隆现有的仓库"><a href="#克隆现有的仓库" class="headerlink" title="克隆现有的仓库"></a>克隆现有的仓库</h2><p> 如果你想获得一份已经存在了的Git仓库的拷贝，比如说，你想为某个开源项目贡献自己的一份力，这时就要用到 git clone 命令。 </p>
+<p> 克隆仓库的命令格式是 git clone [url] 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git@172.16.5.77:shengwangzhong/hexo-blog.git</span><br></pre></td></tr></table></figure>
+<p>这会在当前目录下创建一个名为 “hexo-blog” 的目录，并在这个目录下初始化一个 .git 文件夹，从远程仓库拉取下所有数据放入.git文件夹，然后从中读取最新版本的文件的拷贝。 如果你进入到这个新建的hexo-blog文件夹，你会发现所有的项目文件已经在里面了，准备就绪等待后续的开发和使用。 如果你想在克隆远程仓库的时候，自定义本地仓库的名字，你可以使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git@172.16.5.77:shengwangzhong/hexo-blog.git your-folder-name</span><br></pre></td></tr></table></figure>
+<p>这将执行与上一个命令相同的操作，不过在本地创建的仓库名字变为 your-folder-name。</p>
+<p> Git 支持多种数据传输协议。 ssh\https\gi</p>
+<h2 id="记录每次更新到仓库"><a href="#记录每次更新到仓库" class="headerlink" title="记录每次更新到仓库"></a>记录每次更新到仓库</h2><p>现在我们手上有了一个真实项目的 Git 仓库，并从这个仓库中取出了所有文件的工作拷贝。 接下来，对这些文件做些修改，在完成了一个阶段的目标之后，提交本次更新到仓库。</p>
+<blockquote>
+<p>请记住，你工作目录下的每一个文件都不外乎这两种状态：已跟踪或未跟踪。</p>
+</blockquote>
+<p>已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后，它们的状态可能处于未修改，已修改或已放入暂存区。 工作目录中除已跟踪文件以外的所有其它文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有放入暂存区。 初次克隆某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态。</p>
+<p>编辑过某些文件之后，由于自上次提交后你对它们做了修改，Git 将它们标记为已修改文件。 我们逐步将这些修改过的文件放入暂存区，然后提交所有暂存了的修改，如此反复。所以使用 Git 时文件的生命周期如下：</p>
+<p><img src="https://git-scm.com/book/en/v2/images/lifecycle.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">检查当前文件状态:</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">nothing to commit, working directory clean</span><br></pre></td></tr></table></figure>
+<p>这说明你现在的工作目录相当干净。换句话说，所有已跟踪文件在上次提交后都未被更改过。 此外，上面的信息还表明，当前目录下没有出现任何处于未跟踪状态的新文件，否则 Git 会在这里列出来。 最后，该命令还显示了当前所在分支，并告诉你这个分支同远程服务器上对应的分支没有偏离。 现在，分支名是 “master”,这是默认的分支名。</p>
+<p>现在，让我们在项目下创建一个新的 README 文件。 如果之前并不存在这个文件，使用 git status 命令，你将看到一个新的未跟踪文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ echo &apos;My Project&apos; &gt; README</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Untracked files:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</span><br><span class="line"></span><br><span class="line">    README</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use &quot;git add&quot; to track)</span><br></pre></td></tr></table></figure>
+<p>在状态报告中可以看到新建的 README 文件出现在 Untracked files 下面。 未跟踪的文件意味着 Git 在之前的快照（提交）中没有这些文件；Git 不会自动将之纳入跟踪范围，除非你明明白白地告诉它“我需要跟踪该文件”， 这样的处理让你不必担心将生成的二进制文件或其它不想被跟踪的文件包含进来。 不过现在的例子中，我们确实想要跟踪管理 README 这个文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">使用命令 git add 开始跟踪一个文件。 所以，要跟踪 README 文件，运行：</span><br><span class="line">$ git add README</span><br></pre></td></tr></table></figure>
+<p>这时候我们在运行git status查看状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br></pre></td></tr></table></figure>
+<p>文件已经处于被追踪的状态了，并处于暂存状态。</p>
+<p>现在我们来修改一个已被跟踪的文件。 如果你修改了一个名为 CONTRIBUTING.md 的已被跟踪的文件，然后运行 git status 命令，会看到下面内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line"></span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>文件 CONTRIBUTING.md 出现在 Changes not staged for commit 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。 要暂存这次更新，需要运行 git add命令。</p>
+</blockquote>
+<h4 id="git-add"><a href="#git-add" class="headerlink" title="git add:"></a>git add:</h4><blockquote>
+<p>这是个多功能命令：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。 将这个命令理解为“添加内容到下一次提交中”而不是“将一个文件添加到项目中”要更加合适。 现在让我们运行 git add 将”CONTRIBUTING.md”放到暂存区，然后再看看 git status 的输出：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git add CONTRIBUTING.md</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure>
+<p>现在两个文件都已暂存，下次提交时就会一并记录到仓库。 假设此时，你想要在 CONTRIBUTING.md 里再加条注释， 重新编辑存盘后，准备好提交。 不过且慢，再运行 git status 看看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ vim CONTRIBUTING.md</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line">    modified:   CONTRIBUTING.md</span><br><span class="line"></span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure>
+<p>怎么回事？ 现在 CONTRIBUTING.md 文件同时出现在暂存区和非暂存区。 这怎么可能呢？ 好吧，实际上 Git 只不过暂存了你运行 git add 命令时的版本， 如果你现在提交，CONTRIBUTING.md 的版本是你最后一次运行 git add 命令时的那个版本，而不是你运行 git commit 时，在工作目录中的当前版本。 所以，运行了 git add 之后又作了修订的文件，需要重新运行 git add 把最新版本重新暂存起来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git add CONTRIBUTING.md</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure>
+<h4 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h4><p>git status 命令的输出十分详细，但其用语有些繁琐。 如果你使用 git status -s 命令或 git status –short 命令，你将得到一种更为紧凑的格式输出。 运行 git status -s ，状态报告输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git status -s</span><br><span class="line"> M README</span><br><span class="line">MM Rakefile</span><br><span class="line">A  lib/git.rb</span><br><span class="line">M  lib/simplegit.rb</span><br><span class="line">?? LICENSE.txt</span><br></pre></td></tr></table></figure>
+<p>新添加的未跟踪文件前面有 ?? 标记，新添加到暂存区中的文件前面有 A 标记，修改过的文件前面有 M 标记。 你可能注意到了 M 有两个可以出现的位置，出现在右边的 M 表示该文件被修改了但是还没放入暂存区，出现在靠左边的 M 表示该文件被修改了并放入了暂存区。 例如，上面的状态报告显示： README 文件在工作区被修改了但是还没有将修改后的文件放入暂存区,lib/simplegit.rb 文件被修改了并将修改后的文件放入了暂存区。 而 Rakefile 在工作区被修改并提交到暂存区后又在工作区中被修改了，所以在暂存区和工作区都有该文件被修改了的记录。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
   </div>
 
 </div>
@@ -1133,6 +1009,10 @@
 			
 		
 			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
 			
 		
@@ -1141,11 +1021,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
@@ -1157,23 +1037,7 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
 			
 		
 			
@@ -1181,7 +1045,19 @@
 			
 		
 			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
