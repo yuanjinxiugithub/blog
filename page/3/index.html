@@ -82,6 +82,558 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/01/31/SpringCloud之Fegin/" title="SpringCloud之Fegin" itemprop="url">SpringCloud之Fegin</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-31T13:20:46.000Z" itemprop="datePublished"> Published 2019-01-31</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="1-什么是Feign"><a href="#1-什么是Feign" class="headerlink" title="1 什么是Feign"></a>1 什么是Feign</h2><p>Feign是一个声明式的web service客户端，她的出现使开发web service客户端变得非常简单。她具备可插拨的注解支持，包括Feign注解和JAX-RS注解。使用Feign的时候只需要创建一个interface再加上@FeignClient就可以。Feign支持编码器和解码器，Spring Cloud Open Feign对Feign进行了增强，使其支持了Spring MVC注解，可以像Spring Web一样使用 <code>HttpMessageConverters</code> 等</p>
+<p>Feign是一种声明式、模板化的HTTP客户端，在Spring Cloud中使用Feign，可以做到使用HTTP请求访问远程控服务，就像调用本地方法一样，开发者完全感觉不到这是在调用远程方法，更加感觉不到这是在访问HTTP请求。以下列出了一些Feign的特性。</p>
+<ul>
+<li>可插播的注解支持，包括Feign注解和JAX-RS注解。</li>
+<li>支持可插拨的HTTP编码器和解码器</li>
+<li>支持Hystrix以及她的fallback机制</li>
+<li>支持ribbon的负载均衡</li>
+<li>支持Http请求和响应的压缩</li>
+</ul>
+<p>Feign是一个声明式的web service客户端，她出现的目的就是让web service调用变得更加简单。她整合了Ribbon和Hystrix，从而不需开发者再将两者进行整合。Feign还提供了HTTP请求的模板，通过编写简单的注解和接口就可以定义好HTTP请求的参数、格式、地址等信息。Feign会完全代理HTTP请求在使用中我们只需要注入相应的接口，传递好参数就行。</p>
+<h3 id="1-1-Feign开源地址"><a href="#1-1-Feign开源地址" class="headerlink" title="1.1 Feign开源地址"></a>1.1 Feign开源地址</h3><p>Spring Cloud Open Feign: <a href="https://github.com/spring-cloud/spring-cloud-openfeign" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-openfeign</a></p>
+<p>Open Feign: <a href="https://github.com/OpenFeign/feign" target="_blank" rel="noopener">https://github.com/OpenFeign/feign</a></p>
+<h2 id="2-简单整合Feign"><a href="#2-简单整合Feign" class="headerlink" title="2 简单整合Feign"></a>2 简单整合Feign</h2><h3 id="2-1-引入feign的maven依赖"><a href="#2-1-引入feign的maven依赖" class="headerlink" title="2.1 引入feign的maven依赖"></a>2.1 引入feign的maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-创建主程序并添加-EnableFeignClients注解"><a href="#2-2-创建主程序并添加-EnableFeignClients注解" class="headerlink" title="2.2 创建主程序并添加@EnableFeignClients注解"></a>2.2 创建主程序并添加<code>@EnableFeignClients</code>注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.openfeign.EnableFeignClients;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;pre&gt;</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Description: 应用程序入口 &lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> wusong</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2018-06-27 11:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      SpringApplication.run(FeignApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的<code>@EnableFeignClients</code>注解表示当前程序启动时，会进行包扫描，扫描所有标识了@FeignClient注解的类并进行处理。</p>
+<h3 id="2-3-编写Feign接口"><a href="#2-3-编写Feign接口" class="headerlink" title="2.3 编写Feign接口"></a>2.3 编写Feign接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(<span class="string">"stores"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StoreClient</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET, value = <span class="string">"/stores"</span>)</span><br><span class="line">    <span class="function">List&lt;Store&gt; <span class="title">getStores</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.POST, value = <span class="string">"/stores/&#123;storeId&#125;"</span>, consumes = <span class="string">"application/json"</span>)</span><br><span class="line">    <span class="function">Store <span class="title">update</span><span class="params">(@PathVariable(<span class="string">"storeId"</span>)</span> Long storeId, Store store)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>@FeignClient</code>注解中<code>stores</code>对应的值是eureka中任何一个客户端的名称。用于创建Ribbon的负载均衡器。你还可以使用<code>url</code>属性（只能是绝对值或仅主机名）指定URL 。应用程序上下文中bean的名称是接口的名称。要指定自己的别名值，可以使用注释<code>@FeignClient</code>的<code>qualifier</code>值。</p>
+<p>在上面代码中，Ribbon客户端负责去发现stores服务的物理地址，如果你在项目中使用了Eureka客户端，那么她将解析的是Eureka服务注册表中的服务，如果没有使用Eureka，则需要在配置文件中配置服务器列表 e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stores:</span><br><span class="line">  ribbon:</span><br><span class="line">    listOfServers: example.com,google.com</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-编写Controller"><a href="#2-4-编写Controller" class="headerlink" title="2.4 编写Controller"></a>2.4 编写Controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloFeignController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> StoreClient storeClient;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 服务消费者对位提供的服务</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(value = <span class="string">"/stores/&#123;storeId&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Store <span class="title">update</span><span class="params">(@PathVariable(value =<span class="string">"storeId"</span>)</span>String storeId) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> storeClient.update(storeId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上就完成了Feign整个调用的基本流程。</p>
+<h2 id="3-Feign的工作原理"><a href="#3-Feign的工作原理" class="headerlink" title="3 Feign的工作原理"></a>3 Feign的工作原理</h2><p>通过上面的整合，我们了解了Feign的基本使用。接着来介绍一下Feign的工作原理：</p>
+<ul>
+<li>在开发微服务时，我们会在主类中加入<code>@EnableFeignClients</code>注解开启对FeignClient的扫描加载处理，根据Feign Client的开发规范，定义接口并加@FeignClient注解</li>
+<li>当程序启动时，会进行包的扫描。扫描所有用<code>@FeignClient</code>注解进行修饰的类并将这些信息注入Spring IOC容器中，当定义Feign接口中的方法被调用时，通过JDK的代理方式，来生成具体的RequestTemplate。当生成代理时，Feign会为每个接口方法创建一个Request Template对象，该对象奉准过了HTTP请求的全部信息，例如请求参数，请求方法等。</li>
+<li>由RequestTemplate生成Request，然后把Request交给Client去处理，这里的client制的是JDK的URLConnection、apache的http client、或者OKhttp。最后client被封装到LoadBalanceClient类中，这个类结合Ribbon负载均衡发起服务之间的调用。</li>
+</ul>
+<h2 id="4-Feign的基础功能"><a href="#4-Feign的基础功能" class="headerlink" title="4 Feign的基础功能"></a>4 Feign的基础功能</h2><h3 id="4-2-1-FeignClient注解介绍"><a href="#4-2-1-FeignClient注解介绍" class="headerlink" title="4.2.1 @FeignClient注解介绍"></a>4.2.1 <code>@FeignClient</code>注解介绍</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright 2013-2016 the original author or authors.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment"> * you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment"> * You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *      http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment"> * distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment"> * See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment"> * limitations under the License.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> org.springframework.cloud.openfeign;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Documented;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.core.annotation.AliasFor;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Annotation for interfaces declaring that a REST client with that interface should be</span></span><br><span class="line"><span class="comment"> * created (e.g. for autowiring into another component). If ribbon is available it will be</span></span><br><span class="line"><span class="comment"> * used to load balance the backend requests, and the load balancer can be configured</span></span><br><span class="line"><span class="comment"> * using a &lt;code&gt;<span class="doctag">@RibbonClient</span>&lt;/code&gt; with the same name (i.e. value) as the feign client.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Spencer Gibb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Venil Noronha</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> FeignClient &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The name of the service with optional protocol prefix. Synonym for &#123;<span class="doctag">@link</span> #name()</span></span><br><span class="line"><span class="comment">	 * name&#125;. A name must be specified for all clients, whether or not a url is provided.</span></span><br><span class="line"><span class="comment">	 * Can be specified as property key, eg: $&#123;propertyKey&#125;.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@AliasFor</span>(<span class="string">"name"</span>)</span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The service id with optional protocol prefix. Synonym for &#123;<span class="doctag">@link</span> #value() value&#125;.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@deprecated</span> use &#123;<span class="doctag">@link</span> #name() name&#125; instead</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function">String <span class="title">serviceId</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The service id with optional protocol prefix. Synonym for &#123;<span class="doctag">@link</span> #value() value&#125;.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@AliasFor</span>(<span class="string">"value"</span>)</span><br><span class="line">	<span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Sets the &lt;code&gt;<span class="doctag">@Qualifier</span>&lt;/code&gt; value for the feign client.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">qualifier</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * An absolute URL or resolvable hostname (the protocol is optional).</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">url</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Whether 404s should be decoded instead of throwing FeignExceptions</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">decode404</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * A custom &lt;code&gt;<span class="doctag">@Configuration</span>&lt;/code&gt; for the feign client. Can contain override</span></span><br><span class="line"><span class="comment">	 * &lt;code&gt;<span class="doctag">@Bean</span>&lt;/code&gt; definition for the pieces that make up the client, for instance</span></span><br><span class="line"><span class="comment">	 * &#123;<span class="doctag">@link</span> feign.codec.Decoder&#125;, &#123;<span class="doctag">@link</span> feign.codec.Encoder&#125;, &#123;<span class="doctag">@link</span> feign.Contract&#125;.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@see</span> FeignClientsConfiguration for the defaults</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;?&gt;[] configuration() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Fallback class for the specified Feign client interface. The fallback class must</span></span><br><span class="line"><span class="comment">	 * implement the interface annotated by this annotation and be a valid spring bean.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;?&gt; fallback() <span class="keyword">default</span> <span class="keyword">void</span>.class;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Define a fallback factory for the specified Feign client interface. The fallback</span></span><br><span class="line"><span class="comment">	 * factory must produce instances of fallback classes that implement the interface</span></span><br><span class="line"><span class="comment">	 * annotated by &#123;<span class="doctag">@link</span> FeignClient&#125;. The fallback factory must be a valid spring</span></span><br><span class="line"><span class="comment">	 * bean.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@see</span> feign.hystrix.FallbackFactory for details.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;?&gt; fallbackFactory() <span class="keyword">default</span> <span class="keyword">void</span>.class;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Path prefix to be used by all method-level mappings. Can be used with or without</span></span><br><span class="line"><span class="comment">	 * &lt;code&gt;<span class="doctag">@RibbonClient</span>&lt;/code&gt;.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">path</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Whether to mark the feign proxy as a primary bean. Defaults to true.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">primary</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>value: 指定FeignClient的名称，如果使用了Ribbon，value属性会作为微服务的名称，用于服务发现</p>
+<p>qualifier: 使用客户端的别名</p>
+<p>url: url用于调试，可以手动指定@FeignClient的调用地址</p>
+<p>decode404: 当发生404错误的时候，如果该字段为true, 会调用decoder进行解码，否则抛出FeignException异常</p>
+<p>configuration：feign配置类，可以自定义Feign的Encoder、Decoder、LogLevel、Contract等</p>
+<p>fallback: 定义容错的处理类，当调用远程接口失败，或超时时，会调用对应接口的容错逻辑，fallback指定的类必须实现@FeignClient标记的接口</p>
+<p>fallbackFactory: 工厂类，用于生成fallback类示例，通过这个属性，我们可以实现每个接口通用的容错逻辑，减少重复的代码</p>
+<p>path: 定义当前FeignClient的统一前缀</p>
+<h3 id="4-2-2-feign开启GZIP压缩"><a href="#4-2-2-feign开启GZIP压缩" class="headerlink" title="4.2.2 feign开启GZIP压缩"></a>4.2.2 feign开启GZIP压缩</h3><p>spring cloud feign支持对请求和响应进行GZIP压缩，以提高通信效率。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">    compression:</span></span><br><span class="line"><span class="attr">        request:</span></span><br><span class="line"><span class="attr">            enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">            mime-types:</span> <span class="string">text/xml,application/xml,application/json</span> <span class="comment"># 配置压缩支持的MIME TYPE</span></span><br><span class="line"><span class="attr">            min-request-size:</span> <span class="number">2048</span>  <span class="comment"># 配置压缩数据大小的下限</span></span><br><span class="line"><span class="attr">        response:</span></span><br><span class="line"><span class="attr">            enabled:</span> <span class="literal">true</span> <span class="comment"># 配置响应GZIP压缩</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-2-3-feign-client开启日志"><a href="#4-2-3-feign-client开启日志" class="headerlink" title="4.2.3 feign client开启日志"></a>4.2.3 feign client开启日志</h3><p>Feign为每个FeignClient都提供了一个feign.Logger实例，可以在配置文件中开启日志，开启方式较为简单，分为两部</p>
+<h4 id="4-2-3-1-在application-yml中配置日志输出"><a href="#4-2-3-1-在application-yml中配置日志输出" class="headerlink" title="4.2.3.1 在application.yml中配置日志输出"></a>4.2.3.1 在application.yml中配置日志输出</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line"><span class="attr">     level:</span></span><br><span class="line">       <span class="string">cn.com.bmsmart.StoreClient:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-2-3-2-通过Java代码进行配置"><a href="#4-2-3-2-通过Java代码进行配置" class="headerlink" title="4.2.3.2 通过Java代码进行配置"></a>4.2.3.2 通过Java代码进行配置</h4><p>通过在主类中配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Bean</span></span><br><span class="line">Logger.<span class="function">Level <span class="title">feignLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Logger.Level.FULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过用<code>@Configuration</code>修饰的类去配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignServiceConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * Logger.Level 的具体级别如下：</span></span><br><span class="line"><span class="comment">     *    NONE：不记录任何信息</span></span><br><span class="line"><span class="comment">     *    BASIC：仅记录请求方法、URL以及响应状态码和执行时间</span></span><br><span class="line"><span class="comment">     *    HEADERS：除了记录 BASIC级别的信息外，还会记录请求和响应的头信息</span></span><br><span class="line"><span class="comment">     *    FULL：记录所有请求与响应的明细，包括头信息、请求体、元数据</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    Logger.<span class="function">Level <span class="title">feignLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Logger.Level.FULL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-4-Feign超时配置"><a href="#4-2-4-Feign超时配置" class="headerlink" title="4.2.4 Feign超时配置"></a>4.2.4 Feign超时配置</h3><ul>
+<li>Feign的调用分两层，即Ribbon的调用和Hystrix的调用，高版本的Hystrix默认是关闭的。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">feign.RetryableException: Read time out execution POST http:<span class="comment">//.....</span></span><br></pre></td></tr></table></figure>
+<p>出现上面报错信息，说明Ribbon处理超时这时设置ribbon的配置信息如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">ribbon.ReadTimeOut:</span> <span class="number">120000</span> <span class="comment"># 请求处理超时时间</span></span><br><span class="line"><span class="string">ribbon.ConnectionTimeout:</span> <span class="number">3000</span> <span class="comment"># 请求连接超时时间</span></span><br></pre></td></tr></table></figure>
+<p> 如果开启Hystrix， hystrix超时报错信息如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.netflix.hystrix.exception.HystrixRuntimeException: Demo#demo() timedout and no fallback available.</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">  hystrix:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">hystrix:</span></span><br><span class="line"><span class="attr">  shareSecurityContext:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  command:</span> </span><br><span class="line"><span class="attr">    default:</span> </span><br><span class="line"><span class="attr">      circuitBreaker:</span> </span><br><span class="line"><span class="attr">        sleepWindowInMilliseconds:</span> <span class="number">10000</span></span><br><span class="line"><span class="attr">        forceClosed:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">      execution:</span> </span><br><span class="line"><span class="attr">        isolation:</span> </span><br><span class="line"><span class="attr">          thread:</span> </span><br><span class="line"><span class="attr">            timeoutInMilliseconds:</span> <span class="number">600000</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-Feign文件上传"><a href="#5-Feign文件上传" class="headerlink" title="5 Feign文件上传"></a>5 Feign文件上传</h2><p>在我们开发中，文件上传是一个比较常见的功能，Feign早先是不支持文件上传的，后来虽然支持，但是仍然有缺陷。</p>
+<h3 id="5-1-编写文件上传客户端"><a href="#5-1-编写文件上传客户端" class="headerlink" title="5.1 编写文件上传客户端"></a>5.1 编写文件上传客户端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Description: 导入词汇&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userId   用户id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tradeId  行业id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> dicId    词典id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> fileName 文件名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> file     文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(value = <span class="string">"/importdic"</span>, consumes = MediaType.MULTIPART_FORM_DATA_VALUE,</span><br><span class="line">            produces = &#123;MediaType.APPLICATION_JSON_VALUE&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity&lt;JsonResult&gt; <span class="title">importDic</span><span class="params">(@RequestParam(value = <span class="string">"userId"</span>)</span> String userId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"tradeId"</span>)</span> String tradeId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"dicId"</span>)</span> String dicId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"fileName"</span>)</span> String fileName,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestPart</span><span class="params">(<span class="string">"file"</span>)</span> MultipartFile file</span></span><br><span class="line"><span class="function">    ) </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bytes = file.getBytes();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        HashMap&lt;String, Object&gt; importDic = dicDetailService.importDic(userId, tradeId, dicId, fileName, bytes);</span><br><span class="line">        <span class="keyword">return</span> ResponseMessageUtil.success(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getStatus(), importDic);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>注意点：</p>
+<ul>
+<li>区分<code>@RequestPart</code>和<code>@RequestParam</code>的区别，参考<a href="https://blog.csdn.net/wd2014610/article/details/79727061" target="_blank" rel="noopener">https://blog.csdn.net/wd2014610/article/details/79727061</a></li>
+<li>consumes和produces必填</li>
+</ul>
+<h3 id="5-2-编写Feign文件上传服务端"><a href="#5-2-编写Feign文件上传服务端" class="headerlink" title="5.2 编写Feign文件上传服务端"></a>5.2 编写Feign文件上传服务端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"smartke-txgl"</span>, configuration = DicDetailFeignClient.MultipartSupportConfig.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DicDetailFeignClient</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Description: 导入词汇&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userId   用户id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tradeId  行业id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> dicId    词典id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> fileName 文件名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> file     文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(value = DIC_DETAIL_FEIGN_CLIENT_PREFIX + <span class="string">"/importdic"</span>, consumes = MediaType.MULTIPART_FORM_DATA_VALUE,</span><br><span class="line">            produces = &#123;MediaType.APPLICATION_JSON_VALUE&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity&lt;JsonResult&gt; <span class="title">importDic</span><span class="params">(@RequestParam(value = <span class="string">"userId"</span>)</span> String userId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"tradeId"</span>)</span> String tradeId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"dicId"</span>)</span> String dicId,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"fileName"</span>)</span> String fileName,</span></span><br><span class="line"><span class="function">                                                @<span class="title">RequestPart</span><span class="params">(<span class="string">"file"</span>)</span> MultipartFile file</span></span><br><span class="line"><span class="function">    )</span>;</span><br><span class="line">    </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Description: 通过少量的配置, 让feign阔以支持MultipartFile &lt;/p&gt;</span></span><br><span class="line"><span class="comment">     * Created by wusong on 2018-08-23 14:15.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Configuration</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MultipartSupportConfig</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Inject</span></span><br><span class="line">        <span class="keyword">private</span> ObjectFactory&lt;HttpMessageConverters&gt; messageConverters;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Inject</span></span><br><span class="line">        <span class="keyword">private</span> HttpServletRequest request;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> RequestInterceptor <span class="title">overrideRequestHeader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (template) -&gt; &#123;</span><br><span class="line">                template.header(<span class="string">"User-Agent"</span>, request.getHeader(<span class="string">"User-Agent"</span>));</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Encoder <span class="title">feignFormEncoder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SpringFormEncoder(<span class="keyword">new</span> SpringEncoder(messageConverters));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上面<code>SpringFormEncoder</code>需要<code>feign-form-spring</code>以及<code>feign-form</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--feign--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.openfeign.form<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>feign-form-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.openfeign.form<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>feign-form<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/Spring-Cloud/">Spring Cloud</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/28/SpringCloud之Eureka/" title="SpringCloud之Eureka" itemprop="url">SpringCloud之Eureka</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-28T13:21:02.000Z" itemprop="datePublished"> Published 2019-01-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h1><p>Spring Cloud Eureka是spring cloud 微服务套件中的一部分，她基于Netflix Eureka做了二次封装，主要负责完成微服务架构中的服务治理功能</p>
+<p>在了解Eureka之前，我们先来讲下服务发现的由来</p>
+<h2 id="1-服务发现的由来"><a href="#1-服务发现的由来" class="headerlink" title="1 服务发现的由来"></a>1 服务发现的由来</h2><p>服务发现及注册中心是与软件开发的架构方式演化而来的，大概归纳如下</p>
+<h3 id="1-1-单体架构"><a href="#1-1-单体架构" class="headerlink" title="1.1 单体架构"></a>1.1 单体架构</h3><p>最早的开发中，大多使用单体架构，服务自成一体。对于依赖的少数外部服务，会采用配置地址的方式进行访问。比如第三方接口，会使用appId和appKey来进行调用。</p>
+<h3 id="1-2-SOA架构"><a href="#1-2-SOA架构" class="headerlink" title="1.2 SOA架构"></a>1.2 SOA架构</h3><p>随着SOA架构流行，有些公司的内部开始将单体应用拆分成粒度较为粗的服务化架构。</p>
+<p>查看： <a href="https://blog.csdn.net/chenleixing/article/details/44926955" target="_blank" rel="noopener">https://blog.csdn.net/chenleixing/article/details/44926955</a></p>
+<h3 id="1-3-微服务时代"><a href="#1-3-微服务时代" class="headerlink" title="1.3 微服务时代"></a>1.3 微服务时代</h3><p>在微服务时代，底层运维方式发生了很大的变化，并且随着docker和kubernetes的流行，业务服务不在部署在固定的虚拟机上，其ip地址也不再固定，这个时候前面的解决方式就显得有点儿吃力了。针对这个问题，提出了一些解决方案，例如</p>
+<p>1：以nginx为例，在没有引入服务注册中心的时候，那么需要我们手工或是通过脚本的方式，在部署的受去更新nginx的配置文件，然后reload。或是使用ngx_http_dyups_module通过rest api在运行的受进行更新upstream而不需要reload</p>
+<p>2: 将服务中心作为一个标配的分布式服务组件，网管等都从服务注册中心获取相关服务的实例信息，实现动态路由。例如consule-template+nginx方案，然后通过consul监听服务实例变化，再更新nginx的配置文件。</p>
+<p>从上面的例子我们可以看出，随着服务架构模式以及底层运维方式的变化，服务注册中心逐步再分布式系统架构中占据了一个重要的地位。</p>
+<h2 id="2-Eureka简介"><a href="#2-Eureka简介" class="headerlink" title="2 Eureka简介"></a>2 Eureka简介</h2><p>Eureka是Netflix公司开源的一款服务发现组件，该组件提供的服务发现可以为负载均衡、failover等提供了支持。Eureka包括Eureka Server和Eureka Client。Eureka Server提供了RESTFul服务，而Eureka Client则是使用Java编写的客户端，用于简化Eureka Server的交互。</p>
+<h3 id="2-1-服务发现技术选型"><a href="#2-1-服务发现技术选型" class="headerlink" title="2.1 服务发现技术选型"></a>2.1 服务发现技术选型</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>AP或CP</th>
+<th>语言</th>
+<th>依赖</th>
+<th>集成</th>
+<th>一致性算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zookeeper</td>
+<td>General</td>
+<td>CP</td>
+<td>Java</td>
+<td>JVM</td>
+<td>Client Binding</td>
+<td>Paxos</td>
+</tr>
+<tr>
+<td>Doozer</td>
+<td>General</td>
+<td>CP</td>
+<td>Go</td>
+<td></td>
+<td>Client Binding</td>
+<td>Paxos</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td>General</td>
+<td>CP</td>
+<td>GO</td>
+<td></td>
+<td>HTTP/DNS Library</td>
+<td>Raft</td>
+</tr>
+<tr>
+<td>Etcd</td>
+<td>General</td>
+<td>Mixed (1)</td>
+<td>Go</td>
+<td></td>
+<td>Client Binding/HTTP</td>
+<td>Raft</td>
+</tr>
+<tr>
+<td>SmartStack</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Ruby</td>
+<td>haproxy/Zookeeper</td>
+<td>Sidekick (nerve/synapse)</td>
+<td></td>
+</tr>
+<tr>
+<td>Eureka</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Java</td>
+<td>JVM</td>
+<td>Java Client</td>
+<td></td>
+</tr>
+<tr>
+<td>NSQ (lookupd)</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Go</td>
+<td></td>
+<td>Client Binding</td>
+<td></td>
+</tr>
+<tr>
+<td>Serf</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Go</td>
+<td></td>
+<td>Local CLI</td>
+<td></td>
+</tr>
+<tr>
+<td>Spotify (DNS)</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>N/A</td>
+<td>Bind</td>
+<td>DNS Library</td>
+<td></td>
+</tr>
+<tr>
+<td>SkyDNS</td>
+<td>Dedicated</td>
+<td>Mixed (2)</td>
+<td>Go</td>
+<td></td>
+<td>HTTP/DNS Library</td>
+</tr>
+</tbody>
+</table>
+<p>CAP原则又称CAP定理，指的是在一个分布式系统中，Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），三者不可兼得  。</p>
+<p>查看：<a href="http://www.ruanyifeng.com/blog/2018/07/cap.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/07/cap.html</a></p>
+<p><img src="https://www.wangbase.com/blogimg/asset/201807/bg2018071607.jpg" alt="img"></p>
+<p>从列表中我们可以看出，有很多服务组件可以选择，针对AP及CP这里我们主要选择Eureka来进行讲解</p>
+<p>EurekaServer采用P2P（Peer To Peer）模式<a href="https://www.cnblogs.com/linsanshu/p/5546948.html，不保证复制操作一定能成功，因此提供的是一个最终一致性的服务实例视图。Client端再Server端的注册信息有一个带期限的租约，一旦Server端再指定期间没有收到Client端发送的心跳，则Server端会认为Client端注册的服务是不健康的，定时任务会将从注册表中删除。" target="_blank" rel="noopener">https://www.cnblogs.com/linsanshu/p/5546948.html，不保证复制操作一定能成功，因此提供的是一个最终一致性的服务实例视图。Client端再Server端的注册信息有一个带期限的租约，一旦Server端再指定期间没有收到Client端发送的心跳，则Server端会认为Client端注册的服务是不健康的，定时任务会将从注册表中删除。</a></p>
+<p>那么我们为什么要选择Eureka呢？主要有以下几点</p>
+<ul>
+<li>Eureka是基于AP而不是CP</li>
+<li>团队是Java开发，除了问题好排查</li>
+<li>Eureka能和zuul ribbon整合性好</li>
+</ul>
+<h2 id="3-Eureka入门"><a href="#3-Eureka入门" class="headerlink" title="3 Eureka入门"></a>3 Eureka入门</h2><p>eureka配置参数</p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务注册中心配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka.server.EurekaServerConfigBean</td>
+</tr>
+<tr>
+<td>eureka.server.enable-self-preservation</td>
+<td>false</td>
+<td>关闭注册中心的保护机制，Eureka 会统计15分钟之内心跳失败的比例低于85%将会触发保护机制，不剔除服务提供者，如果关闭服务注册中心将不可用的实例正确剔除</td>
+</tr>
+<tr>
+<td>服务实例类配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean</td>
+</tr>
+<tr>
+<td>eureka.instance.prefer-ip-address</td>
+<td>false</td>
+<td>不使用主机名来定义注册中心的地址，而使用IP地址的形式，如果设置了eureka.instance.ip-address 属性，则使用该属性配置的IP，否则自动获取除环路IP外的第一个IP地址</td>
+</tr>
+<tr>
+<td>eureka.instance.ip-address</td>
+<td></td>
+<td>IP地址</td>
+</tr>
+<tr>
+<td>eureka.instance.hostname</td>
+<td></td>
+<td>设置当前实例的主机名称</td>
+</tr>
+<tr>
+<td>eureka.instance.appname</td>
+<td></td>
+<td>服务名，默认取 spring.application.name 配置值，如果没有则为 unknown</td>
+</tr>
+<tr>
+<td>eureka.instance.lease-renewal-interval-in-seconds</td>
+<td>30</td>
+<td>定义服务续约任务（心跳）的调用间隔，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.instance.lease-expiration-duration-in-seconds</td>
+<td>90</td>
+<td>定义服务失效的时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.instance.status-page-url-path</td>
+<td>/info</td>
+<td>状态页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
+</tr>
+<tr>
+<td>eureka.instance.status-page-url</td>
+<td></td>
+<td>状态页面的URL，绝对路径</td>
+</tr>
+<tr>
+<td>eureka.instance.health-check-url-path</td>
+<td>/health</td>
+<td>健康检查页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
+</tr>
+<tr>
+<td>eureka.instance.health-check-url</td>
+<td></td>
+<td>健康检查页面的URL，绝对路径</td>
+</tr>
+<tr>
+<td>服务注册类配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka.EurekaClientConfigBean</td>
+</tr>
+<tr>
+<td>eureka.client.service-url.</td>
+<td></td>
+<td>指定服务注册中心地址，类型为 HashMap，并设置有一组默认值，默认的Key为 defaultZone；默认的Value为 <a href="http://localhost:8761/eureka" target="_blank" rel="noopener">http://localhost:8761/eureka</a> ，如果服务注册中心为高可用集群时，多个注册中心地址以逗号分隔。如果服务注册中心加入了安全验证，这里配置的地址格式为：<a href="http://%3cusername%3e:%3cpassword%3e@localhost:8761/eureka" target="_blank" rel="noopener">http://:@localhost:8761/eureka</a> 其中 <username> 为安全校验的用户名；<password> 为该用户的密码</password></username></td>
+</tr>
+<tr>
+<td>eureka.client.fetch-registery</td>
+<td>true</td>
+<td>检索服务</td>
+</tr>
+<tr>
+<td>eureka.client.registery-fetch-interval-seconds</td>
+<td>30</td>
+<td>从Eureka服务器端获取注册信息的间隔时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.register-with-eureka</td>
+<td>true</td>
+<td>启动服务注册</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-connect-timeout-seconds</td>
+<td>5</td>
+<td>连接 Eureka Server 的超时时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-read-timeout-seconds</td>
+<td>8</td>
+<td>读取 Eureka Server 信息的超时时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.filter-only-up-instances</td>
+<td>true</td>
+<td>获取实例时是否过滤，只保留UP状态的实例</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-connection-idle-timeout-seconds</td>
+<td>30</td>
+<td>Eureka 服务端连接空闲关闭时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-total-connections</td>
+<td>200</td>
+<td>从Eureka 客户端到所有Eureka服务端的连接总数</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-total-connections-per-host</td>
+<td>50</td>
+<td>从Eureka客户端到每个Eureka服务主机的连接总数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-单机版"><a href="#3-1-单机版" class="headerlink" title="3.1 单机版"></a>3.1 单机版</h3><h4 id="3-1-1-Eureka-Server"><a href="#3-1-1-Eureka-Server" class="headerlink" title="3.1.1 Eureka Server"></a>3.1.1 Eureka Server</h4><h5 id="3-1-1-1-引入Eureka-Server依赖"><a href="#3-1-1-1-引入Eureka-Server依赖" class="headerlink" title="3.1.1.1 引入Eureka Server依赖"></a>3.1.1.1 引入Eureka Server依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="3-1-1-2-配置启动类"><a href="#3-1-1-2-配置启动类" class="headerlink" title="3.1.1.2 配置启动类"></a>3.1.1.2 配置启动类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-1-1-3-配置properties或yml文件"><a href="#3-1-1-3-配置properties或yml文件" class="headerlink" title="3.1.1.3 配置properties或yml文件"></a>3.1.1.3 配置properties或yml文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#服务名称</span><br><span class="line">spring.application.name=smartke-cloud-eureka-server</span><br><span class="line">#服务端口</span><br><span class="line">server.port=8761</span><br><span class="line">#eureka设置</span><br><span class="line">eureka.instance.hostname=localhost</span><br><span class="line"># 表示是否注册自身到eureka服务器</span><br><span class="line">eureka.client.register-with-eureka=false</span><br><span class="line"># 是否从eureka上获取注册信息</span><br><span class="line">eureka.client.fetch-registry=false</span><br><span class="line">#关闭eureka自我保护机制</span><br><span class="line">eureka.server.enable-self-preservation=false</span><br><span class="line">#剔除失效服务间隔</span><br><span class="line">eureka.server.eviction-interval-timer-in-ms=2000</span><br><span class="line">#设置访问eureka的时候需要使用用户名和密码进行登录</span><br><span class="line">#security.basic.enabled=true</span><br><span class="line">#spring.security.user.name=smartke</span><br><span class="line">#spring.security.user.password=smartke</span><br><span class="line">#日志设置</span><br><span class="line">logging.level.root=error</span><br><span class="line">logging.level.org.springframework=info</span><br><span class="line">logging.file=$&#123;spring.application.name&#125;.log</span><br></pre></td></tr></table></figure>
+<h4 id="3-1-2-Eureka-Client"><a href="#3-1-2-Eureka-Client" class="headerlink" title="3.1.2 Eureka Client"></a>3.1.2 Eureka Client</h4><h5 id="3-1-2-1-引入依赖"><a href="#3-1-2-1-引入依赖" class="headerlink" title="3.1.2.1 引入依赖"></a>3.1.2.1 引入依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="3-1-2-2-配置启动类"><a href="#3-1-2-2-配置启动类" class="headerlink" title="3.1.2.2 配置启动类"></a>3.1.2.2 配置启动类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(EurekaClientApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-1-2-3-配置properties或yml文件"><a href="#3-1-2-3-配置properties或yml文件" class="headerlink" title="3.1.2.3 配置properties或yml文件"></a>3.1.2.3 配置properties或yml文件</h5><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#port</span></span><br><span class="line"><span class="string">server.port=8002</span></span><br><span class="line"><span class="comment">###application name</span></span><br><span class="line"><span class="string">spring.application.name=smartke-portal</span></span><br><span class="line"><span class="comment">###eureka</span></span><br><span class="line"><span class="string">eureka.client.serviceUrl.defaultZone=http://admin:admin@localhost:8761/eureka/</span></span><br><span class="line"><span class="comment">#Eureka客户端向服务端发送心跳的时间间隔，单位为秒（客户端告诉服务端自己会按照该规则）默认为30</span></span><br><span class="line"><span class="string">eureka.instance.lease-renewal-interval-in-seconds=1</span></span><br><span class="line"><span class="comment">#Eureka服务端在收到最后一次心跳之后等待的时间上限，单位为秒，超过则剔除（客户端告诉服务端按照此规则等待自己）默认为90</span></span><br><span class="line"><span class="string">eureka.instance.lease-expiration-duration-in-seconds=2</span></span><br></pre></td></tr></table></figure>
+<p>说明一下，这里需要指定<code>spring.application.name</code>不然会再Eureka Server界面显示为UNKNOW</p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106102425.png" alt="20190106102425"></p>
+<p>eureka错误解释</p>
+<p>自我保护机制</p>
+<p>当我们再本地调式基于eureka的程序时，基本上都会碰到这样一个问题，再服务注册中心的信息面板中出现以下红色的警告信息</p>
+<p><strong>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</strong></p>
+<p>实际上，该警告触发了eureka server的自我保护机制。服务注册到eureka server之后，会维护一个心跳连接，告诉eureka server自己还活着。eureka server再运行期间，会统计心跳失败比例再15分钟之内是否低于85%，如果出现低于的情况(在本地单机调试的时候十分容易满足，生产环境的情况下，通常是由于网络不稳定导致)，eureka server 会将当前的实例注册信息保护起来，让这些实例不会过期，尽可能保护这些注册信息(这就是为什么选择Eureka，因为eureka是AP的)但是，在这段时间之内实例若出现问题，那么客户端很容易拿到实际上已经不存在的服务实例，会出现调用失败的情况，所以客户端必须要有容错机制，比如可以使用请求重试、断路器等机制。</p>
+<p>那么出现上面的情况，我们该怎么解决呢？可以在本地配置文件中加入<code>eureka.server.enable-self-preservation=false</code>参数来关闭，以确保注册中心可以将不可用的实例及时剔除。</p>
+<p>关闭自我保护之后，启动eureka server会出现以下提示，可以忽略。</p>
+<p><strong>THE SELF PRESERVATION MODE IS TURNED OFF. THIS MAY NOT PROTECT INSTANCE EXPIRY IN CASE OF NETWORK/OTHER PROBLEMS</strong></p>
+<h3 id="3-2-Peer-to-Peer架构"><a href="#3-2-Peer-to-Peer架构" class="headerlink" title="3.2 Peer to Peer架构"></a>3.2 Peer to Peer架构</h3><p>一般而言，分布式系统的数据在多个副本之间的复制方式，可以分为主从复制和对等复制</p>
+<h4 id="3-2-1-主从复制"><a href="#3-2-1-主从复制" class="headerlink" title="3.2.1 主从复制"></a>3.2.1 主从复制</h4><p>主从复制就是我们熟知的Master-Slave模式，即有一个主副本，其他副本为从副本。所有对数据的写操作都提交到主副本，最后再由主副本更新到其他从副本。具体更新的方式，还可以细分为同步更新、异步更新、同步及异步混合。</p>
+<p>对于主从复制模式来讲，写操作的压力都在主副本上面，她是整个系统的瓶颈，但是从副本可以帮主副本分担读请求。</p>
+<h4 id="3-2-2-对等复制"><a href="#3-2-2-对等复制" class="headerlink" title="3.2.2 对等复制"></a>3.2.2 对等复制</h4><p>即P2P的模式，副本之间部分主从，任何副本都可以接受写操作，然后每个副本之间相互进行数据更i性能。对于对等复制模式来讲，由于任何副本都可以进行写操作，各个副本之间的数据哦同步及冲突处理是一个比较棘手的问题。</p>
+<p>Eureka Server就是采用的Peer to Peer 模式。</p>
+<p>Eureka Server从一开始设计就考虑了高可用的问题，在Eureka的服务治理设计中，所有的节点即是服务提供方，又是服务消费方，服务注册中心也不例外。Eureka Server的高可用实际上就是将自己作为服务向其他服务注册中心注册自己，这样就可以形成一组互相注册的服务注册中心，以实现服务清单的互相同步。达到高可用的效果。</p>
+<h4 id="3-2-3-代码示例"><a href="#3-2-3-代码示例" class="headerlink" title="3.2.3 代码示例"></a>3.2.3 代码示例</h4><p>依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.com.bmsmart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>eureka-server<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Finchley.SR2<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建application-peer1.properties，作为peer1服务中心的配置，并将serviceUrl指向peer2:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-server</span><br><span class="line">server.port=8761</span><br><span class="line"></span><br><span class="line">eureka.instance.hostname=peer1</span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer2:8762/eureka/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建 application-peer2.properties，作为peer2服务中心的配置，并将serviceUrl指向peer1</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-server</span><br><span class="line">server.port=8762</span><br><span class="line"></span><br><span class="line">eureka.instance.hostname=peer2</span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer1:8761/eureka/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.eurekaserver;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过<code>spring.profiles.active</code>属性来分别启动peer1和peer2</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar eureka-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer1</span><br><span class="line">java -jar eureka-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer2</span><br></pre></td></tr></table></figure>
+<p>此时访问peer1的注册中心<a href="http://localhost:8761，我们可以看到`registered-replicas`中有peer2的节点`http://peer2:8762/eureka/`" target="_blank" rel="noopener">http://localhost:8761，我们可以看到`registered-replicas`中有peer2的节点`http://peer2:8762/eureka/`</a> 同样访问peer2 <a href="http://lcoalhost:8762也能看到`registered-replicas`中有peer1的节点`http://peer1:8761/eureka/`" target="_blank" rel="noopener">http://lcoalhost:8762也能看到`registered-replicas`中有peer1的节点`http://peer1:8761/eureka/`</a></p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106102425.png" alt="1546746477978"></p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106114838.png" alt="20190106114838"></p>
+<p>eureka-client</p>
+<p>依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.com.bmsmart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>eureka-client<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Finchley.SR2<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-client</span><br><span class="line">server.port=8080</span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer1:8761/eureka/,http://peer2:8762/eureka/</span><br><span class="line">logging.file=$&#123;spring.application.name&#125;.log</span><br><span class="line">eureka.instance.prefer-ip-address=true</span><br><span class="line"># 健康检查</span><br><span class="line">#eureka.client.healthcheck.enabled=true</span><br><span class="line"># 随机端口配置</span><br><span class="line">#eureka.instance.instance-id=$&#123;spring.application.name&#125;:$&#123;random.int&#125;</span><br><span class="line">#server.port=0</span><br><span class="line">#server.port=$&#123;random.int[10000,19999]&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.eurekaclient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.EnableEurekaClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/Spring-Cloud/">Spring Cloud</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/17/spring-boot-入门篇-构建微服务/" title="Spring Boot 入门篇(构建微服务)" itemprop="url">Spring Boot 入门篇(构建微服务)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-17T03:19:57.000Z" itemprop="datePublished"> Published 2019-01-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么是Spring-boot"><a href="#什么是Spring-boot" class="headerlink" title="什么是Spring-boot"></a>什么是Spring-boot</h3><p>设计目的是为了简化新spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，而使开发人员不需要定义样板化的配置。只是默认配置了很多框架的使用方式，类似maven整合了所有的jar包。</p>
+<h3 id="使用spring-boot的优势"><a href="#使用spring-boot的优势" class="headerlink" title="使用spring-boot的优势"></a>使用spring-boot的优势</h3><ol>
+<li><p>简化编码：可以快速开启一个web容器</p>
+</li>
+<li><p>简化配置：java ee轻量级框架，但是其配置比较繁琐。spring boot 更多的采用java config的方式，对spring进行配置。</p>
+</li>
+<li><p>简化部署：spring boot 内嵌tomcat，只需要将项目打成jar包，使用java -jar xxx.jar 一键启动项目即可。</p>
+</li>
+<li><p>简化监控：使用spring-boot-start-actuator依赖，直接使用REST方式来获取进程的运行期性能参数，从而达到监控的目的。</p>
+</li>
+<li><p>但是spring -boot只是微架构，没有提供相应的服务发现和注册的配套功能，没有外围监控集成方案，没有外围的安全管理方案，所以在微服务架构中，还需要spring cloud配套使用。</p>
+<h3 id="未来的发展趋势"><a href="#未来的发展趋势" class="headerlink" title="未来的发展趋势"></a>未来的发展趋势</h3><p>微服务是未来发展的趋势，项目会从传统架构慢慢转向微服务架构，使用独立的技术，更安全更频繁的部署。</p>
+</li>
+</ol>
+<h3 id="spring-boot的三种启动方式"><a href="#spring-boot的三种启动方式" class="headerlink" title="spring-boot的三种启动方式"></a>spring-boot的三种启动方式</h3>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/spring-boot/">spring boot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/01/16/Spring-Boot简单介绍/" title="Spring Boot简单介绍" itemprop="url">Spring Boot简单介绍</a>
   </h1>
   <p class="article-author">By
@@ -760,424 +1312,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/12/19/MYSQL-数据库常见锁机制以及存储类型/" title="MYSQL 数据库 相关知识点" itemprop="url">MYSQL 数据库 相关知识点</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-12-19T03:33:20.000Z" itemprop="datePublished"> Published 2018-12-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Mysql的数据类型"><a href="#Mysql的数据类型" class="headerlink" title="Mysql的数据类型"></a>Mysql的数据类型</h3><p>Mysql中定义的数据类型对数据库的优化是非常重要的。</p>
-<p>mysql支持多种类型，大致可以分为三类：数值，日期/时间和字符串（字符）类型</p>
-<p>1.数值类型</p>
-<p> mysql支持所有的sql数值数据类型。这些数据包括<font color="red">严格数值数据类型</font>（INTEGER,SMALLINT,DECIMAL,NUMERIC）,以及<font color="red">近似数据类型</font>（FLOAT,REAL和DOUBLE）</p>
-<p><img src="https://images2015.cnblogs.com/blog/1101622/201706/1101622-20170622142338116-336967700.png" alt="img"></p>
-<p>2.日期/时间类型</p>
-<p>表示时间值得日期和时间类型为DATETIME,DATE,TIMESTAMP,TIME和YEAR。</p>
-<p>每一个时间类型有一个有效值范值。</p>
-<p>3.字符类型</p>
-<p>CHAR—-定长字符串</p>
-<p> VARCHAR—-变长字符串</p>
-<p> BINARY–</p>
-<font color="red">注意：</font>
-
-<p>1.Mysql一个汉字占多少长度和编码有关：</p>
-<p>UTF-8:一个汉字=3个字节</p>
-<p>GBK： 一个汉字=2个字节</p>
-<p>2.varchar(n)表示n个字符，无论汉字和英文，mysql都能存n个字符，仅是实际字节长度有所区别。</p>
-<p>3.mysql检查长度，length()函数来实现。</p>
-<p>总结：</p>
-<p><strong>1、整型</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义（有符号）</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>tinyint(m)</td>
-<td>1个字节  范围(-128~127)</td>
-</tr>
-<tr>
-<td>smallint(m)</td>
-<td>2个字节  范围(-32768~32767)</td>
-</tr>
-<tr>
-<td>mediumint(m)</td>
-<td>3个字节  范围(-8388608~8388607)</td>
-</tr>
-<tr>
-<td>int(m)</td>
-<td>4个字节  范围(-2147483648~2147483647)</td>
-</tr>
-<tr>
-<td>bigint(m)</td>
-<td>8个字节  范围(+-9.22*10的18次方)</td>
-</tr>
-</tbody>
-</table>
-<p>取值范围如果加了 unsigned，则最大值翻倍，如 tinyint unsigned 的取值范围为(0~255)。</p>
-<p><strong>2、浮点型(float 和 double)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float(m,d)</td>
-<td>单精度浮点型    8位精度(4字节)     m总个数，d小数位</td>
-</tr>
-<tr>
-<td>double(m,d)</td>
-<td>双精度浮点型    16位精度(8字节)    m总个数，d小数位</td>
-</tr>
-</tbody>
-</table>
-<p>设一个字段定义为 float(5,3)，如果插入一个数 123.45678,实际数据库里存的是 123.457，但总个数还以实际为准，即 6 位。</p>
-<p><strong>3、定点数</strong></p>
-<p>浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值。</p>
-<p>decimal(m,d) 参数 m&lt;65 是总个数，d&lt;30 且 d&lt;m 是小数位。</p>
-<p><strong>4、字符串(char,varchar,_text)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>char(n)</td>
-<td>固定长度，最多255个字符</td>
-</tr>
-<tr>
-<td>varchar(n)</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>tinytext</td>
-<td>可变长度，最多255个字符</td>
-</tr>
-<tr>
-<td>text</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>mediumtext</td>
-<td>可变长度，最多2的24次方-1个字符</td>
-</tr>
-<tr>
-<td>longtext</td>
-<td>可变长度，最多2的32次方-1个字符</td>
-</tr>
-</tbody>
-</table>
-<p>char 和 varchar：</p>
-<ul>
-<li>1.char(n) 若存入字符数小于n，则以空格补于其后，查询之时再将空格去掉。所以 char 类型存储的字符串末尾不能有空格，varchar 不限于此。</li>
-<li>2.char(n) 固定长度，char(4) 不管是存入几个字符，都将占用 4 个字节，varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或2个字节(n&gt;255)，所以 varchar(4),存入 3 个字符将占用 4 个字节。</li>
-<li>3.char 类型的字符串检索速度要比 varchar 类型的快。</li>
-</ul>
-<p>varchar 和 text：</p>
-<ul>
-<li>1.varchar 可指定 n，text 不能指定，内部存储 varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节(n&gt;255)，text 是实际字符数 +2 个字节。</li>
-<li>2.text 类型不能有默认值。</li>
-<li>3.varchar 可直接创建索引，text 创建索引要指定前多少个字符。varchar 查询速度快于 text, 在都创建索引的情况下，text 的索引似乎不起作用。</li>
-</ul>
-<h3 id="mysql的存储过程"><a href="#mysql的存储过程" class="headerlink" title="mysql的存储过程"></a>mysql的存储过程</h3><h5 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h5><h5 id="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"><a href="#什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。" class="headerlink" title="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"></a>什么是存储过程：一组<font color="red">sql语句集</font>，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。</h5><p>mysql 5.0以前并不支持存储过程，在5.0以后支持存储过程，可以大大提高数据库的处理过程，同时可以提高</p>
-<p>是主动调用的，功能比触发器更加强大。</p>
-<h5 id="存储过程的优点："><a href="#存储过程的优点：" class="headerlink" title="存储过程的优点："></a>存储过程的优点：</h5><p>1.增强SQL语言的功能和灵活性。</p>
-<p>2.标准组件式编程。</p>
-<p>3.较快的执行速度。</p>
-<h5 id="存储过程的创建："><a href="#存储过程的创建：" class="headerlink" title="存储过程的创建："></a>存储过程的创建：</h5><h5 id="存储过程的三个参数：IN-OUT-INOUT"><a href="#存储过程的三个参数：IN-OUT-INOUT" class="headerlink" title="存储过程的三个参数：IN OUT INOUT"></a>存储过程的三个参数：IN OUT INOUT</h5><p>存储过程根据需要会有输入，输出，输入输出参数，如果有多个参数用， 分割开。存储过程的参数用在存储过程的定义。</p>
-<p><strong>IN</strong>参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值</p>
-<p><strong>OUT**</strong>:**该值可在存储过程内部被改变，并可返回</p>
-<p><strong>INOUT**</strong>:**调用时指定，并且可被改变和返回</p>
-<h5 id="存储过程使用的案例：（只保留近三天的数据）"><a href="#存储过程使用的案例：（只保留近三天的数据）" class="headerlink" title="存储过程使用的案例：（只保留近三天的数据）"></a>存储过程使用的案例：（只保留近三天的数据）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	#Routine body goes here...</span><br><span class="line">	DECLARE s int DEFAULT 0;</span><br><span class="line">  DECLARE tableName VARCHAR(32);</span><br><span class="line">	DECLARE c_tableNames CURSOR FOR select table_name from information_schema.tables where table_schema=&apos;ikms_exec&apos; and table_name NOT LIKE &apos;base%&apos; AND table_name  LIKE &apos;%_his&apos;;</span><br><span class="line">	DECLARE CONTINUE HANDLER FOR SQLSTATE &apos;02000&apos; SET s=1;</span><br><span class="line">	set @timenow=DATE_ADD(NOW(),INTERVAL -3 DAY);</span><br><span class="line">	OPEN c_tableNames;</span><br><span class="line">		while s &lt;&gt; 1 DO</span><br><span class="line">	 		FETCH c_tableNames into tableName;</span><br><span class="line">			SET @v_sql=CONCAT(&quot;DELETE FROM &quot;,tableName,&quot; WHERE create_time&lt;&apos;&quot;,@timenow,&quot;&apos;&quot;);</span><br><span class="line">			prepare stmt from @v_sql;</span><br><span class="line">			EXECUTE stmt;</span><br><span class="line">      deallocate prepare stmt;</span><br><span class="line">	 	end while;</span><br><span class="line">	CLOSE c_tableNames;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-<p>如何执行存储过程：CALL procedure_name()</p>
-<h5 id="mysql存储过程的查询："><a href="#mysql存储过程的查询：" class="headerlink" title="mysql存储过程的查询："></a>mysql存储过程的查询：</h5><p>select name from mysql.proc where db = “数据库名”</p>
-<p>修改 Alert</p>
-<p>删除 DROP </p>
-<h3 id="MYSQL-创建视图"><a href="#MYSQL-创建视图" class="headerlink" title="MYSQL 创建视图"></a>MYSQL 创建视图</h3><h5 id="什么是视图："><a href="#什么是视图：" class="headerlink" title="什么是视图："></a>什么是视图：</h5><p>select　语句返回的结果。</p>
-<h5 id="视图的特性："><a href="#视图的特性：" class="headerlink" title="视图的特性："></a>视图的特性：</h5><p>视图是若张基本表的引用，一张虚拟表；查询语句执行的结果，不存储具体的数据，只能做查询，基本的表数据发生了变化，视图就跟着发生变化。</p>
-<h5 id="视图的作用："><a href="#视图的作用：" class="headerlink" title="视图的作用："></a>视图的作用：</h5><p>方便操作，特别是查询操作，减少负责的ＳＱＬ语句，增强可读性；</p>
-<h5 id="视图的优点："><a href="#视图的优点：" class="headerlink" title="视图的优点："></a>视图的优点：</h5><p>1.使用视图可以执行用户数据，聚集特定数据。</p>
-<p>2.使用视图，可以简化数据操作。</p>
-<p>3.使用视图，基表的数据就有一定的安全性，因为视图是虚拟的，物理上是不存在的，只是存储</p>
-<p>4.可以合并分离的数据，创建分区视图。</p>
-<h5 id="视图的缺点："><a href="#视图的缺点：" class="headerlink" title="视图的缺点："></a>视图的缺点：</h5><p>1性能差：需要将对视图查询转化成对基表的查询，需要花费一点的时间。</p>
-<p>2.修改权限：如果需要修改视图的某些信息后，数据库必须把它转化成对基本表的某些信息的修改。</p>
-<h5 id="使用场合"><a href="#使用场合" class="headerlink" title="使用场合"></a>使用场合</h5><p>多表复杂查询的时候，返回用户特性信息时。</p>
-<h3 id="MYSQL索引"><a href="#MYSQL索引" class="headerlink" title="MYSQL索引"></a>MYSQL索引</h3><p>mysql目前支持的索引有：普通索引，唯一索引，主键索引，组合索引，全文唯一</p>
-<h5 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h5><p>最基本的索引，没有任何限制 INDEX</p>
-<h5 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h5><p>唯一索引的值必须是唯一的，但是允许有空值。如果是组合索引的话，则列值的组合必须是唯一，它有以下几种创建方式。 UNION INDEX</p>
-<h5 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h5><p>主键索引是特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般在创建表的时候创建主键索引。</p>
-<h5 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h5><p>指多个字段上创建的索引，只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。遵循最左原则。</p>
-<h5 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h5><p>主要用来查找文本的关键字，而不是直接与索引中的值相比较。 FULLTEXT</p>
-<p>FULLTEXT索引跟其它索引大不相同，它更像是一个搜索引擎，而不是简单的where语句的参数匹配。FULLTEXT索引配合match against操作使用，而不是一般的where语句加like.目前只支持 char，varchar，text列上可以创建全文索引</p>
-<h5 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h5><p>1.虽然索引提高了查询速度，同时会降低更新表的速度。 因为更新表时，不仅要保存数据，还要保存一下索引文件。</p>
-<p>2.建立索引会占用磁盘空间的索引文件。一般情况这个问题不太严重，但如果你在一个大表上创建了多种组合索引，索引文件的会增长很快。</p>
-<h3 id="MYSQL优化"><a href="#MYSQL优化" class="headerlink" title="MYSQL优化"></a>MYSQL优化</h3><h5 id="1-sql语句优化："><a href="#1-sql语句优化：" class="headerlink" title="1.sql语句优化："></a>1.sql语句优化：</h5><p>（1）使用limit对查询结果的记录进行限定<br>（2）避免select *，将需要查找的字段列出来<br>（3）使用连接（join）来代替子查询<br>（4）拆分大的delete或insert语句</p>
-<h5 id="2-选择合适的数据类型"><a href="#2-选择合适的数据类型" class="headerlink" title="2.选择合适的数据类型"></a>2.选择合适的数据类型</h5><p>1）使用可存下数据的最小的数据类型，整型 &lt; date,time &lt; char,varchar &lt; blob<br>（2）使用简单的数据类型，整型比字符处理开销更小，因为字符串的比较更复杂。如，int类型存储时间类型，bigint类型转ip函数<br>（3）使用合理的字段属性长度，固定长度的表会更快。使用enum、char而不是varchar<br>（4）尽可能使用not null定义字段<br>（5）尽量少用text，非用不可最好分表</p>
-<h5 id="3-选择合适的索引列"><a href="#3-选择合适的索引列" class="headerlink" title="3.选择合适的索引列"></a>3.选择合适的索引列</h5><p>（1）查询频繁的列，在where，group by，order by，on从句中出现的列<br>（2）where条件中&lt;，&lt;=，=，&gt;，&gt;=，between，in，以及like 字符串+通配符（%）出现的列<br>（3）长度小的列，索引字段越小越好，因为数据库的存储单位是页，一页中能存下的数据越多越好<br>（4）离散度大（不同的值多）的列，放在联合索引前面。查看离散度，通过统计不同的列值来实现，count越大，离散程度越高：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h5 id="4-用命令分析"><a href="#4-用命令分析" class="headerlink" title="4.用命令分析"></a>4.用命令分析</h5><p>（1）SHOW查看状态<br>1.显示状态信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW [SESSION|GLOBAL] STATUS LIKE &apos;%Status_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>session（默认）：取出当前窗口的执行<br>global：从mysql启动到现在<br>（a）查看查询次数（插入次数com_insert、修改次数com_insert、删除次数com_delete）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;com_select&apos;;</span><br></pre></td></tr></table></figure>
-<p>（b）查看连接数(登录次数)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;connections&apos;;</span><br></pre></td></tr></table></figure>
-<p>（c）数据库运行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;uptime&apos;;</span><br></pre></td></tr></table></figure>
-<p>（d）查看慢查询次数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;slow_queries&apos;;</span><br></pre></td></tr></table></figure>
-<p>（e）查看索引使用的情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;handler_read%&apos;;</span><br></pre></td></tr></table></figure>
-<p>handler_read_key：这个值越高越好，越高表示使用索引查询到的次数。<br>handler_read_rnd_next：这个值越高，说明查询低效。</p>
-<p>2.显示系统变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &apos;%Variables_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>3.显示InnoDB存储引擎的状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW ENGINE INNODB STATUS;</span><br></pre></td></tr></table></figure>
-<p>（2）EXPLAIN分析查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT column_name FROM table_name;</span><br></pre></td></tr></table></figure>
-<p>explain查询sql执行计划，各列含义：<br>table：表名；<br>type：连接的类型<br>​    -const：主键、索引；<br>​    -eq_reg：主键、索引的范围查找；<br>​    -ref：连接的查找（join）<br>​    -range：索引的范围查找；<br>​    -index：索引的扫描；<br>​    -all：全表扫描；<br>possible_keys：可能用到的索引；<br>key：实际使用的索引；<br>key_len：索引的长度，越短越好；<br>ref：索引的哪一列被使用了，常数较好；<br>rows：mysql认为必须检查的用来返回请求数据的行数；<br>extra：using filesort、using temporary（常出现在使用order by时）时需要优化。<br>​    -Using filesort  额外排序。看到这个的时候，查询就需要优化了<br>​    -Using temporary 使用了临时表。看到这个的时候，也需要优化<br>（3）PROFILING分析SQL语句<br>1.开启profile。查看当前SQL执行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET PROFILING=ON; </span><br><span class="line">mysql&gt; SHOW profiles;</span><br></pre></td></tr></table></figure>
-<p>2.查看所有用户的当前连接。包括执行状态、是否锁表等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW processlist;</span><br></pre></td></tr></table></figure>
-<p>（4）PROCEDURE ANALYSE()取得建议<br>通过分析select查询结果对现有的表的每一列给出优化的建议</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT column_name FROM table_name PROCEDURE ANALYSE();</span><br></pre></td></tr></table></figure>
-<p>（5）OPTIMIZE TABLE回收闲置的数据库空间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; OPTIMIZE TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>对于MyISAM表，当表上的数据行被删除时，所占据的磁盘空间并没有立即被回收，使用命令后这些空间将被回收，并且对磁盘上的数据行进行重排（注意：是磁盘上，而非数据库）。<br>对于InnoDB表，OPTIMIZE TABLE被映射到ALTER TABLE上，这会重建表。重建操作能更新索引统计数据并释放成簇索引中的未使用的空间。<br>只需在批量删除数据行之后，或定期（每周一次或每月一次）进行一次数据表优化操作即可，只对那些特定的表运行。<br>（6）REPAIR TABLE修复被破坏的表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; REPAIR TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>（7）CHECK TABLE检查表是否有错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CHECK TABLE table_name;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/MYSQL数据库/">MYSQL数据库</a><a href="/tags/锁机制/">锁机制</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/12/19/数据库SQl优化总结/" title="数据库SQl优化总结" itemprop="url">数据库SQl优化总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-12-19T03:31:21.000Z" itemprop="datePublished"> Published 2018-12-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><font color="red" size="4">1</font> 对查询进行优化，要尽量避免全表扫描，应考虑在where及order by 涉及的列上建立索引。</p>
-<p><font color="red">2</font> 应尽量避免在where子句中对字段进行null值判断，否则会导致引擎放弃使用索引而进行全表扫描。</p>
-<p>最好不要给数据库留NULL,尽可能的使用NOT NULL填充数据库。</p>
-<p>备注，评论，描述 之类的可以设置为NULL,其他的，最好不要使用NULL。</p>
-<p>不要以为 NULL 不需要空间，比如：char(100) 型，在字段建立时，空间就固定了， 不管是否插入值（NULL也包含在内），都是占用 100个字符的空间的，如果是varchar这样的变长字段， null 不占用空间。</p>
-<p>可以在num上设置默认值0，确保表中num列没有null值，然后这样查询：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = 0</span><br></pre></td></tr></table></figure>
-<p><font color="red">3</font> 应尽量避免在where字句中使用！=或&lt;&gt;操作符，否则引擎放弃使用索引而进行全表扫描。</p>
-<p><font color="red">4</font> 应尽量避免在where字句中使用or来连接条件，如果一个字段有索引，一个字段没有索引，将导致引擎放弃使用索引而进行全表扫描。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num=10 or Name = &apos;admin&apos;</span><br></pre></td></tr></table></figure>
-<p>可以这样查询：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = 10</span><br><span class="line">union all</span><br><span class="line">select id from t where Name = &apos;admin&apos;</span><br></pre></td></tr></table></figure>
-<p><strong>5.</strong>in 和 not in 也要慎用，否则会导致全表扫描，如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num in(1,2,3)</span><br></pre></td></tr></table></figure>
-<p>对于连续的数值，能用 between 就不要用 in 了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num between 1 and 3</span><br></pre></td></tr></table></figure>
-<p>很多时候用 exists 代替 in 是一个好的选择：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select num from a where num in(select num from b)</span><br></pre></td></tr></table></figure>
-<p>用下面的语句替换：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select num from a where exists(select 1 from b where num=a.num)</span><br></pre></td></tr></table></figure>
-<p><strong>6.</strong>下面的查询也将导致全表扫描：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where name like ‘%abc%’</span><br></pre></td></tr></table></figure>
-<p>若要提高效率，可以考虑全文检索。</p>
-<p><strong>7.</strong>如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = @num</span><br></pre></td></tr></table></figure>
-<p>可以改为强制查询使用索引：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t with(index(索引名)) where num = @num</span><br></pre></td></tr></table></figure>
-<p>8 <strong>.</strong>应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num/2 = 100</span><br></pre></td></tr></table></figure>
-<p>应改为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from t where num = 100*2</span><br></pre></td></tr></table></figure>
-<p><strong>9.</strong>应尽量避免在where子句中对字段进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select id from t where substring(name,1,3) = ’abc’       -–name以abc开头的id</span><br><span class="line">select id from t where datediff(day,createdate,’2005-11-30′) = 0    -–‘2005-11-30’    --生成的id</span><br></pre></td></tr></table></figure>
-<p>应改为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select id from t where name like &apos;abc%&apos;</span><br><span class="line">select id from t where createdate &gt;= &apos;2005-11-30&apos; and createdate &lt; &apos;2005-12-1&apos;</span><br></pre></td></tr></table></figure>
-<p><strong>10.</strong>不要在 where 子句中的“=”左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
-<p><strong>11.</strong>在使用索引字段作为条件时，如果该索引是复合索引，那么必须使用到该索引中的第一个字段作为条件时才能保证系统使用该索引，否则该索引将不会被使用，并且应尽可能的让字段顺序与索引顺序相一致。    </p>
-<p><strong>12.</strong>不要写一些没有意义的查询，如需要生成一个空表结构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select col1,col2 into #t from t where 1=0</span><br></pre></td></tr></table></figure>
-<p>这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table #t(…)</span><br></pre></td></tr></table></figure>
-<p><strong>13.</strong>Update 语句，如果只更改1、2个字段，不要Update全部字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志。</p>
-<p><strong>14.</strong>对于多张大数据量（这里几百条就算大了）的表JOIN，要先分页再JOIN，否则逻辑读会很高，性能很差。</p>
-<p><strong>15.</strong>select count(*) from table；这样不带任何条件的count会引起全表扫描，并且没有任何业务意义，是一定要杜绝的。</p>
-<p><strong>16.</strong>索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，因为 insert 或 update 时有可能会重建索引，所以怎样建索引需要慎重考虑，视具体情况而定。一个表的索引数最好不要超过6个，若太多则应考虑一些不常使用到的列上建的索引是否有 必要。</p>
-<p><strong>17.</strong>应尽可能的避免更新 clustered 索引数据列，因为 clustered 索引数据列的顺序就是表记录的物理存储顺序，一旦该列值改变将导致整个表记录的顺序的调整，会耗费相当大的资源。若应用系统需要频繁更新 clustered 索引数据列，那么需要考虑是否应将该索引建为 clustered 索引。</p>
-<p><strong>18.</strong>尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询和连接的性能，并会增加存储开销。这是因为引擎在处理查询和连 接时会逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了。</p>
-<p><strong>19.</strong>尽可能的使用 varchar/nvarchar 代替 char/nchar ，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些。</p>
-<p><strong>20.</strong>任何地方都不要使用 select <em> from t ，用具体的字段列表代替“</em>”，不要返回用不到的任何字段。</p>
-<p><strong>21.</strong>尽量使用表变量来代替临时表。如果表变量包含大量数据，请注意索引非常有限（只有主键索引）。</p>
-<p><strong>22.</strong>避免频繁创建和删除临时表，以减少系统表资源的消耗。临时表并不是不可使用，适当地使用它们可以使某些例程更有效，例如，当需要重复引用大型表或常用表中的某个数据集时。但是，对于一次性事件， 最好使用导出表。</p>
-<p><strong>23.</strong>在新建临时表时，如果一次性插入数据量很大，那么可以使用 select into 代替 create table，避免造成大量 log ，以提高速度；如果数据量不大，为了缓和系统表的资源，应先create table，然后insert。</p>
-<p><strong>24.</strong>如果使用到了临时表，在存储过程的最后务必将所有的临时表显式删除，先 truncate table ，然后 drop table ，这样可以避免系统表的较长时间锁定。</p>
-<p><strong>25.</strong>尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写。</p>
-<p><strong>26.</strong>使用基于游标的方法或临时表方法之前，应先寻找基于集的解决方案来解决问题，基于集的方法通常更有效。</p>
-<p><strong>27.</strong>与临时表一样，游标并不是不可使用。对小型数据集使用 FAST_FORWARD 游标通常要优于其他逐行处理方法，尤其是在必须引用几个表才能获得所需的数据时。在结果集中包括“合计”的例程通常要比使用游标执行的速度快。如果开发时 间允许，基于游标的方法和基于集的方法都可以尝试一下，看哪一种方法的效果更好。</p>
-<p><strong>28.</strong>在所有的存储过程和触发器的开始处设置 SET NOCOUNT ON ，在结束时设置 SET NOCOUNT OFF 。无需在执行存储过程和触发器的每个语句后向客户端发送 DONE_IN_PROC 消息。</p>
-<p><strong>29.</strong>尽量避免大事务操作，提高系统并发能力。</p>
-<p><strong>30.</strong>尽量避免向客户端返回大数据量，若数据量过大，应该考虑相应需求是否合理。</p>
-<p>实际案例分析：拆分大的 DELETE 或INSERT 语句，批量提交SQL语句</p>
-<p>如果你需要在一个在线的网站上去执行一个大的 DELETE 或 INSERT 查询，你需要非常小心，要避免你的操作让你的整个网站停止相应。因为这两个操作是会锁表的，表一锁住了，别的操作都进不来了。</p>
-<p>Apache 会有很多的子进程或线程。所以，其工作起来相当有效率，而我们的服务器也不希望有太多的子进程，线程和数据库链接，这是极大的占服务器资源的事情，尤其是内存。</p>
-<p>如果你把你的表锁上一段时间，比如30秒钟，那么对于一个有很高访问量的站点来说，这30秒所积累的访问进程/线程，数据库链接，打开的文件数，可能不仅仅会让你的WEB服务崩溃，还可能会让你的整台服务器马上挂了。</p>
-<p>所以，如果你有一个大的处理，你一定把其拆分，使用 LIMIT oracle(rownum),sqlserver(top)条件是一个好的方法。下面是一个mysql示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">while(1)&#123;</span><br><span class="line"></span><br><span class="line"> 　　//每次只做1000条</span><br><span class="line"></span><br><span class="line">　　 mysql_query(“delete from logs where log_date &lt;= ’2012-11-01’ limit 1000”);</span><br><span class="line"></span><br><span class="line"> 　　if(mysql_affected_rows() == 0)&#123;</span><br><span class="line"></span><br><span class="line">　　 　　//删除完成，退出！</span><br><span class="line">　　 　　break；</span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">//每次暂停一段时间，释放表让其他进程/线程访问。</span><br><span class="line">usleep(50000)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/MYSQl/">MYSQl</a><a href="/tags/SQL-优化/">SQL 优化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/10/15/dubbo-的使用和总结/" title="dubbo 的使用和总结" itemprop="url">dubbo 的使用和总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-10-15T06:58:54.000Z" itemprop="datePublished"> Published 2018-10-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/分布式服务框架/">分布式服务框架</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
@@ -1224,6 +1361,14 @@
 			
 		
 			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
@@ -1232,27 +1377,23 @@
 			
 		
 			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/gc-垃圾回收机制/" title="gc 垃圾回收机制">gc 垃圾回收机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>1</sup></a></li>
 			
 		
 			
@@ -1264,23 +1405,19 @@
 			
 		
 			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/字节码/" title="字节码">字节码<sup>1</sup></a></li>
 			
 		
 		</ul>
