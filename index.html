@@ -82,6 +82,68 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/04/Git-如何删除远程文件-文件夹/" title="Git 如何删除远程文件/文件夹" itemprop="url">Git 如何删除远程文件/文件夹</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-04T13:33:05.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>step1: git rm “文件名”      git rm -r “文件夹名称/”</p>
+<p>step2:  git commint -m    提交内容</p>
+<p>step3： git push pushgit服务器上</p>
+<p>有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了</p>
+<p>git rm –cached filename/-r directory<br>git commit “xxxx”<br>git push<br>1.删除github文件,本地保留</p>
+<p>git rm –cached test.<br>txt<br>git commit -m “delete file”<br>git push<br>此时github上已经不存在了</p>
+<p>2.删除远程code 文件夹,本地保留<br>一定要注意，删除文件夹要使用-r 参数</p>
+<p>git rm –cached -r code<br>git commit -m “delete directory”<br>git pus</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/04/Git使用中出现的问题/" title="Git使用中出现的问题" itemprop="url">Git使用中出现的问题</a>
   </h1>
   <p class="article-author">By
@@ -274,6 +336,7 @@
 <li><code>FileInputStream</code>在读取文件内容的时候，我们传入文件的路径（<code>&quot;D:/abc.txt&quot;</code>）, 如果这个路径下的文件不存在，那么在执行<code>readFile()</code>方法时会报<code>FileNotFoundException</code>异常。</li>
 <li><code>FileOutputStream</code>在写入文件的时候，我们传入文件的路径（<code>&quot;D:/abc.txt&quot;</code>）, 如果这个路径下的文件不存在，那么在执行<code>writeFile()</code>方法时, 会默认给我们创建一个新的文件。还有重要的一点，不会报异常。</li>
 </ol>
+<h3 id="阻塞和非阻塞IO"><a href="#阻塞和非阻塞IO" class="headerlink" title="阻塞和非阻塞IO:"></a>阻塞和非阻塞IO:</h3><p> JavaIO的各种流阻塞。这意味着，当一个线程调用read()或write()方法时，该线程被阻塞，直到有一些数据被读取，或者数据完全写入。该线程在此期间不能干任何事情了，java NIO的非组赛模式，是一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据</p>
 
         
         
@@ -830,55 +893,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/18/基于springsecurity的oauth2-0授权认证/" title="基于springsecurity的oauth2.0授权认证" itemprop="url">基于springsecurity的oauth2.0授权认证</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-18T07:51:51.000Z" itemprop="datePublished"> Published 2019-02-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -924,6 +938,14 @@
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
@@ -932,19 +954,11 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -952,7 +966,7 @@
 			
 		
 			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			

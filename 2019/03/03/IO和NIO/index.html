@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/1186236/201706/1186236-20170628084640305-375671676.png">
 <meta property="og:image" content="http://img.blog.csdn.net/20170105194412271?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhb3lhbmp1bjY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170105194522390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhb3lhbmp1bjY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-03-03T14:00:42.927Z">
+<meta property="og:updated_time" content="2019-03-04T13:32:25.468Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IO和NIO">
 <meta name="twitter:description" content="java 中的IOjava中的IO流分为两种：字符流和字节流。 根据数据的流向分为输入，输出流  java流操作有关的类和接口：  流的概念和作用流是一组有顺序的，有起点和终点的字节集合，是对数据传输的总称或抽象。即数据在两设备间的传输称为流，流的本质是数据传输，根据数据传输特性将流抽象为各种类，方便更直观的进行数据操作。 字符流和字节流字符流的由来： 因为数据编码的不同，而有了对字符进行高效操作">
@@ -103,7 +103,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-中的IO"><span class="toc-number">1.</span> <span class="toc-text">java 中的IO</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#流的概念和作用"><span class="toc-number"></span> <span class="toc-text">流的概念和作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符流和字节流"><span class="toc-number"></span> <span class="toc-text">字符流和字节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入流和输出流"><span class="toc-number"></span> <span class="toc-text">输入流和输出流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入字节流-InputStream"><span class="toc-number"></span> <span class="toc-text">输入字节流 InputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出字节流-OutputStream"><span class="toc-number"></span> <span class="toc-text">输出字节流 OutputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#节点流"><span class="toc-number"></span> <span class="toc-text">节点流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的节点流"><span class="toc-number">1.</span> <span class="toc-text">常用的节点流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理流"><span class="toc-number"></span> <span class="toc-text">处理流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的处理流"><span class="toc-number">1.</span> <span class="toc-text">常用的处理流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换流"><span class="toc-number">2.</span> <span class="toc-text">转换流</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-中的IO"><span class="toc-number">1.</span> <span class="toc-text">java 中的IO</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#流的概念和作用"><span class="toc-number"></span> <span class="toc-text">流的概念和作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符流和字节流"><span class="toc-number"></span> <span class="toc-text">字符流和字节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入流和输出流"><span class="toc-number"></span> <span class="toc-text">输入流和输出流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入字节流-InputStream"><span class="toc-number"></span> <span class="toc-text">输入字节流 InputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出字节流-OutputStream"><span class="toc-number"></span> <span class="toc-text">输出字节流 OutputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#节点流"><span class="toc-number"></span> <span class="toc-text">节点流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的节点流"><span class="toc-number">1.</span> <span class="toc-text">常用的节点流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理流"><span class="toc-number"></span> <span class="toc-text">处理流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的处理流"><span class="toc-number">1.</span> <span class="toc-text">常用的处理流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换流"><span class="toc-number">2.</span> <span class="toc-text">转换流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞和非阻塞IO"><span class="toc-number">3.</span> <span class="toc-text">阻塞和非阻塞IO:</span></a></li></ol>
 		
 		</li></div>
 		
@@ -164,6 +164,7 @@
 <li><code>FileInputStream</code>在读取文件内容的时候，我们传入文件的路径（<code>&quot;D:/abc.txt&quot;</code>）, 如果这个路径下的文件不存在，那么在执行<code>readFile()</code>方法时会报<code>FileNotFoundException</code>异常。</li>
 <li><code>FileOutputStream</code>在写入文件的时候，我们传入文件的路径（<code>&quot;D:/abc.txt&quot;</code>）, 如果这个路径下的文件不存在，那么在执行<code>writeFile()</code>方法时, 会默认给我们创建一个新的文件。还有重要的一点，不会报异常。</li>
 </ol>
+<h3 id="阻塞和非阻塞IO"><a href="#阻塞和非阻塞IO" class="headerlink" title="阻塞和非阻塞IO:"></a>阻塞和非阻塞IO:</h3><p> JavaIO的各种流阻塞。这意味着，当一个线程调用read()或write()方法时，该线程被阻塞，直到有一些数据被读取，或者数据完全写入。该线程在此期间不能干任何事情了，java NIO的非组赛模式，是一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -223,7 +224,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-中的IO"><span class="toc-number">1.</span> <span class="toc-text">java 中的IO</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#流的概念和作用"><span class="toc-number"></span> <span class="toc-text">流的概念和作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符流和字节流"><span class="toc-number"></span> <span class="toc-text">字符流和字节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入流和输出流"><span class="toc-number"></span> <span class="toc-text">输入流和输出流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入字节流-InputStream"><span class="toc-number"></span> <span class="toc-text">输入字节流 InputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出字节流-OutputStream"><span class="toc-number"></span> <span class="toc-text">输出字节流 OutputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#节点流"><span class="toc-number"></span> <span class="toc-text">节点流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的节点流"><span class="toc-number">1.</span> <span class="toc-text">常用的节点流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理流"><span class="toc-number"></span> <span class="toc-text">处理流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的处理流"><span class="toc-number">1.</span> <span class="toc-text">常用的处理流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换流"><span class="toc-number">2.</span> <span class="toc-text">转换流</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-中的IO"><span class="toc-number">1.</span> <span class="toc-text">java 中的IO</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#流的概念和作用"><span class="toc-number"></span> <span class="toc-text">流的概念和作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符流和字节流"><span class="toc-number"></span> <span class="toc-text">字符流和字节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入流和输出流"><span class="toc-number"></span> <span class="toc-text">输入流和输出流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入字节流-InputStream"><span class="toc-number"></span> <span class="toc-text">输入字节流 InputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出字节流-OutputStream"><span class="toc-number"></span> <span class="toc-text">输出字节流 OutputStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#节点流"><span class="toc-number"></span> <span class="toc-text">节点流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的节点流"><span class="toc-number">1.</span> <span class="toc-text">常用的节点流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理流"><span class="toc-number"></span> <span class="toc-text">处理流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的处理流"><span class="toc-number">1.</span> <span class="toc-text">常用的处理流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换流"><span class="toc-number">2.</span> <span class="toc-text">转换流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞和非阻塞IO"><span class="toc-number">3.</span> <span class="toc-text">阻塞和非阻塞IO:</span></a></li></ol>
  
   </li></div>
 
@@ -264,6 +265,14 @@
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
@@ -272,19 +281,11 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -292,7 +293,7 @@
 			
 		
 			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			

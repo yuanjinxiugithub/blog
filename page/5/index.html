@@ -82,6 +82,74 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/05/19/java-获取字节码以及判断类型/" title="java 获取字节码以及判断类型" itemprop="url">java 获取字节码以及判断类型</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-05-19T03:33:17.000Z" itemprop="datePublished"> Published 2018-05-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>一、获取类的字节码的三种方法:
+　　</p>
+<p>　　1.使用Class.class</p>
+<p>　　 1 Class&lt;?&gt; c1=String.class; </p>
+<p>　　2.使用实例.getClass()</p>
+<p>　　 1 String s=new String(“1”); 2 Class&lt;?&gt; c2=s.getClass(); </p>
+<p>　　3.使用Class.forName(“类全名”);</p>
+<p>　　 1 Class&lt;?&gt; c3 = Class.forName(“java.lang.String”);</p>
+<p>二、判断字节码是不是基本类型 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`//判断是不是基本类型``System.out.println(c1.isPrimitive());``//false`</span><br></pre></td></tr></table></figure>
+<p> 三、判断是不是数组：</p>
+<p> 1 //判断是不是数组 2 System.out.println(String[].class.isArray());//true </p>
+<p>四、判断基本类型的详细类型</p>
+<p> 1 // 判断是不是int 基本类型 2 System.out.println(int.class==Integer.TYPE); </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/字节码/">字节码</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/03/01/剑指offer-record/" title="剑指offer-record" itemprop="url">剑指offer-record</a>
   </h1>
   <p class="article-author">By
@@ -352,6 +420,14 @@ TIME+   进程使用CPU总时间
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
@@ -360,19 +436,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -380,7 +448,7 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
