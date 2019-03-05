@@ -82,6 +82,150 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/02/17/前端跨域问题/" title="前端跨域问题?" itemprop="url">前端跨域问题?</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-17T07:26:42.000Z" itemprop="datePublished"> Published 2019-02-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/CORS/">CORS</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/16/http和https的区别/" title="http和https的区别" itemprop="url">http和https的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-16T02:05:47.000Z" itemprop="datePublished"> Published 2019-02-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><a href="http://www.cnblogs.com/wqhwe/p/5407468.html" target="_blank" rel="noopener">参考文章</a></p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>HTTP超文本传输协议被用于web浏览器和网站服务器之间传递信息，http协议以明文方式发送内容，不提供任何方式的数据加密，如果攻击者截取了Web浏览器和网站服务器之间的传输报文，就可以直接读懂其中的信息，因此，HTTP协议不适合传输一些敏感信息，比如：信用卡号、密码等支付信息。</p>
+<p> 为了解决HTTP协议的这一缺陷，需要使用另一种协议：安全套接字层超文本传输协议HTTPS，为了数据传输的安全，HTTPS在HTTP的基础上加入了SSL协议，SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</p>
+<h3 id="HTTP和HTTPS的基本概念"><a href="#HTTP和HTTPS的基本概念" class="headerlink" title="HTTP和HTTPS的基本概念"></a><strong>HTTP和HTTPS的基本概念</strong></h3><p>　　HTTP：是互联网上应用最为广泛的一种网络协议，是一个客户端和服务器端请求和应答的标准（TCP），用于从WWW服务器传输超文本到本地浏览器的传输协议，它可以使浏览器更加高效，使网络传输减少。</p>
+<p>　　HTTPS：是以安全为目标的HTTP通道，简单讲是HTTP的安全版，即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。</p>
+<p>　　HTTPS协议的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。</p>
+<p>TCP协议：</p>
+<h3 id="HTTP与HTTPS有什么区别？"><a href="#HTTP与HTTPS有什么区别？" class="headerlink" title="HTTP与HTTPS有什么区别？"></a><strong>HTTP与HTTPS有什么区别？</strong></h3><p>　　HTTP协议传输的数据都是未加密的，也就是明文的，因此使用HTTP协议传输隐私信息非常不安全，为了保证这些隐私数据能加密传输，于是网景公司设计了SSL（Secure Sockets Layer）协议用于对HTTP协议传输的数据进行加密，从而就诞生了HTTPS。简单来说，HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全。</p>
+<p>　　<font color="red">HTTPS和HTTP的区别主要如下：</font></p>
+<p>　　1、https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</p>
+<p>　　2、http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</p>
+<p>　　3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
+<p>　　4、http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</p>
+<h3 id="HTTP协议的工作原理"><a href="#HTTP协议的工作原理" class="headerlink" title="HTTP协议的工作原理"></a>HTTP协议的工作原理</h3><p>我们都知道HTTPS能够加密信息，以免敏感信息被第三方获取，所以很多银行网站或电子邮箱等等安全级别较高的服务都会采用HTTPS协议。</p>
+<p><img src="http://www.mahaixiang.cn/uploads/allimg/1507/1-150H120343I41.jpg" alt="HTTPä¸HTTPSçåºå&quot;-é©¬æµ·ç¥¥åå®¢"></p>
+<p>　客户端在使用HTTPS方式与Web服务器通信时有以下几个步骤，如图所示。</p>
+<p>　　（1）客户使用https的URL访问Web服务器，要求与Web服务器建立SSL连接。</p>
+<p>　　（2）Web服务器收到客户端请求后，会将网站的证书信息（证书中包含公钥）传送一份给客户端。</p>
+<p>　　（3）客户端的浏览器与Web服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</p>
+<p>　　（4）客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。</p>
+<p>　　（5）Web服务器利用自己的私钥解密出会话密钥。</p>
+<p>　　（6）Web服务器利用会话密钥加密与客户端之间的通信。</p>
+<p>  <img src="https://pic002.cnblogs.com/images/2012/339704/2012071410212142.gif" alt="img"></p>
+<p><strong>HTTPS的优点</strong></p>
+<p>　　尽管HTTPS并非绝对安全，掌握根证书的机构、掌握加密算法的组织同样可以进行中间人形式的攻击，但HTTPS仍是现行架构下最安全的解决方案，主要有以下几个好处：</p>
+<p>　　（1）使用HTTPS协议可认证用户和服务器，确保数据发送到正确的客户机和服务器；</p>
+<p>　　（2）HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全，可防止数据在传输过程中不被窃取、改变，确保数据的完整性。</p>
+<p>　　（3）HTTPS是现行架构下最安全的解决方案，虽然不是绝对安全，但它大幅增加了中间人攻击的成本。</p>
+<p>　　（4）谷歌曾在2014年8月份调整搜索引擎算法，并称“比起同等HTTP网站，采用HTTPS加密的网站在搜索结果中的排名将会更高”。</p>
+<p><strong>五、HTTPS的缺点</strong></p>
+<p>　　虽然说HTTPS有很大的优势，但其相对来说，还是存在不足之处的：</p>
+<p>　　（1）HTTPS协议握手阶段比较费时，会使页面的加载时间延长近50%，增加10%到20%的耗电；</p>
+<p>　　（2）HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗，甚至已有的安全措施也会因此而受到影响；</p>
+<p>　　（3）SSL证书需要钱，功能越强大的证书费用越高，个人网站、小网站没有必要一般不会用。</p>
+<p>　   （4）SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</p>
+<p>　　（5）HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/http协议/">http协议</a><a href="/tags/前端/">前端</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/15/关于消息队列的使用/" title="关于消息队列的使用" itemprop="url">关于消息队列的使用</a>
   </h1>
   <p class="article-author">By
@@ -1241,198 +1385,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/01/15/Java基础知识/" title="Java基础知识" itemprop="url">Java基础知识</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-01-15T06:41:22.000Z" itemprop="datePublished"> Published 2019-01-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="1-与equals-的区别"><a href="#1-与equals-的区别" class="headerlink" title="1. == 与equals()的区别"></a>1. == 与equals()的区别</h3><h3 id="2-遍历map的几种方法"><a href="#2-遍历map的几种方法" class="headerlink" title="2. 遍历map的几种方法"></a>2. 遍历map的几种方法</h3><h3 id="3-Map与Set的区别"><a href="#3-Map与Set的区别" class="headerlink" title="3.Map与Set的区别"></a>3.Map与Set的区别</h3><h3 id="4-java-中常用的集合类型"><a href="#4-java-中常用的集合类型" class="headerlink" title="4.java 中常用的集合类型"></a>4.java 中常用的集合类型</h3><h3 id="5-java访问修饰符"><a href="#5-java访问修饰符" class="headerlink" title="5.java访问修饰符"></a>5.java访问修饰符</h3><h3 id="6-hashmap-实现的原理"><a href="#6-hashmap-实现的原理" class="headerlink" title="6.hashmap 实现的原理"></a>6.hashmap 实现的原理</h3>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand _posts" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/01/10/HTTP-教程总结/" title="HTTP 教程总结" itemprop="url">HTTP 教程总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-01-10T03:42:10.000Z" itemprop="datePublished"> Published 2019-01-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="http-head-里面的Content-type"><a href="#http-head-里面的Content-type" class="headerlink" title="http head 里面的Content-type"></a>http head 里面的Content-type</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>post 请求中的Content-type方式一般有三种：</p>
-<ul>
-<li><p><code>application/x-www-form-urlencoded</code>：数据被编码为名称/值对。这是标准的编码格式。</p>
-</li>
-<li><p><code>multipart/form-data</code>： 数据被编码为一条消息，页上的每个控件对应消息中的一个部分。</p>
-</li>
-<li><p><code>text/plain</code>： 数据以纯文本形式(text/json/xml/html)进行编码，其中不含任何控件或格式字符。postman软件里标的是RAW。</p>
-</li>
-<li><p>form的<code>enctype</code>属性为编码方式，常用有两种：<code>application/x-www-form-urlencoded</code>和<code>multipart/form-data</code>，默认为<code>application/x-www-form-urlencoded</code></p>
-<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url。</p>
-<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url</p>
-</li>
-<li><p>application/json 用来告诉服务器端消息主体是序列化后的json字符串</p>
-</li>
-</ul>
-<h3 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>客户端/浏览器接受并显示网页时，此网页所在的服务器会返回一个包含http状态码的信息头用以响应浏览器的请求。 HTTP status code。</p>
-<p>下面是常见的HTTP状态码：</p>
-<p>​    200—请求成功</p>
-<p>​        301– 重定向错误（资源被永久移除到其它URL）</p>
-<p>​        404– 请求的网页不存在（客户端错误）</p>
-<p>​        500– 内部服务器错误（服务器错误）</p>
-<h3 id="http请求方法"><a href="#http请求方法" class="headerlink" title="http请求方法"></a>http请求方法</h3><p>根据http标准，http请求可以使用多种请求方法：</p>
-<p>http1.0定义了三种请求方法：GET POST HEAD</p>
-<p>http2.0新增了五种请求方法： PUT DELETE COMMECT OPTIONS  TANCE </p>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>GET</td>
-<td>请求指定的页面信息，并返回实体主体。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>HEAD</td>
-<td>类似于get请求，只不过返回的响应中没有具体的内容，用于获取报头</td>
-</tr>
-<tr>
-<td>3</td>
-<td>POST</td>
-<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST请求可能会导致新的资源的建立和/或已有资源的修改。</td>
-</tr>
-<tr>
-<td>4</td>
-<td>PUT</td>
-<td>从客户端向服务器传送的数据取代指定的文档的内容。</td>
-</tr>
-<tr>
-<td>5</td>
-<td>DELETE</td>
-<td>请求服务器删除指定的页面。</td>
-</tr>
-<tr>
-<td>6</td>
-<td>CONNECT</td>
-<td>HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。</td>
-</tr>
-<tr>
-<td>7</td>
-<td>OPTIONS</td>
-<td>允许客户端查看服务器的性能。</td>
-</tr>
-<tr>
-<td>8</td>
-<td>TRACE</td>
-<td>回显服务器收到的请求，主要用于测试或诊断。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="http-消息结构"><a href="#http-消息结构" class="headerlink" title="http 消息结构"></a>http 消息结构</h3><p>http 是基于客户端/服务器的机构模型，无状态的请求/响应协议。</p>
-<h3 id="POST和GET-方法的区别："><a href="#POST和GET-方法的区别：" class="headerlink" title="POST和GET 方法的区别："></a>POST和GET 方法的区别：</h3><p>POST将请求参数隐藏进行传递，而GET会将参数拼接到请求地址后面传递；</p>
-<p>POST相对比较安全而GET因为暴露参数容易被篡改；</p>
-<p>根据HTTP传输协议两者对参数长度有不同的要求；</p>
-<p>两者在与服务器发生交互时    有所不同，post方法会请求服务端两次，第一次先发送头部进行确认，服务端返回成功后再次发送数据，而GET只需要请求服务器一次。同时强调GET方法中http协议并未做参数长度限制，只是不同浏览器和服务端做了限制而已。</p>
-<h3 id="HTTP-1-1-和HTTP-1-0的区别？"><a href="#HTTP-1-1-和HTTP-1-0的区别？" class="headerlink" title="HTTP/1.1 和HTTP /1.0的区别？"></a>HTTP/1.1 和HTTP /1.0的区别？</h3><p><img src="https://www.javazhiyin.com/wp-content/uploads/2019/02/java10-1550110599.png" alt="é¢è¯ä¸­çé£äºå[ç­ç | ç¯å]"></p>
-<p>HTTP 1.0   无状态，无连接</p>
-<p>HTTP 1.1 持久连接，请求管道化，增加缓存处理（新的字段cache-control）,增加Host字段、支持断点传输（把文件分成几部分）</p>
-<p>HTTP 2.0 二进制分帧，多路复用（或连接共享），头部压缩，服务器推送</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/http协议/">http协议</a><a href="/tags/前端/">前端</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1462,7 +1414,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>26</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>27</sup></a></li>
 			
 		
 			
@@ -1490,6 +1442,10 @@
 			
 		
 			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
@@ -1498,7 +1454,7 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
@@ -1518,27 +1474,23 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 		</ul>

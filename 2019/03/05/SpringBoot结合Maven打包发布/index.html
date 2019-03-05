@@ -1,0 +1,589 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>SpringBoot结合Maven打包发布 | MyNotes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="YUAN">
+    
+
+    
+    <meta name="description" content="多模块的项目 maven命令打包般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作； 要对多个module的项目做打包，一般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作">
+<meta name="keywords" content="Java,SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot结合Maven打包发布">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/05/SpringBoot结合Maven打包发布/index.html">
+<meta property="og:site_name" content="MyNotes">
+<meta property="og:description" content="多模块的项目 maven命令打包般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作； 要对多个module的项目做打包，一般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://yqfile.alicdn.com/79959aa914726d4f40c016358d39328d21126053.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://yqfile.alicdn.com/5a170a00ddde5795bd313c37f8442ec995e5be59.png">
+<meta property="og:image" content="https://yqfile.alicdn.com/9ee0d15901101e06a924a097cd3ce1170d6fb50c.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://yqfile.alicdn.com/03602ee937529a5f35c45164e4378286f3d00013.png">
+<meta property="og:updated_time" content="2019-03-05T13:55:50.536Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot结合Maven打包发布">
+<meta name="twitter:description" content="多模块的项目 maven命令打包般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作； 要对多个module的项目做打包，一般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作">
+<meta name="twitter:image" content="https://yqfile.alicdn.com/79959aa914726d4f40c016358d39328d21126053.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="MyNotes" title="MyNotes"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="MyNotes">MyNotes</a></h1>
+				<h2 class="blog-motto">温故而知新</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:yuanjinxiugithub.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/05/SpringBoot结合Maven打包发布/" title="SpringBoot结合Maven打包发布" itemprop="url">SpringBoot结合Maven打包发布</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-05T13:26:59.000Z" itemprop="datePublished"> Published 2019-03-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#多模块的项目-maven命令打包"><span class="toc-number">1.</span> <span class="toc-text">多模块的项目 maven命令打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#maven打包命令"><span class="toc-number">2.</span> <span class="toc-text">maven打包命令</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="多模块的项目-maven命令打包"><a href="#多模块的项目-maven命令打包" class="headerlink" title="多模块的项目 maven命令打包"></a>多模块的项目 maven命令打包</h3><p>般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作；</p>
+<p>要对多个module的项目做打包，一般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作；</p>
+<p><img src="https://yqfile.alicdn.com/79959aa914726d4f40c016358d39328d21126053.png" alt="img"></p>
+<p>这里先使用maven-jar-plugin插件，在父级pom中添加配置如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> 1 &lt;!--通过maven-jar-plugin插件打jar包--&gt;</span><br><span class="line"> 2 &lt;plugin&gt;</span><br><span class="line"> 3     &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line"> 4     &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span><br><span class="line"> 5     &lt;version&gt;2.4&lt;/version&gt;</span><br><span class="line"> 6     &lt;configuration&gt;</span><br><span class="line"> 7         &lt;archive&gt;</span><br><span class="line"> 8             &lt;manifest&gt;</span><br><span class="line"> 9                 &lt;addClasspath&gt;true&lt;/addClasspath&gt;</span><br><span class="line">10                 &lt;classpathPrefix&gt;lib/&lt;/classpathPrefix&gt;</span><br><span class="line">11                 &lt;!--main入口--&gt;</span><br><span class="line">12                 &lt;mainClass&gt;com.platform.WebApplication&lt;/mainClass&gt;</span><br><span class="line">13             &lt;/manifest&gt;</span><br><span class="line">14         &lt;/archive&gt;</span><br><span class="line">15         &lt;!--包含的配置文件--&gt;</span><br><span class="line">16         &lt;includes&gt;</span><br><span class="line">17         &lt;/includes&gt;</span><br><span class="line">18         &lt;excludes&gt;</span><br><span class="line">19         &lt;/excludes&gt;</span><br><span class="line">20     &lt;/configuration&gt;</span><br><span class="line">21 &lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>上面的配置我们需要注意以下几个节点：</p>
+<ul>
+<li>mainClass：我们需要指定main入口，当然这不是必须的，如果同一个project中有多个main入口，那打包的时候才需要，仅仅就一个main入口这个其实忽略；</li>
+<li>classpathPrefix：指定加入classpath中依赖包所在的前缀文件夹名</li>
+<li>addClasspath：依赖包放加入到classpath中，默认true</li>
+<li>includes：需要包含在jar中的文件，一般不配置(注意：如果配置路径不合适，可能会吧class排除掉)</li>
+<li>excludes：如果是要做jar包外部配置文件的话，这里需要用excludes排除这些配置文件一起打包在jar中</li>
+</ul>
+<p><font color="re">使用maven-jar-plugin插件针对项目工程来打包，这个时候通过maven的package命令打包，能看到jar中有一个lib文件夹(默认)，其中包含了工程项目中所引入的第三方依赖包，</font>通过java -jar xxx.jar能看到jar成功启动：</p>
+<p><img src="https://yqfile.alicdn.com/5a170a00ddde5795bd313c37f8442ec995e5be59.png" alt="img"></p>
+<p>在规范的项目中，一般有dev，test，uat，pro等环境，针对这些个环境需要有不同的配置，springboot中可以通过application-dev|test|…yml来区分不同的配置，仅仅需要在默认的application.yml中加入spring.profiles.active=dev|test…就行了；</p>
+<p>这种方式有个不便的地方，比如本地调试或发布上线都需要来回修改active的值(当然通过jar启动时，设置命令行active参数也可以)，不是很方便；下面采用在pom中配置profiles，然后通过在idea界面上鼠标点击选择启动所用的配置；首先，在main层创建配置文件目录如下结构：</p>
+<p><img src="https://yqfile.alicdn.com/9ee0d15901101e06a924a097cd3ce1170d6fb50c.png" alt="img"></p>
+<p>为了区分测试，这里对不同环境配置文件设置了server.port来指定不同端口(dev:3082，pro：3182)<br>然后，在父级pom中配置如下profiles信息：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> 1     &lt;profiles&gt;</span><br><span class="line"> 2         &lt;profile&gt;</span><br><span class="line"> 3             &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line"> 4             &lt;!--默认运行配置--&gt;</span><br><span class="line"> 5             &lt;activation&gt;</span><br><span class="line"> 6                 &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line"> 7             &lt;/activation&gt;</span><br><span class="line"> 8             &lt;properties&gt;</span><br><span class="line"> 9                 &lt;activeProfile&gt;dev&lt;/activeProfile&gt;</span><br><span class="line">10             &lt;/properties&gt;</span><br><span class="line">11         &lt;/profile&gt;</span><br><span class="line">12         &lt;profile&gt;</span><br><span class="line">13             &lt;id&gt;test&lt;/id&gt;</span><br><span class="line">14             &lt;properties&gt;</span><br><span class="line">15                 &lt;activeProfile&gt;test&lt;/activeProfile&gt;</span><br><span class="line">16             &lt;/properties&gt;</span><br><span class="line">17         &lt;/profile&gt;</span><br><span class="line">18         &lt;profile&gt;</span><br><span class="line">19             &lt;id&gt;uat&lt;/id&gt;</span><br><span class="line">20             &lt;properties&gt;</span><br><span class="line">21                 &lt;activeProfile&gt;uat&lt;/activeProfile&gt;</span><br><span class="line">22             &lt;/properties&gt;</span><br><span class="line">23         &lt;/profile&gt;</span><br><span class="line">24         &lt;profile&gt;</span><br><span class="line">25             &lt;id&gt;pro&lt;/id&gt;</span><br><span class="line">26             &lt;properties&gt;</span><br><span class="line">27                 &lt;activeProfile&gt;pro&lt;/activeProfile&gt;</span><br><span class="line">28             &lt;/properties&gt;</span><br><span class="line">29         &lt;/profile&gt;</span><br><span class="line">30     &lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>节点说明：</p>
+<ul>
+<li>activeByDefault：设置为默认运行配置</li>
+<li>activeProfile：所选择的启动配置，它的值对应上面创建profiles下面的dev|test|pro文件夹</li>
+</ul>
+<p>然后，在pom中的build增加resources节点配置：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;resources&gt;</span><br><span class="line">2     &lt;!--指定所使用的配置文件目录--&gt;</span><br><span class="line">3     &lt;resource&gt;</span><br><span class="line">4         &lt;directory&gt;src/main/profiles/$&#123;activeProfile&#125;&lt;/directory&gt;</span><br><span class="line">5     &lt;/resource&gt;</span><br><span class="line">6 &lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>此刻我们的配置就完成了，正常情况下idea上maven模块能看到这样的图面：</p>
+<p><img src="https://yqfile.alicdn.com/03602ee937529a5f35c45164e4378286f3d00013.png" alt="img"></p>
+<p>这个时候仅仅只需要我们勾选这些个按钮就行了，不管是调试还是最后打包，都按照这个来获取所需的配置文件。</p>
+<h3 id="maven打包命令"><a href="#maven打包命令" class="headerlink" title="maven打包命令"></a>maven打包命令</h3><p>mvn package -P dev|pro|test</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/SpringBoot/">SpringBoot</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/03/05/SpringBoot结合Maven打包发布/" data-title="SpringBoot结合Maven打包发布 | MyNotes" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/03/05/IDEA快捷键使用/" title="IDEA快捷键使用">
+ <strong>下一篇：</strong><br> 
+ <span>IDEA快捷键使用
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#多模块的项目-maven命令打包"><span class="toc-number">1.</span> <span class="toc-text">多模块的项目 maven命令打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#maven打包命令"><span class="toc-number">2.</span> <span class="toc-text">maven打包命令</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="https://github.com/yuanjinxiugithub" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+</div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Yuan. <br>
+			This is my blog,it is justu  to improve my skill.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/1871022901" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/yuanjinxiugithub" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1871022901@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="YUAN">YUAN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

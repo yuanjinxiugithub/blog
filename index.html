@@ -82,6 +82,168 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/05/SpringBoot结合Maven打包发布/" title="SpringBoot结合Maven打包发布" itemprop="url">SpringBoot结合Maven打包发布</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-05T13:26:59.000Z" itemprop="datePublished"> Published 2019-03-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="多模块的项目-maven命令打包"><a href="#多模块的项目-maven命令打包" class="headerlink" title="多模块的项目 maven命令打包"></a>多模块的项目 maven命令打包</h3><p>般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作；</p>
+<p>要对多个module的项目做打包，一般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作；</p>
+<p><img src="https://yqfile.alicdn.com/79959aa914726d4f40c016358d39328d21126053.png" alt="img"></p>
+<p>这里先使用maven-jar-plugin插件，在父级pom中添加配置如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> 1 &lt;!--通过maven-jar-plugin插件打jar包--&gt;</span><br><span class="line"> 2 &lt;plugin&gt;</span><br><span class="line"> 3     &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line"> 4     &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span><br><span class="line"> 5     &lt;version&gt;2.4&lt;/version&gt;</span><br><span class="line"> 6     &lt;configuration&gt;</span><br><span class="line"> 7         &lt;archive&gt;</span><br><span class="line"> 8             &lt;manifest&gt;</span><br><span class="line"> 9                 &lt;addClasspath&gt;true&lt;/addClasspath&gt;</span><br><span class="line">10                 &lt;classpathPrefix&gt;lib/&lt;/classpathPrefix&gt;</span><br><span class="line">11                 &lt;!--main入口--&gt;</span><br><span class="line">12                 &lt;mainClass&gt;com.platform.WebApplication&lt;/mainClass&gt;</span><br><span class="line">13             &lt;/manifest&gt;</span><br><span class="line">14         &lt;/archive&gt;</span><br><span class="line">15         &lt;!--包含的配置文件--&gt;</span><br><span class="line">16         &lt;includes&gt;</span><br><span class="line">17         &lt;/includes&gt;</span><br><span class="line">18         &lt;excludes&gt;</span><br><span class="line">19         &lt;/excludes&gt;</span><br><span class="line">20     &lt;/configuration&gt;</span><br><span class="line">21 &lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>上面的配置我们需要注意以下几个节点：</p>
+<ul>
+<li>mainClass：我们需要指定main入口，当然这不是必须的，如果同一个project中有多个main入口，那打包的时候才需要，仅仅就一个main入口这个其实忽略；</li>
+<li>classpathPrefix：指定加入classpath中依赖包所在的前缀文件夹名</li>
+<li>addClasspath：依赖包放加入到classpath中，默认true</li>
+<li>includes：需要包含在jar中的文件，一般不配置(注意：如果配置路径不合适，可能会吧class排除掉)</li>
+<li>excludes：如果是要做jar包外部配置文件的话，这里需要用excludes排除这些配置文件一起打包在jar中</li>
+</ul>
+<p><font color="re">使用maven-jar-plugin插件针对项目工程来打包，这个时候通过maven的package命令打包，能看到jar中有一个lib文件夹(默认)，其中包含了工程项目中所引入的第三方依赖包，</font>通过java -jar xxx.jar能看到jar成功启动：</p>
+<p><img src="https://yqfile.alicdn.com/5a170a00ddde5795bd313c37f8442ec995e5be59.png" alt="img"></p>
+<p>在规范的项目中，一般有dev，test，uat，pro等环境，针对这些个环境需要有不同的配置，springboot中可以通过application-dev|test|…yml来区分不同的配置，仅仅需要在默认的application.yml中加入spring.profiles.active=dev|test…就行了；</p>
+<p>这种方式有个不便的地方，比如本地调试或发布上线都需要来回修改active的值(当然通过jar启动时，设置命令行active参数也可以)，不是很方便；下面采用在pom中配置profiles，然后通过在idea界面上鼠标点击选择启动所用的配置；首先，在main层创建配置文件目录如下结构：</p>
+<p><img src="https://yqfile.alicdn.com/9ee0d15901101e06a924a097cd3ce1170d6fb50c.png" alt="img"></p>
+<p>为了区分测试，这里对不同环境配置文件设置了server.port来指定不同端口(dev:3082，pro：3182)<br>然后，在父级pom中配置如下profiles信息：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> 1     &lt;profiles&gt;</span><br><span class="line"> 2         &lt;profile&gt;</span><br><span class="line"> 3             &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line"> 4             &lt;!--默认运行配置--&gt;</span><br><span class="line"> 5             &lt;activation&gt;</span><br><span class="line"> 6                 &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line"> 7             &lt;/activation&gt;</span><br><span class="line"> 8             &lt;properties&gt;</span><br><span class="line"> 9                 &lt;activeProfile&gt;dev&lt;/activeProfile&gt;</span><br><span class="line">10             &lt;/properties&gt;</span><br><span class="line">11         &lt;/profile&gt;</span><br><span class="line">12         &lt;profile&gt;</span><br><span class="line">13             &lt;id&gt;test&lt;/id&gt;</span><br><span class="line">14             &lt;properties&gt;</span><br><span class="line">15                 &lt;activeProfile&gt;test&lt;/activeProfile&gt;</span><br><span class="line">16             &lt;/properties&gt;</span><br><span class="line">17         &lt;/profile&gt;</span><br><span class="line">18         &lt;profile&gt;</span><br><span class="line">19             &lt;id&gt;uat&lt;/id&gt;</span><br><span class="line">20             &lt;properties&gt;</span><br><span class="line">21                 &lt;activeProfile&gt;uat&lt;/activeProfile&gt;</span><br><span class="line">22             &lt;/properties&gt;</span><br><span class="line">23         &lt;/profile&gt;</span><br><span class="line">24         &lt;profile&gt;</span><br><span class="line">25             &lt;id&gt;pro&lt;/id&gt;</span><br><span class="line">26             &lt;properties&gt;</span><br><span class="line">27                 &lt;activeProfile&gt;pro&lt;/activeProfile&gt;</span><br><span class="line">28             &lt;/properties&gt;</span><br><span class="line">29         &lt;/profile&gt;</span><br><span class="line">30     &lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>节点说明：</p>
+<ul>
+<li>activeByDefault：设置为默认运行配置</li>
+<li>activeProfile：所选择的启动配置，它的值对应上面创建profiles下面的dev|test|pro文件夹</li>
+</ul>
+<p>然后，在pom中的build增加resources节点配置：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;resources&gt;</span><br><span class="line">2     &lt;!--指定所使用的配置文件目录--&gt;</span><br><span class="line">3     &lt;resource&gt;</span><br><span class="line">4         &lt;directory&gt;src/main/profiles/$&#123;activeProfile&#125;&lt;/directory&gt;</span><br><span class="line">5     &lt;/resource&gt;</span><br><span class="line">6 &lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>此刻我们的配置就完成了，正常情况下idea上maven模块能看到这样的图面：</p>
+<p><img src="https://yqfile.alicdn.com/03602ee937529a5f35c45164e4378286f3d00013.png" alt="img"></p>
+<p>这个时候仅仅只需要我们勾选这些个按钮就行了，不管是调试还是最后打包，都按照这个来获取所需的配置文件。</p>
+<h3 id="maven打包命令"><a href="#maven打包命令" class="headerlink" title="maven打包命令"></a>maven打包命令</h3><p>mvn package -P dev|pro|test</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/SpringBoot/">SpringBoot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/05/IDEA快捷键使用/" title="IDEA快捷键使用" itemprop="url">IDEA快捷键使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-05T13:02:26.000Z" itemprop="datePublished"> Published 2019-03-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>idea快捷键：<br>1：方法类局部变量赋值(类似于eclipse的 Ctrl + 2)<br>Ctrl + ALT + V </p>
+<p>2: 抽取方法(类似于eclipse的 Alt + Shift + M)<br>Ctrl + Alt + M</p>
+<p>3: 查看类中的所有函数(类似于eclipse中的 Ctrl + O)<br>Ctrl + F12</p>
+<p>4: 跳转到方法实现(类似于eclipse中的F3)<br>Ctrl + Alt + B</p>
+<p>5: 查找文件, 包含页面和java类(类似于eclipse中的 Ctrl + Shift + R 或者 Ctrl + Shift + T)<br>Ctrl + Shift + N</p>
+<p>6: 查找所有文件, 包含jar包和java自带的包中的文件(类似于eclipse中的 Ctrl + Shift + R)<br>双击 Shift</p>
+<p>7: 创建类、包、接口等(类似于eclipse中的 Ctrl + N)<br>Ctrl + Alt + Insert</p>
+<p>8: 编辑面板放大(类似于eclipse的 Ctrl + M)<br>Ctrl + Shift + F12</p>
+<p>9: 回到上一次编辑的地方(类似于eclipse的 Alt + <- 或者="" alt="" +="" -="">)<br>Ctrl + Alt + <- 或者="" ctrl="" +="" alt="" -=""></-></-></p>
+<p>10: 光标所在行上空出一行，光标跳上(类似于eclipse的 Ctrl + Shift + Enter)<br>Ctrl + Alt + Enter</p>
+<p>11: 捕获异常(类似于eclipse的 Ctrl + Shift + Z)<br>Ctrl + Alt + T</p>
+<p>12：去除无用的import(类似于eclipse中的 Ctrl + Shift + O)<br>Ctrl + Alt + O</p>
+<p>13: (类似于eclipse中的 Ctrl + 1)<br>Alt + Enter</p>
+<p>14: IDEA智能提示忽略大小写<br>ctrl+alt+s打开设置对话框<br>输入：sensitive<br>将右侧的 case sensitive completion 修改为NONE </p>
+<p>15: IDEA 导入多模块maven项目<br>​    1:选中项目 File -&gt; New -&gt; Module from Exists Sources 然后选中当前的项目, 导入就行了. </p>
+<p>16: IDEA 全局搜索(类似于 eclipse Ctrl + H)<br>Ctrl + Shift + R</p>
+<p>17: 跳转到指定的行(类似于eclipse中的 Ctrl + L)<br>Ctrl + G</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/开发工具/">开发工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/04/maven总结/" title="Maven总结" itemprop="url">Maven总结</a>
   </h1>
   <p class="article-author">By
@@ -758,133 +920,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/26/java中interface定义变量注意的地方/" title="java中interface定义变量注意的地方" itemprop="url">java中interface定义变量注意的地方</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-26T13:01:53.000Z" itemprop="datePublished"> Published 2019-02-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="关于interface中定义变量的注意事项"><a href="#关于interface中定义变量的注意事项" class="headerlink" title="关于interface中定义变量的注意事项"></a>关于interface中定义变量的注意事项</h3><p>1.interface 定义的变量默认修饰符为 public static final 类型。当然，你的变量也可以不定义成static类型，因为成员变量被定义为public型，实例化的对象可以直接访问。</p>
-<p>2.接口可以继承接口，带有成员变量的接口也可以被继承，但是不能对成员变量做修改。</p>
-<p>3.由于接口中的成员变量不能修改，所以在定义接口的时候要为其赋值。</p>
-<p>4.成员变量在定义的时候不加任何修饰符，但是系统在编译的时候会将其默认为static final 类型，所以为了程序的可读性，建议加上修饰符。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/26/jvm进阶1/" title="jvm进阶1.0（简介）" itemprop="url">jvm进阶1.0（简介）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-26T08:52:34.000Z" itemprop="datePublished"> Published 2019-02-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么是jvm（java虚拟机）？"><a href="#什么是jvm（java虚拟机）？" class="headerlink" title="什么是jvm（java虚拟机）？"></a>什么是jvm（java虚拟机）？</h3><p> java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。</p>
-<h3 id="为什么java被称为与平台无关的语言？"><a href="#为什么java被称为与平台无关的语言？" class="headerlink" title="为什么java被称为与平台无关的语言？"></a>为什么java被称为与平台无关的语言？</h3><p>因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。</p>
-<h3 id="什么是平台"><a href="#什么是平台" class="headerlink" title="什么是平台?"></a>什么是平台?</h3><p>CPU和操作系统的总称。</p>
-<p>cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统软件，为计算机提供公共服务。</p>
-<h3 id="什么是跨平台？"><a href="#什么是跨平台？" class="headerlink" title="什么是跨平台？"></a>什么是跨平台？</h3><p>平台无关，不是说源程序（.java）和平台无关，能运行在各个不同的平台；而是说     源程序编译后的.class文件能够在不同的平台上运行（只要不同的平台上安装jvm）</p>
-<p>java源程序不是直接编译成机器码，而是二次编译的。第一次对java源程序被javac编译成.class文件（这个文件与平台无关）。第二次.class文件在被jvm中的解释器编译,解释器为不同平台所需要的机器码。</p>
-<p>javac和jvm都包含在jdk（java developement toolkit）</p>
-<h3 id="jvm内存管理"><a href="#jvm内存管理" class="headerlink" title="jvm内存管理"></a>jvm内存管理</h3><p>jvm运行时的几大数据区：</p>
-<p><img src="https://img-blog.csdn.net/20171228224905811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVtaW5nbGlhbmcxOTg3/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
-<p>方法区，堆，java栈，pc寄存器，本地方法栈。</p>
-<p>堆：存放所有new 对象。堆占据JVM的大部分内存。因此也是java的GC,垃圾收集器的主要工作目标区域。</p>
-<p>方法区：存放类装载进来后的和这个类相关的所有运行时需要的信息（如类的静态变量，常量，类的全局名称，方法信息等）。线程共享区，用于存储已被虚拟机加载的类信息，常量，静态变量，即时编译后的代码等数据。</p>
-<p>运行时常量池：方法区的一部分，用于存放编译器生成的各种字面量和符号引用。</p>
-<p>栈：用于存放基本类型，对象、数组的引用。</p>
-<p>栈内存中存放的可以看做是运行时的临时数据，主要表现为本地变量，操作符，对象引用地址等。这些数据会在方法执行结束后立即会回收，不会驻留。对存储空间的占用也只是执行函数指令时所必须的空间。不会造成内存的瓶颈。而方法区中的对象对应的类信息，函数表，构造函数，静态常量等。这些信息在类加载时按需只会在方法区中存储一份，不会产生额外的存储空间。所以主要的内存消耗是java堆内存。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/jvm/">jvm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -914,7 +949,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>26</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>27</sup></a></li>
 			
 		
 			
@@ -942,6 +977,10 @@
 			
 		
 			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
@@ -950,7 +989,7 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
@@ -970,27 +1009,23 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/分布式服务框架/" title="分布式服务框架">分布式服务框架<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 		</ul>
