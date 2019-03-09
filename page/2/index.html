@@ -82,6 +82,273 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/01/有关于synchronized和lock的总结/" title="有关于synchronized和lock的总结" itemprop="url">有关于synchronized和lock的总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-01T00:56:15.000Z" itemprop="datePublished"> Published 2019-03-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么叫重入锁？"><a href="#什么叫重入锁？" class="headerlink" title="什么叫重入锁？"></a>什么叫重入锁？</h3><p><a href="https://blog.csdn.net/rickiyeat/article/details/78314451" target="_blank" rel="noopener">博客</a></p>
+<p>重入锁：可重复可递归调用的锁，在外层调用锁，在内层仍然可以使用，并且不发生死锁（前提是同一个对象或者class），ReentrantLock和sychronized都是重入锁。</p>
+<p>不可重入锁：即当前线程执行某个方法已经获取到了该锁，那么在方法中尝试在次获取锁时，就会获取不到被阻塞。</p>
+<p>可中断锁：在等待获取锁的过程可以被中断。</p>
+<p>公平锁:按等待获取锁的线程的等待时间进行获取，等待时间长的具有优先获取锁权利。</p>
+<p>读写锁：对资源读取和写入的时候拆分为2部分处理，读的时候可以多线程一起读，写的时候必须同步的写。</p>
+<h3 id="synchronized与lock的区别？"><a href="#synchronized与lock的区别？" class="headerlink" title="synchronized与lock的区别？"></a>synchronized与lock的区别？</h3><p><a href="https://www.cnblogs.com/iyyy/p/7993788.html" target="_blank" rel="noopener">博客</a></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>synchronized</th>
+<th>Lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存在层次</td>
+<td>Java的关键字，在jvm层面上</td>
+<td>是一个类</td>
+</tr>
+<tr>
+<td>锁的释放</td>
+<td>1、以获取锁的线程执行完同步代码，释放锁   2、线程执行发生异常，jvm会让线程释放锁</td>
+<td>在finally中必须释放锁，不然容易造成线程死锁</td>
+</tr>
+<tr>
+<td>锁的获取</td>
+<td>假设A线程获得锁，B线程等待。如果A线程阻塞，B线程会一直等待</td>
+<td>分情况而定，Lock有多个锁获取的方式，具体下面会说道，大致就是可以尝试获得锁，线程可以不用一直等待</td>
+</tr>
+<tr>
+<td>锁状态</td>
+<td>无法判断</td>
+<td>可以判断</td>
+</tr>
+<tr>
+<td>锁类型</td>
+<td>可重入 不可中断 非公平</td>
+<td>可重入 可判断 可公平（两者皆可）</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>少量同步</td>
+<td>大量同步</td>
+</tr>
+</tbody>
+</table>
+<h3 id="lock常用方法"><a href="#lock常用方法" class="headerlink" title="lock常用方法"></a>lock常用方法</h3><ul>
+<li>lock()：获取锁，如果锁被暂用则一直等待</li>
+<li>unlock():释放锁</li>
+<li>tryLock():      注意返回类型是boolean，如果获取锁的时候锁被占用就返回false，否则返回true</li>
+<li>tryLock(long time, TimeUnit      unit)：比起tryLock()就是给了一个时间期限，保证等待参数时间</li>
+<li>lockInterruptibly()：用该锁的获得方式，如果线程在获取锁的阶段进入了等待，那么可以中断此线程，先去做别的事</li>
+</ul>
+<h3 id="什么时候用ReentrantLock取代synchronied："><a href="#什么时候用ReentrantLock取代synchronied：" class="headerlink" title="什么时候用ReentrantLock取代synchronied："></a>什么时候用ReentrantLock取代synchronied：</h3><p>时间锁等候，无块结构锁，多个条件变量或者锁投票；性能更高：jvm将花费更少的时间来调度线程，把更多的时间用在执行程序上。必须使用finally来释放锁。</p>
+<h3 id="有关于synchronized代码同步块的说明："><a href="#有关于synchronized代码同步块的说明：" class="headerlink" title="有关于synchronized代码同步块的说明："></a>有关于synchronized代码同步块的说明：</h3><p><img src="file:///C:/Users/yjx/AppData/Local/Temp/msohtmlclip1/02/clip_image001.jpg" alt="æ¼«ç» | Javaå¤çº¿ç¨ä¸å¹¶åï¼ä¸ï¼"></p>
+<p>自我总结：</p>
+<p>1.当一个线程在访问一个对象的同步方法时，另一个线程可以同时访问这个对象的非同步方法。</p>
+<p>2.当一个线程访问一个对象的同步方法时，另一个线程是不能同时访问这个同步方法。</p>
+<p>3.当一个线程访问一个对象的同步方法时，另一个线程不能同时访问这个对象的另一个同步方法。</p>
+<p>当一个线程访问的一个对象的同步代码块时，需要视情况而定，看sychronized锁住的是什么，如果锁住的是整个对象的话，当有另一个线程访问该方法还是对象中的其他同步代码块时都是不能同时访问的，但如果锁住的不是同一个对象，是可以同时访问对象中的其他代码块。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/锁/">锁</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/27/面试内容梳理-20190227/" title="面试内容梳理-20190227" itemprop="url">面试内容梳理-20190227</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-27T12:59:55.000Z" itemprop="datePublished"> Published 2019-02-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h4 id="笔试题部分主要注重java基础知识："><a href="#笔试题部分主要注重java基础知识：" class="headerlink" title="笔试题部分主要注重java基础知识："></a>笔试题部分主要注重java基础知识：</h4><p>1.spring AutoWried和Resource的区别？</p>
+<p>   1.AutoWired和Resource都可以用来装配bean，都可以写在字段上，或者写在setter方法上。</p>
+<p>   2.AutoWired默认按照类型装配（这个注解属于spring的），默认情况下必须要求依赖对象必须存在，如果要允许null值，可以设置它的requied属性为false,@Autowired(required=false)</p>
+<p>   3.Resource(这个属于j2ee，减少了与spring的耦合),默认按照名字进行装配，名称可以通过name属性进行指定，如果没有指定name属性，当注解写在字段上时，默认取字段名进行安装名字查找。</p>
+<p>2.mybatis如何分页？如何设置缓存？</p>
+<p>​    方法1：数组分页，查询出全部数据，然后再list中截取需要的部分； ArrayList的subList()方法，截取需要的list.</p>
+<p>​    方法2：</p>
+<p>​    方法3：</p>
+<p>3.简述JMM以及垃圾回收机制？</p>
+<p>4.HashMap原理？</p>
+<p>5.什么是JDBC?解释下驱动在JDBC中的角色和作用？</p>
+<p>6.列出java IO常用的接口，类以及方法？字节流和字符流的区别？IO和NIO的区别？</p>
+<p>7.ArrayList和LinkedList的区别？</p>
+<p>8.Servlet的生命周期？初始化？</p>
+<p>9.java集合框架的基本接口有哪些？</p>
+<ol start="10">
+<li><p>Java支持的数据类型有哪些？什么是自动拆装箱？ </p>
+</li>
+<li><p>Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?</p>
+</li>
+<li><p>接口和抽象类的区别是什么？</p>
+</li>
+<li><p>线程和进程的区别？什么是多线程？如何实现多线程？如何安全的终止线程？run()方法和start()方法的区别？<strong>多线程有几种实现方法,都是什么?同步有几种实现方法,都是什么?</strong></p>
+<p>多线程有两种实现方法：继承Thread类和实现Runnable接口。</p>
+</li>
+</ol>
+<ol start="14">
+<li><p>什么是值传递和引用传递？</p>
+</li>
+<li><p>同步方法和同步代码块的区别是什么？</p>
+</li>
+<li><p>什么死锁（deadlock）?</p>
+</li>
+<li><p>如何保证n个线程可以访问Ng个资源又不会发生死锁？</p>
+</li>
+<li><p>spring的事务机制？sql的事务特性？</p>
+</li>
+<li><p>HashMap和HashTable的区别？</p>
+</li>
+<li><p>数组（Array）和列表（ArrayList）有什么区别？什么时候用Array什么时候用ArrayList?ArrayListheLinkedList的区别？</p>
+</li>
+<li><p>如何权衡是使用无序的数组还是有序的数组？</p>
+</li>
+<li><p>String StringBuffer的区别？</p>
+</li>
+<li><p><strong>说出ArrayList,Vector, LinkedList的存储性能和特性</strong> </p>
+</li>
+<li><p>、Collection 和 Collections的区别 </p>
+</li>
+<li><p>&amp;和&amp;&amp;的区别？</p>
+</li>
+<li><p>final finally finallize的区别？</p>
+</li>
+<li><p>sleep()和wait()有什么区别？</p>
+</li>
+<li><p>接口是否可继承接口？</p>
+</li>
+<li><p>两个对象值相同(x.equals(y) == true)，但却可有不同的hash code，这句话对不对？</p>
+</li>
+<li><p>当一个线程进入一个对象的一个synchronized方法后，其它线程是否可进入此对象的其它方法?</p>
+</li>
+<li><p><strong>编程题: 写一个Singleton出来</strong></p>
+</li>
+<li><p>Java中的异常处理机制的简单原理和应用？ java有多少种异常？</p>
+</li>
+</ol>
+<p>33.<strong>简述synchronized和java.util.concurrent.locks.Lock的异同</strong></p>
+<p>主要相同点：Lock能完成synchronized所实现的所有功能<br>主要不同点：Lock有比synchronized更精确的线程语义和更好的性能。<br>Lock是一个类，synchronized是一个关键字<br>synchronized会自动释放锁，而Lock一定要求程序员手工释放，并且必须在finally从句中释放</p>
+<p>34.<strong>JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？</strong> </p>
+<p>35.<strong>java中有几种类型的流？JDK为每种类型的流提供了一些抽象类以供继承，请说出他们分别是哪些类？</strong></p>
+<p>36.垃圾回收机制的原理</p>
+<p>37.什么是java序列化,如何实现java序列化？</p>
+<p>38.是否可以从一个static方法内部发出对非static方法的调用？</p>
+<p>​     不可以，如果其中包含对象的method();不能保证对象初始化。</p>
+<p>39.List、Map、Set三个接口，存取元素时，各有什么特点？</p>
+<p>​      List 以特定次序来持有元素，可有重复元素。<br>​      Set 无法拥有重复元素,内部排序。<br>​     Map 保存key-value值，value可多值。 </p>
+<p>40.使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
+<p>​     指引用的变量不能变，引用变量所指向的对象中的内容还是可以变的。例如，对于如下语句：</p>
+<p>41.线程如何同步和通讯？</p>
+<p>42.设计4个线程，其中两个线程每次对j增加1，另外两个线程对j每次减少1。写出程序</p>
+<p>43.heap和stack的区别？</p>
+<p>44.单例的实现？</p>
+<p>45.linux 查找文件的命令？</p>
+<p>46.有关泛型的了解？</p>
+<p>​     jdk1.5 新增泛型。</p>
+<p>​    是一种安全的</p>
+<p>47.什么是TreeMap</p>
+<h4 id="面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点"><a href="#面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点" class="headerlink" title="面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点"></a>面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点</h4><p>1.常用的数据运算方法？</p>
+<p>2.jdk1.8版本的新特性？</p>
+<p>3.项目中使用软件的版本总结？</p>
+<p>spring.version 4.2.5.RELEASE</p>
+<p>mybatis.version 3.4</p>
+<p>jdk1.8</p>
+<p>mysql 5.7.19</p>
+<p>dubbo.version 2.8.4</p>
+<p>Maven 3.5</p>
+<p>4.平时如何解决问题的？</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a><a href="/tags/面试总结/">面试总结</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/26/java中interface定义变量注意的地方/" title="java中interface定义变量注意的地方" itemprop="url">java中interface定义变量注意的地方</a>
   </h1>
   <p class="article-author">By
@@ -112,7 +379,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a>
   </div>
 
 </div>
@@ -769,117 +1036,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/17/事实和观点-事实有真假-观点无对错/" title="事实和观点:事实有真假,观点无对错" itemprop="url">事实和观点:事实有真假,观点无对错</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-17T08:31:38.000Z" itemprop="datePublished"> Published 2019-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>《5分钟商学院》–得到APP</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/逻辑思维/">逻辑思维</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/17/TCP协议/" title="TCP协议" itemprop="url">TCP协议</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-17T07:48:13.000Z" itemprop="datePublished"> Published 2019-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/网络/">网络</a><a href="/tags/TCP/">TCP</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -913,11 +1069,11 @@
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -925,11 +1081,15 @@
 			
 		
 			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -937,15 +1097,7 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -953,7 +1105,11 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
@@ -965,19 +1121,15 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>2</sup></a></li>
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
@@ -986,6 +1138,10 @@
 		
 			
 				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
 			
 		
 		</ul>

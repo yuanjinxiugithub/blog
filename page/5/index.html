@@ -82,6 +82,132 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/10/21/Redis简介/" title="Redis简介" itemprop="url">Redis简介</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-10-21T11:45:05.000Z" itemprop="datePublished"> Published 2018-10-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis是一个开源的，使用C语言编写，面向“键/值”对类型数据的分布式NoSQL数据库系统，特点是高性能，持久存储，适应高并发的应用场景。Redis纯粹为应用而产生，它是一个高性能的key-value数据库,并且提供了多种语言的API，性能测试结果表示SET操作每秒钟可达110000次，GET操作每秒81000次（当然不同的服务器配置性能不同）。</p>
+<p>Redis目前提供五种数据类型：</p>
+<ul>
+<li>string(字符串),</li>
+<li>list（链表）, </li>
+<li>Hash（哈希）,</li>
+<li>set（集合）,</li>
+<li>zset(sorted set)  （有序集合）</li>
+</ul>
+<p>Redis开发维护很活跃，虽然它是一个Key-Value数据库存储系统，但它本身支持MQ功能，所以完全可以当做一个轻量级的队列服务来使用。</p>
+<p>Redis可以做消息队列？</p>
+<blockquote>
+<p>首先，redis设计用来做缓存的，但是由于它自身的某种特性使得它可以用来做消息队列，它有几个阻塞式的API可以使用，正是这些阻塞式的API让其有能力做消息队列；另外，做消息队列的其他特性例如FIFO（先入先出）也很容易实现，只需要一个list对象从头取数据，从尾部塞数据即可；redis能做消息队列还得益于其list对象blpop brpop接口以及Pub/Sub（发布/订阅）的某些接口，它们都是阻塞版的，所以可以用来做消息队列。</p>
+</blockquote>
+<p>对于RabbitMQ和Redis的入队和出队操作，各执行100万次，每10万次记录一次执行时间。测试数据分为128Bytes、512Bytes、1K和10K四个不同大小的数据。<br>实验表明：</p>
+<blockquote>
+<p>入队时，当数据比较小时Redis的性能要高于RabbitMQ，而如果数据大小超过了10K，Redis则慢的无法忍<br>受；出队时，无论数据大小，Redis都表现出非常好的性能，而RabbitMQ的出队性能则远低于Redis。</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Redis/">Redis</a><a href="/tags/Nosql/">Nosql</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/10/15/dubbo-的使用和总结/" title="dubbo 的使用和总结" itemprop="url">dubbo 的使用和总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-10-15T06:58:54.000Z" itemprop="datePublished"> Published 2018-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/分布式服务框架/">分布式服务框架</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/10/10/String-StringBuilder-StringBuffer的区分/" title="String,StringBuilder,StringBuffer的区分" itemprop="url">String,StringBuilder,StringBuffer的区分</a>
   </h1>
   <p class="article-author">By
@@ -158,7 +284,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a>
   </div>
 
 </div>
@@ -555,7 +681,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a>
   </div>
 
 </div>
@@ -783,11 +909,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -795,11 +921,15 @@ TIME+   进程使用CPU总时间
 			
 		
 			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -807,15 +937,7 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -823,7 +945,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
@@ -835,19 +961,15 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>2</sup></a></li>
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
@@ -856,6 +978,10 @@ TIME+   进程使用CPU总时间
 		
 			
 				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
 			
 		
 		</ul>

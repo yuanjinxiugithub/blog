@@ -82,6 +82,231 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/09/Bits和Bytes的区别/" title="Bits和Bytes的区别" itemprop="url">Bits和Bytes的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-09T09:55:41.000Z" itemprop="datePublished"> Published 2019-03-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Bits 意为 “位”或比特，是计算机运算的基础，属于二进制的范畴。</p>
+<p>Bytes意为字节，是计算机文件大小的基本计算单位。</p>
+<p>这两者应用场合不同。通常用bit来做数据传输的单位，因为在物理层，数据链路层的传输对用户是透明的，而这种通信传输是基于二进制的传输。在应用层通常使用byte来作单位，表示文件的大小，在用户看来就是可见的数据大小。比如一个字符就是1byte,如果是汉字则是2byte。</p>
+<h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><p>字节是内存的基本单位，也是编址单位，例如，某计算机的内存是4GB,指的是该计算机内存中共有4×1024×1024×1024个字节</p>
+<p><a href="https://www.baidu.com/s?wd=Bps&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">Bps</a>即是Byte per second 的简称。而电脑一般都以Bps 显示速度，如1MBps 大约等同 128 KBps。<br>bps 是 bits per second 的简称。一般数据机及网络通讯的传输速率都是以「bps」为单位。如56Kbps、100.0Mbps 等等。 </p>
+<p>即宽带运营商以bps作为单位，而实际下载速度则是Bps，所以100.0Mbps百兆宽带的下载速度约为10MBps，(通常的十兆每秒，在这里运营商用的小单位，而用户实际看的网速为大单位)约八分之一。</p>
+<p>usb2.0标准接口传输速率。许多人都将“480Mbps”误解为480兆/秒。其实，这是错误的，事实上“480Mbps”应为“480兆比特/秒”或“480兆位/秒”，它等于“60兆字节/秒”。</p>
+<h3 id="换算"><a href="#换算" class="headerlink" title="换算"></a>换算</h3><p>1 Byte = 8 Bits<br>1 KB = 1024 Bytes<br>1 MB = 1024 KB<br>1 GB = 1024 MB<br>另外，Byte通常简写为B(大写），而bit通常简写为b（小写）。可以这么记忆，大写的为大单位，实际数值小，小写的为小单位，实际数值较大，1B=8b。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/基础知识/">基础知识</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/09/Mysql数字类型int与tinyint-float与decimal的选择/" title="Mysql数字类型int与tinyint,float与decimal的选择" itemprop="url">Mysql数字类型int与tinyint,float与decimal的选择</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-09T09:32:05.000Z" itemprop="datePublished"> Published 2019-03-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="int-tinyint与bigint的比较"><a href="#int-tinyint与bigint的比较" class="headerlink" title="int tinyint与bigint的比较"></a>int tinyint与bigint的比较</h3><p>它们都是（精确）数据类型，但是占用字节数和表达的范围不同</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Storage</th>
+<th>Minimum Value</th>
+<th>Maximum Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(Bytes)</td>
+<td>(Signed/Unsigned)</td>
+<td>(Signed/Unsigned)</td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>1</td>
+<td>-128</td>
+<td>127</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>255</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>2</td>
+<td>-32768</td>
+<td>32767</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>65535</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>3</td>
+<td>-8388608</td>
+<td>8388607</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>16777215</td>
+</tr>
+<tr>
+<td>INT</td>
+<td>4</td>
+<td>-2147483648</td>
+<td>2147483647</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>4294967295</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>8</td>
+<td>-9223372036854775808</td>
+<td>9223372036854775807</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>18446744073709551615</td>
+</tr>
+</tbody>
+</table>
+<font color="red">遇到比较多的是tinyint和bigint，tinyint一般用于存放status,type这种数值小的数据，不够用时可能会用smallint。bigint一般用于自增主键.</font>
+
+<font color="red">为了避免数据库被过度设计，布尔、枚举类型也采用tinyint。</font>
+
+<p>还有一点也是经常被提到的关于 int(M) 中M的理解，int型数据无论是int(4)还是int(11)，都已经占用了 4 bytes 存储空间，M表示的只是显示宽度(display width, max value 255)，并不是定义int的长度。</p>
+<h3 id="float和decimal"><a href="#float和decimal" class="headerlink" title="float和decimal"></a>float和decimal</h3><p>MYSQL使用DECIMAL类型去存储对精度要求比较高的数值，比如金额，也叫定点数，decimal在mysql内存是以字符串二进制存储的。声明DECIMAL(M,D),M是数字最大位数（精度precision），范围1-65；D是小数点右侧数字个数（标度scale），范围0-30，但不得超过M。</p>
+<p>比如<code>DECIMAL(18,9)</code>，整数部分和小数部分各9位，所以各占4字节，共8bytes<br>再比如<code>DECIMAL(20,6)</code>，整数14位，需要4字节存9位，还需3字节存5位；小数6位，需3字节。共10bytes<br>（感谢 consatan 在评论区提出文中错误）</p>
+<p>比如定义<code>DECIMAL(7,3)</code>：</p>
+<ul>
+<li>能存的数值范围是 -9999.999 ~ 9999.999，占用4个字节</li>
+<li>123.12 -&gt; 123.120，因为小数点后未满3位，补0</li>
+<li>123.1245 -&gt; 123.125，小数点只留3位，多余的自动四舍五入截断</li>
+<li>12345.12 -&gt; 保存失败，因为小数点未满3位，补0变成12345.120，超过了7位。严格模式下报错，非严格模式存成9999.999</li>
+</ul>
+<p>MySQL使用<code>FLOAT</code>和<code>DOUBLE</code>来表示近似数值类型，这是因为十进制0.1在电脑里用二进制是无法精确表示的，<a href="https://segmentfault.com/a/1190000004112565" target="_blank" rel="noopener">只能尽可能的接近</a>。</p>
+<p>单精度浮点数float占4字节，float标准语法允许通过<code>FLOAT(M)</code>的形式指定精度，但是这个精度值M只是决定存储大小： 0-23与默认不指定效果相同，24-53就变成双精度的<code>DOUBLE</code>了。</p>
+<p>float还有非MySQL自己实现的<em>非标准</em>语法<code>FLOAT(M,D)</code>，代表最多存储M个数字长度，其中小数点后数字个数为D。效果与 DECIMAL(M,D)很相似。</p>
+<p>double 和 float 的区别是double精度高，有效数字16位（float精度7位）。但double消耗内存是float的两倍，占8字节，double的运算速度比float慢得多。</p>
+<p>msyql&gt; create table tc_float(fid int primary key auto_increment,f_float float, f_float10 float(10), f_float25 float(25), f_float7_3 float(7,3), f_float9_2 float(9,2), f_float30_3 float(30,3), f_decimal9_2 decimal(9,2)); mysql&gt; insert into tc_float(f_float,f_float10,f_float25) values(123456,123456,123456);mysql&gt; insert into tc_float(f_float,f_float10,f_float25) values(1234567.89,12345.67,1234567.89);mysql&gt; select * from tc_float;+—–+———-+———–+————+————+————+————-+————–+| fid | f_float | f_float10 | f_float25 | f_float7_3 | f_float9_2 | f_float30_3 | f_decimal9_2 |+—–+———-+———–+————+————+————+————-+————–+| 1 | 123456 | 123456 | 123456 | NULL | NULL | NULL | NULL || 2 | 1234570 | 12345.7 | 1234567.89 | NULL | NULL | NULL | NULL |+—–+———-+———–+————+————+————+————-+————–+</p>
+<ul>
+<li>可以看到float与float(10)是没区别的，float默认能精确到6位有效数字</li>
+</ul>
+<p>mysql&gt; insert into tc_float(f_float9_2,f_decimal9_2) values(123456.78,123456.78);mysql&gt; insert into tc_float(f_float9_2,f_decimal9_2) values(1234567.1,1234567.125);Query OK, 1 row affected, 1 warning (0.00 sec) mysql&gt; show warnings;+——-+——+—————————————————+| Level | Code | Message |+——-+——+—————————————————+| Note | 1265 | Data truncated for column ‘f_decimal9_2’ at row 1 |+——-+——+—————————————————+1 row in set (0.00 sec) mysql&gt; select * from tc_float;+—–+———-+———–+————+————+————+————-+————–+| fid | f_float | f_float10 | f_float25 | f_float7_3 | f_float9_2 | f_float30_3 | f_decimal9_2 |+—–+———-+———–+————+————+————+————-+————–+| 6 | NULL | NULL | NULL | NULL | 123456.78 | NULL | 123456.78 || 9 | NULL | NULL | NULL | NULL | 1234567.12 | NULL | 1234567.13 |+—–+———-+———–+————+————+————+————-+————–+ mysql&gt; insert into tc_float(f_float7_3) values(12345.1);ERROR 1264 (22003): Out of range value for column ‘f_float7_3’ at row 1</p>
+<ul>
+<li>float(9,2)与decimal(9,2)是很像的，并没有前面提到24位一下6位有效数字的限制</li>
+<li>他们俩之间的差别就在精度上，f_float9_2本应该是 1234567.10，结果小数点变成 .12 。f_decimal9_2因为标度为2，所以 .125 四舍五入成 .13</li>
+<li>将 12345.1 插入f_float7_3列，因为转成标度3时 12345.100，整个位数大于7，所以 out of range 了</li>
+</ul>
+<p>另外在编程中应尽量避免做浮点数的比较，否则可能会导致一些潜在的问题。</p>
+<p>坚决不允许使用float去存money，使用decimal更加稳妥，但使用decimal做除法依旧会产生浮点型，所以特殊情况请考虑使用整型，货币单位使用 分 ，或者除法在最后进行。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mysql/">mysql</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/05/SpringBoot结合Maven打包发布/" title="SpringBoot结合Maven打包发布" itemprop="url">SpringBoot结合Maven打包发布</a>
   </h1>
   <p class="article-author">By
@@ -647,273 +872,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/01/有关于synchronized和lock的总结/" title="有关于synchronized和lock的总结" itemprop="url">有关于synchronized和lock的总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-01T00:56:15.000Z" itemprop="datePublished"> Published 2019-03-01</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么叫重入锁？"><a href="#什么叫重入锁？" class="headerlink" title="什么叫重入锁？"></a>什么叫重入锁？</h3><p><a href="https://blog.csdn.net/rickiyeat/article/details/78314451" target="_blank" rel="noopener">博客</a></p>
-<p>重入锁：可重复可递归调用的锁，在外层调用锁，在内层仍然可以使用，并且不发生死锁（前提是同一个对象或者class），ReentrantLock和sychronized都是重入锁。</p>
-<p>不可重入锁：即当前线程执行某个方法已经获取到了该锁，那么在方法中尝试在次获取锁时，就会获取不到被阻塞。</p>
-<p>可中断锁：在等待获取锁的过程可以被中断。</p>
-<p>公平锁:按等待获取锁的线程的等待时间进行获取，等待时间长的具有优先获取锁权利。</p>
-<p>读写锁：对资源读取和写入的时候拆分为2部分处理，读的时候可以多线程一起读，写的时候必须同步的写。</p>
-<h3 id="synchronized与lock的区别？"><a href="#synchronized与lock的区别？" class="headerlink" title="synchronized与lock的区别？"></a>synchronized与lock的区别？</h3><p><a href="https://www.cnblogs.com/iyyy/p/7993788.html" target="_blank" rel="noopener">博客</a></p>
-<table>
-<thead>
-<tr>
-<th>类别</th>
-<th>synchronized</th>
-<th>Lock</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>存在层次</td>
-<td>Java的关键字，在jvm层面上</td>
-<td>是一个类</td>
-</tr>
-<tr>
-<td>锁的释放</td>
-<td>1、以获取锁的线程执行完同步代码，释放锁   2、线程执行发生异常，jvm会让线程释放锁</td>
-<td>在finally中必须释放锁，不然容易造成线程死锁</td>
-</tr>
-<tr>
-<td>锁的获取</td>
-<td>假设A线程获得锁，B线程等待。如果A线程阻塞，B线程会一直等待</td>
-<td>分情况而定，Lock有多个锁获取的方式，具体下面会说道，大致就是可以尝试获得锁，线程可以不用一直等待</td>
-</tr>
-<tr>
-<td>锁状态</td>
-<td>无法判断</td>
-<td>可以判断</td>
-</tr>
-<tr>
-<td>锁类型</td>
-<td>可重入 不可中断 非公平</td>
-<td>可重入 可判断 可公平（两者皆可）</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>少量同步</td>
-<td>大量同步</td>
-</tr>
-</tbody>
-</table>
-<h3 id="lock常用方法"><a href="#lock常用方法" class="headerlink" title="lock常用方法"></a>lock常用方法</h3><ul>
-<li>lock()：获取锁，如果锁被暂用则一直等待</li>
-<li>unlock():释放锁</li>
-<li>tryLock():      注意返回类型是boolean，如果获取锁的时候锁被占用就返回false，否则返回true</li>
-<li>tryLock(long time, TimeUnit      unit)：比起tryLock()就是给了一个时间期限，保证等待参数时间</li>
-<li>lockInterruptibly()：用该锁的获得方式，如果线程在获取锁的阶段进入了等待，那么可以中断此线程，先去做别的事</li>
-</ul>
-<h3 id="什么时候用ReentrantLock取代synchronied："><a href="#什么时候用ReentrantLock取代synchronied：" class="headerlink" title="什么时候用ReentrantLock取代synchronied："></a>什么时候用ReentrantLock取代synchronied：</h3><p>时间锁等候，无块结构锁，多个条件变量或者锁投票；性能更高：jvm将花费更少的时间来调度线程，把更多的时间用在执行程序上。必须使用finally来释放锁。</p>
-<h3 id="有关于synchronized代码同步块的说明："><a href="#有关于synchronized代码同步块的说明：" class="headerlink" title="有关于synchronized代码同步块的说明："></a>有关于synchronized代码同步块的说明：</h3><p><img src="file:///C:/Users/yjx/AppData/Local/Temp/msohtmlclip1/02/clip_image001.jpg" alt="æ¼«ç» | Javaå¤çº¿ç¨ä¸å¹¶åï¼ä¸ï¼"></p>
-<p>自我总结：</p>
-<p>1.当一个线程在访问一个对象的同步方法时，另一个线程可以同时访问这个对象的非同步方法。</p>
-<p>2.当一个线程访问一个对象的同步方法时，另一个线程是不能同时访问这个同步方法。</p>
-<p>3.当一个线程访问一个对象的同步方法时，另一个线程不能同时访问这个对象的另一个同步方法。</p>
-<p>当一个线程访问的一个对象的同步代码块时，需要视情况而定，看sychronized锁住的是什么，如果锁住的是整个对象的话，当有另一个线程访问该方法还是对象中的其他同步代码块时都是不能同时访问的，但如果锁住的不是同一个对象，是可以同时访问对象中的其他代码块。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/锁/">锁</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/27/面试内容梳理-20190227/" title="面试内容梳理-20190227" itemprop="url">面试内容梳理-20190227</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-27T12:59:55.000Z" itemprop="datePublished"> Published 2019-02-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h4 id="笔试题部分主要注重java基础知识："><a href="#笔试题部分主要注重java基础知识：" class="headerlink" title="笔试题部分主要注重java基础知识："></a>笔试题部分主要注重java基础知识：</h4><p>1.spring AutoWried和Resource的区别？</p>
-<p>   1.AutoWired和Resource都可以用来装配bean，都可以写在字段上，或者写在setter方法上。</p>
-<p>   2.AutoWired默认按照类型装配（这个注解属于spring的），默认情况下必须要求依赖对象必须存在，如果要允许null值，可以设置它的requied属性为false,@Autowired(required=false)</p>
-<p>   3.Resource(这个属于j2ee，减少了与spring的耦合),默认按照名字进行装配，名称可以通过name属性进行指定，如果没有指定name属性，当注解写在字段上时，默认取字段名进行安装名字查找。</p>
-<p>2.mybatis如何分页？如何设置缓存？</p>
-<p>​    方法1：数组分页，查询出全部数据，然后再list中截取需要的部分； ArrayList的subList()方法，截取需要的list.</p>
-<p>​    方法2：</p>
-<p>​    方法3：</p>
-<p>3.简述JMM以及垃圾回收机制？</p>
-<p>4.HashMap原理？</p>
-<p>5.什么是JDBC?解释下驱动在JDBC中的角色和作用？</p>
-<p>6.列出java IO常用的接口，类以及方法？字节流和字符流的区别？IO和NIO的区别？</p>
-<p>7.ArrayList和LinkedList的区别？</p>
-<p>8.Servlet的生命周期？初始化？</p>
-<p>9.java集合框架的基本接口有哪些？</p>
-<ol start="10">
-<li><p>Java支持的数据类型有哪些？什么是自动拆装箱？ </p>
-</li>
-<li><p>Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?</p>
-</li>
-<li><p>接口和抽象类的区别是什么？</p>
-</li>
-<li><p>线程和进程的区别？什么是多线程？如何实现多线程？如何安全的终止线程？run()方法和start()方法的区别？<strong>多线程有几种实现方法,都是什么?同步有几种实现方法,都是什么?</strong></p>
-<p>多线程有两种实现方法：继承Thread类和实现Runnable接口。</p>
-</li>
-</ol>
-<ol start="14">
-<li><p>什么是值传递和引用传递？</p>
-</li>
-<li><p>同步方法和同步代码块的区别是什么？</p>
-</li>
-<li><p>什么死锁（deadlock）?</p>
-</li>
-<li><p>如何保证n个线程可以访问Ng个资源又不会发生死锁？</p>
-</li>
-<li><p>spring的事务机制？sql的事务特性？</p>
-</li>
-<li><p>HashMap和HashTable的区别？</p>
-</li>
-<li><p>数组（Array）和列表（ArrayList）有什么区别？什么时候用Array什么时候用ArrayList?ArrayListheLinkedList的区别？</p>
-</li>
-<li><p>如何权衡是使用无序的数组还是有序的数组？</p>
-</li>
-<li><p>String StringBuffer的区别？</p>
-</li>
-<li><p><strong>说出ArrayList,Vector, LinkedList的存储性能和特性</strong> </p>
-</li>
-<li><p>、Collection 和 Collections的区别 </p>
-</li>
-<li><p>&amp;和&amp;&amp;的区别？</p>
-</li>
-<li><p>final finally finallize的区别？</p>
-</li>
-<li><p>sleep()和wait()有什么区别？</p>
-</li>
-<li><p>接口是否可继承接口？</p>
-</li>
-<li><p>两个对象值相同(x.equals(y) == true)，但却可有不同的hash code，这句话对不对？</p>
-</li>
-<li><p>当一个线程进入一个对象的一个synchronized方法后，其它线程是否可进入此对象的其它方法?</p>
-</li>
-<li><p><strong>编程题: 写一个Singleton出来</strong></p>
-</li>
-<li><p>Java中的异常处理机制的简单原理和应用？ java有多少种异常？</p>
-</li>
-</ol>
-<p>33.<strong>简述synchronized和java.util.concurrent.locks.Lock的异同</strong></p>
-<p>主要相同点：Lock能完成synchronized所实现的所有功能<br>主要不同点：Lock有比synchronized更精确的线程语义和更好的性能。<br>Lock是一个类，synchronized是一个关键字<br>synchronized会自动释放锁，而Lock一定要求程序员手工释放，并且必须在finally从句中释放</p>
-<p>34.<strong>JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？</strong> </p>
-<p>35.<strong>java中有几种类型的流？JDK为每种类型的流提供了一些抽象类以供继承，请说出他们分别是哪些类？</strong></p>
-<p>36.垃圾回收机制的原理</p>
-<p>37.什么是java序列化,如何实现java序列化？</p>
-<p>38.是否可以从一个static方法内部发出对非static方法的调用？</p>
-<p>​     不可以，如果其中包含对象的method();不能保证对象初始化。</p>
-<p>39.List、Map、Set三个接口，存取元素时，各有什么特点？</p>
-<p>​      List 以特定次序来持有元素，可有重复元素。<br>​      Set 无法拥有重复元素,内部排序。<br>​     Map 保存key-value值，value可多值。 </p>
-<p>40.使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
-<p>​     指引用的变量不能变，引用变量所指向的对象中的内容还是可以变的。例如，对于如下语句：</p>
-<p>41.线程如何同步和通讯？</p>
-<p>42.设计4个线程，其中两个线程每次对j增加1，另外两个线程对j每次减少1。写出程序</p>
-<p>43.heap和stack的区别？</p>
-<p>44.单例的实现？</p>
-<p>45.linux 查找文件的命令？</p>
-<p>46.有关泛型的了解？</p>
-<p>​     jdk1.5 新增泛型。</p>
-<p>​    是一种安全的</p>
-<p>47.什么是TreeMap</p>
-<h4 id="面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点"><a href="#面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点" class="headerlink" title="面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点"></a>面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点</h4><p>1.常用的数据运算方法？</p>
-<p>2.jdk1.8版本的新特性？</p>
-<p>3.项目中使用软件的版本总结？</p>
-<p>spring.version 4.2.5.RELEASE</p>
-<p>mybatis.version 3.4</p>
-<p>jdk1.8</p>
-<p>mysql 5.7.19</p>
-<p>dubbo.version 2.8.4</p>
-<p>Maven 3.5</p>
-<p>4.平时如何解决问题的？</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a><a href="/tags/面试总结/">面试总结</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -947,11 +905,11 @@
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -959,11 +917,15 @@
 			
 		
 			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -971,15 +933,7 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -987,7 +941,11 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
@@ -999,19 +957,15 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>2</sup></a></li>
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
@@ -1020,6 +974,10 @@
 		
 			
 				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
 			
 		
 		</ul>

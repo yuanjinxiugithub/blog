@@ -82,6 +82,151 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/01/16/Spring-Cloud介绍/" title="Spring Cloud介绍" itemprop="url">Spring Cloud介绍</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-16T13:09:49.000Z" itemprop="datePublished"> Published 2019-01-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="1-什么是Spring-Cloud"><a href="#1-什么是Spring-Cloud" class="headerlink" title="1.什么是Spring Cloud"></a>1.什么是Spring Cloud</h2><p>Spring Cloud是一个中间件，有Spring官方开发维护，基于Spring Boot开发，提供一套完整的微服务解决方案。在Spring Cloud中对微服务基础框架Netflix的多个开源组件进行了封装。Spring Cloud为微服务架构开发涉及的<strong>配置管理，服务治理，熔断机制，智能路由，微代理，控制总线，一次性token，全局一致性锁，leader选举，分布式session，集群状态</strong>管理等操作提供了一种简单的开发方式。</p>
+<p>github地址：<a href="https://github.com/spring-cloud" target="_blank" rel="noopener">https://github.com/spring-cloud</a></p>
+<p>官网地址：<a href="https://spring.io/projects/spring-cloud" target="_blank" rel="noopener">https://spring.io/projects/spring-cloud</a></p>
+<p>初学者视频：<a href="https://www.youtube.com/watch?v=aO3W-lYnw-o" target="_blank" rel="noopener">https://www.youtube.com/watch?v=aO3W-lYnw-o</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/15/微服务是什么？/" title="微服务是什么？" itemprop="url">微服务是什么？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-15T07:03:46.000Z" itemprop="datePublished"> Published 2019-01-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>微服务架构风格是一种将单个应用程序作为一套小型服务开发的方法，每种应用程序都在自己的进程中运行，并与轻量级机制（通常是HTTP资源API）进行通信。 这些服务是围绕业务功能构建的，可以通过全自动部署机制独立部署。 这些服务的集中管理最少，可以用不同的编程语言编写，并使用不同的数据存储技术。</p>
+<p>说了这么多概念，微服务有什么样的具体特点呢？</p>
+<h3 id="1-独立部署，灵活扩展"><a href="#1-独立部署，灵活扩展" class="headerlink" title="1.独立部署，灵活扩展"></a><strong>1.独立部署，灵活扩展</strong></h3><p>传统的单体架构是以整个系统为单位进行部署，而微服务则是以每一个独立组件（例如用户服务，商品服务）为单位进行部署。</p>
+<p>用一张经典的图来表现，就是下面这个样子：</p>
+<p><img src="https://img-blog.csdn.net/20180607104629505" alt="img"></p>
+<p>图中左边是单体架构的集群，右边是微服务集群。</p>
+<p>什么意思呢？比如根据每个服务的吞吐量不同，支付服务需要部署20台机器，用户服务需要部署30台机器，而商品服务只需要部署10台机器。这种灵活部署只有微服务架构才能实现。</p>
+<p>而近几年流行的<strong>Docker</strong>，为微服务架构提供了有效的容器。</p>
+<h3 id="2-资源的有效隔离"><a href="#2-资源的有效隔离" class="headerlink" title="2.资源的有效隔离"></a><strong>2.资源的有效隔离</strong></h3><p>微服务设计的原则之一，就是每一个微服务拥有独立的数据源，假如微服务A想要读写微服务B的数据库，只能调用微服务B对外暴露的接口来完成。这样有效避免了服务之间争用数据库和缓存资源所带来的问题。</p>
+<p><img src="https://img-blog.csdn.net/20180607104746272" alt="img"></p>
+<p>同时，由于每一个微服务实例在Docker容器上运行，实现了服务器资源（内存、CPU资源等）的有效隔离。</p>
+<p><strong>3.团队组织架构的调整</strong></p>
+<p>微服务设计的思想也改变了原有的企业研发团队组织架构。传统的研发组织架构是水平架构，前端有前端的团队，后端有后端的团队，DBA有DBA的团队，测试有测试的团队。</p>
+<p><img src="https://img-blog.csdn.net/20180607104800210" alt="img"></p>
+<p>而微服务的设计思想对团队的划分有着一定的影响，使得团队组织架构的划分更倾向于垂直架构，比如用户业务是一个团队来负责，支付业务是一个团队来负责。</p>
+<p><img src="https://img-blog.csdn.net/20180607104812606" alt="img"></p>
+<p>当然，这种垂直划分只是一个理想的架构，<strong>实际在企业中并不会把团队组织架构拆分得这么绝对</strong>。</p>
+<h3 id="微服务与面向服务架构SOA的区别"><a href="#微服务与面向服务架构SOA的区别" class="headerlink" title="微服务与面向服务架构SOA的区别"></a><strong>微服务与面向服务架构SOA的区别</strong></h3><p><img src="https://img-blog.csdn.net/20180607104840322" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607104902601" alt="img"></p>
+<p>SOA是什么样子呢？可以是下面这样的Web Service：</p>
+<p><img src="https://img-blog.csdn.net/20180607104919855" alt="img"></p>
+<p>也可以是下面这样的ESB企业服务总线：</p>
+<p><img src="https://img-blog.csdn.net/20180607104928294" alt="img"></p>
+<p>总之，<strong>SOA架构强调的是异构系统之间的通信和解耦合，而微服务架构强调的是系统按业务边界做细粒度的拆分和部署。</strong></p>
+<p><img src="https://img-blog.csdn.net/20180607104938707" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607104958465" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/2018060710500616" alt="img"></p>
+<p><strong>微服务架构的不足</strong></p>
+<p><img src="https://img-blog.csdn.net/20180607105043457" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105122271" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105132523" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105144249" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105153958" alt="img"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/01/15/Java基础知识/" title="Java基础知识" itemprop="url">Java基础知识</a>
   </h1>
   <p class="article-author">By
@@ -108,7 +253,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a>
   </div>
 
 </div>
@@ -1067,132 +1212,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/10/21/Redis简介/" title="Redis简介" itemprop="url">Redis简介</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-10-21T11:45:05.000Z" itemprop="datePublished"> Published 2018-10-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis是一个开源的，使用C语言编写，面向“键/值”对类型数据的分布式NoSQL数据库系统，特点是高性能，持久存储，适应高并发的应用场景。Redis纯粹为应用而产生，它是一个高性能的key-value数据库,并且提供了多种语言的API，性能测试结果表示SET操作每秒钟可达110000次，GET操作每秒81000次（当然不同的服务器配置性能不同）。</p>
-<p>Redis目前提供五种数据类型：</p>
-<ul>
-<li>string(字符串),</li>
-<li>list（链表）, </li>
-<li>Hash（哈希）,</li>
-<li>set（集合）,</li>
-<li>zset(sorted set)  （有序集合）</li>
-</ul>
-<p>Redis开发维护很活跃，虽然它是一个Key-Value数据库存储系统，但它本身支持MQ功能，所以完全可以当做一个轻量级的队列服务来使用。</p>
-<p>Redis可以做消息队列？</p>
-<blockquote>
-<p>首先，redis设计用来做缓存的，但是由于它自身的某种特性使得它可以用来做消息队列，它有几个阻塞式的API可以使用，正是这些阻塞式的API让其有能力做消息队列；另外，做消息队列的其他特性例如FIFO（先入先出）也很容易实现，只需要一个list对象从头取数据，从尾部塞数据即可；redis能做消息队列还得益于其list对象blpop brpop接口以及Pub/Sub（发布/订阅）的某些接口，它们都是阻塞版的，所以可以用来做消息队列。</p>
-</blockquote>
-<p>对于RabbitMQ和Redis的入队和出队操作，各执行100万次，每10万次记录一次执行时间。测试数据分为128Bytes、512Bytes、1K和10K四个不同大小的数据。<br>实验表明：</p>
-<blockquote>
-<p>入队时，当数据比较小时Redis的性能要高于RabbitMQ，而如果数据大小超过了10K，Redis则慢的无法忍<br>受；出队时，无论数据大小，Redis都表现出非常好的性能，而RabbitMQ的出队性能则远低于Redis。</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Redis/">Redis</a><a href="/tags/Nosql/">Nosql</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/10/15/dubbo-的使用和总结/" title="dubbo 的使用和总结" itemprop="url">dubbo 的使用和总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-10-15T06:58:54.000Z" itemprop="datePublished"> Published 2018-10-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/分布式服务框架/">分布式服务框架</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
@@ -1226,11 +1245,11 @@
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -1238,11 +1257,15 @@
 			
 		
 			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -1250,15 +1273,7 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
@@ -1266,7 +1281,11 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
@@ -1278,19 +1297,15 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>2</sup></a></li>
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
@@ -1299,6 +1314,10 @@
 		
 			
 				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
 			
 		
 		</ul>

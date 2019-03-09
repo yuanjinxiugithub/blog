@@ -4,24 +4,25 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>基于springsecurity的oauth2.0授权认证 | MyNotes</title>
+    <title>Mysql数字类型int与tinyint,float与decimal的选择 | MyNotes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YUAN">
     
 
     
-    <meta name="description" content="温故而知新下">
+    <meta name="description" content="int tinyint与bigint的比较它们都是（精确）数据类型，但是占用字节数和表达的范围不同    Type Storage Minimum Value Maximum Value      (Bytes) (Signed/Unsigned) (Signed/Unsigned)   TINYINT 1 -128 127     0 255   SMALLINT 2 -32768 32767">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于springsecurity的oauth2.0授权认证">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/02/18/基于springsecurity的oauth2-0授权认证/index.html">
+<meta property="og:title" content="Mysql数字类型int与tinyint,float与decimal的选择">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/09/Mysql数字类型int与tinyint-float与decimal的选择/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="温故而知新下">
+<meta property="og:description" content="int tinyint与bigint的比较它们都是（精确）数据类型，但是占用字节数和表达的范围不同    Type Storage Minimum Value Maximum Value      (Bytes) (Signed/Unsigned) (Signed/Unsigned)   TINYINT 1 -128 127     0 255   SMALLINT 2 -32768 32767">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-18T07:51:52.018Z">
+<meta property="og:updated_time" content="2019-03-09T10:51:34.854Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于springsecurity的oauth2.0授权认证">
-<meta name="twitter:description" content="温故而知新下">
+<meta name="twitter:title" content="Mysql数字类型int与tinyint,float与decimal的选择">
+<meta name="twitter:description" content="int tinyint与bigint的比较它们都是（精确）数据类型，但是占用字节数和表达的范围不同    Type Storage Minimum Value Maximum Value      (Bytes) (Signed/Unsigned) (Signed/Unsigned)   TINYINT 1 -128 127     0 255   SMALLINT 2 -32768 32767">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -81,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/02/18/基于springsecurity的oauth2-0授权认证/" title="基于springsecurity的oauth2.0授权认证" itemprop="url">基于springsecurity的oauth2.0授权认证</a>
+      <a href="/2019/03/09/Mysql数字类型int与tinyint-float与decimal的选择/" title="Mysql数字类型int与tinyint,float与decimal的选择" itemprop="url">Mysql数字类型int与tinyint,float与decimal的选择</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
 		
   </p><p class="article-time">
-    <time datetime="2019-02-18T07:51:51.000Z" itemprop="datePublished"> Published 2019-02-18</time>
+    <time datetime="2019-03-09T09:32:05.000Z" itemprop="datePublished"> Published 2019-03-09</time>
     
   </p>
 </header>
@@ -97,15 +98,129 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#int-tinyint与bigint的比较"><span class="toc-number">1.</span> <span class="toc-text">int tinyint与bigint的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#float和decimal"><span class="toc-number">2.</span> <span class="toc-text">float和decimal</span></a></li></ol>
 		
 		</div>
 		
-		  
+		<h3 id="int-tinyint与bigint的比较"><a href="#int-tinyint与bigint的比较" class="headerlink" title="int tinyint与bigint的比较"></a>int tinyint与bigint的比较</h3><p>它们都是（精确）数据类型，但是占用字节数和表达的范围不同</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Storage</th>
+<th>Minimum Value</th>
+<th>Maximum Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(Bytes)</td>
+<td>(Signed/Unsigned)</td>
+<td>(Signed/Unsigned)</td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>1</td>
+<td>-128</td>
+<td>127</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>255</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>2</td>
+<td>-32768</td>
+<td>32767</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>65535</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>3</td>
+<td>-8388608</td>
+<td>8388607</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>16777215</td>
+</tr>
+<tr>
+<td>INT</td>
+<td>4</td>
+<td>-2147483648</td>
+<td>2147483647</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>4294967295</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>8</td>
+<td>-9223372036854775808</td>
+<td>9223372036854775807</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>0</td>
+<td>18446744073709551615</td>
+</tr>
+</tbody>
+</table>
+<font color="red">遇到比较多的是tinyint和bigint，tinyint一般用于存放status,type这种数值小的数据，不够用时可能会用smallint。bigint一般用于自增主键.</font>
+
+<font color="red">为了避免数据库被过度设计，布尔、枚举类型也采用tinyint。</font>
+
+<p>还有一点也是经常被提到的关于 int(M) 中M的理解，int型数据无论是int(4)还是int(11)，都已经占用了 4 bytes 存储空间，M表示的只是显示宽度(display width, max value 255)，并不是定义int的长度。</p>
+<h3 id="float和decimal"><a href="#float和decimal" class="headerlink" title="float和decimal"></a>float和decimal</h3><p>MYSQL使用DECIMAL类型去存储对精度要求比较高的数值，比如金额，也叫定点数，decimal在mysql内存是以字符串二进制存储的。声明DECIMAL(M,D),M是数字最大位数（精度precision），范围1-65；D是小数点右侧数字个数（标度scale），范围0-30，但不得超过M。</p>
+<p>比如<code>DECIMAL(18,9)</code>，整数部分和小数部分各9位，所以各占4字节，共8bytes<br>再比如<code>DECIMAL(20,6)</code>，整数14位，需要4字节存9位，还需3字节存5位；小数6位，需3字节。共10bytes<br>（感谢 consatan 在评论区提出文中错误）</p>
+<p>比如定义<code>DECIMAL(7,3)</code>：</p>
+<ul>
+<li>能存的数值范围是 -9999.999 ~ 9999.999，占用4个字节</li>
+<li>123.12 -&gt; 123.120，因为小数点后未满3位，补0</li>
+<li>123.1245 -&gt; 123.125，小数点只留3位，多余的自动四舍五入截断</li>
+<li>12345.12 -&gt; 保存失败，因为小数点未满3位，补0变成12345.120，超过了7位。严格模式下报错，非严格模式存成9999.999</li>
+</ul>
+<p>MySQL使用<code>FLOAT</code>和<code>DOUBLE</code>来表示近似数值类型，这是因为十进制0.1在电脑里用二进制是无法精确表示的，<a href="https://segmentfault.com/a/1190000004112565" target="_blank" rel="noopener">只能尽可能的接近</a>。</p>
+<p>单精度浮点数float占4字节，float标准语法允许通过<code>FLOAT(M)</code>的形式指定精度，但是这个精度值M只是决定存储大小： 0-23与默认不指定效果相同，24-53就变成双精度的<code>DOUBLE</code>了。</p>
+<p>float还有非MySQL自己实现的<em>非标准</em>语法<code>FLOAT(M,D)</code>，代表最多存储M个数字长度，其中小数点后数字个数为D。效果与 DECIMAL(M,D)很相似。</p>
+<p>double 和 float 的区别是double精度高，有效数字16位（float精度7位）。但double消耗内存是float的两倍，占8字节，double的运算速度比float慢得多。</p>
+<p>msyql&gt; create table tc_float(fid int primary key auto_increment,f_float float, f_float10 float(10), f_float25 float(25), f_float7_3 float(7,3), f_float9_2 float(9,2), f_float30_3 float(30,3), f_decimal9_2 decimal(9,2)); mysql&gt; insert into tc_float(f_float,f_float10,f_float25) values(123456,123456,123456);mysql&gt; insert into tc_float(f_float,f_float10,f_float25) values(1234567.89,12345.67,1234567.89);mysql&gt; select * from tc_float;+—–+———-+———–+————+————+————+————-+————–+| fid | f_float | f_float10 | f_float25 | f_float7_3 | f_float9_2 | f_float30_3 | f_decimal9_2 |+—–+———-+———–+————+————+————+————-+————–+| 1 | 123456 | 123456 | 123456 | NULL | NULL | NULL | NULL || 2 | 1234570 | 12345.7 | 1234567.89 | NULL | NULL | NULL | NULL |+—–+———-+———–+————+————+————+————-+————–+</p>
+<ul>
+<li>可以看到float与float(10)是没区别的，float默认能精确到6位有效数字</li>
+</ul>
+<p>mysql&gt; insert into tc_float(f_float9_2,f_decimal9_2) values(123456.78,123456.78);mysql&gt; insert into tc_float(f_float9_2,f_decimal9_2) values(1234567.1,1234567.125);Query OK, 1 row affected, 1 warning (0.00 sec) mysql&gt; show warnings;+——-+——+—————————————————+| Level | Code | Message |+——-+——+—————————————————+| Note | 1265 | Data truncated for column ‘f_decimal9_2’ at row 1 |+——-+——+—————————————————+1 row in set (0.00 sec) mysql&gt; select * from tc_float;+—–+———-+———–+————+————+————+————-+————–+| fid | f_float | f_float10 | f_float25 | f_float7_3 | f_float9_2 | f_float30_3 | f_decimal9_2 |+—–+———-+———–+————+————+————+————-+————–+| 6 | NULL | NULL | NULL | NULL | 123456.78 | NULL | 123456.78 || 9 | NULL | NULL | NULL | NULL | 1234567.12 | NULL | 1234567.13 |+—–+———-+———–+————+————+————+————-+————–+ mysql&gt; insert into tc_float(f_float7_3) values(12345.1);ERROR 1264 (22003): Out of range value for column ‘f_float7_3’ at row 1</p>
+<ul>
+<li>float(9,2)与decimal(9,2)是很像的，并没有前面提到24位一下6位有效数字的限制</li>
+<li>他们俩之间的差别就在精度上，f_float9_2本应该是 1234567.10，结果小数点变成 .12 。f_decimal9_2因为标度为2，所以 .125 四舍五入成 .13</li>
+<li>将 12345.1 插入f_float7_3列，因为转成标度3时 12345.100，整个位数大于7，所以 out of range 了</li>
+</ul>
+<p>另外在编程中应尽量避免做浮点数的比较，否则可能会导致一些潜在的问题。</p>
+<p>坚决不允许使用float去存money，使用decimal更加稳妥，但使用decimal做除法依旧会产生浮点型，所以特殊情况请考虑使用整型，货币单位使用 分 ，或者除法在最后进行。</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mysql/">mysql</a>
+  </div>
 
 </div>
 
@@ -113,7 +228,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://yuanjinxiugithub.github.io/2019/02/18/基于springsecurity的oauth2-0授权认证/" data-title="基于springsecurity的oauth2.0授权认证 | MyNotes" data-tsina="" class="share clearfix">
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/03/09/Mysql数字类型int与tinyint-float与decimal的选择/" data-title="Mysql数字类型int与tinyint,float与decimal的选择 | MyNotes" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -127,18 +242,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev">
- <a href="/2019/02/22/OLTP和OLAP的区别/" title="OLTP和OLAP的区别">
+ <a href="/2019/03/09/Bits和Bytes的区别/" title="Bits和Bytes的区别">
   <strong>上一篇：</strong><br>
   <span>
-  OLTP和OLAP的区别</span>
+  Bits和Bytes的区别</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2019/02/18/基于springsecurity的权限认证/" title="基于springsecurity的权限认证">
+<a href="/2019/03/05/SpringBoot结合Maven打包发布/" title="SpringBoot结合Maven打包发布">
  <strong>下一篇：</strong><br> 
- <span>基于springsecurity的权限认证
+ <span>SpringBoot结合Maven打包发布
 </span>
 </a>
 </div>
@@ -155,7 +270,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#int-tinyint与bigint的比较"><span class="toc-number">1.</span> <span class="toc-text">int tinyint与bigint的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#float和decimal"><span class="toc-number">2.</span> <span class="toc-text">float和decimal</span></a></li></ol>
  
   </div>
 
