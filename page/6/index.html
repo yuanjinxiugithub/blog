@@ -4,25 +4,23 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>gc垃圾回收机制 | MyNotes</title>
+    <title>MyNotes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YUAN">
     
 
     
-    <meta name="description" content="简介GC garbage collection 垃圾收集，垃圾回收机制。 java中的GC回收完全是自动的，没有提供相应的api手动回收，所有的内存分配和回收权限都在jvm，不再开发人员手里。 没有绝对的垃圾回收的方法，不过可以这样去做： 1.对于不再引用的对象，及时把它的引用赋为null. obj = null 2.如果内存确实很紧张，调用System.gc()方法来建议垃圾回收器开始回收垃圾。">
-<meta name="keywords" content="java,gc 垃圾回收机制">
-<meta property="og:type" content="article">
-<meta property="og:title" content="gc垃圾回收机制">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2018/05/26/gc垃圾回收机制/index.html">
+    <meta name="description" content="温故而知新下">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MyNotes">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/page/6/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="简介GC garbage collection 垃圾收集，垃圾回收机制。 java中的GC回收完全是自动的，没有提供相应的api手动回收，所有的内存分配和回收权限都在jvm，不再开发人员手里。 没有绝对的垃圾回收的方法，不过可以这样去做： 1.对于不再引用的对象，及时把它的引用赋为null. obj = null 2.如果内存确实很紧张，调用System.gc()方法来建议垃圾回收器开始回收垃圾。">
+<meta property="og:description" content="温故而知新下">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-03T13:18:53.086Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gc垃圾回收机制">
-<meta name="twitter:description" content="简介GC garbage collection 垃圾收集，垃圾回收机制。 java中的GC回收完全是自动的，没有提供相应的api手动回收，所有的内存分配和回收权限都在jvm，不再开发人员手里。 没有绝对的垃圾回收的方法，不过可以这样去做： 1.对于不再引用的对象，及时把它的引用赋为null. obj = null 2.如果内存确实很紧张，调用System.gc()方法来建议垃圾回收器开始回收垃圾。">
+<meta name="twitter:title" content="MyNotes">
+<meta name="twitter:description" content="温故而知新下">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -76,102 +74,124 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="post" itemscope="" itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/05/26/gc垃圾回收机制/" title="gc垃圾回收机制" itemprop="url">gc垃圾回收机制</a>
+      <a href="/2018/02/18/“linux环境中常用的命令/" title="linux环境中常用的命令" itemprop="url">linux环境中常用的命令</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
 		
   </p><p class="article-time">
-    <time datetime="2018-05-26T12:22:08.000Z" itemprop="datePublished"> Published 2018-05-26</time>
+    <time datetime="2018-02-18T02:38:27.000Z" itemprop="datePublished"> Published 2018-02-18</time>
     
   </p>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#守护进程"><span class="toc-number">2.</span> <span class="toc-text">守护进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#native-关键字"><span class="toc-number">3.</span> <span class="toc-text">native 关键字</span></a></li></ol>
-		
-		</div>
-		
-		<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>GC garbage collection 垃圾收集，垃圾回收机制。</p>
-<p>java中的GC回收完全是自动的，没有提供相应的api手动回收，所有的内存分配和回收权限都在jvm，不再开发人员手里。</p>
-<p>没有绝对的垃圾回收的方法，不过可以这样去做：</p>
-<p>1.对于不再引用的对象，及时把它的引用赋为null. obj = null</p>
-<p>2.如果内存确实很紧张，调用System.gc()方法来建议垃圾回收器开始回收垃圾。通知GC运行，但是java规范并不一定保证GC一定执行。</p>
-<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>线程分为守护线程和非守护线程（即用户线程）</p>
-<p>只要当前jvm实例中尚存在任何一个    非守护线程没有结束，守护线程就全部工程。只有当最后一个非收获线程结束时，守护线程随着JVM一同结束工作。守护线程最典型的就是GC(垃圾回收器)</p>
-<h3 id="native-关键字"><a href="#native-关键字" class="headerlink" title="native 关键字"></a>native 关键字</h3><p>native是用做java和其他语言进行（如C++）进行协作时用的，也就是native后的函数的实现不是用java写的。</p>
-  
-	</div>
-		<footer class="article-footer clearfix">
+    <div class="article-content">
+        
+        <h3 id="java-开发常用的linux命令"><a href="#java-开发常用的linux命令" class="headerlink" title="java 开发常用的linux命令"></a>java 开发常用的linux命令</h3><p>1.查找文件 find / -name filename.txt</p>
+<p>2.find . -name “*.xml” 递归查找所有的xml文件</p>
+<p>3.ls -l | grep “.jar” 查看当前目录中的所有jar文件</p>
+<p>4.</p>
+<p>5.查看一个程序是否运行：</p>
+<p>ps -ef | grep tomcat 查看所有有关tomcat的进程</p>
+<p>6.kill -9 进程号 终止进程号位</p>
+<p>7.查看文件 包含隐藏文件</p>
+<p>ls -al</p>
+<p>8.当前工作目录</p>
+<p>pwd</p>
+<p>9.创建目录</p>
+<p>mkdir newfolder</p>
+<p>10.删除目录</p>
+<p>rmdir deleteEmptyFolder 删除空目录</p>
+<p>rm -rf deleteFile 递归删除目录中所有的内容</p>
+<ol start="11">
+<li><p>查看目录文件</p>
+<p>ll 显示当前目录下文件详细信息</p>
+<p>ls -a 显示当前目录下所有文件</p>
+</li>
+<li><p>查看进程</p>
+<p>ps -a 显示所有进程</p>
+<p>ps -u 有效用户的相关进程</p>
+<p>ps -x 列出较完整的信息</p>
+<p>ps  aux 查询系统所有进程数据</p>
+<p>ps -ef | grep java 表示查看所有进程里cmd是java的进程信息</p>
+</li>
+</ol>
+<pre><code>13 . 查看端口信息
+
+netstat -tunlp | grep 端口号 查看指定的端口号的进程情况
+
+
+
+14 内存信息
+
+free  -m 单位为Mb查看内存信息  
+
+top  linux系统下的任务管理器
+
+/ 任务管理器含义
+PID 进程ID
+USER    进程所有者
+PR  优先级
+NI  nice值，负值表示高优先级，正值表示低优先级
+VIRT    进程使用的虚拟内存总量
+RES 进程使用的、未被换出的物理内存大小
+SHR 共享内存大小
+S   进程状态
+%CPU    上次更新到现在的CPU时间占用百分比
+%MEM    进程使用的物理内存百分比
+TIME+   进程使用CPU总时间
+
+--------------------- 
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/gc-垃圾回收机制/">gc 垃圾回收机制</a>
+  <span></span> <a href="/tags/linux/">linux</a><a href="/tags/java-运行环境/">java 运行环境</a>
   </div>
 
 </div>
 
 
 
-	<div class="article-share" id="share">
-	
-	  <div data-url="https://yuanjinxiugithub.github.io/2018/05/26/gc垃圾回收机制/" data-title="gc垃圾回收机制 | MyNotes" data-tsina="" class="share clearfix">
-	  </div>
-	
-	</div>
 
+<div class="comments-count">
+	
+</div>
 
 </footer>
 
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev">
- <a href="/2018/05/28/java实现多线程的方法/" title="java实现多线程的方法">
-  <strong>上一篇：</strong><br>
-  <span>
-  java实现多线程的方法</span>
-</a>
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/5/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+  </nav>
+
 </div>
-
-
-<div class="next">
-<a href="/2018/05/19/java-获取字节码以及判断类型/" title="java 获取字节码以及判断类型">
- <strong>下一篇：</strong><br> 
- <span>java 获取字节码以及判断类型
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-
-
-
-</div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#守护进程"><span class="toc-number">2.</span> <span class="toc-text">守护进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#native-关键字"><span class="toc-number">3.</span> <span class="toc-text">native 关键字</span></a></li></ol>
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
@@ -399,89 +419,12 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
-
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
 
 
 
@@ -554,4 +497,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
-</html>
+ </html>

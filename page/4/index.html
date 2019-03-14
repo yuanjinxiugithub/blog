@@ -82,6 +82,108 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/01/16/Spring-Boot简单介绍/" title="Spring Boot简单介绍" itemprop="url">Spring Boot简单介绍</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-16T13:13:09.000Z" itemprop="datePublished"> Published 2019-01-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Spring-the-source-for-modern-java"><a href="#Spring-the-source-for-modern-java" class="headerlink" title="Spring: the source for modern java"></a>Spring: the source for modern java</h2><p>摘自官网<a href="https://spring.io/" target="_blank" rel="noopener">https://spring.io/</a></p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/spring-modern-source.png" alt="spring-modern-source"></p>
+<p>Spring Boot可以让我们轻松的创建独立的，生产级的应用程序，使程序变得更加轻量化。你可以 “just run”。你可以依靠一个Java的main函数来运行一个Spring应用。你也可以把你的应用打包为一个jar文件，通过java -jar来运行你的Spring程序。大多数Spring Boot应用程序只需要很少的Spring配置。</p>
+<h2 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h2><ul>
+<li>创建独立的Spring应用程序</li>
+<li>内嵌Tomcat、Jetty或者Undertow（无需单独部署war文件）</li>
+<li>开箱即用，提供各种默认配置来简化项目配置</li>
+<li>没有冗余的代码生成也不需要XML配置</li>
+<li>尽可能的自动化配置Spring以及第三方库</li>
+<li>提供生产监控功能，例如metrics（指标）、health checks（运行状况检查）和externalized configuration（外部配置）</li>
+</ul>
+<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><p>jdk 1.8</p>
+<p>spring framework 5.x以上</p>
+<h3 id="使用maven构建项目"><a href="#使用maven构建项目" class="headerlink" title="使用maven构建项目"></a>使用maven构建项目</h3><h4 id="1-访问https-start-spring-io"><a href="#1-访问https-start-spring-io" class="headerlink" title="1 访问https://start.spring.io/"></a>1 访问<a href="https://start.spring.io/" target="_blank" rel="noopener">https://start.spring.io/</a></h4><h4 id="2-选择Maven-Project、Spring-Boot版本2-0-7选择依赖，这里选择web，可参考下图所示"><a href="#2-选择Maven-Project、Spring-Boot版本2-0-7选择依赖，这里选择web，可参考下图所示" class="headerlink" title="2 选择Maven Project、Spring Boot版本2.0.7选择依赖，这里选择web，可参考下图所示"></a>2 选择<code>Maven Project</code>、Spring Boot版本<code>2.0.7</code>选择依赖，这里选择web，可参考下图所示</h4><p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/2019-01-06_225027.png" alt="2019-01-06_225027"></p>
+<h4 id="3-点击Generate-Project下载demo压缩包"><a href="#3-点击Generate-Project下载demo压缩包" class="headerlink" title="3 点击Generate Project下载demo压缩包"></a>3 点击Generate Project下载demo压缩包</h4><h2 id="将zip包解压缩导入IntelliJ-IDEA中"><a href="#将zip包解压缩导入IntelliJ-IDEA中" class="headerlink" title="将zip包解压缩导入IntelliJ IDEA中"></a>将zip包解压缩导入IntelliJ IDEA中</h2><h2 id="项目结构解析"><a href="#项目结构解析" class="headerlink" title="项目结构解析"></a>项目结构解析</h2><p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/2019-01-06_230659.png" alt="2019-01-06_230659"></p>
+<p>通过上面一系列的操作，我们已经成功的创建了一个Spring Boot程序。Spring Boot的基础结构共三个文件</p>
+<ul>
+<li><code>src/main/java</code>程序入口：<code>DemoApplicatio</code></li>
+<li><code>src/main/resources</code>下的配置文件：<code>application.properties</code></li>
+<li><code>src/test/</code>测试入口：<code>DemoApplicationTests</code></li>
+</ul>
+<p>生成的<code>DemoApplicatio</code>和<code>DemoApplicationTests</code>类可以直接运行来启动当前创建的项目，由于目前该项目未配合Web模块，所以程序会在加载完Spring之后结束运行。</p>
+<h2 id="添加web模块以及单元测试模块的maven依赖"><a href="#添加web模块以及单元测试模块的maven依赖" class="headerlink" title="添加web模块以及单元测试模块的maven依赖"></a>添加web模块以及单元测试模块的maven依赖</h2><p>在<code>pom.xml</code>文件中仅需要引入两个模块就行</p>
+<ul>
+<li><code>spring-boot-starter-web</code>：核心模块，包括自动配置支持、日志和YAML</li>
+<li><code>spring-boot-starter-test</code>：测试模块，包括JUnit、Hamcrest、Mockito</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="编写controller"><a href="#编写controller" class="headerlink" title="编写controller"></a>编写controller</h2><ul>
+<li>创建<code>cn.com.bmsmart.controller</code>包</li>
+<li>创建<code>HelloController</code>类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.demo.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Description: &lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * Created by wusong on 2019-01-07 6:55.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(value = <span class="string">"/"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello Spring Boot"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>右键<code>DemoApplication</code>启动main方法，然后打开浏览器，输入<code>http://localhost:8080/</code>可以看到输出了<code>Hello Spring Boot</code></p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/2019-01-07_070403.png" alt="2019-01-07_070403"></p>
+<h2 id="编写单元测试"><a href="#编写单元测试" class="headerlink" title="编写单元测试"></a>编写单元测试</h2><p>打开的工程的<code>src/test/</code>下的测试入口<code>DemoApplicationTests</code>类。然后编写一个单元测试来mock http请求</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.com.bmsmart.demo.controller.HelloController;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.MediaType;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.MockMvc;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.request.MockMvcRequestBuilders;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.setup.MockMvcBuilders;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.Matchers.equalTo;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = DemoApplication.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HelloController helloController;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> MockMvc mvc;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        mvc = MockMvcBuilders.standaloneSetup(helloController).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        mvc.perform(MockMvcRequestBuilders.get(<span class="string">"/"</span>).accept(MediaType.APPLICATION_JSON))</span><br><span class="line">           .andExpect(status().isOk())</span><br><span class="line">           .andExpect(content().string(equalTo(<span class="string">"Hello Spring Boot"</span>)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过注入<code>HelloController</code>然后在<code>@Before</code>函数中把mock的对象<code>HelloController</code>传递到<code>MockMvcBuilders.standaloneSetup(helloController).build()</code>中，这样就可以构建我们的单元测试了。</p>
+<ul>
+<li>注意引入静态类，让<code>status</code>、<code>content</code>、<code>equalTo</code>函数可用</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.Matchers.equalTo;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;</span><br></pre></td></tr></table></figure>
+<p>测试结果</p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/2019-01-07_071527.png" alt="2019-01-07_071527"></p>
+<p>另外一种用法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.com.bmsmart.demo.controller.HelloController;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.MediaType;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.MockMvc;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.request.MockMvcRequestBuilders;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.setup.MockMvcBuilders;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.MvcResult;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.result.MockMvcResultHandlers;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.Matchers.equalTo;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = DemoApplication.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HelloController helloController;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> MockMvc mvc;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        mvc = MockMvcBuilders.standaloneSetup(helloController).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"><span class="comment">//        mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))</span></span><br><span class="line"><span class="comment">//           .andExpect(status().isOk())</span></span><br><span class="line"><span class="comment">//           .andExpect(content().string(equalTo("Hello Spring Boot")));</span></span><br><span class="line"></span><br><span class="line">        MvcResult mvcResult = mvc.perform(</span><br><span class="line">                MockMvcRequestBuilders.get(<span class="string">"/"</span>)</span><br><span class="line">                                      .accept(MediaType.APPLICATION_JSON)</span><br><span class="line">        )</span><br><span class="line">                                     .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">                                     .andDo(MockMvcResultHandlers.print())</span><br><span class="line">                                     .andReturn();</span><br><span class="line">        String content = mvcResult.getResponse().getContentAsString();</span><br><span class="line">        System.out.println(content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">01</span>-<span class="number">07</span> <span class="number">07</span>:<span class="number">29</span>:<span class="number">31.555</span>  INFO <span class="number">7284</span> --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped <span class="string">"&#123;[/],methods=[GET]&#125;"</span> onto <span class="keyword">public</span> java.lang.String cn.com.bmsmart.demo.controller.HelloController.sayHello()</span><br><span class="line"><span class="number">2019</span>-<span class="number">01</span>-<span class="number">07</span> <span class="number">07</span>:<span class="number">29</span>:<span class="number">31.595</span>  INFO <span class="number">7284</span> --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking <span class="keyword">for</span> <span class="meta">@ControllerAdvice</span>: org.springframework.test.web.servlet.setup.StubWebApplicationContext@<span class="number">623</span>ebac7</span><br><span class="line"><span class="number">2019</span>-<span class="number">01</span>-<span class="number">07</span> <span class="number">07</span>:<span class="number">29</span>:<span class="number">31.616</span>  INFO <span class="number">7284</span> --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring FrameworkServlet <span class="string">''</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">01</span>-<span class="number">07</span> <span class="number">07</span>:<span class="number">29</span>:<span class="number">31.616</span>  INFO <span class="number">7284</span> --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet <span class="string">''</span>: initialization started</span><br><span class="line"><span class="number">2019</span>-<span class="number">01</span>-<span class="number">07</span> <span class="number">07</span>:<span class="number">29</span>:<span class="number">31.617</span>  INFO <span class="number">7284</span> --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet <span class="string">''</span>: initialization completed in <span class="number">1</span> ms</span><br><span class="line"></span><br><span class="line">MockHttpServletRequest:</span><br><span class="line">      HTTP Method = GET</span><br><span class="line">      Request URI = /</span><br><span class="line">       Parameters = &#123;&#125;</span><br><span class="line">          Headers = &#123;Accept=[application/json]&#125;</span><br><span class="line">             Body = &lt;no character encoding set&gt;</span><br><span class="line">    Session Attrs = &#123;&#125;</span><br><span class="line"></span><br><span class="line">Handler:</span><br><span class="line">             Type = cn.com.bmsmart.demo.controller.HelloController</span><br><span class="line">           Method = <span class="keyword">public</span> java.lang.String cn.com.bmsmart.demo.controller.HelloController.sayHello()</span><br><span class="line"></span><br><span class="line">Async:</span><br><span class="line">    Async started = <span class="keyword">false</span></span><br><span class="line">     Async result = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">Resolved Exception:</span><br><span class="line">             Type = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">ModelAndView:</span><br><span class="line">        View name = <span class="keyword">null</span></span><br><span class="line">             View = <span class="keyword">null</span></span><br><span class="line">            Model = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">FlashMap:</span><br><span class="line">       Attributes = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">MockHttpServletResponse:</span><br><span class="line">           Status = <span class="number">200</span></span><br><span class="line">    Error message = <span class="keyword">null</span></span><br><span class="line">          Headers = &#123;Content-Type=[application/json;charset=ISO-<span class="number">8859</span>-<span class="number">1</span>], Content-Length=[<span class="number">17</span>]&#125;</span><br><span class="line">     Content type = application/json;charset=ISO-<span class="number">8859</span>-<span class="number">1</span></span><br><span class="line">             Body = Hello Spring Boot</span><br><span class="line">    Forwarded URL = <span class="keyword">null</span></span><br><span class="line">   Redirected URL = <span class="keyword">null</span></span><br><span class="line">          Cookies = []</span><br><span class="line">Hello Spring Boot</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/spring-boot/">spring boot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/01/16/Spring-Cloud介绍/" title="Spring Cloud介绍" itemprop="url">Spring Cloud介绍</a>
   </h1>
   <p class="article-author">By
@@ -1138,83 +1240,9 @@
 
 
 
-   
-    
-    <article class="post-expand w" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/10/21/Redis和Memcached比较/" title="Redis和Memcached比较" itemprop="url">Redis和Memcached比较</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-10-21T11:45:39.000Z" itemprop="datePublished"> Published 2018-10-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Redis和Memcached比较"><a href="#Redis和Memcached比较" class="headerlink" title="Redis和Memcached比较"></a>Redis和Memcached比较</h1><ul>
-<li>Memcached是多线程，而Redis使用单线程.</li>
-<li>Memcached使用预分配的内存池的方式，Redis使用现场申请内存的方式来存储数据，并且可以配置虚拟内存。</li>
-<li>Redis可以实现持久化，主从复制，实现故障恢复。</li>
-<li>Memcached只是简单的key与value,但是Redis支持数据类型比较多。</li>
-</ul>
-<p>Redis的存储分为内存存储、磁盘存储 .从这一点，也说明了Redis与Memcached是有区别的。Redis 与Memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改 操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。</p>
-<p>Redis有两种存储方式(默认:snapshot)</p>
-<ol>
-<li>snapshot</li>
-</ol>
-<blockquote>
-<p>实现方法是定时将内存的快照(snapshot)持久化到硬盘，<br>这种方法缺点是持久化之后如果出现crash则会丢失一段数据。<br>因此在完美主义者的推动下作者增加了aof方式。</p>
-</blockquote>
-<ol>
-<li>aof</li>
-</ol>
-<blockquote>
-<p>即append only mode，在写入内存数据的同时将操作命令保存到日志文件，在一个并发更改上万的系统中，命令日志是一个非常庞大的数据，管理维护成本非常高，恢复重建时间会非常长，这样导致失去aof高可用性本意。另外更重要的是Redis是一个内存数据结构模型，所有的优势都是建立在对内存复杂数据结构高效的原子操作上，这样就看出aof是一个非常不协调的部分。其实aof目的主要是数据可靠性及高可用性.</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Redis/">Redis</a><a href="/tags/Nosql/">Nosql</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
   </nav>
 
 </div>
@@ -1257,7 +1285,7 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -1265,11 +1293,15 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
@@ -1285,10 +1317,6 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
 			
 		
@@ -1301,23 +1329,23 @@
 			
 		
 			
-				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
+				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
+				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>1</sup></a></li>
 			
 		
 		</ul>
