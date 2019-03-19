@@ -82,6 +82,128 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/03/01/剑指offer-record/" title="剑指offer-record" itemprop="url">剑指offer-record</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-03-01T13:33:43.000Z" itemprop="datePublished"> Published 2018-03-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Q1: 使用两者栈实现一个队列，完成队列的push和pop操作，队列中的元素是int类型</p>
+<p>思路：</p>
+<p>压入元素直接压入statck1,删除元素先查看statck2是否为空，非空就弹出；空则将stack1中元素取出，置于stack2中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StackQueue</span> </span>&#123;</span><br><span class="line">Stack&lt;Integer&gt; stack1 = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line">Stack&lt;Integer&gt; stack2 = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span></span>&#123;</span><br><span class="line">stack1.push(node);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="keyword">if</span>(stack2.empty())&#123;</span><br><span class="line"><span class="keyword">while</span>(!stack1.empty())</span><br><span class="line">stack2.push(stack1.pop());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> stack2.pop();</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/02/28/mysql在windows下常用的命令/" title="mysql在windows下常用的命令" itemprop="url">mysql在windows下常用的命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-02-28T09:56:00.000Z" itemprop="datePublished"> Published 2018-02-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <ol>
+<li>登录数据库：首先cd到mysql安装目录下的bin目录，再输入命令：mysql -h localhost[服务器IP] -p 在输入密码</li>
+</ol>
+<p>mysql -h localhost -u root -p</p>
+<ol start="2">
+<li>显示所有的database:show databases;</li>
+<li>跳转到指定数据库： use [数据库名称]；</li>
+<li>显示当前数据库所有表：show tables ;</li>
+<li>显示指定表的字段信息：show columns from table_name where </li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/mysql/">mysql</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/02/18/“linux环境中常用的命令/" title="linux环境中常用的命令" itemprop="url">linux环境中常用的命令</a>
   </h1>
   <p class="article-author">By
@@ -230,15 +352,7 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
 			
 		
 			
@@ -246,7 +360,19 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
@@ -254,11 +380,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
@@ -274,15 +400,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
@@ -290,7 +412,7 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
 			
 		
 		</ul>

@@ -82,6 +82,264 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/02/18/基于springsecurity的权限认证/" title="基于springsecurity的权限认证" itemprop="url">基于springsecurity的权限认证</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-18T01:43:58.000Z" itemprop="datePublished"> Published 2019-02-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>本文在SpringMVC和MyBatis项目框架的基础上整合Spring Security作为权限管理。并且完全实现一套自定义的权限管理规则。</p>
+<p><strong>1.权限管理</strong><br>在本例中所使用的权限管理的思路如下图所示，在系统中存在着许多帐号，同时存在着许多资源，在一个Web系统中一个典型的资源就是访问页面的URL，控制了这个就能够直接控制用户的访问权。</p>
+<p>由于资源非常多，直接针对资源与用户进行设置关系会比较繁琐，因此针对同一类或者同一组的资源打个包，称为一组权限，这样将权限分配给用户的时候，一组权限中的资源也就都分配给用户了。</p>
+<p><img src="https://images2017.cnblogs.com/blog/1071354/201711/1071354-20171114134807999-455536739.png" alt="img"></p>
+<p>这个只是一个非常简单的权限管理方案，并且只能适用于较小的项目，因为此处给出这个只是为了便于理解自定义的Spring Security认证规则。</p>
+<p><strong>2.Spring Security的认证规则</strong><br>要编写自定义的认证规则，首先需要对Spring Security中的认证规则有一定的了解，下面简单介绍下Spring Security的认证规则。</p>
+<p>1）在Spring Security中每个URL都是一个资源，当系统启动的时候，Spring Security会根据配置将所有的URL与访问这个URL所需要的权限的映射数据加载到Spring Security中。</p>
+<p>2）当一个请求访问一个资源时，Spring Security会判断这个URL是否需要权限验证，如果不需要，那么直接访问即可。</p>
+<p>3）如果这个URL需要进行权限验证，那么Spring Security会检查当前请求来源所属用户是否登录，如果没有登录，则跳转到登录页面，进行登录操作，并加载这个用户的相关信息</p>
+<p>4）如果登录，那么判断这个用户所拥有的权限是否包含访问这个URL所需要的权限，如果有则允许访问</p>
+<p>5）如果没有权限，那么就给出相应的提示信息</p>
+<p><strong>3.自定义认证规则思路</strong><br>根据上面一小节介绍的Spring Security认证的过程，我们相应的就能够分析出对于这个过程我们如果要修改的话，需要进行哪些方面的改动。</p>
+<p><strong>3.1.自定义SecurityMetadataSource</strong><br>在Spring Security中的 SecurityMetadataSource 处于上面的步骤一中，也就是用于加载URL与权限对应关系的，对于这个我们需要自己进行定义</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Set;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.access.SecurityConfig;</span><br><span class="line">import org.springframework.security.web.FilterInvocation;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 加载URL与权限资源，并提供根据URL匹配权限的方法</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:18:52</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomSecurityMetadataSource </span><br><span class="line">        implements FilterInvocationSecurityMetadataSource &#123;</span><br><span class="line"> </span><br><span class="line">    private Map&lt;String, List&lt;ConfigAttribute&gt;&gt; resources;</span><br><span class="line">    </span><br><span class="line">    public CustomSecurityMetadataSource() &#123;</span><br><span class="line">        loadAuthorityResources();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private void loadAuthorityResources() &#123;</span><br><span class="line">        // 此处在创建时从数据库中初始化权限数据</span><br><span class="line">        // 将权限与资源数据整理成 Map&lt;resource, List&lt;Authority&gt;&gt; 的形式</span><br><span class="line">        // 注意：加载URL资源时，需要对资源进行排序，要由精确到粗略进行排序，让精确的URL优先匹配</span><br><span class="line">        resources = new HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        // 此处先伪造一些数据</span><br><span class="line">        List&lt;ConfigAttribute&gt; authorityList = new ArrayList&lt;&gt;();</span><br><span class="line">        ConfigAttribute auth = new SecurityConfig(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        authorityList.add(auth);</span><br><span class="line">        resources.put(&quot;/welcome&quot;, authorityList);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAttributes(Object object) throws IllegalArgumentException &#123;</span><br><span class="line">        </span><br><span class="line">        String url = ((FilterInvocation) object).getRequestUrl();</span><br><span class="line">        </span><br><span class="line">        Set&lt;String&gt; keys = resources.keySet();</span><br><span class="line">        </span><br><span class="line">        for (String k : keys) &#123;</span><br><span class="line">            if (url.indexOf(k) &gt;= 0) &#123;</span><br><span class="line">                return resources.get(k);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAllConfigAttributes() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>在这个类中，实现了FilterInvocationSecurityMetadataSource接口，这个接口中的 getAttributes(Object object)方法能够根据请求的URL，获取这个URL所需要的权限，那么我们就可以在这个类初始化的时候将所有需要的权限加载进来，然后根据我们的规则进行获取，因此这里还需要编写一个加载数据的方法 loadAuthorityResources()，并且在构造函数中调用。</p>
+<p>此处加载资源为了简化，只是随意填充了一些数据，实际可以从数据库中获取。</p>
+<p><strong>3.2.自定义AccessDecisionManager</strong><br>编写自定义的决策管理器，决策管理器是Spring Security用来决定对于一个用户的请求是否基于通过的中心控制。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.AccessDecisionManager;</span><br><span class="line">import org.springframework.security.access.AccessDeniedException;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.authentication.InsufficientAuthenticationException;</span><br><span class="line">import org.springframework.security.core.Authentication;</span><br><span class="line">import org.springframework.security.core.GrantedAuthority;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 进行决策，根据URL获得访问这个资源所需要的权限，然后在与当前用户所拥有的权限进行对比</span><br><span class="line"> * 如果当前用户拥有相关权限，就直接返回，否则抛出 AccessDeniedException异常</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:30:40</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomAccessDecisionManager implements AccessDecisionManager &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void decide(Authentication authentication, Object object, Collection&lt;ConfigAttribute&gt; configAttributes)</span><br><span class="line">            throws AccessDeniedException, InsufficientAuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">        LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (configAttributes == null) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (configAttributes.size() &lt;= 0) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Iterator&lt;ConfigAttribute&gt; authorities = configAttributes.iterator();</span><br><span class="line">        String needAuthority = null;</span><br><span class="line">        </span><br><span class="line">        while(authorities.hasNext()) &#123;</span><br><span class="line">            ConfigAttribute authority = authorities.next();</span><br><span class="line">            </span><br><span class="line">            if (authority == null || (needAuthority = authority.getAttribute()) == null) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide == &quot; + needAuthority);</span><br><span class="line">            </span><br><span class="line">            for (GrantedAuthority ga : authentication.getAuthorities()) &#123;</span><br><span class="line">                if (needAuthority.equals(ga.getAuthority().trim())) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        throw new AccessDeniedException(&quot;No Authority&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(ConfigAttribute attribute) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>决策管理器最重要的就是这个 decide()方法，Spring Security会将当前登录用户信息包装到一个 Authentication对象中，并传入这个方法；并且调用 SecurityMetadataSource.getAttributes() 方法获取这个URL相关的权限以参数 Collection<configattribute> 的形式传入这个方法。</configattribute></p>
+<p>然后这个decide方法获取到这两个信息之后就可以进行对比决策了。如果当前用户允许登录，那么直接return即可。如果当前用户不许运行登录，则抛出一个 AccessDeniedException异常。</p>
+<p><strong>3.3.自定义 UserDetailsService 和 AuthenticationProvider</strong></p>
+<p>前面说过，要进行验证，除了有URL与权限的映射关系，还需要有用户的权限信息。要编写自定义的用户数据加载，就需要实现这两个接口。</p>
+<p><strong>3.3.1.UserDetailsService</strong></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">import com.oolong.model.AccountInfoModel;</span><br><span class="line">import com.oolong.model.AuthorityModel;</span><br><span class="line"> </span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsService implements UserDetailsService &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsService&quot;).info(&quot;loadUserByUsername invoke&quot;);</span><br><span class="line"> </span><br><span class="line">        // 提供到数据库查询该用户的权限信息</span><br><span class="line">        // 关于角色和权限的转换关系在此处处理，根据用户与角色的关系、角色与权限的关系，</span><br><span class="line">        // 将用户与权限的管理整理出来</span><br><span class="line">        </span><br><span class="line">        // 此处伪造一些数据</span><br><span class="line">        // 伪造权限</span><br><span class="line">        AuthorityModel authority = new AuthorityModel(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        List&lt;AuthorityModel&gt; authorities = new ArrayList&lt;&gt;();</span><br><span class="line">        authorities.add(authority);</span><br><span class="line">        </span><br><span class="line">        AccountInfoModel account = new AccountInfoModel(&quot;oolong&quot;, &quot;12345&quot;);</span><br><span class="line">        account.setAuthorities(authorities);</span><br><span class="line">        </span><br><span class="line">        return account;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p><strong>3.3.2.AuthenticationProvider</strong><br>AuthenticationProvider用于包装UserDetailsService，并将其提供给 Spring Security使用。这个接口中最重要的是实现 retrieveUser() 方法，这个请参考接口的说明进行实现，此处不再赘述。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.security.authentication.AuthenticationServiceException;</span><br><span class="line">import org.springframework.security.authentication.BadCredentialsException;</span><br><span class="line">import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;</span><br><span class="line">import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;</span><br><span class="line">import org.springframework.security.core.AuthenticationException;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 这两个方法用于添加额外的检查功能，此处不需要添加，因此空着，直接实现这个抽象类即可。</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 下午12:20:27</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider &#123;</span><br><span class="line"> </span><br><span class="line">    @Autowired</span><br><span class="line">    private UserDetailsService userDetailsService;</span><br><span class="line">    </span><br><span class="line">    public UserDetailsService getUserDetailService() &#123;</span><br><span class="line">        return this.userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void setUserDetailService(UserDetailsService userDetailsService) &#123;</span><br><span class="line">        this.userDetailsService = userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected void additionalAuthenticationChecks(UserDetails userDetails,</span><br><span class="line">            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)</span><br><span class="line">            throws AuthenticationException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsAuthenticationProvider&quot;).info(&quot;retrieveUser invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (userDetailsService == null) &#123;</span><br><span class="line">            throw new AuthenticationServiceException(&quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        UserDetails userDetails = userDetailsService.loadUserByUsername(username);</span><br><span class="line">        </span><br><span class="line">        if (userDetails == null) &#123;</span><br><span class="line">            throw new UsernameNotFoundException(username);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (userDetails.getUsername().equals(authentication.getPrincipal().toString()) </span><br><span class="line">                &amp;&amp; userDetails.getPassword().equals(authentication.getCredentials().toString())) &#123;</span><br><span class="line">            return userDetails;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        throw new BadCredentialsException(username + authentication.getCredentials());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p><strong>3.4.UserDetails和GrantedAuthority</strong><br>这两个接口非常简单，请参考源码，此处不再赘述</p>
+<p><strong>4.配置</strong><br>上面编写的这些自定义的实现都有了，但是仅仅这样是没有用的，如何配置能够让它们起作用呢？</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.config;</span><br><span class="line"> </span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.ComponentScan;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;</span><br><span class="line">import org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line">import org.springframework.security.web.access.ExceptionTranslationFilter;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;</span><br><span class="line"> </span><br><span class="line">import com.oolong.customsecurity.CustomAccessDecisionManager;</span><br><span class="line">import com.oolong.customsecurity.CustomSecurityMetadataSource;</span><br><span class="line">import com.oolong.customsecurity.CustomUserDetailsAuthenticationProvider;</span><br><span class="line">import com.oolong.customsecurity.TempHook;</span><br><span class="line"> </span><br><span class="line">@Configuration</span><br><span class="line">@ComponentScan(basePackageClasses=&#123;TempHook.class&#125;)</span><br><span class="line">@EnableWebSecurity</span><br><span class="line">public class SecurityConfig extends WebSecurityConfigurerAdapter &#123;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomUserDetailsAuthenticationProvider customAuthenticationProvider;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomAccessDecisionManager customAccessDecisionManager;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomSecurityMetadataSource customSecurityMetadataSource;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(AuthenticationManagerBuilder auth) throws Exception &#123;</span><br><span class="line">        auth.authenticationProvider(customAuthenticationProvider);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(HttpSecurity http) throws Exception &#123;</span><br><span class="line">        http.addFilterAfter(customFilterSecurityInterceptor(), ExceptionTranslationFilter.class);</span><br><span class="line">        http.formLogin();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Bean</span><br><span class="line">    public FilterSecurityInterceptor customFilterSecurityInterceptor() &#123;</span><br><span class="line">        FilterSecurityInterceptor fsi = new FilterSecurityInterceptor();</span><br><span class="line">        fsi.setAccessDecisionManager(customAccessDecisionManager);</span><br><span class="line">        fsi.setSecurityMetadataSource(customSecurityMetadataSource);</span><br><span class="line">        </span><br><span class="line">        return fsi;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>在Spring MVC中，Spring Security是通过过滤器发挥作用的，因此我们就爱那个决策管理器与数据加载放到一个过滤器中，然后将这个过滤器插入到系统的过滤器链中。</p>
+<p>此外，我们向系统中提供了一个用于检索用户的 AuthenticationProvicer。</p>
+<p>还有，别忘记了，告诉系统，如果用户没有权限应该怎么办，http.formLogin()，告诉Spring Security要跳转到表单登录页面。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/spring-boot/">spring boot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/17/浅谈项目中用到的RabbitMQ/" title="浅谈项目中用到的RabbitMQ" itemprop="url">浅谈项目中用到的RabbitMQ</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-17T10:16:38.000Z" itemprop="datePublished"> Published 2019-02-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="项目中使用到的RabbitMQ的总结："><a href="#项目中使用到的RabbitMQ的总结：" class="headerlink" title="项目中使用到的RabbitMQ的总结："></a>项目中使用到的RabbitMQ的总结：</h3><p>rabbitMQ 本身基于erlang语言开发，erlang语言具有高并发的特性，其管理界面用起来也十分方便。单机吞吐量为万级，一般多用于中小型企业的消息中间件。</p>
+<h3 id="RabbitMQ结构图"><a href="#RabbitMQ结构图" class="headerlink" title="RabbitMQ结构图"></a>RabbitMQ结构图</h3><p><img src="https://img-blog.csdn.net/20171030200129162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvX2Nob3Nlbl8x/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="è¿éåå¾çæè¿°"></p>
+<h3 id="几个概念说明"><a href="#几个概念说明" class="headerlink" title="几个概念说明"></a>几个概念说明</h3><p>Broker: 消息交换机  指定消息按什么规则，路由到哪个队列</p>
+<p>Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。</p>
+<p>Queue: 消息队列载体，每个消息都会被投入到一个或多个队列</p>
+<p>Binding:绑定，它的作用就是将exchange 和queue进行绑定起来</p>
+<p>Routing Key: 路由关键字，exchange根据这个关键字进行消息传递</p>
+<p>vhost:虚拟主机，一个broker里可以开设多个vhost,用作不同用户的权限分离</p>
+<p>producer:消息的投递者</p>
+<p>consumer:消息的接收者</p>
+<p>channel:消息通道，在客户端的每个连接里，可建立多个channel,每个channel代表一个会话任务。</p>
+<p>消息队列的使用过程大概如下：</p>
+<p>1.客户端连接消息队列服务器，打开一个channel。</p>
+<p>2.客户端声明一个exchange, 并设置相关属性。</p>
+<p>3.客户端声明一个queue，并设置相关属性。</p>
+<p>4.客户端设置好route key，在exchange和queue之间建立好绑定关系。</p>
+<p>5.客户端投递消息到exchange.</p>
+<h3 id="RabbitMQ-简介"><a href="#RabbitMQ-简介" class="headerlink" title="RabbitMQ 简介"></a>RabbitMQ 简介</h3><p>RabbitMQ是一个消息代理：接受并转发消息，可以看成是一个邮局；</p>
+<p>生产者（Producer）:用于发送消息的程序</p>
+<p>消费者（Consumer）:等待接受消息的程序</p>
+<p>队列：队列只能存在内存或磁盘里，本质上是一个消息转化中心。</p>
+<p>RabbitMQ起源于金融系统，用于在分布式系统中存储转发消息，在易用性，扩展性，高可用性等方面表现不俗。</p>
+<p>需要安装erlang语言开发，erlang语言本身就具有高并发特性。</p>
+<h3 id="spring集成rabbitMQ"><a href="#spring集成rabbitMQ" class="headerlink" title="spring集成rabbitMQ"></a>spring集成rabbitMQ</h3><p>step1: 添加相应的jar包：spring-rabbit amqp-client</p>
+<p>step2:使用外部参数文件 <strong>application.properties</strong></p>
+<p>mq.host=127.0.0.1</p>
+<p>mq.username=queue</p>
+<p>mq.password=1234</p>
+<p>mq.port=8001</p>
+<p>step3:连接rabbitMQ服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 连接配置 --&gt;</span><br><span class="line">&lt;rabbit:connection-factory id=<span class="string">"connectionFactory"</span> host=<span class="string">"$&#123;mq.host&#125;"</span> username=<span class="string">"$&#123;mq.username&#125;"</span></span><br><span class="line">        password=<span class="string">"$&#123;mq.password&#125;"</span> port=<span class="string">"$&#123;mq.port&#125;"</span>  /&gt;</span><br><span class="line">        </span><br><span class="line">&lt;rabbit:admin connection-factory=<span class="string">"connectionFactory"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>step4:声明一个rabbitMQ Template</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:template id=<span class="string">"amqpTemplate"</span> exchange=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> connection-factory=<span class="string">"connectionFactory"</span>  /&gt;</span><br></pre></td></tr></table></figure>
+<p>step5:在application.xml中声明一个交换机</p>
+<p><strong><a href="rabbit:topic-exchange" target="_blank" rel="noopener">rabbit:topic-exchange</a> 标签的 name 属性就是在 RabbitMQ 服务器配置交换机的 name 值。</strong></p>
+<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 queue 属性是 6. <queue> 标签的 id 属性。</queue></strong></p>
+<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 pattern 属性是在 RabbitMQ 服务器配置交换机与队列绑定时的 Routing key 值（路由）。</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:topic-exchange name=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> durable=<span class="string">"true"</span> auto-delete=<span class="string">"false"</span>&gt;</span><br><span class="line">    &lt;rabbit:bindings&gt;</span><br><span class="line">        &lt;rabbit:binding queue=<span class="string">"test_queue"</span> pattern=<span class="string">"$&#123;mq.queue&#125;_patt"</span>/&gt;</span><br><span class="line">    &lt;/rabbit:bindings&gt;</span><br><span class="line">&lt;/rabbit:topic-exchange&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>durable：是否持久化</li>
+<li>exclusive：仅创建者可以使用的私有队列，断开后自动删除</li>
+<li>auto-delete：当所有消费端连接断开后，是否自动删除队列</li>
+</ul>
+<font color="red">交换机的四种模式：</font>
+
+<p>1.direct(直连交换机)：根据routekey 将消息投递给对应队列的； 转发消息到route key 指定的队列上</p>
+<p>2.topic（主题交换机）：对key进行模式匹配，比如ab<em> 可以传到所有的ab</em>的queue</p>
+<p>3.headers:（头交换机）：转发到headers中的键值对完全匹配的队列。性能比较差不建议使用。</p>
+<p>4.fanout:（扇形交换机）：转发消息到所有绑定队列，忽略routingkey</p>
+<p>交换价的属性：</p>
+<p>1.持久性：durable,如果启用，交换器将会在server重启前都有效。</p>
+<p>2.自动删除：如果启用，那么交换器将会在其绑定的队列都被删除掉之后自动删除掉自身。</p>
+<p>3.惰性：如果没有声明交换器，那么在执行到使用的时候会导致异常，并不会主动声明。</p>
+<p>一个交换机可以绑定多个队列，一个队列也可以绑定到多个交换机上。如果没有队列绑定到交换机上，则发送到该交换机上的消息会丢失。</p>
+<h3 id="MQTT是什么？"><a href="#MQTT是什么？" class="headerlink" title="MQTT是什么？"></a>MQTT是什么？</h3><p>第一次接触到mqtt协议是在做海底捞物流配送系统，当时使用到了rabbitmq 消息队列，发现开发同事配置中用到了mqtt协议，本来以为是用到了别的什么中间件，后来在看rabbitmq时无意间发现和mqtt有关联，就自己学习了下，内容如下：</p>
+<p><font color="red">什么是mqtt</font>:message queuing  telemetry transport portocol 的全称是消息队列遥感传输协议的缩写，是一种基于轻量级代理的发布/订阅模式的消息传输协议，运行在TCP协议栈上，为其提供有序，可靠，双向连接的网络连接保证。IBM开发的<font color="red">即时通讯协议</font>，成为物联网的重要组成成分。该协议支持所有的平台，几乎可以把所有物联网物品和外部连接起来，被用来当作传感器和制动器的通信协议。</p>
+<h3 id="MQTT的特点"><a href="#MQTT的特点" class="headerlink" title="MQTT的特点:"></a>MQTT的特点:</h3><p>mqtt协议是为大量计算能力有限，且工作在低带宽，不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：</p>
+<p>1.使用发布/订阅模式，提供一对多的消息发布，解除应用程序耦合。</p>
+<p>2.对负载内容屏蔽的消息传输。</p>
+<p>3.使用TCP/IP提供网络连接。</p>
+<p>4.有三种消息发布服务质量：</p>
+<p>至多一次</p>
+<p>至少一次</p>
+<p>只有一次</p>
+<p>5.小型传输，开销很小 协议交换最小化，以降低网络流量。</p>
+<h3 id="心跳时间：-keep-alive-timer"><a href="#心跳时间：-keep-alive-timer" class="headerlink" title="心跳时间： keep alive timer"></a>心跳时间： keep alive timer</h3><p>以秒为单位，定义服务器端从客户端接受消息的最大时间间隔。一般应用服务会在业务层次检测客户端网络是否连接，不是TCP/IP协议层面的心跳机制。</p>
+<h3 id="如何将消息正确送达？"><a href="#如何将消息正确送达？" class="headerlink" title="如何将消息正确送达？"></a>如何将消息正确送达？</h3><p>MQTT通过“主题”实现将消息从发布者客户端送达至接收者客户端。“主题”是附加在应用消息上的一个标签，发布者客户端将”主题“和消息发送至代理服务器，代理服务器将消息转发每一个订阅了该主题的订阅客户端。</p>
+<h3 id="RabbitMQ如何作为MQTT服务器使用？"><a href="#RabbitMQ如何作为MQTT服务器使用？" class="headerlink" title="RabbitMQ如何作为MQTT服务器使用？"></a>RabbitMQ如何作为MQTT服务器使用？</h3><p>rabbitmq中有实现mqtt插件，具体参考地址：</p>
+<p><a href="http://www.rabbitmq.com/mqtt.html" target="_blank" rel="noopener">http://www.rabbitmq.com/mqtt.html</a></p>
+<p>安装插件，只要启用rabbitmq的MQTT插件即可：rabbitmq-plugins enable rabbitmq-mqtt 启用后重启一下rabbitmq-server</p>
+<h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
+<p>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"></p>
+<p> RPC的一般需要经历4个步骤：</p>
+<p>1、建立通信</p>
+<p>首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信连接，主要是通过在客户端和服务器之间建立TCP连接。</p>
+<p>2、服务寻址</p>
+<p>要解决寻址的问题，A服务器上如何连接到B服务器（如主机或IP地址）以及特定的端口，方法的名称是什么。</p>
+<p>3、网络传输</p>
+<p>1）序列化</p>
+<p>当A服务器上的应用发起一个RPC调用时，调用方法和参数数据都需要先进行序列化。</p>
+<p>2）反序列化</p>
+<p>当B服务器接收到A服务器的请求之后，又需要对接收到的参数等信息进行反序列化操作。</p>
+<p>4、服务调用</p>
+<p>B服务器进行本地调用（通过代理Proxy）之后得到了返回值，此时还需要再把返回值发送回A服务器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A服务器。</p>
+<p>通常，一次完整的PRC调用需要经历如上4个步骤。</p>
+<p> <strong>MQ(消息队列)</strong></p>
+<p>消息队列（MQ）是一种能实现生产者到消费者单向通信的通信模型，一般来说是指实现这个模型的中间件。</p>
+<p>典型的MQ中间件:</p>
+<p>RabbitMQ、ActiveMQ、Kafka等</p>
+<p>典型的特点：</p>
+<p>1、解耦</p>
+<p>2、可靠投递</p>
+<p>3、广播</p>
+<p>4、最终一致性</p>
+<p>5、流量削峰</p>
+<p>6、消息投递保证</p>
+<p>7、异步通信（支持同步）</p>
+<p>8、提高系统吞吐、健壮性</p>
+<p>典型的使用场景：秒杀业务中利用MQ来实现流量削峰，以及应用解耦使用。</p>
+<p><strong>RPC和MQ的区别和关联</strong></p>
+<p>1.在架构上，RPC和MQ的差异点是，Message有一个中间结点Message Queue，可以把消息存储。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png" alt="img"></p>
+<p>2.同步调用：对于要立即等待返回处理结果的场景，RPC是首选。</p>
+<p>3.MQ 的使用，一方面是基于性能的考虑，比如服务端不能快速的响应客户端（或客户端也不要求实时响应），需要在队列里缓存。</p>
+<p>另外一方面，它更侧重数据的传输，因此方式更加多样化，除了点对点外，还有订阅发布等功能。</p>
+<p>4.而且随着业务增长，有的处理端处理量会成为瓶颈，会进行同步调用改造为异步调用，这个时候可以考虑使用MQ。</p>
+<p><font color="red">RPC关注业务逻辑处理结果</font>。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/消息队列/">消息队列</a><a href="/tags/RabbitMQ/">RabbitMQ</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/17/ELK日志分析平台/" title="ELK日志分析平台" itemprop="url">ELK日志分析平台</a>
   </h1>
   <p class="article-author">By
@@ -947,440 +1205,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/01/28/SpringCloud之Eureka/" title="SpringCloud之Eureka" itemprop="url">SpringCloud之Eureka</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-01-28T13:21:02.000Z" itemprop="datePublished"> Published 2019-01-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h1><p>Spring Cloud Eureka是spring cloud 微服务套件中的一部分，她基于Netflix Eureka做了二次封装，主要负责完成微服务架构中的服务治理功能</p>
-<p>在了解Eureka之前，我们先来讲下服务发现的由来</p>
-<h2 id="1-服务发现的由来"><a href="#1-服务发现的由来" class="headerlink" title="1 服务发现的由来"></a>1 服务发现的由来</h2><p>服务发现及注册中心是与软件开发的架构方式演化而来的，大概归纳如下</p>
-<h3 id="1-1-单体架构"><a href="#1-1-单体架构" class="headerlink" title="1.1 单体架构"></a>1.1 单体架构</h3><p>最早的开发中，大多使用单体架构，服务自成一体。对于依赖的少数外部服务，会采用配置地址的方式进行访问。比如第三方接口，会使用appId和appKey来进行调用。</p>
-<h3 id="1-2-SOA架构"><a href="#1-2-SOA架构" class="headerlink" title="1.2 SOA架构"></a>1.2 SOA架构</h3><p>随着SOA架构流行，有些公司的内部开始将单体应用拆分成粒度较为粗的服务化架构。</p>
-<p>查看： <a href="https://blog.csdn.net/chenleixing/article/details/44926955" target="_blank" rel="noopener">https://blog.csdn.net/chenleixing/article/details/44926955</a></p>
-<h3 id="1-3-微服务时代"><a href="#1-3-微服务时代" class="headerlink" title="1.3 微服务时代"></a>1.3 微服务时代</h3><p>在微服务时代，底层运维方式发生了很大的变化，并且随着docker和kubernetes的流行，业务服务不在部署在固定的虚拟机上，其ip地址也不再固定，这个时候前面的解决方式就显得有点儿吃力了。针对这个问题，提出了一些解决方案，例如</p>
-<p>1：以nginx为例，在没有引入服务注册中心的时候，那么需要我们手工或是通过脚本的方式，在部署的受去更新nginx的配置文件，然后reload。或是使用ngx_http_dyups_module通过rest api在运行的受进行更新upstream而不需要reload</p>
-<p>2: 将服务中心作为一个标配的分布式服务组件，网管等都从服务注册中心获取相关服务的实例信息，实现动态路由。例如consule-template+nginx方案，然后通过consul监听服务实例变化，再更新nginx的配置文件。</p>
-<p>从上面的例子我们可以看出，随着服务架构模式以及底层运维方式的变化，服务注册中心逐步再分布式系统架构中占据了一个重要的地位。</p>
-<h2 id="2-Eureka简介"><a href="#2-Eureka简介" class="headerlink" title="2 Eureka简介"></a>2 Eureka简介</h2><p>Eureka是Netflix公司开源的一款服务发现组件，该组件提供的服务发现可以为负载均衡、failover等提供了支持。Eureka包括Eureka Server和Eureka Client。Eureka Server提供了RESTFul服务，而Eureka Client则是使用Java编写的客户端，用于简化Eureka Server的交互。</p>
-<h3 id="2-1-服务发现技术选型"><a href="#2-1-服务发现技术选型" class="headerlink" title="2.1 服务发现技术选型"></a>2.1 服务发现技术选型</h3><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>类型</th>
-<th>AP或CP</th>
-<th>语言</th>
-<th>依赖</th>
-<th>集成</th>
-<th>一致性算法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Zookeeper</td>
-<td>General</td>
-<td>CP</td>
-<td>Java</td>
-<td>JVM</td>
-<td>Client Binding</td>
-<td>Paxos</td>
-</tr>
-<tr>
-<td>Doozer</td>
-<td>General</td>
-<td>CP</td>
-<td>Go</td>
-<td></td>
-<td>Client Binding</td>
-<td>Paxos</td>
-</tr>
-<tr>
-<td>Consul</td>
-<td>General</td>
-<td>CP</td>
-<td>GO</td>
-<td></td>
-<td>HTTP/DNS Library</td>
-<td>Raft</td>
-</tr>
-<tr>
-<td>Etcd</td>
-<td>General</td>
-<td>Mixed (1)</td>
-<td>Go</td>
-<td></td>
-<td>Client Binding/HTTP</td>
-<td>Raft</td>
-</tr>
-<tr>
-<td>SmartStack</td>
-<td>Dedicated</td>
-<td>AP</td>
-<td>Ruby</td>
-<td>haproxy/Zookeeper</td>
-<td>Sidekick (nerve/synapse)</td>
-<td></td>
-</tr>
-<tr>
-<td>Eureka</td>
-<td>Dedicated</td>
-<td>AP</td>
-<td>Java</td>
-<td>JVM</td>
-<td>Java Client</td>
-<td></td>
-</tr>
-<tr>
-<td>NSQ (lookupd)</td>
-<td>Dedicated</td>
-<td>AP</td>
-<td>Go</td>
-<td></td>
-<td>Client Binding</td>
-<td></td>
-</tr>
-<tr>
-<td>Serf</td>
-<td>Dedicated</td>
-<td>AP</td>
-<td>Go</td>
-<td></td>
-<td>Local CLI</td>
-<td></td>
-</tr>
-<tr>
-<td>Spotify (DNS)</td>
-<td>Dedicated</td>
-<td>AP</td>
-<td>N/A</td>
-<td>Bind</td>
-<td>DNS Library</td>
-<td></td>
-</tr>
-<tr>
-<td>SkyDNS</td>
-<td>Dedicated</td>
-<td>Mixed (2)</td>
-<td>Go</td>
-<td></td>
-<td>HTTP/DNS Library</td>
-</tr>
-</tbody>
-</table>
-<p>CAP原则又称CAP定理，指的是在一个分布式系统中，Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），三者不可兼得  。</p>
-<p>查看：<a href="http://www.ruanyifeng.com/blog/2018/07/cap.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/07/cap.html</a></p>
-<p><img src="https://www.wangbase.com/blogimg/asset/201807/bg2018071607.jpg" alt="img"></p>
-<p>从列表中我们可以看出，有很多服务组件可以选择，针对AP及CP这里我们主要选择Eureka来进行讲解</p>
-<p>EurekaServer采用P2P（Peer To Peer）模式<a href="https://www.cnblogs.com/linsanshu/p/5546948.html，不保证复制操作一定能成功，因此提供的是一个最终一致性的服务实例视图。Client端再Server端的注册信息有一个带期限的租约，一旦Server端再指定期间没有收到Client端发送的心跳，则Server端会认为Client端注册的服务是不健康的，定时任务会将从注册表中删除。" target="_blank" rel="noopener">https://www.cnblogs.com/linsanshu/p/5546948.html，不保证复制操作一定能成功，因此提供的是一个最终一致性的服务实例视图。Client端再Server端的注册信息有一个带期限的租约，一旦Server端再指定期间没有收到Client端发送的心跳，则Server端会认为Client端注册的服务是不健康的，定时任务会将从注册表中删除。</a></p>
-<p>那么我们为什么要选择Eureka呢？主要有以下几点</p>
-<ul>
-<li>Eureka是基于AP而不是CP</li>
-<li>团队是Java开发，除了问题好排查</li>
-<li>Eureka能和zuul ribbon整合性好</li>
-</ul>
-<h2 id="3-Eureka入门"><a href="#3-Eureka入门" class="headerlink" title="3 Eureka入门"></a>3 Eureka入门</h2><p>eureka配置参数</p>
-<table>
-<thead>
-<tr>
-<th>配置参数</th>
-<th>默认值</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>服务注册中心配置</td>
-<td></td>
-<td>Bean类：org.springframework.cloud.netflix.eureka.server.EurekaServerConfigBean</td>
-</tr>
-<tr>
-<td>eureka.server.enable-self-preservation</td>
-<td>false</td>
-<td>关闭注册中心的保护机制，Eureka 会统计15分钟之内心跳失败的比例低于85%将会触发保护机制，不剔除服务提供者，如果关闭服务注册中心将不可用的实例正确剔除</td>
-</tr>
-<tr>
-<td>服务实例类配置</td>
-<td></td>
-<td>Bean类：org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean</td>
-</tr>
-<tr>
-<td>eureka.instance.prefer-ip-address</td>
-<td>false</td>
-<td>不使用主机名来定义注册中心的地址，而使用IP地址的形式，如果设置了eureka.instance.ip-address 属性，则使用该属性配置的IP，否则自动获取除环路IP外的第一个IP地址</td>
-</tr>
-<tr>
-<td>eureka.instance.ip-address</td>
-<td></td>
-<td>IP地址</td>
-</tr>
-<tr>
-<td>eureka.instance.hostname</td>
-<td></td>
-<td>设置当前实例的主机名称</td>
-</tr>
-<tr>
-<td>eureka.instance.appname</td>
-<td></td>
-<td>服务名，默认取 spring.application.name 配置值，如果没有则为 unknown</td>
-</tr>
-<tr>
-<td>eureka.instance.lease-renewal-interval-in-seconds</td>
-<td>30</td>
-<td>定义服务续约任务（心跳）的调用间隔，单位：秒</td>
-</tr>
-<tr>
-<td>eureka.instance.lease-expiration-duration-in-seconds</td>
-<td>90</td>
-<td>定义服务失效的时间，单位：秒</td>
-</tr>
-<tr>
-<td>eureka.instance.status-page-url-path</td>
-<td>/info</td>
-<td>状态页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
-</tr>
-<tr>
-<td>eureka.instance.status-page-url</td>
-<td></td>
-<td>状态页面的URL，绝对路径</td>
-</tr>
-<tr>
-<td>eureka.instance.health-check-url-path</td>
-<td>/health</td>
-<td>健康检查页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
-</tr>
-<tr>
-<td>eureka.instance.health-check-url</td>
-<td></td>
-<td>健康检查页面的URL，绝对路径</td>
-</tr>
-<tr>
-<td>服务注册类配置</td>
-<td></td>
-<td>Bean类：org.springframework.cloud.netflix.eureka.EurekaClientConfigBean</td>
-</tr>
-<tr>
-<td>eureka.client.service-url.</td>
-<td></td>
-<td>指定服务注册中心地址，类型为 HashMap，并设置有一组默认值，默认的Key为 defaultZone；默认的Value为 <a href="http://localhost:8761/eureka" target="_blank" rel="noopener">http://localhost:8761/eureka</a> ，如果服务注册中心为高可用集群时，多个注册中心地址以逗号分隔。如果服务注册中心加入了安全验证，这里配置的地址格式为：<a href="http://%3cusername%3e:%3cpassword%3e@localhost:8761/eureka" target="_blank" rel="noopener">http://:@localhost:8761/eureka</a> 其中 <username> 为安全校验的用户名；<password> 为该用户的密码</password></username></td>
-</tr>
-<tr>
-<td>eureka.client.fetch-registery</td>
-<td>true</td>
-<td>检索服务</td>
-</tr>
-<tr>
-<td>eureka.client.registery-fetch-interval-seconds</td>
-<td>30</td>
-<td>从Eureka服务器端获取注册信息的间隔时间，单位：秒</td>
-</tr>
-<tr>
-<td>eureka.client.register-with-eureka</td>
-<td>true</td>
-<td>启动服务注册</td>
-</tr>
-<tr>
-<td>eureka.client.eureka-server-connect-timeout-seconds</td>
-<td>5</td>
-<td>连接 Eureka Server 的超时时间，单位：秒</td>
-</tr>
-<tr>
-<td>eureka.client.eureka-server-read-timeout-seconds</td>
-<td>8</td>
-<td>读取 Eureka Server 信息的超时时间，单位：秒</td>
-</tr>
-<tr>
-<td>eureka.client.filter-only-up-instances</td>
-<td>true</td>
-<td>获取实例时是否过滤，只保留UP状态的实例</td>
-</tr>
-<tr>
-<td>eureka.client.eureka-connection-idle-timeout-seconds</td>
-<td>30</td>
-<td>Eureka 服务端连接空闲关闭时间，单位：秒</td>
-</tr>
-<tr>
-<td>eureka.client.eureka-server-total-connections</td>
-<td>200</td>
-<td>从Eureka 客户端到所有Eureka服务端的连接总数</td>
-</tr>
-<tr>
-<td>eureka.client.eureka-server-total-connections-per-host</td>
-<td>50</td>
-<td>从Eureka客户端到每个Eureka服务主机的连接总数</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3-1-单机版"><a href="#3-1-单机版" class="headerlink" title="3.1 单机版"></a>3.1 单机版</h3><h4 id="3-1-1-Eureka-Server"><a href="#3-1-1-Eureka-Server" class="headerlink" title="3.1.1 Eureka Server"></a>3.1.1 Eureka Server</h4><h5 id="3-1-1-1-引入Eureka-Server依赖"><a href="#3-1-1-1-引入Eureka-Server依赖" class="headerlink" title="3.1.1.1 引入Eureka Server依赖"></a>3.1.1.1 引入Eureka Server依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h5 id="3-1-1-2-配置启动类"><a href="#3-1-1-2-配置启动类" class="headerlink" title="3.1.1.2 配置启动类"></a>3.1.1.2 配置启动类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="3-1-1-3-配置properties或yml文件"><a href="#3-1-1-3-配置properties或yml文件" class="headerlink" title="3.1.1.3 配置properties或yml文件"></a>3.1.1.3 配置properties或yml文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#服务名称</span><br><span class="line">spring.application.name=smartke-cloud-eureka-server</span><br><span class="line">#服务端口</span><br><span class="line">server.port=8761</span><br><span class="line">#eureka设置</span><br><span class="line">eureka.instance.hostname=localhost</span><br><span class="line"># 表示是否注册自身到eureka服务器</span><br><span class="line">eureka.client.register-with-eureka=false</span><br><span class="line"># 是否从eureka上获取注册信息</span><br><span class="line">eureka.client.fetch-registry=false</span><br><span class="line">#关闭eureka自我保护机制</span><br><span class="line">eureka.server.enable-self-preservation=false</span><br><span class="line">#剔除失效服务间隔</span><br><span class="line">eureka.server.eviction-interval-timer-in-ms=2000</span><br><span class="line">#设置访问eureka的时候需要使用用户名和密码进行登录</span><br><span class="line">#security.basic.enabled=true</span><br><span class="line">#spring.security.user.name=smartke</span><br><span class="line">#spring.security.user.password=smartke</span><br><span class="line">#日志设置</span><br><span class="line">logging.level.root=error</span><br><span class="line">logging.level.org.springframework=info</span><br><span class="line">logging.file=$&#123;spring.application.name&#125;.log</span><br></pre></td></tr></table></figure>
-<h4 id="3-1-2-Eureka-Client"><a href="#3-1-2-Eureka-Client" class="headerlink" title="3.1.2 Eureka Client"></a>3.1.2 Eureka Client</h4><h5 id="3-1-2-1-引入依赖"><a href="#3-1-2-1-引入依赖" class="headerlink" title="3.1.2.1 引入依赖"></a>3.1.2.1 引入依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h5 id="3-1-2-2-配置启动类"><a href="#3-1-2-2-配置启动类" class="headerlink" title="3.1.2.2 配置启动类"></a>3.1.2.2 配置启动类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(EurekaClientApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="3-1-2-3-配置properties或yml文件"><a href="#3-1-2-3-配置properties或yml文件" class="headerlink" title="3.1.2.3 配置properties或yml文件"></a>3.1.2.3 配置properties或yml文件</h5><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#port</span></span><br><span class="line"><span class="string">server.port=8002</span></span><br><span class="line"><span class="comment">###application name</span></span><br><span class="line"><span class="string">spring.application.name=smartke-portal</span></span><br><span class="line"><span class="comment">###eureka</span></span><br><span class="line"><span class="string">eureka.client.serviceUrl.defaultZone=http://admin:admin@localhost:8761/eureka/</span></span><br><span class="line"><span class="comment">#Eureka客户端向服务端发送心跳的时间间隔，单位为秒（客户端告诉服务端自己会按照该规则）默认为30</span></span><br><span class="line"><span class="string">eureka.instance.lease-renewal-interval-in-seconds=1</span></span><br><span class="line"><span class="comment">#Eureka服务端在收到最后一次心跳之后等待的时间上限，单位为秒，超过则剔除（客户端告诉服务端按照此规则等待自己）默认为90</span></span><br><span class="line"><span class="string">eureka.instance.lease-expiration-duration-in-seconds=2</span></span><br></pre></td></tr></table></figure>
-<p>说明一下，这里需要指定<code>spring.application.name</code>不然会再Eureka Server界面显示为UNKNOW</p>
-<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106102425.png" alt="20190106102425"></p>
-<p>eureka错误解释</p>
-<p>自我保护机制</p>
-<p>当我们再本地调式基于eureka的程序时，基本上都会碰到这样一个问题，再服务注册中心的信息面板中出现以下红色的警告信息</p>
-<p><strong>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</strong></p>
-<p>实际上，该警告触发了eureka server的自我保护机制。服务注册到eureka server之后，会维护一个心跳连接，告诉eureka server自己还活着。eureka server再运行期间，会统计心跳失败比例再15分钟之内是否低于85%，如果出现低于的情况(在本地单机调试的时候十分容易满足，生产环境的情况下，通常是由于网络不稳定导致)，eureka server 会将当前的实例注册信息保护起来，让这些实例不会过期，尽可能保护这些注册信息(这就是为什么选择Eureka，因为eureka是AP的)但是，在这段时间之内实例若出现问题，那么客户端很容易拿到实际上已经不存在的服务实例，会出现调用失败的情况，所以客户端必须要有容错机制，比如可以使用请求重试、断路器等机制。</p>
-<p>那么出现上面的情况，我们该怎么解决呢？可以在本地配置文件中加入<code>eureka.server.enable-self-preservation=false</code>参数来关闭，以确保注册中心可以将不可用的实例及时剔除。</p>
-<p>关闭自我保护之后，启动eureka server会出现以下提示，可以忽略。</p>
-<p><strong>THE SELF PRESERVATION MODE IS TURNED OFF. THIS MAY NOT PROTECT INSTANCE EXPIRY IN CASE OF NETWORK/OTHER PROBLEMS</strong></p>
-<h3 id="3-2-Peer-to-Peer架构"><a href="#3-2-Peer-to-Peer架构" class="headerlink" title="3.2 Peer to Peer架构"></a>3.2 Peer to Peer架构</h3><p>一般而言，分布式系统的数据在多个副本之间的复制方式，可以分为主从复制和对等复制</p>
-<h4 id="3-2-1-主从复制"><a href="#3-2-1-主从复制" class="headerlink" title="3.2.1 主从复制"></a>3.2.1 主从复制</h4><p>主从复制就是我们熟知的Master-Slave模式，即有一个主副本，其他副本为从副本。所有对数据的写操作都提交到主副本，最后再由主副本更新到其他从副本。具体更新的方式，还可以细分为同步更新、异步更新、同步及异步混合。</p>
-<p>对于主从复制模式来讲，写操作的压力都在主副本上面，她是整个系统的瓶颈，但是从副本可以帮主副本分担读请求。</p>
-<h4 id="3-2-2-对等复制"><a href="#3-2-2-对等复制" class="headerlink" title="3.2.2 对等复制"></a>3.2.2 对等复制</h4><p>即P2P的模式，副本之间部分主从，任何副本都可以接受写操作，然后每个副本之间相互进行数据更i性能。对于对等复制模式来讲，由于任何副本都可以进行写操作，各个副本之间的数据哦同步及冲突处理是一个比较棘手的问题。</p>
-<p>Eureka Server就是采用的Peer to Peer 模式。</p>
-<p>Eureka Server从一开始设计就考虑了高可用的问题，在Eureka的服务治理设计中，所有的节点即是服务提供方，又是服务消费方，服务注册中心也不例外。Eureka Server的高可用实际上就是将自己作为服务向其他服务注册中心注册自己，这样就可以形成一组互相注册的服务注册中心，以实现服务清单的互相同步。达到高可用的效果。</p>
-<h4 id="3-2-3-代码示例"><a href="#3-2-3-代码示例" class="headerlink" title="3.2.3 代码示例"></a>3.2.3 代码示例</h4><p>依赖</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.com.bmsmart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>eureka-server<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Finchley.SR2<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>创建application-peer1.properties，作为peer1服务中心的配置，并将serviceUrl指向peer2:</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-server</span><br><span class="line">server.port=8761</span><br><span class="line"></span><br><span class="line">eureka.instance.hostname=peer1</span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer2:8762/eureka/</span><br></pre></td></tr></table></figure>
-<ul>
-<li>创建 application-peer2.properties，作为peer2服务中心的配置，并将serviceUrl指向peer1</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-server</span><br><span class="line">server.port=8762</span><br><span class="line"></span><br><span class="line">eureka.instance.hostname=peer2</span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer1:8761/eureka/</span><br></pre></td></tr></table></figure>
-<ul>
-<li>启动类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.eurekaserver;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>通过<code>spring.profiles.active</code>属性来分别启动peer1和peer2</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar eureka-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer1</span><br><span class="line">java -jar eureka-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer2</span><br></pre></td></tr></table></figure>
-<p>此时访问peer1的注册中心<a href="http://localhost:8761，我们可以看到`registered-replicas`中有peer2的节点`http://peer2:8762/eureka/`" target="_blank" rel="noopener">http://localhost:8761，我们可以看到`registered-replicas`中有peer2的节点`http://peer2:8762/eureka/`</a> 同样访问peer2 <a href="http://lcoalhost:8762也能看到`registered-replicas`中有peer1的节点`http://peer1:8761/eureka/`" target="_blank" rel="noopener">http://lcoalhost:8762也能看到`registered-replicas`中有peer1的节点`http://peer1:8761/eureka/`</a></p>
-<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106102425.png" alt="1546746477978"></p>
-<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106114838.png" alt="20190106114838"></p>
-<p>eureka-client</p>
-<p>依赖</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.com.bmsmart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>eureka-client<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Finchley.SR2<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>配置文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-client</span><br><span class="line">server.port=8080</span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer1:8761/eureka/,http://peer2:8762/eureka/</span><br><span class="line">logging.file=$&#123;spring.application.name&#125;.log</span><br><span class="line">eureka.instance.prefer-ip-address=true</span><br><span class="line"># 健康检查</span><br><span class="line">#eureka.client.healthcheck.enabled=true</span><br><span class="line"># 随机端口配置</span><br><span class="line">#eureka.instance.instance-id=$&#123;spring.application.name&#125;:$&#123;random.int&#125;</span><br><span class="line">#server.port=0</span><br><span class="line">#server.port=$&#123;random.int[10000,19999]&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>启动类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.eurekaclient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.EnableEurekaClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/Spring-Cloud/">Spring Cloud</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/01/17/spring-boot-入门篇-构建微服务/" title="Spring Boot 入门篇(构建微服务)" itemprop="url">Spring Boot 入门篇(构建微服务)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-01-17T03:19:57.000Z" itemprop="datePublished"> Published 2019-01-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么是Spring-boot"><a href="#什么是Spring-boot" class="headerlink" title="什么是Spring-boot"></a>什么是Spring-boot</h3><p>设计目的是为了简化新spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，而使开发人员不需要定义样板化的配置。只是默认配置了很多框架的使用方式，类似maven整合了所有的jar包。</p>
-<h3 id="使用spring-boot的优势"><a href="#使用spring-boot的优势" class="headerlink" title="使用spring-boot的优势"></a>使用spring-boot的优势</h3><ol>
-<li><p>简化编码：可以快速开启一个web容器</p>
-</li>
-<li><p>简化配置：java ee轻量级框架，但是其配置比较繁琐。spring boot 更多的采用java config的方式，对spring进行配置。</p>
-</li>
-<li><p>简化部署：spring boot 内嵌tomcat，只需要将项目打成jar包，使用java -jar xxx.jar 一键启动项目即可。</p>
-</li>
-<li><p>简化监控：使用spring-boot-start-actuator依赖，直接使用REST方式来获取进程的运行期性能参数，从而达到监控的目的。</p>
-</li>
-<li><p>但是spring -boot只是微架构，没有提供相应的服务发现和注册的配套功能，没有外围监控集成方案，没有外围的安全管理方案，所以在微服务架构中，还需要spring cloud配套使用。</p>
-<h3 id="未来的发展趋势"><a href="#未来的发展趋势" class="headerlink" title="未来的发展趋势"></a>未来的发展趋势</h3><p>微服务是未来发展的趋势，项目会从传统架构慢慢转向微服务架构，使用独立的技术，更安全更频繁的部署。</p>
-</li>
-</ol>
-<h3 id="spring-boot的三种启动方式"><a href="#spring-boot的三种启动方式" class="headerlink" title="spring-boot的三种启动方式"></a>spring-boot的三种启动方式</h3>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/spring-boot/">spring boot</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1426,15 +1250,7 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
 			
 		
 			
@@ -1442,7 +1258,19 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
@@ -1450,11 +1278,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
@@ -1470,15 +1298,11 @@
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
@@ -1486,7 +1310,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
 			
 		
 		</ul>

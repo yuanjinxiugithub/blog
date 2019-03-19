@@ -1,0 +1,585 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结 | MyNotes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="YUAN">
+    
+
+    
+    <meta name="description" content="2019/03/191.用collection.isEmpty()替换collection.sizepoint: Collection.isEmpty() should be used to test for emptiness (squid:S1155) Using Collection.size() to test for emptiness works, but using Collecti">
+<meta name="keywords" content="Java,Sonarlint">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/19/开森，有了sonarlint感觉找到了位代码指导老师-sonar常用总结/index.html">
+<meta property="og:site_name" content="MyNotes">
+<meta property="og:description" content="2019/03/191.用collection.isEmpty()替换collection.sizepoint: Collection.isEmpty() should be used to test for emptiness (squid:S1155) Using Collection.size() to test for emptiness works, but using Collecti">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-19T09:09:22.041Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结">
+<meta name="twitter:description" content="2019/03/191.用collection.isEmpty()替换collection.sizepoint: Collection.isEmpty() should be used to test for emptiness (squid:S1155) Using Collection.size() to test for emptiness works, but using Collecti">
+
+    
+    <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="MyNotes" title="MyNotes"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="MyNotes">MyNotes</a></h1>
+				<h2 class="blog-motto">温故而知新</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:yuanjinxiugithub.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/19/开森，有了sonarlint感觉找到了位代码指导老师-sonar常用总结/" title="开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结" itemprop="url">开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-19T07:50:15.000Z" itemprop="datePublished"> Published 2019-03-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2019-03-19"><span class="toc-number">1.</span> <span class="toc-text">2019/03/19</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-用collection-isEmpty-替换collection-size"><span class="toc-number">2.</span> <span class="toc-text">1.用collection.isEmpty()替换collection.size</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-BigDecimal-double-的问题"><span class="toc-number">3.</span> <span class="toc-text">2.BigDecimal(double)的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-String-判断是否相等的问题"><span class="toc-number">4.</span> <span class="toc-text">3.String 判断是否相等的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-if-while-for-switch-and-try-嵌套不宜过深（尽量不宜超过3层）"><span class="toc-number">5.</span> <span class="toc-text">4.if while for switch and try 嵌套不宜过深（尽量不宜超过3层）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-不应该直接调用e-printStackTrace-，而是用loggers来处理（就是打log）"><span class="toc-number">6.</span> <span class="toc-text">5.不应该直接调用e.printStackTrace()，而是用loggers来处理（就是打log）</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="2019-03-19"><a href="#2019-03-19" class="headerlink" title="2019/03/19"></a>2019/03/19</h3><h3 id="1-用collection-isEmpty-替换collection-size"><a href="#1-用collection-isEmpty-替换collection-size" class="headerlink" title="1.用collection.isEmpty()替换collection.size"></a>1.用collection.isEmpty()替换collection.size</h3><p>point:</p>
+<p>Collection.isEmpty() should be used to test for emptiness (squid:S1155)</p>
+<p>Using <code>Collection.size()</code> to test for emptiness works, but using <code>Collection.isEmpty()</code> makes the code more readable and can be more performant. The time complexity of any <code>isEmpty()</code> method implementation should be <code>O(1)</code> whereas some implementations of <code>size()</code> can be <code>O\(n)</code>.</p>
+<p>翻译：使用collection.size（）测试空性是可行的，但是使用collection.isEmpty（）可以使代码更可读，更具性能。任何isEmpty（）方法实现的时间复杂性都应该是O（1），而某些size（）的实现可以是O（n）。</p>
+<p>Noncompliant Code Example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (myCollection.size() == <span class="number">0</span>) &#123;  <span class="comment">// Noncompliant</span></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Compliant Solution</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (myCollection.isEmpty()) &#123;    <span class="comment">// Compliant</span></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-BigDecimal-double-的问题"><a href="#2-BigDecimal-double-的问题" class="headerlink" title="2.BigDecimal(double)的问题"></a>2.BigDecimal(double)的问题</h3><font color="red">有关于BigDecimal初始化问题请参考 <a href="https://blog.csdn.net/jackiehff/article/details/8582449" target="_blank" rel="noopener">JAVA BigDecimal详解</a></font>
+
+<p>“BigDecimal(double)” should not be used<br>级别：bug</p>
+<p>Because of floating point imprecision, you’re unlikely to get the value you expect from the BigDecimal(double) constructor.</p>
+<p>Instead, you should use BigDecimal.valueOf, which uses a string under the covers to eliminate floating point rounding errors.</p>
+<p>Noncompliant Code Example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d = <span class="number">1.1</span>;</span><br><span class="line">BigDecimal bd1 = <span class="keyword">new</span> BigDecimal(d); <span class="comment">// Noncompliant; see comment above</span></span><br><span class="line">BigDecimal bd2 = <span class="keyword">new</span> BigDecimal(<span class="number">1.1</span>); <span class="comment">// Noncompliant; same result</span></span><br></pre></td></tr></table></figure>
+<p>Compliant Solution</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d = <span class="number">1.1</span>;</span><br><span class="line">BigDecimal bd1 = BigDecimal.valueOf(d);</span><br><span class="line">BigDecimal bd2 = BigDecimal.valueOf(<span class="number">1.1</span>);</span><br></pre></td></tr></table></figure>
+<p>不要使用BigDecimal(double)去构造一个BigDecimal对象，因为double类型在计算机表示方法中并不精确，因此，BigDecimal(double)构造出来的对象很可能不是预期的大小，若一定要使用double类型去构造一个BigDecimal对象，请使用BigDecimal.valueOf方法，该方法先将double转换为String，再通过String构造BigDecimal对象，通常更建议使用public BigDecimal(String val)构造方法。</p>
+<h3 id="3-String-判断是否相等的问题"><a href="#3-String-判断是否相等的问题" class="headerlink" title="3.String 判断是否相等的问题"></a>3.String 判断是否相等的问题</h3><p>Strings literals should be placed on the left side when checking for equality (squid:S1132)</p>
+<p>It is preferable to place string literals on the left-hand side of an equals() or equalsIgnoreCase() method call. This prevents null pointer exceptions from being raised, as a string literal can never be null by definition. </p>
+<p>翻译： 最好将字符串文本放在equals（）或equalSignoreCase（）方法调用的左侧。这可以防止引发空指针异常，因为字符串文本不能根据定义为空。</p>
+<h3 id="4-if-while-for-switch-and-try-嵌套不宜过深（尽量不宜超过3层）"><a href="#4-if-while-for-switch-and-try-嵌套不宜过深（尽量不宜超过3层）" class="headerlink" title="4.if while for switch and try 嵌套不宜过深（尽量不宜超过3层）"></a>4.if while for switch and try 嵌套不宜过深（尽量不宜超过3层）</h3><p>Control flow statements “if”, “for”, “while”, “switch” and “try” should not be nested too deeply (squid:S134)</p>
+<p>Nested <code>if</code>, <code>for</code>, <code>while</code>, <code>switch</code>, and <code>try</code> statements is a key ingredient for making what’s known as “Spaghetti code”. </p>
+<p>Such code is hard to read, refactor and therefore maintain.</p>
+<p>Noncompliant Code Example</p>
+<p>With the default threshold of 3:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (condition1) &#123;                  <span class="comment">// Compliant - depth = 1</span></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">  <span class="keyword">if</span> (condition2) &#123;                <span class="comment">// Compliant - depth = 2</span></span><br><span class="line">    <span class="comment">/* ... */</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;  <span class="comment">// Compliant - depth = 3, not exceeding the limit</span></span><br><span class="line">      <span class="comment">/* ... */</span></span><br><span class="line">      <span class="keyword">if</span> (condition4) &#123;            <span class="comment">// Noncompliant - depth = 4</span></span><br><span class="line">        <span class="keyword">if</span> (condition5) &#123;          <span class="comment">// Depth = 5, exceeding the limit, but issues are only reported on depth = 4</span></span><br><span class="line">          <span class="comment">/* ... */</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决方案：<a href="https://blog.csdn.net/qq_29229567/article/details/86140796" target="_blank" rel="noopener">参考博客</a></p>
+<p>方法1：接口分层，把接口分为外部和内部接口，所有空值判断放在外部接口完成，只处理一次</p>
+<p>方法2：多态，利用多态，每种业务单独处理，在接口不再做任何业务判断。</p>
+<p>方法3：使用Map替换分支语句</p>
+<p>把所有分享子类型预先缓存在Map里，那么就可以直接get获取具体类型，消除分支</p>
+<h3 id="5-不应该直接调用e-printStackTrace-，而是用loggers来处理（就是打log）"><a href="#5-不应该直接调用e-printStackTrace-，而是用loggers来处理（就是打log）" class="headerlink" title="5.不应该直接调用e.printStackTrace()，而是用loggers来处理（就是打log）"></a>5.不应该直接调用e.printStackTrace()，而是用loggers来处理（就是打log）</h3><p>log的优势就是用户可以轻松检索日志</p>
+<p># </p>
+<p><code>Throwable.printStackTrace(...)</code> prints a throwable and its stack trace to some stream. </p>
+<p>Loggers should be used instead to print throwables, as they have many advantages:</p>
+<ul>
+<li>Users are able to easily retrieve the logs.</li>
+<li>The format of log messages is uniform and allow users to browse the logs easily.</li>
+</ul>
+<p>The following code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">  e.printStackTrace();        <span class="comment">// Noncompliant</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>should be refactored into:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">  LOGGER.log(<span class="string">"context"</span>, e);   <span class="comment">// Compliant</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Sonarlint/">Sonarlint</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/03/19/开森，有了sonarlint感觉找到了位代码指导老师-sonar常用总结/" data-title="开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结 | MyNotes" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/03/18/sonar持续集成之代码质质量管管理/" title="sonar持续集成之代码质质量管管理">
+ <strong>下一篇：</strong><br> 
+ <span>sonar持续集成之代码质质量管管理
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2019-03-19"><span class="toc-number">1.</span> <span class="toc-text">2019/03/19</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-用collection-isEmpty-替换collection-size"><span class="toc-number">2.</span> <span class="toc-text">1.用collection.isEmpty()替换collection.size</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-BigDecimal-double-的问题"><span class="toc-number">3.</span> <span class="toc-text">2.BigDecimal(double)的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-String-判断是否相等的问题"><span class="toc-number">4.</span> <span class="toc-text">3.String 判断是否相等的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-if-while-for-switch-and-try-嵌套不宜过深（尽量不宜超过3层）"><span class="toc-number">5.</span> <span class="toc-text">4.if while for switch and try 嵌套不宜过深（尽量不宜超过3层）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-不应该直接调用e-printStackTrace-，而是用loggers来处理（就是打log）"><span class="toc-number">6.</span> <span class="toc-text">5.不应该直接调用e.printStackTrace()，而是用loggers来处理（就是打log）</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="https://github.com/yuanjinxiugithub" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+</div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Yuan. <br>
+			This is my blog,it is justu  to improve my skill.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/1871022901" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/yuanjinxiugithub" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1871022901@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="YUAN">YUAN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

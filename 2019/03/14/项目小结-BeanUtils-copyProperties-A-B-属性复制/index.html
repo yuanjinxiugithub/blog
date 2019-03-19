@@ -11,17 +11,18 @@
     
 
     
-    <meta name="description" content="温故而知新下">
+    <meta name="description" content="BeanUtils的简介BeanUtils.copyProperties的属性">
+<meta name="keywords" content="Java,Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="项目小结--BeanUtils.copyProperties(A,B)属性复制">
 <meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/03/14/项目小结-BeanUtils-copyProperties-A-B-属性复制/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="温故而知新下">
+<meta property="og:description" content="BeanUtils的简介BeanUtils.copyProperties的属性">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-14T03:57:07.385Z">
+<meta property="og:updated_time" content="2019-03-15T03:02:50.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目小结--BeanUtils.copyProperties(A,B)属性复制">
-<meta name="twitter:description" content="温故而知新下">
+<meta name="twitter:description" content="BeanUtils的简介BeanUtils.copyProperties的属性">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -97,15 +98,20 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanUtils的简介"><span class="toc-number">1.</span> <span class="toc-text">BeanUtils的简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanUtils-copyProperties的属性"><span class="toc-number">2.</span> <span class="toc-text">BeanUtils.copyProperties的属性</span></a></li></ol>
 		
 		</div>
 		
-		  
+		<h3 id="BeanUtils的简介"><a href="#BeanUtils的简介" class="headerlink" title="BeanUtils的简介"></a>BeanUtils的简介</h3><h3 id="BeanUtils-copyProperties的属性"><a href="#BeanUtils-copyProperties的属性" class="headerlink" title="BeanUtils.copyProperties的属性"></a>BeanUtils.copyProperties的属性</h3>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Spring/">Spring</a>
+  </div>
 
 </div>
 
@@ -126,6 +132,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev">
+ <a href="/2019/03/18/sonar持续集成之代码质质量管管理/" title="sonar持续集成之代码质质量管管理">
+  <strong>上一篇：</strong><br>
+  <span>
+  sonar持续集成之代码质质量管管理</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2019/03/09/Bits和Bytes的区别/" title="Bits和Bytes的区别">
@@ -147,7 +161,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanUtils的简介"><span class="toc-number">1.</span> <span class="toc-text">BeanUtils的简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanUtils-copyProperties的属性"><span class="toc-number">2.</span> <span class="toc-text">BeanUtils.copyProperties的属性</span></a></li></ol>
  
   </div>
 
@@ -188,15 +202,7 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
 			
 		
 			
@@ -204,7 +210,19 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
@@ -212,11 +230,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
@@ -232,15 +250,11 @@
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
@@ -248,7 +262,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
 			
 		
 		</ul>

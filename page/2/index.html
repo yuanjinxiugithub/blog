@@ -82,6 +82,128 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/04/Git使用中出现的问题/" title="Git使用中出现的问题" itemprop="url">Git使用中出现的问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-04T11:21:53.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>因为仓库地址不对</p>
+<ul>
+<li>$ git remote -v</li>
+<li>$ git remote set-url origin XXX<br>就可以push了。</li>
+</ul>
+<h1 id="服务器上的-Git-生成-SSH-公钥"><a href="#服务器上的-Git-生成-SSH-公钥" class="headerlink" title="服务器上的 Git - 生成 SSH 公钥"></a>服务器上的 Git - 生成 SSH 公钥</h1><h2 id="生成-SSH-公钥"><a href="#生成-SSH-公钥" class="headerlink" title="生成 SSH 公钥"></a>生成 SSH 公钥</h2><p>大多数 Git 服务器都会选择使用 SSH 公钥来进行授权。系统中的每个用户都必须提供一个公钥用于授权，没有的话就要生成一个。生成公钥的过程在所有操作系统上都差不多。 首先先确认一下是否已经有一个公钥了。SSH 公钥默认储存在账户的主目录下的 ~/.ssh 目录。进去看看：<br>生成钥匙</p>
+<ul>
+<li>$ ssh-keygen</li>
+<li>查看公钥</li>
+<li>$cat ~/.ssh/id_rsa.pub</li>
+<li>若想在github中使用的话需要将公钥复制到github&gt;setting&gt;SSH and GPG keys中添加ssh keys</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/04/mysql函数FIND-IN-SET-的使用方法/" title="mysql函数FIND_IN_SET()的使用方法" itemprop="url">mysql函数FIND_IN_SET()的使用方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-04T10:56:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Mysql函数FIND-IN-SET-的使用方法"><a href="#Mysql函数FIND-IN-SET-的使用方法" class="headerlink" title="Mysql函数FIND_IN_SET()的使用方法"></a>Mysql函数FIND_IN_SET()的使用方法</h3><p>FIND_IN_SET(str,strlist)</p>
+<p>字符串str 在由N个子链组成的字符串列表strlist 中，则返回值的范围在 1 到 N 之间。一个字符串列表就是一个由一些被‘,’符号分开的自链组成的字符串。如果第一个参数是一个常数字符串，而第二个是type SET列，则   FIND_IN_SET() 函数被优化，使用比特计算。如果str不在strlist 或strlist 为空字符串，则返回值为 0 。如任意一个参数为NULL，则返回值为 NULL。这个函数在第一个参数包含一个逗号(‘,’)时将无法正常运行.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mysql/">mysql</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/03/IO和NIO/" title="IO和NIO" itemprop="url">IO和NIO</a>
   </h1>
   <p class="article-author">By
@@ -758,264 +880,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/18/基于springsecurity的权限认证/" title="基于springsecurity的权限认证" itemprop="url">基于springsecurity的权限认证</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-18T01:43:58.000Z" itemprop="datePublished"> Published 2019-02-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>本文在SpringMVC和MyBatis项目框架的基础上整合Spring Security作为权限管理。并且完全实现一套自定义的权限管理规则。</p>
-<p><strong>1.权限管理</strong><br>在本例中所使用的权限管理的思路如下图所示，在系统中存在着许多帐号，同时存在着许多资源，在一个Web系统中一个典型的资源就是访问页面的URL，控制了这个就能够直接控制用户的访问权。</p>
-<p>由于资源非常多，直接针对资源与用户进行设置关系会比较繁琐，因此针对同一类或者同一组的资源打个包，称为一组权限，这样将权限分配给用户的时候，一组权限中的资源也就都分配给用户了。</p>
-<p><img src="https://images2017.cnblogs.com/blog/1071354/201711/1071354-20171114134807999-455536739.png" alt="img"></p>
-<p>这个只是一个非常简单的权限管理方案，并且只能适用于较小的项目，因为此处给出这个只是为了便于理解自定义的Spring Security认证规则。</p>
-<p><strong>2.Spring Security的认证规则</strong><br>要编写自定义的认证规则，首先需要对Spring Security中的认证规则有一定的了解，下面简单介绍下Spring Security的认证规则。</p>
-<p>1）在Spring Security中每个URL都是一个资源，当系统启动的时候，Spring Security会根据配置将所有的URL与访问这个URL所需要的权限的映射数据加载到Spring Security中。</p>
-<p>2）当一个请求访问一个资源时，Spring Security会判断这个URL是否需要权限验证，如果不需要，那么直接访问即可。</p>
-<p>3）如果这个URL需要进行权限验证，那么Spring Security会检查当前请求来源所属用户是否登录，如果没有登录，则跳转到登录页面，进行登录操作，并加载这个用户的相关信息</p>
-<p>4）如果登录，那么判断这个用户所拥有的权限是否包含访问这个URL所需要的权限，如果有则允许访问</p>
-<p>5）如果没有权限，那么就给出相应的提示信息</p>
-<p><strong>3.自定义认证规则思路</strong><br>根据上面一小节介绍的Spring Security认证的过程，我们相应的就能够分析出对于这个过程我们如果要修改的话，需要进行哪些方面的改动。</p>
-<p><strong>3.1.自定义SecurityMetadataSource</strong><br>在Spring Security中的 SecurityMetadataSource 处于上面的步骤一中，也就是用于加载URL与权限对应关系的，对于这个我们需要自己进行定义</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Set;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.access.SecurityConfig;</span><br><span class="line">import org.springframework.security.web.FilterInvocation;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 加载URL与权限资源，并提供根据URL匹配权限的方法</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:18:52</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomSecurityMetadataSource </span><br><span class="line">        implements FilterInvocationSecurityMetadataSource &#123;</span><br><span class="line"> </span><br><span class="line">    private Map&lt;String, List&lt;ConfigAttribute&gt;&gt; resources;</span><br><span class="line">    </span><br><span class="line">    public CustomSecurityMetadataSource() &#123;</span><br><span class="line">        loadAuthorityResources();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private void loadAuthorityResources() &#123;</span><br><span class="line">        // 此处在创建时从数据库中初始化权限数据</span><br><span class="line">        // 将权限与资源数据整理成 Map&lt;resource, List&lt;Authority&gt;&gt; 的形式</span><br><span class="line">        // 注意：加载URL资源时，需要对资源进行排序，要由精确到粗略进行排序，让精确的URL优先匹配</span><br><span class="line">        resources = new HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        // 此处先伪造一些数据</span><br><span class="line">        List&lt;ConfigAttribute&gt; authorityList = new ArrayList&lt;&gt;();</span><br><span class="line">        ConfigAttribute auth = new SecurityConfig(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        authorityList.add(auth);</span><br><span class="line">        resources.put(&quot;/welcome&quot;, authorityList);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAttributes(Object object) throws IllegalArgumentException &#123;</span><br><span class="line">        </span><br><span class="line">        String url = ((FilterInvocation) object).getRequestUrl();</span><br><span class="line">        </span><br><span class="line">        Set&lt;String&gt; keys = resources.keySet();</span><br><span class="line">        </span><br><span class="line">        for (String k : keys) &#123;</span><br><span class="line">            if (url.indexOf(k) &gt;= 0) &#123;</span><br><span class="line">                return resources.get(k);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAllConfigAttributes() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p>在这个类中，实现了FilterInvocationSecurityMetadataSource接口，这个接口中的 getAttributes(Object object)方法能够根据请求的URL，获取这个URL所需要的权限，那么我们就可以在这个类初始化的时候将所有需要的权限加载进来，然后根据我们的规则进行获取，因此这里还需要编写一个加载数据的方法 loadAuthorityResources()，并且在构造函数中调用。</p>
-<p>此处加载资源为了简化，只是随意填充了一些数据，实际可以从数据库中获取。</p>
-<p><strong>3.2.自定义AccessDecisionManager</strong><br>编写自定义的决策管理器，决策管理器是Spring Security用来决定对于一个用户的请求是否基于通过的中心控制。</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.AccessDecisionManager;</span><br><span class="line">import org.springframework.security.access.AccessDeniedException;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.authentication.InsufficientAuthenticationException;</span><br><span class="line">import org.springframework.security.core.Authentication;</span><br><span class="line">import org.springframework.security.core.GrantedAuthority;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 进行决策，根据URL获得访问这个资源所需要的权限，然后在与当前用户所拥有的权限进行对比</span><br><span class="line"> * 如果当前用户拥有相关权限，就直接返回，否则抛出 AccessDeniedException异常</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:30:40</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomAccessDecisionManager implements AccessDecisionManager &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void decide(Authentication authentication, Object object, Collection&lt;ConfigAttribute&gt; configAttributes)</span><br><span class="line">            throws AccessDeniedException, InsufficientAuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">        LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (configAttributes == null) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (configAttributes.size() &lt;= 0) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Iterator&lt;ConfigAttribute&gt; authorities = configAttributes.iterator();</span><br><span class="line">        String needAuthority = null;</span><br><span class="line">        </span><br><span class="line">        while(authorities.hasNext()) &#123;</span><br><span class="line">            ConfigAttribute authority = authorities.next();</span><br><span class="line">            </span><br><span class="line">            if (authority == null || (needAuthority = authority.getAttribute()) == null) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide == &quot; + needAuthority);</span><br><span class="line">            </span><br><span class="line">            for (GrantedAuthority ga : authentication.getAuthorities()) &#123;</span><br><span class="line">                if (needAuthority.equals(ga.getAuthority().trim())) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        throw new AccessDeniedException(&quot;No Authority&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(ConfigAttribute attribute) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p>决策管理器最重要的就是这个 decide()方法，Spring Security会将当前登录用户信息包装到一个 Authentication对象中，并传入这个方法；并且调用 SecurityMetadataSource.getAttributes() 方法获取这个URL相关的权限以参数 Collection<configattribute> 的形式传入这个方法。</configattribute></p>
-<p>然后这个decide方法获取到这两个信息之后就可以进行对比决策了。如果当前用户允许登录，那么直接return即可。如果当前用户不许运行登录，则抛出一个 AccessDeniedException异常。</p>
-<p><strong>3.3.自定义 UserDetailsService 和 AuthenticationProvider</strong></p>
-<p>前面说过，要进行验证，除了有URL与权限的映射关系，还需要有用户的权限信息。要编写自定义的用户数据加载，就需要实现这两个接口。</p>
-<p><strong>3.3.1.UserDetailsService</strong></p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">import com.oolong.model.AccountInfoModel;</span><br><span class="line">import com.oolong.model.AuthorityModel;</span><br><span class="line"> </span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsService implements UserDetailsService &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsService&quot;).info(&quot;loadUserByUsername invoke&quot;);</span><br><span class="line"> </span><br><span class="line">        // 提供到数据库查询该用户的权限信息</span><br><span class="line">        // 关于角色和权限的转换关系在此处处理，根据用户与角色的关系、角色与权限的关系，</span><br><span class="line">        // 将用户与权限的管理整理出来</span><br><span class="line">        </span><br><span class="line">        // 此处伪造一些数据</span><br><span class="line">        // 伪造权限</span><br><span class="line">        AuthorityModel authority = new AuthorityModel(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        List&lt;AuthorityModel&gt; authorities = new ArrayList&lt;&gt;();</span><br><span class="line">        authorities.add(authority);</span><br><span class="line">        </span><br><span class="line">        AccountInfoModel account = new AccountInfoModel(&quot;oolong&quot;, &quot;12345&quot;);</span><br><span class="line">        account.setAuthorities(authorities);</span><br><span class="line">        </span><br><span class="line">        return account;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p><strong>3.3.2.AuthenticationProvider</strong><br>AuthenticationProvider用于包装UserDetailsService，并将其提供给 Spring Security使用。这个接口中最重要的是实现 retrieveUser() 方法，这个请参考接口的说明进行实现，此处不再赘述。</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.security.authentication.AuthenticationServiceException;</span><br><span class="line">import org.springframework.security.authentication.BadCredentialsException;</span><br><span class="line">import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;</span><br><span class="line">import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;</span><br><span class="line">import org.springframework.security.core.AuthenticationException;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 这两个方法用于添加额外的检查功能，此处不需要添加，因此空着，直接实现这个抽象类即可。</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 下午12:20:27</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider &#123;</span><br><span class="line"> </span><br><span class="line">    @Autowired</span><br><span class="line">    private UserDetailsService userDetailsService;</span><br><span class="line">    </span><br><span class="line">    public UserDetailsService getUserDetailService() &#123;</span><br><span class="line">        return this.userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void setUserDetailService(UserDetailsService userDetailsService) &#123;</span><br><span class="line">        this.userDetailsService = userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected void additionalAuthenticationChecks(UserDetails userDetails,</span><br><span class="line">            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)</span><br><span class="line">            throws AuthenticationException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsAuthenticationProvider&quot;).info(&quot;retrieveUser invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (userDetailsService == null) &#123;</span><br><span class="line">            throw new AuthenticationServiceException(&quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        UserDetails userDetails = userDetailsService.loadUserByUsername(username);</span><br><span class="line">        </span><br><span class="line">        if (userDetails == null) &#123;</span><br><span class="line">            throw new UsernameNotFoundException(username);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (userDetails.getUsername().equals(authentication.getPrincipal().toString()) </span><br><span class="line">                &amp;&amp; userDetails.getPassword().equals(authentication.getCredentials().toString())) &#123;</span><br><span class="line">            return userDetails;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        throw new BadCredentialsException(username + authentication.getCredentials());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p><strong>3.4.UserDetails和GrantedAuthority</strong><br>这两个接口非常简单，请参考源码，此处不再赘述</p>
-<p><strong>4.配置</strong><br>上面编写的这些自定义的实现都有了，但是仅仅这样是没有用的，如何配置能够让它们起作用呢？</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.config;</span><br><span class="line"> </span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.ComponentScan;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;</span><br><span class="line">import org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line">import org.springframework.security.web.access.ExceptionTranslationFilter;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;</span><br><span class="line"> </span><br><span class="line">import com.oolong.customsecurity.CustomAccessDecisionManager;</span><br><span class="line">import com.oolong.customsecurity.CustomSecurityMetadataSource;</span><br><span class="line">import com.oolong.customsecurity.CustomUserDetailsAuthenticationProvider;</span><br><span class="line">import com.oolong.customsecurity.TempHook;</span><br><span class="line"> </span><br><span class="line">@Configuration</span><br><span class="line">@ComponentScan(basePackageClasses=&#123;TempHook.class&#125;)</span><br><span class="line">@EnableWebSecurity</span><br><span class="line">public class SecurityConfig extends WebSecurityConfigurerAdapter &#123;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomUserDetailsAuthenticationProvider customAuthenticationProvider;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomAccessDecisionManager customAccessDecisionManager;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomSecurityMetadataSource customSecurityMetadataSource;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(AuthenticationManagerBuilder auth) throws Exception &#123;</span><br><span class="line">        auth.authenticationProvider(customAuthenticationProvider);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(HttpSecurity http) throws Exception &#123;</span><br><span class="line">        http.addFilterAfter(customFilterSecurityInterceptor(), ExceptionTranslationFilter.class);</span><br><span class="line">        http.formLogin();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Bean</span><br><span class="line">    public FilterSecurityInterceptor customFilterSecurityInterceptor() &#123;</span><br><span class="line">        FilterSecurityInterceptor fsi = new FilterSecurityInterceptor();</span><br><span class="line">        fsi.setAccessDecisionManager(customAccessDecisionManager);</span><br><span class="line">        fsi.setSecurityMetadataSource(customSecurityMetadataSource);</span><br><span class="line">        </span><br><span class="line">        return fsi;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p>在Spring MVC中，Spring Security是通过过滤器发挥作用的，因此我们就爱那个决策管理器与数据加载放到一个过滤器中，然后将这个过滤器插入到系统的过滤器链中。</p>
-<p>此外，我们向系统中提供了一个用于检索用户的 AuthenticationProvicer。</p>
-<p>还有，别忘记了，告诉系统，如果用户没有权限应该怎么办，http.formLogin()，告诉Spring Security要跳转到表单登录页面。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/spring-boot/">spring boot</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/17/浅谈项目中用到的RabbitMQ/" title="浅谈项目中用到的RabbitMQ" itemprop="url">浅谈项目中用到的RabbitMQ</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-17T10:16:38.000Z" itemprop="datePublished"> Published 2019-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="项目中使用到的RabbitMQ的总结："><a href="#项目中使用到的RabbitMQ的总结：" class="headerlink" title="项目中使用到的RabbitMQ的总结："></a>项目中使用到的RabbitMQ的总结：</h3><p>rabbitMQ 本身基于erlang语言开发，erlang语言具有高并发的特性，其管理界面用起来也十分方便。单机吞吐量为万级，一般多用于中小型企业的消息中间件。</p>
-<h3 id="RabbitMQ结构图"><a href="#RabbitMQ结构图" class="headerlink" title="RabbitMQ结构图"></a>RabbitMQ结构图</h3><p><img src="https://img-blog.csdn.net/20171030200129162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvX2Nob3Nlbl8x/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="è¿éåå¾çæè¿°"></p>
-<h3 id="几个概念说明"><a href="#几个概念说明" class="headerlink" title="几个概念说明"></a>几个概念说明</h3><p>Broker: 消息交换机  指定消息按什么规则，路由到哪个队列</p>
-<p>Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。</p>
-<p>Queue: 消息队列载体，每个消息都会被投入到一个或多个队列</p>
-<p>Binding:绑定，它的作用就是将exchange 和queue进行绑定起来</p>
-<p>Routing Key: 路由关键字，exchange根据这个关键字进行消息传递</p>
-<p>vhost:虚拟主机，一个broker里可以开设多个vhost,用作不同用户的权限分离</p>
-<p>producer:消息的投递者</p>
-<p>consumer:消息的接收者</p>
-<p>channel:消息通道，在客户端的每个连接里，可建立多个channel,每个channel代表一个会话任务。</p>
-<p>消息队列的使用过程大概如下：</p>
-<p>1.客户端连接消息队列服务器，打开一个channel。</p>
-<p>2.客户端声明一个exchange, 并设置相关属性。</p>
-<p>3.客户端声明一个queue，并设置相关属性。</p>
-<p>4.客户端设置好route key，在exchange和queue之间建立好绑定关系。</p>
-<p>5.客户端投递消息到exchange.</p>
-<h3 id="RabbitMQ-简介"><a href="#RabbitMQ-简介" class="headerlink" title="RabbitMQ 简介"></a>RabbitMQ 简介</h3><p>RabbitMQ是一个消息代理：接受并转发消息，可以看成是一个邮局；</p>
-<p>生产者（Producer）:用于发送消息的程序</p>
-<p>消费者（Consumer）:等待接受消息的程序</p>
-<p>队列：队列只能存在内存或磁盘里，本质上是一个消息转化中心。</p>
-<p>RabbitMQ起源于金融系统，用于在分布式系统中存储转发消息，在易用性，扩展性，高可用性等方面表现不俗。</p>
-<p>需要安装erlang语言开发，erlang语言本身就具有高并发特性。</p>
-<h3 id="spring集成rabbitMQ"><a href="#spring集成rabbitMQ" class="headerlink" title="spring集成rabbitMQ"></a>spring集成rabbitMQ</h3><p>step1: 添加相应的jar包：spring-rabbit amqp-client</p>
-<p>step2:使用外部参数文件 <strong>application.properties</strong></p>
-<p>mq.host=127.0.0.1</p>
-<p>mq.username=queue</p>
-<p>mq.password=1234</p>
-<p>mq.port=8001</p>
-<p>step3:连接rabbitMQ服务器</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 连接配置 --&gt;</span><br><span class="line">&lt;rabbit:connection-factory id=<span class="string">"connectionFactory"</span> host=<span class="string">"$&#123;mq.host&#125;"</span> username=<span class="string">"$&#123;mq.username&#125;"</span></span><br><span class="line">        password=<span class="string">"$&#123;mq.password&#125;"</span> port=<span class="string">"$&#123;mq.port&#125;"</span>  /&gt;</span><br><span class="line">        </span><br><span class="line">&lt;rabbit:admin connection-factory=<span class="string">"connectionFactory"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<p>step4:声明一个rabbitMQ Template</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:template id=<span class="string">"amqpTemplate"</span> exchange=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> connection-factory=<span class="string">"connectionFactory"</span>  /&gt;</span><br></pre></td></tr></table></figure>
-<p>step5:在application.xml中声明一个交换机</p>
-<p><strong><a href="rabbit:topic-exchange" target="_blank" rel="noopener">rabbit:topic-exchange</a> 标签的 name 属性就是在 RabbitMQ 服务器配置交换机的 name 值。</strong></p>
-<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 queue 属性是 6. <queue> 标签的 id 属性。</queue></strong></p>
-<p><strong><a href="rabbit:binding" target="_blank" rel="noopener">rabbit:binding</a> 标签的 pattern 属性是在 RabbitMQ 服务器配置交换机与队列绑定时的 Routing key 值（路由）。</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;rabbit:topic-exchange name=<span class="string">"$&#123;mq.queue&#125;_exchange"</span> durable=<span class="string">"true"</span> auto-delete=<span class="string">"false"</span>&gt;</span><br><span class="line">    &lt;rabbit:bindings&gt;</span><br><span class="line">        &lt;rabbit:binding queue=<span class="string">"test_queue"</span> pattern=<span class="string">"$&#123;mq.queue&#125;_patt"</span>/&gt;</span><br><span class="line">    &lt;/rabbit:bindings&gt;</span><br><span class="line">&lt;/rabbit:topic-exchange&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>durable：是否持久化</li>
-<li>exclusive：仅创建者可以使用的私有队列，断开后自动删除</li>
-<li>auto-delete：当所有消费端连接断开后，是否自动删除队列</li>
-</ul>
-<font color="red">交换机的四种模式：</font>
-
-<p>1.direct(直连交换机)：根据routekey 将消息投递给对应队列的； 转发消息到route key 指定的队列上</p>
-<p>2.topic（主题交换机）：对key进行模式匹配，比如ab<em> 可以传到所有的ab</em>的queue</p>
-<p>3.headers:（头交换机）：转发到headers中的键值对完全匹配的队列。性能比较差不建议使用。</p>
-<p>4.fanout:（扇形交换机）：转发消息到所有绑定队列，忽略routingkey</p>
-<p>交换价的属性：</p>
-<p>1.持久性：durable,如果启用，交换器将会在server重启前都有效。</p>
-<p>2.自动删除：如果启用，那么交换器将会在其绑定的队列都被删除掉之后自动删除掉自身。</p>
-<p>3.惰性：如果没有声明交换器，那么在执行到使用的时候会导致异常，并不会主动声明。</p>
-<p>一个交换机可以绑定多个队列，一个队列也可以绑定到多个交换机上。如果没有队列绑定到交换机上，则发送到该交换机上的消息会丢失。</p>
-<h3 id="MQTT是什么？"><a href="#MQTT是什么？" class="headerlink" title="MQTT是什么？"></a>MQTT是什么？</h3><p>第一次接触到mqtt协议是在做海底捞物流配送系统，当时使用到了rabbitmq 消息队列，发现开发同事配置中用到了mqtt协议，本来以为是用到了别的什么中间件，后来在看rabbitmq时无意间发现和mqtt有关联，就自己学习了下，内容如下：</p>
-<p><font color="red">什么是mqtt</font>:message queuing  telemetry transport portocol 的全称是消息队列遥感传输协议的缩写，是一种基于轻量级代理的发布/订阅模式的消息传输协议，运行在TCP协议栈上，为其提供有序，可靠，双向连接的网络连接保证。IBM开发的<font color="red">即时通讯协议</font>，成为物联网的重要组成成分。该协议支持所有的平台，几乎可以把所有物联网物品和外部连接起来，被用来当作传感器和制动器的通信协议。</p>
-<h3 id="MQTT的特点"><a href="#MQTT的特点" class="headerlink" title="MQTT的特点:"></a>MQTT的特点:</h3><p>mqtt协议是为大量计算能力有限，且工作在低带宽，不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：</p>
-<p>1.使用发布/订阅模式，提供一对多的消息发布，解除应用程序耦合。</p>
-<p>2.对负载内容屏蔽的消息传输。</p>
-<p>3.使用TCP/IP提供网络连接。</p>
-<p>4.有三种消息发布服务质量：</p>
-<p>至多一次</p>
-<p>至少一次</p>
-<p>只有一次</p>
-<p>5.小型传输，开销很小 协议交换最小化，以降低网络流量。</p>
-<h3 id="心跳时间：-keep-alive-timer"><a href="#心跳时间：-keep-alive-timer" class="headerlink" title="心跳时间： keep alive timer"></a>心跳时间： keep alive timer</h3><p>以秒为单位，定义服务器端从客户端接受消息的最大时间间隔。一般应用服务会在业务层次检测客户端网络是否连接，不是TCP/IP协议层面的心跳机制。</p>
-<h3 id="如何将消息正确送达？"><a href="#如何将消息正确送达？" class="headerlink" title="如何将消息正确送达？"></a>如何将消息正确送达？</h3><p>MQTT通过“主题”实现将消息从发布者客户端送达至接收者客户端。“主题”是附加在应用消息上的一个标签，发布者客户端将”主题“和消息发送至代理服务器，代理服务器将消息转发每一个订阅了该主题的订阅客户端。</p>
-<h3 id="RabbitMQ如何作为MQTT服务器使用？"><a href="#RabbitMQ如何作为MQTT服务器使用？" class="headerlink" title="RabbitMQ如何作为MQTT服务器使用？"></a>RabbitMQ如何作为MQTT服务器使用？</h3><p>rabbitmq中有实现mqtt插件，具体参考地址：</p>
-<p><a href="http://www.rabbitmq.com/mqtt.html" target="_blank" rel="noopener">http://www.rabbitmq.com/mqtt.html</a></p>
-<p>安装插件，只要启用rabbitmq的MQTT插件即可：rabbitmq-plugins enable rabbitmq-mqtt 启用后重启一下rabbitmq-server</p>
-<h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
-<p>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"></p>
-<p> RPC的一般需要经历4个步骤：</p>
-<p>1、建立通信</p>
-<p>首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信连接，主要是通过在客户端和服务器之间建立TCP连接。</p>
-<p>2、服务寻址</p>
-<p>要解决寻址的问题，A服务器上如何连接到B服务器（如主机或IP地址）以及特定的端口，方法的名称是什么。</p>
-<p>3、网络传输</p>
-<p>1）序列化</p>
-<p>当A服务器上的应用发起一个RPC调用时，调用方法和参数数据都需要先进行序列化。</p>
-<p>2）反序列化</p>
-<p>当B服务器接收到A服务器的请求之后，又需要对接收到的参数等信息进行反序列化操作。</p>
-<p>4、服务调用</p>
-<p>B服务器进行本地调用（通过代理Proxy）之后得到了返回值，此时还需要再把返回值发送回A服务器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A服务器。</p>
-<p>通常，一次完整的PRC调用需要经历如上4个步骤。</p>
-<p> <strong>MQ(消息队列)</strong></p>
-<p>消息队列（MQ）是一种能实现生产者到消费者单向通信的通信模型，一般来说是指实现这个模型的中间件。</p>
-<p>典型的MQ中间件:</p>
-<p>RabbitMQ、ActiveMQ、Kafka等</p>
-<p>典型的特点：</p>
-<p>1、解耦</p>
-<p>2、可靠投递</p>
-<p>3、广播</p>
-<p>4、最终一致性</p>
-<p>5、流量削峰</p>
-<p>6、消息投递保证</p>
-<p>7、异步通信（支持同步）</p>
-<p>8、提高系统吞吐、健壮性</p>
-<p>典型的使用场景：秒杀业务中利用MQ来实现流量削峰，以及应用解耦使用。</p>
-<p><strong>RPC和MQ的区别和关联</strong></p>
-<p>1.在架构上，RPC和MQ的差异点是，Message有一个中间结点Message Queue，可以把消息存储。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png" alt="img"></p>
-<p>2.同步调用：对于要立即等待返回处理结果的场景，RPC是首选。</p>
-<p>3.MQ 的使用，一方面是基于性能的考虑，比如服务端不能快速的响应客户端（或客户端也不要求实时响应），需要在队列里缓存。</p>
-<p>另外一方面，它更侧重数据的传输，因此方式更加多样化，除了点对点外，还有订阅发布等功能。</p>
-<p>4.而且随着业务增长，有的处理端处理量会成为瓶颈，会进行同步调用改造为异步调用，这个时候可以考虑使用MQ。</p>
-<p><font color="red">RPC关注业务逻辑处理结果</font>。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/消息队列/">消息队列</a><a href="/tags/RabbitMQ/">RabbitMQ</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1061,15 +925,7 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
 			
 		
 			
@@ -1077,7 +933,19 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
@@ -1085,11 +953,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
@@ -1105,15 +973,11 @@
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
@@ -1121,7 +985,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
 			
 		
 		</ul>

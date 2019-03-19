@@ -82,6 +82,163 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/19/开森，有了sonarlint感觉找到了位代码指导老师-sonar常用总结/" title="开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结" itemprop="url">开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-19T07:50:15.000Z" itemprop="datePublished"> Published 2019-03-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="2019-03-19"><a href="#2019-03-19" class="headerlink" title="2019/03/19"></a>2019/03/19</h3><h3 id="1-用collection-isEmpty-替换collection-size"><a href="#1-用collection-isEmpty-替换collection-size" class="headerlink" title="1.用collection.isEmpty()替换collection.size"></a>1.用collection.isEmpty()替换collection.size</h3><p>point:</p>
+<p>Collection.isEmpty() should be used to test for emptiness (squid:S1155)</p>
+<p>Using <code>Collection.size()</code> to test for emptiness works, but using <code>Collection.isEmpty()</code> makes the code more readable and can be more performant. The time complexity of any <code>isEmpty()</code> method implementation should be <code>O(1)</code> whereas some implementations of <code>size()</code> can be <code>O\(n)</code>.</p>
+<p>翻译：使用collection.size（）测试空性是可行的，但是使用collection.isEmpty（）可以使代码更可读，更具性能。任何isEmpty（）方法实现的时间复杂性都应该是O（1），而某些size（）的实现可以是O（n）。</p>
+<p>Noncompliant Code Example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (myCollection.size() == <span class="number">0</span>) &#123;  <span class="comment">// Noncompliant</span></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Compliant Solution</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (myCollection.isEmpty()) &#123;    <span class="comment">// Compliant</span></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-BigDecimal-double-的问题"><a href="#2-BigDecimal-double-的问题" class="headerlink" title="2.BigDecimal(double)的问题"></a>2.BigDecimal(double)的问题</h3><font color="red">有关于BigDecimal初始化问题请参考 <a href="https://blog.csdn.net/jackiehff/article/details/8582449" target="_blank" rel="noopener">JAVA BigDecimal详解</a></font>
+
+<p>“BigDecimal(double)” should not be used<br>级别：bug</p>
+<p>Because of floating point imprecision, you’re unlikely to get the value you expect from the BigDecimal(double) constructor.</p>
+<p>Instead, you should use BigDecimal.valueOf, which uses a string under the covers to eliminate floating point rounding errors.</p>
+<p>Noncompliant Code Example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d = <span class="number">1.1</span>;</span><br><span class="line">BigDecimal bd1 = <span class="keyword">new</span> BigDecimal(d); <span class="comment">// Noncompliant; see comment above</span></span><br><span class="line">BigDecimal bd2 = <span class="keyword">new</span> BigDecimal(<span class="number">1.1</span>); <span class="comment">// Noncompliant; same result</span></span><br></pre></td></tr></table></figure>
+<p>Compliant Solution</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d = <span class="number">1.1</span>;</span><br><span class="line">BigDecimal bd1 = BigDecimal.valueOf(d);</span><br><span class="line">BigDecimal bd2 = BigDecimal.valueOf(<span class="number">1.1</span>);</span><br></pre></td></tr></table></figure>
+<p>不要使用BigDecimal(double)去构造一个BigDecimal对象，因为double类型在计算机表示方法中并不精确，因此，BigDecimal(double)构造出来的对象很可能不是预期的大小，若一定要使用double类型去构造一个BigDecimal对象，请使用BigDecimal.valueOf方法，该方法先将double转换为String，再通过String构造BigDecimal对象，通常更建议使用public BigDecimal(String val)构造方法。</p>
+<h3 id="3-String-判断是否相等的问题"><a href="#3-String-判断是否相等的问题" class="headerlink" title="3.String 判断是否相等的问题"></a>3.String 判断是否相等的问题</h3><p>Strings literals should be placed on the left side when checking for equality (squid:S1132)</p>
+<p>It is preferable to place string literals on the left-hand side of an equals() or equalsIgnoreCase() method call. This prevents null pointer exceptions from being raised, as a string literal can never be null by definition. </p>
+<p>翻译： 最好将字符串文本放在equals（）或equalSignoreCase（）方法调用的左侧。这可以防止引发空指针异常，因为字符串文本不能根据定义为空。</p>
+<h3 id="4-if-while-for-switch-and-try-嵌套不宜过深（尽量不宜超过3层）"><a href="#4-if-while-for-switch-and-try-嵌套不宜过深（尽量不宜超过3层）" class="headerlink" title="4.if while for switch and try 嵌套不宜过深（尽量不宜超过3层）"></a>4.if while for switch and try 嵌套不宜过深（尽量不宜超过3层）</h3><p>Control flow statements “if”, “for”, “while”, “switch” and “try” should not be nested too deeply (squid:S134)</p>
+<p>Nested <code>if</code>, <code>for</code>, <code>while</code>, <code>switch</code>, and <code>try</code> statements is a key ingredient for making what’s known as “Spaghetti code”. </p>
+<p>Such code is hard to read, refactor and therefore maintain.</p>
+<p>Noncompliant Code Example</p>
+<p>With the default threshold of 3:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (condition1) &#123;                  <span class="comment">// Compliant - depth = 1</span></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">  <span class="keyword">if</span> (condition2) &#123;                <span class="comment">// Compliant - depth = 2</span></span><br><span class="line">    <span class="comment">/* ... */</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;  <span class="comment">// Compliant - depth = 3, not exceeding the limit</span></span><br><span class="line">      <span class="comment">/* ... */</span></span><br><span class="line">      <span class="keyword">if</span> (condition4) &#123;            <span class="comment">// Noncompliant - depth = 4</span></span><br><span class="line">        <span class="keyword">if</span> (condition5) &#123;          <span class="comment">// Depth = 5, exceeding the limit, but issues are only reported on depth = 4</span></span><br><span class="line">          <span class="comment">/* ... */</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决方案：<a href="https://blog.csdn.net/qq_29229567/article/details/86140796" target="_blank" rel="noopener">参考博客</a></p>
+<p>方法1：接口分层，把接口分为外部和内部接口，所有空值判断放在外部接口完成，只处理一次</p>
+<p>方法2：多态，利用多态，每种业务单独处理，在接口不再做任何业务判断。</p>
+<p>方法3：使用Map替换分支语句</p>
+<p>把所有分享子类型预先缓存在Map里，那么就可以直接get获取具体类型，消除分支</p>
+<h3 id="5-不应该直接调用e-printStackTrace-，而是用loggers来处理（就是打log）"><a href="#5-不应该直接调用e-printStackTrace-，而是用loggers来处理（就是打log）" class="headerlink" title="5.不应该直接调用e.printStackTrace()，而是用loggers来处理（就是打log）"></a>5.不应该直接调用e.printStackTrace()，而是用loggers来处理（就是打log）</h3><p>log的优势就是用户可以轻松检索日志</p>
+<p># </p>
+<p><code>Throwable.printStackTrace(...)</code> prints a throwable and its stack trace to some stream. </p>
+<p>Loggers should be used instead to print throwables, as they have many advantages:</p>
+<ul>
+<li>Users are able to easily retrieve the logs.</li>
+<li>The format of log messages is uniform and allow users to browse the logs easily.</li>
+</ul>
+<p>The following code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">  e.printStackTrace();        <span class="comment">// Noncompliant</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>should be refactored into:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">  LOGGER.log(<span class="string">"context"</span>, e);   <span class="comment">// Compliant</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Sonarlint/">Sonarlint</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/18/sonar持续集成之代码质质量管管理/" title="sonar持续集成之代码质质量管管理" itemprop="url">sonar持续集成之代码质质量管管理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-18T12:45:01.000Z" itemprop="datePublished"> Published 2019-03-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Sonar简介"><a href="#Sonar简介" class="headerlink" title="Sonar简介"></a>Sonar简介</h3><p>sonar是一个用于代码质量管理的开发平台。通过插件机制，sonar可以集成不同的测试工具，代码分析工具，以及持续集成工具。与持续集成工具（Jenkins等）不同，sonar并不是简单地把不同的代码检查工具结果直接显示在web页面上，而是通过不同的插件对这些结果进行再加工处理，通过量化的方式度量代码质量的变化，从而可以方便对不同规模和种类的工程进行代码质量管理。</p>
+<h3 id="eclipse代码质量检查插件SonarLint的正确配置以及使用"><a href="#eclipse代码质量检查插件SonarLint的正确配置以及使用" class="headerlink" title="eclipse代码质量检查插件SonarLint的正确配置以及使用"></a>eclipse代码质量检查插件SonarLint的正确配置以及使用</h3><p><a href="https://blog.csdn.net/mengxiangxingdong/article/details/82868404" target="_blank" rel="noopener">参考博客</a></p>
+<p>sonarlint是eclipse的一个代码质量检查的。</p>
+<p><img src="https://img-blog.csdn.net/20160416113329585?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<h3 id="如何搭建sonar进行代码管理"><a href="#如何搭建sonar进行代码管理" class="headerlink" title="如何搭建sonar进行代码管理"></a>如何搭建sonar进行代码管理</h3><p><a href="https://blog.csdn.net/tuzongxun/article/details/78280322" target="_blank" rel="noopener">参考博客</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/持续集成之高质量代码管理Sonar/">持续集成之高质量代码管理Sonar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/14/项目小结-BeanUtils-copyProperties-A-B-属性复制/" title="项目小结--BeanUtils.copyProperties(A,B)属性复制" itemprop="url">项目小结--BeanUtils.copyProperties(A,B)属性复制</a>
   </h1>
   <p class="article-author">By
@@ -95,7 +252,7 @@
 </header>
     <div class="article-content">
         
-        
+        <h3 id="BeanUtils的简介"><a href="#BeanUtils的简介" class="headerlink" title="BeanUtils的简介"></a>BeanUtils的简介</h3><h3 id="BeanUtils-copyProperties的属性"><a href="#BeanUtils-copyProperties的属性" class="headerlink" title="BeanUtils.copyProperties的属性"></a>BeanUtils.copyProperties的属性</h3>
         
         
         <p class="article-more-link">
@@ -105,6 +262,11 @@
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Spring/">Spring</a>
+  </div>
 
 </div>
 
@@ -687,128 +849,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/04/Git使用中出现的问题/" title="Git使用中出现的问题" itemprop="url">Git使用中出现的问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-04T11:21:53.000Z" itemprop="datePublished"> Published 2019-03-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>因为仓库地址不对</p>
-<ul>
-<li>$ git remote -v</li>
-<li>$ git remote set-url origin XXX<br>就可以push了。</li>
-</ul>
-<h1 id="服务器上的-Git-生成-SSH-公钥"><a href="#服务器上的-Git-生成-SSH-公钥" class="headerlink" title="服务器上的 Git - 生成 SSH 公钥"></a>服务器上的 Git - 生成 SSH 公钥</h1><h2 id="生成-SSH-公钥"><a href="#生成-SSH-公钥" class="headerlink" title="生成 SSH 公钥"></a>生成 SSH 公钥</h2><p>大多数 Git 服务器都会选择使用 SSH 公钥来进行授权。系统中的每个用户都必须提供一个公钥用于授权，没有的话就要生成一个。生成公钥的过程在所有操作系统上都差不多。 首先先确认一下是否已经有一个公钥了。SSH 公钥默认储存在账户的主目录下的 ~/.ssh 目录。进去看看：<br>生成钥匙</p>
-<ul>
-<li>$ ssh-keygen</li>
-<li>查看公钥</li>
-<li>$cat ~/.ssh/id_rsa.pub</li>
-<li>若想在github中使用的话需要将公钥复制到github&gt;setting&gt;SSH and GPG keys中添加ssh keys</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/04/mysql函数FIND-IN-SET-的使用方法/" title="mysql函数FIND_IN_SET()的使用方法" itemprop="url">mysql函数FIND_IN_SET()的使用方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-04T10:56:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Mysql函数FIND-IN-SET-的使用方法"><a href="#Mysql函数FIND-IN-SET-的使用方法" class="headerlink" title="Mysql函数FIND_IN_SET()的使用方法"></a>Mysql函数FIND_IN_SET()的使用方法</h3><p>FIND_IN_SET(str,strlist)</p>
-<p>字符串str 在由N个子链组成的字符串列表strlist 中，则返回值的范围在 1 到 N 之间。一个字符串列表就是一个由一些被‘,’符号分开的自链组成的字符串。如果第一个参数是一个常数字符串，而第二个是type SET列，则   FIND_IN_SET() 函数被优化，使用比特计算。如果str不在strlist 或strlist 为空字符串，则返回值为 0 。如任意一个参数为NULL，则返回值为 NULL。这个函数在第一个参数包含一个逗号(‘,’)时将无法正常运行.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mysql/">mysql</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -854,15 +894,7 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
 			
 		
 			
@@ -870,7 +902,19 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
@@ -878,11 +922,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
@@ -898,15 +942,11 @@
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁机制/" title="锁机制">锁机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
@@ -914,7 +954,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
 			
 		
 		</ul>
