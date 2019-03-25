@@ -82,6 +82,107 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/25/JS面向对象编程/" title="JS面向对象编程" itemprop="url">JS面向对象编程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-25T13:15:11.000Z" itemprop="datePublished"> Published 2019-03-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="1-面向对象（OPP"><a href="#1-面向对象（OPP" class="headerlink" title="1.面向对象（OPP)"></a>1.面向对象（OPP)</h3><p>抽象：</p>
+<p>封装：只能通过对象来访问方法</p>
+<p>继承：从已有对象上继承出新的对象</p>
+<p>多态：多对象的不同形态</p>
+<p>对象的组成:</p>
+<p>1.属性：对象下面的变量叫做对象的属性</p>
+<p>2.方法：对象下面的函数叫做对象的方法</p>
+<h3 id="2-如何创建一个对象"><a href="#2-如何创建一个对象" class="headerlink" title="2.如何创建一个对象"></a>2.如何创建一个对象</h3><p>使用Object函数或者对象字面量都可以创建面向对象，但需要创建多个对象时，会产生大量的重复代码，可通过工厂方式</p>
+<p><strong>工厂方式   ——————–   面向对象中的封装函数</strong></p>
+<p><strong><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//工厂方式 : 封装函数</span></span><br><span class="line"></span><br><span class="line"><span class="function">function <span class="title">createPerson</span><span class="params">(name)</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> obj = <span class="keyword">new</span> Object();</span><br><span class="line">    obj.name = name;</span><br><span class="line">    obj.showName = function()&#123;</span><br><span class="line">        alert( <span class="keyword">this</span>.name );</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> obj;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = createPerson(<span class="string">'小明'</span>);</span><br><span class="line">p1.showName();</span><br><span class="line"><span class="keyword">var</span> p2 = createPerson(<span class="string">'小强'</span>);</span><br><span class="line">p2.showName();</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>创建对象用工厂方式来实现，可以传递参数，由于创建对象都是使用Object的原生构造函数来实现的，因此无法识别对象类型</p>
+<p><strong>构造函数模式  ——————–   给一个对象添加方法</strong></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//new 后面调用的函数叫构造函数</span><br><span class="line">        function CreatePerson(name)&#123;</span><br><span class="line">            this.name=name;</span><br><span class="line">            this.showName=function()&#123;</span><br><span class="line">                alert(this.name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        var p1=new CreatePerson(&apos;小明&apos;);//当new去调用一个函数时，函数中的this就是创建出来的对象而函数中的返回值就是this</span><br><span class="line">        p1.showName();</span><br><span class="line">        var p2=new CreatePerson(&apos;小强&apos;);</span><br><span class="line">        p2.showName();</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>使用自定义的构造函数，定义对象类型的属性和方法，与工厂方式的区别：</p>
+<ul>
+<li>没有显式的创建对象</li>
+<li>直接将属性和方法赋给this对象</li>
+<li>没有return语句</li>
+</ul>
+<p>上面例子中：CreatePerson构造函数生成的两个对象p1与p2都是CreatePerson的实例</p>
+<p>虽然构造函数解决了上面工厂方式的问题，但是它一样存在缺点，就是在创建对象时，每个对象都有一套自己的方法，每定义一个函数都实例化了一个对象</p>
+<p>例如：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">CreatePerson</span><span class="params">(name)</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.showName = function()&#123;</span><br><span class="line">        alert( <span class="keyword">this</span>.name );</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = <span class="keyword">new</span> CreatePerson(<span class="string">'小明'</span>);</span><br><span class="line"><span class="comment">//p1.showName();</span></span><br><span class="line"><span class="keyword">var</span> p2 = <span class="keyword">new</span> CreatePerson(<span class="string">'小强'</span>);</span><br><span class="line"><span class="comment">//p2.showName();</span></span><br><span class="line"></span><br><span class="line">alert( p1.showName == p2.showName );  <span class="comment">//false  它们的值相同，地址不同</span></span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>测试例子中的p1.showName与p2.showName是否会相等，弹出的结果是false，说明p1和p2实例都包含一个不同的showName实例</p>
+<p><strong>原型模式（prototype）  ——————–   给一类对象添加方法</strong></p>
+<p>原型（prototype）重写对象下面的公用的属性或方法，让公用的属性或方法在内存中存在一份（提高性能），也就是说所有在原型对象中创建的属性或方法都直接被所有对象实例共享。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function">function <span class="title">CreatePerson</span><span class="params">(name,age)</span></span>&#123; </span><br><span class="line"><span class="keyword">this</span>.name=name;</span><br><span class="line"><span class="keyword">this</span>.age=age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 我们把公有的方法放到函数的原型链上</span></span><br><span class="line">CreatePerson.prototype.showName = function()&#123;</span><br><span class="line">console.log(<span class="string">'我的名字是：'</span>+<span class="keyword">this</span>.name)</span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> CreatePerson(<span class="string">'小明'</span>,<span class="number">25</span>) </span><br><span class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> CreatePerson(<span class="string">'小华'</span>,<span class="number">24</span>)</span><br><span class="line">person1.showName() <span class="comment">//小明</span></span><br></pre></td></tr></table></figure>
+<p>原型模式的关键：</p>
+<p>1).每个函数数据类型上，都有一个属性叫prototype</p>
+<p>2).prototype这个对象上，天生自带一个属性，叫constructor:指向当前这个类；</p>
+<p>3）每个对象数据类型（普通对象，prototype，实例）上都有一个属性，<br>叫做<strong>proto</strong>:指向当前实例所属类的原型；</p>
+<p><strong>单例模式（命名空间）</strong></p>
+<p>我们把描述同一事物的方法或属性放到同一对象里，不同事物之间的方法或者属性名相同相互也不会发生冲突。</p>
+<p>单例模式的优劣：</p>
+<p>1.使用单利模式，我们可以实现简单的模块化开发</p>
+<p>​       1.1 避免了全局变量的污染。需要注意的是，我们在引入各个模块的时候，需要注意引入的顺序，引入顺序是按照各模块之间的相互依赖进行前后排列的；</p>
+<p>​       1.2 缺点</p>
+<ul>
+<li>单例模式只是一定程度上避免了变量名的冲突，但并不能彻底解决此问题，而且在不同的对象下，我们可能会有很多功能相同的代码，最终造成大量的冗余代码。</li>
+<li>单例模式让每个对象有了自己独立的命名空间，但是并不能批量生产的问题，每一个新的对象都要重新写一份一模一样的代码。</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/javascript/">javascript</a><a href="/tags/面向对象/">面向对象</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/19/开森，有了sonarlint感觉找到了位代码指导老师-sonar常用总结/" title="开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结" itemprop="url">开森，有了sonarlint感觉找到了位代码指导老师--sonar常用总结</a>
   </h1>
   <p class="article-author">By
@@ -787,68 +888,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/04/Git-如何删除远程文件-文件夹/" title="Git 如何删除远程文件/文件夹" itemprop="url">Git 如何删除远程文件/文件夹</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-04T13:33:05.000Z" itemprop="datePublished"> Published 2019-03-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>step1: git rm “文件名”      git rm -r “文件夹名称/”</p>
-<p>step2:  git commint -m    提交内容</p>
-<p>step3： git push pushgit服务器上</p>
-<p>有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了</p>
-<p>git rm –cached filename/-r directory<br>git commit “xxxx”<br>git push<br>1.删除github文件,本地保留</p>
-<p>git rm –cached test.<br>txt<br>git commit -m “delete file”<br>git push<br>此时github上已经不存在了</p>
-<p>2.删除远程code 文件夹,本地保留<br>一定要注意，删除文件夹要使用-r 参数</p>
-<p>git rm –cached -r code<br>git commit -m “delete directory”<br>git pus</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -898,10 +937,6 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
@@ -910,7 +945,19 @@
 			
 		
 			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -938,23 +985,15 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
 			
 		
 		</ul>

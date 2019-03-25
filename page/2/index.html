@@ -82,6 +82,68 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/04/Git-如何删除远程文件-文件夹/" title="Git 如何删除远程文件/文件夹" itemprop="url">Git 如何删除远程文件/文件夹</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-04T13:33:05.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>step1: git rm “文件名”      git rm -r “文件夹名称/”</p>
+<p>step2:  git commint -m    提交内容</p>
+<p>step3： git push pushgit服务器上</p>
+<p>有时候会想把github上的文件删除，但是本地仓库里的文件想保留下来该怎么办，只要用三条命令就能完成了</p>
+<p>git rm –cached filename/-r directory<br>git commit “xxxx”<br>git push<br>1.删除github文件,本地保留</p>
+<p>git rm –cached test.<br>txt<br>git commit -m “delete file”<br>git push<br>此时github上已经不存在了</p>
+<p>2.删除远程code 文件夹,本地保留<br>一定要注意，删除文件夹要使用-r 参数</p>
+<p>git rm –cached -r code<br>git commit -m “delete directory”<br>git pus</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/版本控制工具/">版本控制工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/04/Git使用中出现的问题/" title="Git使用中出现的问题" itemprop="url">Git使用中出现的问题</a>
   </h1>
   <p class="article-author">By
@@ -555,7 +617,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a><a href="/tags/面试总结/">面试总结</a>
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a><a href="/tags/面试总结/">面试总结</a>
   </div>
 
 </div>
@@ -613,7 +675,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a>
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
   </div>
 
 </div>
@@ -831,55 +893,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/18/基于springsecurity的oauth2-0授权认证/" title="基于springsecurity的oauth2.0授权认证" itemprop="url">基于springsecurity的oauth2.0授权认证</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-18T07:51:51.000Z" itemprop="datePublished"> Published 2019-02-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -929,10 +942,6 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
@@ -941,7 +950,19 @@
 			
 		
 			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -969,23 +990,15 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
+				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>1</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
 			
 		
 		</ul>
