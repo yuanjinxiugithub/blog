@@ -82,6 +82,133 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/04/08/mybatis缓存/" title="mybatis缓存" itemprop="url">mybatis缓存</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-04-08T13:19:25.000Z" itemprop="datePublished"> Published 2019-04-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="1-mybatis的一级缓存总结"><a href="#1-mybatis的一级缓存总结" class="headerlink" title="1.mybatis的一级缓存总结"></a>1.mybatis的一级缓存总结</h3><p>1.在同一个 SqlSession 中, Mybatis 会把执行的方法和参数通过算法生成缓存的键值， 将键值和结果存放在一个 Map 中， 如果后续的键值一样， 则直接从 Map 中获取数据；</p>
+<p>2.不同的 SqlSession 之间的缓存是相互隔离的；</p>
+<p>3.用一个 SqlSession， 可以通过配置使得在查询前清空缓存；</p>
+<ol start="4">
+<li>任何的 UPDATE, INSERT, DELETE 语句都会清空缓存。</li>
+</ol>
+<h3 id="2-mybatis的二级缓存总结"><a href="#2-mybatis的二级缓存总结" class="headerlink" title="2.mybatis的二级缓存总结"></a>2.mybatis的二级缓存总结</h3><p>二级缓存存在于 SqlSessionFactory 生命周期中。</p>
+<p>2.1 配置二级缓存<br>2.1.1 全局开关<br>在 mybatis 中， 二级缓存有全局开关和分开关， 全局开关， 在 mybatis-config.xml 中如下配置:</p>
+<p><settings><br>  <!--全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存。 --><br>  <setting name="cacheEnabled" value="true"><br></setting></settings><br>1<br>2<br>3<br>4<br>默认是为 true， 即默认开启总开关。</p>
+<p>2.1.2 分开关<br>分开关就是说在 *Mapper.xml 中开启或关闭二级缓存， 默认是不开启的。</p>
+<p>2.1.3 entity 实现序列化接口<br>public class Student implements Serializable {</p>
+<pre><code>private static final long serialVersionUID = -4852658907724408209L;
+
+...
+</code></pre><p>}</p>
+<p>由于在更新时会刷新缓存， 因此需要注意使用场合：查询频率很高， 更新频率很低时使用， 即经常使用 select, 相对较少使用delete, insert, update。</p>
+<p>缓存是以 namespace 为单位的，不同 namespace 下的操作互不影响。但刷新缓存是刷新整个 namespace 的缓存， 也就是你 update 了一个， 则整个缓存都刷新了。</p>
+<p>最好在 「只有单表操作」 的表的 namespace 使用缓存， 而且对该表的操作都在这个 namespace 中。 否则可能会出现数据不一致的情况。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/mybatis/">mybatis</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/31/Java中的代码生成/" title="Java中的代码生成" itemprop="url">Java中的代码生成</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-31T05:19:47.000Z" itemprop="datePublished"> Published 2019-03-31</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>1.java中代码生成的原理</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/代码生成/">代码生成</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/25/JS面向对象编程/" title="JS面向对象编程" itemprop="url">JS面向对象编程</a>
   </h1>
   <p class="article-author">By
@@ -142,6 +269,7 @@
 <li>单例模式只是一定程度上避免了变量名的冲突，但并不能彻底解决此问题，而且在不同的对象下，我们可能会有很多功能相同的代码，最终造成大量的冗余代码。</li>
 <li>单例模式让每个对象有了自己独立的命名空间，但是并不能批量生产的问题，每一个新的对象都要重新写一份一模一样的代码。</li>
 </ul>
+<p><img src="https://github.com/chenermeng/blog/blob/master/img/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.png?raw=true" alt="é¢åå¯¹è±¡.png"></p>
 
         
         
@@ -769,125 +897,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/04/maven总结/" title="Maven总结" itemprop="url">Maven总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-04T14:54:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>clean: 清除target目录;</p>
-<p>install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的;</p>
-<p>package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包;</p>
-<p>deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Maven/">Maven</a><a href="/tags/mvn命令/">mvn命令</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/04/maven总结之install命令/" title="Maven总结之install命令" itemprop="url">Maven总结之install命令</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-04T14:53:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>1，maven的install最大的作用就是将项目本身编译并打包，并且其他项目引用本项目的jar包时不用去私服上下载jar包，直接从本地就可以拿到刚刚编译打包好的项目的jar包，很灵活，避免每次都需要重新往私服发布jar包的痛苦；</p>
-<p>2，修改服务端比如manage层和dao层的项目的时候如果eclipse没有自动编译，则在调试的时候容易出很奇怪的错误，就是明明代码已经改好了，但是debug的时候还是在报错，这就是没有项目没有编译完成造成的，看到的改好的代码没有变成class，因此，服务端的文件改动之后如果发现没有效果的时候要记得问题可能是没有编译，这时候可以使用maven的install命令编译一下；</p>
-<p>3，install有时候会报错Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin…，这种情况下可以检查项目里有没有出现编译错误，如果没有，就检查一下pom文件中surefire的配置；参考如下</p>
-<p>clean: 清除target目录;</p>
-<p>install: 将工程打包到本地仓库，这时本地项目可以依赖，别人是依赖不了的;</p>
-<p>package:将项目中的各种文件，比如源代码、编译生成的字节码、配置文件、文档，按照规范的格式生成归档，最常见的当然就是JAR包和WAR包;</p>
-<h2 id="deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。"><a href="#deploy-将打包的jar文件上传到私服-如果有私服-，此时连接私服的人才可以下载依赖。" class="headerlink" title="deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。"></a>deploy: 将打包的jar文件上传到私服(如果有私服)，此时连接私服的人才可以下载依赖。</h2><p>作者：卢子墨<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/lukabruce/article/details/80569789" target="_blank" rel="noopener">https://blog.csdn.net/lukabruce/article/details/80569789</a><br>版权声明：本文为博主原创文章，转载请附上博文链接！</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Maven/">Maven</a><a href="/tags/mvn命令/">mvn命令</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -917,7 +926,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>27</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>29</sup></a></li>
 			
 		
 			
@@ -929,11 +938,15 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
 			
 		
 			
@@ -945,19 +958,11 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -969,11 +974,11 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -985,15 +990,19 @@
 			
 		
 			
-				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 		</ul>

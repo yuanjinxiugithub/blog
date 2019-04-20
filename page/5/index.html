@@ -78,6 +78,251 @@
 
    
     
+    <article class="post-expand _posts" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/10/JPA进阶-Java持久层API/" title="JPA进阶(Java持久层API)" itemprop="url">JPA进阶(Java持久层API)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-10T03:41:38.000Z" itemprop="datePublished"> Published 2019-01-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="jap-简介"><a href="#jap-简介" class="headerlink" title="jap 简介"></a>jap 简介</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java 持久层api是java 规范 用于在java 对象和数据库之间保存数据。 JPA充当面向对象领域和关系数据库之间的桥梁。</span><br><span class="line">JPA 只是一个规范，它本身不执行任何操作。它需要一个实现。因此，像hibernate toplink ibatis 这样的工具具体实现了JPA数据持久性规范。</span><br></pre></td></tr></table></figure>
+<h3 id="jpa-发展"><a href="#jpa-发展" class="headerlink" title="jpa 发展"></a>jpa 发展</h3><ul>
+<li>2006年 发布1.0版本</li>
+<li>2009年 发布2.0版本</li>
+<li>2013年 发布2.1版本</li>
+<li>2017年 作为开发维护开发而发布</li>
+</ul>
+<h3 id="jpa-对象关系映射-ORM"><a href="#jpa-对象关系映射-ORM" class="headerlink" title="jpa 对象关系映射 ORM"></a>jpa 对象关系映射 ORM</h3><p> 轻松处理各种数据库操作，如插入，更新，删除等。</p>
+<h3 id="jpa-实体"><a href="#jpa-实体" class="headerlink" title="jpa 实体"></a>jpa 实体</h3><p>实体可以理解为java持久性库中定义的对象。</p>
+<h4 id="实体属性"><a href="#实体属性" class="headerlink" title="实体属性"></a>实体属性</h4><ul>
+<li>持久性：对象存储在数据库中并且可以随时访问。</li>
+<li>事务性：ACID</li>
+<li>粒度 </li>
+</ul>
+<h3 id="jpa创建实体"><a href="#jpa创建实体" class="headerlink" title="jpa创建实体"></a>jpa创建实体</h3><h4 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Entity --标记这个类是一个实体，该注解必须放在类上</span><br><span class="line">@Id -- 此注释位于持有持久标识属性的特定字段上。该字段被视为数据库中的主键。</span><br></pre></td></tr></table></figure>
+<h3 id="spring-data-jpa的使用"><a href="#spring-data-jpa的使用" class="headerlink" title="spring-data-jpa的使用"></a>spring-data-jpa的使用</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>   spring data jpa 是spring 基于ORM框架，JPA规范的基础上封装的一套jpa应用框架，用极简的代码即可实现对数据的访问和操作。极大的提高开发效率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring data jpa 让我们脱离Dao层操作，基本上所有的CRUD都可以依赖于它实现。</span><br></pre></td></tr></table></figure>
+<h4 id="基本查询"><a href="#基本查询" class="headerlink" title="基本查询"></a>基本查询</h4><p>基本查询分为两种，一种是spring data默认已经实现，一种是根据查询的方法来自动解析成SQL。</p>
+<h4 id="预先生成方法"><a href="#预先生成方法" class="headerlink" title="预先生成方法"></a>预先生成方法</h4><p>spring data jpa 默认预先生成一些基本的CRUD的方法 继承<code>JpaRepository</code></p>
+<h4 id="自定义简单查询"><a href="#自定义简单查询" class="headerlink" title="自定义简单查询"></a>自定义简单查询</h4><p>根据方法名来自动生成SQL：</p>
+<p>自定义的简单查询就是根据方法名来自动生成SQL，主要的语法是<code>findXXBy</code>,<code>readAXXBy</code>,<code>queryXXBy</code>,<code>countXXBy</code>, <code>getXXBy</code>后面跟属性名称：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">User <span class="title">findByUserName</span><span class="params">(String userName)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>也使用一些加一些关键字<code>And</code>、 <code>Or</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">User <span class="title">findByUserNameOrEmail</span><span class="params">(String username, String email)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>修改、删除、统计也是类似语法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Long <span class="title">deleteById</span><span class="params">(Long id)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">Long <span class="title">countByUserName</span><span class="params">(String userName)</span></span></span><br></pre></td></tr></table></figure>
+<p>基本上SQL体系中的关键词都可以使用，例如：<code>LIKE</code>、 <code>IgnoreCase</code>、 <code>OrderBy</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">List&lt;User&gt; <span class="title">findByEmailLike</span><span class="params">(String email)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">User <span class="title">findByUserNameIgnoreCase</span><span class="params">(String userName)</span></span>;</span><br><span class="line">    </span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">findByUserNameOrderByEmailDesc</span><span class="params">(String email)</span></span>;</span><br></pre></td></tr></table></figure>
+<h4 id="复杂查询"><a href="#复杂查询" class="headerlink" title="复杂查询"></a>复杂查询</h4><p>特殊的方法或者自定义SQL</p>
+<h4 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h4><p>spring data jpa 已经帮我们实现了分页的功能，在查询的方法中，需要传入参数Pageable</p>
+<p><code>Pageable</code><br>,当查询中有多个参数的时候<code>Pageable</code>建议做为最后一个参数传入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Page&lt;User&gt; <span class="title">findALL</span><span class="params">(Pageable pageable)</span></span>;</span><br><span class="line">    </span><br><span class="line"><span class="function">Page&lt;User&gt; <span class="title">findByUserName</span><span class="params">(String userName,Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><code>Pageable</code> 是spring封装的分页实现类，使用的时候需要传入页数、每页条数和排序规则</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPageQuery</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> page=<span class="number">1</span>,size=<span class="number">10</span>;</span><br><span class="line">    Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">    Pageable pageable = <span class="keyword">new</span> PageRequest(page, size, sort);</span><br><span class="line">    userRepository.findALL(pageable);</span><br><span class="line">    userRepository.findByUserName(<span class="string">"testName"</span>, pageable);</span><br><span class="line">&#125;</span><br><span class="line">限制查询</span><br><span class="line"></span><br><span class="line">有时候我们只需要查询前N个元素，或者支取前一个实体。</span><br><span class="line"></span><br><span class="line"><span class="function">ser <span class="title">findFirstByOrderByLastnameAsc</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">User <span class="title">findTopByOrderByAgeDesc</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">Page&lt;User&gt; <span class="title">queryFirst10ByLastname</span><span class="params">(String lastname, Pageable pageable)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">findFirst10ByLastname</span><span class="params">(String lastname, Sort sort)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">findTop10ByLastname</span><span class="params">(String lastname, Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
+<h4 id="自定义sql-查询"><a href="#自定义sql-查询" class="headerlink" title="自定义sql 查询"></a>自定义sql 查询</h4><p>  其实Spring data 觉大部分的SQL都可以根据方法名定义的方式来实现，但是由于某些原因我们想使用自定义的SQL来查询，spring data也是完美支持的；在SQL的查询方法上面使用<code>@Query</code>注解，如涉及到删除和修改在需要加上<code>@Modifying</code>.也可以根据需要添加 <code>@Transactional</code> 对事物的支持，查询超时的设置等</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Modifying</span></span><br><span class="line"><span class="meta">@Query</span>(<span class="string">"update User u set u.userName = ?1 where c.id = ?2"</span>)</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">modifyByIdAndUserId</span><span class="params">(String  userName, Long id)</span></span>;</span><br><span class="line">    </span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="meta">@Modifying</span></span><br><span class="line"><span class="meta">@Query</span>(<span class="string">"delete from User where id = ?1"</span>)</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteByUserId</span><span class="params">(Long id)</span></span>;</span><br><span class="line">  </span><br><span class="line"><span class="meta">@Transactional</span>(timeout = <span class="number">10</span>)</span><br><span class="line"><span class="meta">@Query</span>(<span class="string">"select u from User u where u.emailAddress = ?1"</span>)</span><br><span class="line">    <span class="function">User <span class="title">findByEmailAddress</span><span class="params">(String emailAddress)</span></span>;</span><br></pre></td></tr></table></figure>
+<h4 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h4><p>​        多表查询在spring data jpa中有两种实现方式，第一种是利用hibernate的级联查询来实现，第二种是创建一个结果集的接口来接收连表查询后的结果，这里主要第二种方式。</p>
+<p>首先需要定义一个结果集的接口类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HotelSummary</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">City <span class="title">getCity</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">String <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Double <span class="title">getAverageRating</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Integer <span class="title">getAverageRatingRounded</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getAverageRating() == <span class="keyword">null</span> ? <span class="keyword">null</span> : (<span class="keyword">int</span>) Math.round(getAverageRating());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查询的方法返回类型设置为新创建的接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Query</span>(<span class="string">"select h.city as city, h.name as name, avg(r.rating) as averageRating "</span></span><br><span class="line">        - <span class="string">"from Hotel h left outer join h.reviews r where h.city = ?1 group by h"</span>)</span><br><span class="line"><span class="function">Page&lt;HotelSummary&gt; <span class="title">findByCity</span><span class="params">(City city, Pageable pageable)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Query</span>(<span class="string">"select h.name as name, avg(r.rating) as averageRating "</span></span><br><span class="line">        - <span class="string">"from Hotel h left outer join h.reviews r  group by h"</span>)</span><br><span class="line"><span class="function">Page&lt;HotelSummary&gt; <span class="title">findByCity</span><span class="params">(Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Page&lt;HotelSummary&gt; hotels = <span class="keyword">this</span>.hotelRepository.findByCity(<span class="keyword">new</span> PageRequest(<span class="number">0</span>, <span class="number">10</span>, Direction.ASC, <span class="string">"name"</span>));</span><br><span class="line"><span class="keyword">for</span>(HotelSummary summay:hotels)&#123;</span><br><span class="line">        System.out.println(<span class="string">"Name"</span> +summay.getName());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在运行中Spring会给接口（HotelSummary）自动生产一个代理类来接收返回的结果，代码汇总使用<code>getXX</code>的形式来获取</p>
+</blockquote>
+<h4 id="多数据源的支持"><a href="#多数据源的支持" class="headerlink" title="多数据源的支持"></a>多数据源的支持</h4><h5 id="同源数据库的多源支持"><a href="#同源数据库的多源支持" class="headerlink" title="同源数据库的多源支持"></a>同源数据库的多源支持</h5><p>日常使用分布式开发模式，不同的服务有不同的数据源，常常需要在一个项目中使用多个数据源，因此需要配置spring data jpa对多数据源的使用，一般分为三步：</p>
+<ul>
+<li><p>1 配置多数据源</p>
+</li>
+<li><p>2 不同源的实体类放入不同包路径</p>
+</li>
+<li><p>3 声明不同的包路径下使用不同的数据源、事务支持</p>
+<p>这里有一篇文章写的很清楚：<a href="http://www.jianshu.com/p/34730e595a8c" target="_blank" rel="noopener">Spring Boot多数据源配置与使用</a></p>
+</li>
+</ul>
+<h4 id="异构数据库多源支持"><a href="#异构数据库多源支持" class="headerlink" title="异构数据库多源支持"></a>异构数据库多源支持</h4><p>比如我们的项目中，即需要对mysql的支持，也需要对mongodb的查询等。</p>
+<p>实体类声明<code>@Entity</code> 关系型数据库支持类型、声明<code>@Document</code> 为mongodb支持类型，不同的数据源使用不同的实体就可以了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PersonRepository</span> <span class="keyword">extends</span> <span class="title">Repository</span>&lt;<span class="title">Person</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"> …</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UserRepository</span> <span class="keyword">extends</span> <span class="title">Repository</span>&lt;<span class="title">User</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"> …</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Document</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是，如果User用户既使用mysql也使用mongodb呢，也可以做混合使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">JpaPersonRepository</span> <span class="keyword">extends</span> <span class="title">Repository</span>&lt;<span class="title">Person</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"> …</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">MongoDBPersonRepository</span> <span class="keyword">extends</span> <span class="title">Repository</span>&lt;<span class="title">Person</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"> …</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Document</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以通过对不同的包路径进行声明，比如A包路径下使用mysql,B包路径下使用mongoDB</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableJpaRepositories</span>(basePackages = <span class="string">"com.neo.repositories.jpa"</span>)</span><br><span class="line"><span class="meta">@EnableMongoRepositories</span>(basePackages = <span class="string">"com.neo.repositories.mongo"</span>)</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Configuration</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="使用枚举"><a href="#使用枚举" class="headerlink" title="使用枚举"></a>使用枚举</h5><p> 使用枚举的时候，我们希望数据库中存储的是枚举对应的String类型，而不是枚举的索引值，需要在属性上面添加<code>@Enumerated(EnumType.STRING)</code> 注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Enumerated</span>(EnumType.STRING) </span><br><span class="line"><span class="meta">@Column</span>(nullable = <span class="keyword">true</span>)</span><br><span class="line"><span class="keyword">private</span> UserType type;</span><br></pre></td></tr></table></figure>
+<p><strong>不需要和数据库映射的属性</strong></p>
+<p>正常情况下我们在实体类上加入注解<code>@Entity</code>，就会让实体类和表相关连如果其中某个属性我们不需要和数据库来关联只是在展示的时候做计算，只需要加上<code>@Transient</code>属性既可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transient</span></span><br><span class="line"><span class="keyword">private</span> String  userName;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[spring data jap 参考手册]（<a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/）" target="_blank" rel="noopener">https://docs.spring.io/spring-data/jpa/docs/current/reference/html/）</a></p>
+</blockquote>
+<h4 id="spring-data-jpa-注解"><a href="#spring-data-jpa-注解" class="headerlink" title="spring data jpa 注解"></a>spring data jpa 注解</h4><p>Springboot jpa提供了自动填充这两个字段的功能，简单配置一下即可。<code>@CreatedDate、@LastModifiedDate</code>、<code>@CreatedBy、`</code>@LastModifiedBy`前两个注解就是起这个作用的，后两个是设置修改人和创建人的，这里先不讨论。</p>
+<p><code>@Version</code>注解表示对表添加乐观锁定的支持。</p>
+<p><code>@Modifying</code> 完成修改操作不支持新增操作</p>
+<p><code>@DynamicUpdate</code> 是否自动更新</p>
+<h4 id="spring-data-jpa的核心概念"><a href="#spring-data-jpa的核心概念" class="headerlink" title="spring data jpa的核心概念"></a>spring data jpa的核心概念</h4><p>springdata的核心接口是Repository。使用domian类去管理。</p>
+<h4 id="spring-data-jpa-Query-定义中的SpEL的支持"><a href="#spring-data-jpa-Query-定义中的SpEL的支持" class="headerlink" title="spring data jpa @Query 定义中的SpEL的支持"></a>spring data jpa @Query 定义中的SpEL的支持</h4><p>Spring Data JPA允许使用<code>@Query</code>注释手动定义要由存储库方法执行的查询。不幸的是，JPQL中的参数绑定非常有限，只允许您设置一个值并提供一些类型转换。Evans版本系列的最新<a href="https://spring.io/blog/2014/07/10/first-milestone-of-spring-data-release-train-evans-available" target="_blank" rel="noopener">Spring Data JPA M1</a>版本通过添加<br>对使用SpEL表达式的支持来缓解这种痛苦，以便在<code>@Query</code>注释中的语句中使用动态绑定参数，这在手动定义查询时提供了额外的灵活性。</p>
+<h5 id="方法参数表达式"><a href="#方法参数表达式" class="headerlink" title="方法参数表达式"></a>方法参数表达式</h5><p>SpEL支持提供对查询方法参数的访问</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Query</span>(<span class="string">"select u from User u where u.firstname = :#&#123;#customer.firstname&#125;"</span>)</span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">findUsersByCustomersFirstname</span><span class="params">(@Param(<span class="string">"customer"</span>)</span> Customer customer)</span></span><br></pre></td></tr></table></figure>
+<h4 id="高级表达式"><a href="#高级表达式" class="headerlink" title="高级表达式"></a>高级表达式</h4><p>可以引用spring security 进行安全验证，如查询限制仅返回与当前经过身份验证的相关用户信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Query(<span class="string">"select u from User u where u.emailAddress = ?#&#123;principal.emailAddress&#125;"</span>)</span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">findCurrentUserWithCustomQuery</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>如您所见，我们引用了Spring Security的属性<code>principal</code>。那么Spring Data SpEL如何支持与Spring Security集成。</p>
+<p><img src="C:\Users\yjx\AppData\Roaming\Typora\typora-user-images\1547115370479.png" alt="1547115370479"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/持久层/">持久层</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/12/28/mybatis-总结/" title="mybatis 总结" itemprop="url">mybatis 总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-12-28T13:21:37.000Z" itemprop="datePublished"> Published 2018-12-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>1.接口绑定：两种方法，基于注解或者基于xml文档mapper，但要注意mapper的namespace要与接口路径完全一致。</p>
+<p>2.orm格式转换：通过设置resultMap和ResultType，将数据库中的记录转换为代码的bean对象。得到list或者对象。</p>
+<p>3.通过parameterType接收参数，进行动态sql生成。运用ognl表达式</p>
+<p>4.走缓存，设置二级缓存。设置二级缓存源。</p>
+<p>5.为什么要通过orm框架来走缓存呢？因为自己配置缓存策略相对复杂，比如当insert/update/delete时，要清除相应的缓存。当某些情况select又要添加进缓存。</p>
+<p>6.orm框架，orm框架，它是怎么进行对象和数据库中表的转换的呢？答：数据库中的表要与代码中的类一一对应，包括属性。这样不就能进行匹配转换了嘛。</p>
+<p>5.返回list，必须要配置resultMAp</p>
+<p>6.insert操作时，要注意主键 主键生成策略，要设置useGeneraterKey = true,和 keyProperty=”id”，指定哪个是主键</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=&quot;addUser&quot; parameterType=&quot;User&quot; </span><br><span class="line">        useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt; </span><br><span class="line">        insert into user(userName,userAge,userAddress)  </span><br><span class="line">             values(#&#123;userName&#125;,#&#123;userAge&#125;,#&#123;userAddress&#125;)  </span><br><span class="line">    &lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+<p>7.spring在于mybatis集成时，spring负责什么呢？谁来维护datasource，谁来建立sqlSessionFactory?</p>
+<p>答:spring作为多个框架的粘合剂，spring负责建立datasource,sqlsessionFactpry。充分利用spring的ioc和aop功能。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spring 配置文件：applicationContext.xml </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;&gt;//spring管理配置datasource</span><br><span class="line">    &lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt; </span><br><span class="line">    &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/mybatis?characterEncoding=utf8&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt; </span><br><span class="line">    &lt;property name=&quot;password&quot; value=&quot;password&quot;/&gt; </span><br><span class="line"> &lt;/bean&gt; </span><br><span class="line"></span><br><span class="line"> &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt; //spring管理配置sqlsessionFactory</span><br><span class="line">    &lt;!--dataSource属性指定要用到的连接池--&gt; </span><br><span class="line">    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt; </span><br><span class="line">    &lt;!--configLocation属性指定mybatis的核心配置文件--&gt; </span><br><span class="line">    &lt;property name=&quot;configLocation&quot; value=&quot;config/Configuration.xml&quot;/&gt; </span><br><span class="line"> &lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>8.Mybatis的dao实现接口（接口绑定），是由mybatis来实现的，那又怎么来使用这个实现类呢？</p>
+<p>答：当然是注册到spring里了，作为一个bean使用。</p>
+<p>即：mybatis的dao实现类，也都要注册到spring的ioc容器中，以便利用spring的ioc和aop功能。</p>
+<p>注意此时dao实现类，的具体类是mybatis固定的org.mybatis.spring.mapper.MapperFactoryBean类，这个类专门用来生成具体的dao实现类。</p>
+<p>但要记住，一切的增删改查都是通过session来进行的，所以dao实现类要di依赖注入sqlSessionFactory这个属性。</p>
+<p>再利用mapperInterface指定具体的mapper接口类。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring 配置文件：applicationContext.xml </span><br><span class="line">&lt;bean id=&quot;userMapper&quot; class=&quot;org.mybatis.spring.mapper.MapperFactoryBean&quot;&gt; </span><br><span class="line">     &lt;!--sqlSessionFactory属性指定要用到的SqlSessionFactory实例--&gt; </span><br><span class="line">     &lt;property name=&quot;sqlSessionFactory&quot; ref=&quot;sqlSessionFactory&quot; /&gt; </span><br><span class="line">     &lt;!--mapperInterface属性指定映射器接口，用于实现此接口并生成映射器对象--&gt; </span><br><span class="line">     &lt;property name=&quot;mapperInterface&quot; value=&quot;com.yihaomen.mybatis.inter.IUserOperation&quot; /&gt;</span><br><span class="line">  &lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>9.即：mybatis的dao实现类，也都要注册到spring的ioc容器中，以便利用spring的ioc和aop功能。</p>
+<p>10.spring的配置文件applicationContext.XML负责配置与数据库相关，与mybatis sqlSessionFaction 整合，扫描所有mybatis mapper 文件等相关内容。</p>
+<p>事务管理器也在spring的配置文件中配置，同时要依赖注入datasource属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;</span><br><span class="line">     &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot; /&gt;</span><br><span class="line">   &lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p>11.mybatis的分页功能，可以自己利用mysql代码实现，也可以利用mybatis分页插件,如pageHelper</p>
+<p>12.mybatis的传入参数只能是一个，只能有1个。可以是各种<a href="http://lib.csdn.net/base/javaee" target="_blank" rel="noopener">Java</a>的基本数据类型：包含int,String,Date等。基本数据类型作为传参，只能传入一个。通过#{参数名} 即可获取传入的值 ，复杂数据类型：包含JAVA实体类、Map。通过#{属性名}或#{map的KeyName}即可获取传入的值，但是如果想传入一个collection怎么办呢？</p>
+<p>经查找后发现可以使用mapper配置文件中的foreach语句，借用别人写的文章：</p>
+<p>\13. foreach</p>
+<p>对于动态SQL 非常必须的，主是要迭代一个集合，通常是用于IN 条件。List 实例将使用“list”做为键，数组实例以“array” 做为键。</p>
+<p>foreach元素是非常强大的，它允许你指定一个集合，声明集合项和索引变量，它们可以用在元素体内。它也允许你指定开放和关闭的字符串，在迭代之间放置分隔符。这个元素是很智能的，它不会偶然地附加多余的分隔符。</p>
+<p>\14. 在<a href="http://lib.csdn.net/base/javaee" target="_blank" rel="noopener">Java</a>实体对象对中，一对多可以根据List和Set来实现，两者在mybitis中都是通过collection标签来配合使用</p>
+<p>15.</p>
+<h2 id="一对一关联"><a href="#一对一关联" class="headerlink" title="一对一关联"></a>一对一关联</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">根据班级id查询班级信息(带老师的信息)</span><br><span class="line">10         ##1. 联表查询</span><br><span class="line">11         SELECT * FROM class c,teacher t WHERE c.teacher_id=t.t_id AND c.c_id=1;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;getClass&quot; parameterType=&quot;int&quot; resultMap=&quot;ClassResultMap&quot;&gt;</span><br><span class="line">24         select * from class c, teacher t where c.teacher_id=t.t_id and c.c_id=#&#123;id&#125;</span><br><span class="line">25     &lt;/select&gt;</span><br><span class="line">26     &lt;!-- 使用resultMap映射实体类和字段之间的一一对应关系 --&gt;</span><br><span class="line">27     &lt;resultMap type=&quot;me.gacl.domain.Classes&quot; id=&quot;ClassResultMap&quot;&gt;</span><br><span class="line">28         &lt;id property=&quot;id&quot; column=&quot;c_id&quot;/&gt;</span><br><span class="line">29         &lt;result property=&quot;name&quot; column=&quot;c_name&quot;/&gt;</span><br><span class="line">30         &lt;association property=&quot;teacher&quot; javaType=&quot;me.gacl.domain.Teacher&quot;&gt;</span><br><span class="line">31             &lt;id property=&quot;id&quot; column=&quot;t_id&quot;/&gt;</span><br><span class="line">32             &lt;result property=&quot;name&quot; column=&quot;t_name&quot;/&gt;</span><br><span class="line">33         &lt;/association&gt;</span><br><span class="line">34     &lt;/resultMap&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">37     方式二：嵌套查询：通过执行另外一个SQL映射语句来返回预期的复杂类型</span><br><span class="line">38         SELECT * FROM class WHERE c_id=1;</span><br><span class="line">39         SELECT * FROM teacher WHERE t_id=1   //1 是上一个查询得到的teacher_id的值</span><br><span class="line">40     --&gt;</span><br><span class="line">41      &lt;select id=&quot;getClass2&quot; parameterType=&quot;int&quot; resultMap=&quot;ClassResultMap2&quot;&gt;</span><br><span class="line">42         select * from class where c_id=#&#123;id&#125;</span><br><span class="line">43      &lt;/select&gt;</span><br><span class="line">44      &lt;!-- 使用resultMap映射实体类和字段之间的一一对应关系 --&gt;</span><br><span class="line">45      &lt;resultMap type=&quot;me.gacl.domain.Classes&quot; id=&quot;ClassResultMap2&quot;&gt;</span><br><span class="line">46         &lt;id property=&quot;id&quot; column=&quot;c_id&quot;/&gt;</span><br><span class="line">47         &lt;result property=&quot;name&quot; column=&quot;c_name&quot;/&gt;</span><br><span class="line">48         &lt;association property=&quot;teacher&quot; column=&quot;teacher_id&quot; select=&quot;getTeacher&quot;/&gt;</span><br><span class="line">49      &lt;/resultMap&gt;</span><br><span class="line">50      </span><br><span class="line">51      &lt;select id=&quot;getTeacher&quot; parameterType=&quot;int&quot; resultType=&quot;me.gacl.domain.Teacher&quot;&gt;</span><br><span class="line">52         SELECT t_id id, t_name name FROM teacher WHERE t_id=#&#123;id&#125;</span><br><span class="line">53      &lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>　MyBatis中使用association标签来解决一对一的关联查询，association标签可用的属性如下：</p>
+<ul>
+<li>property:对象属性的名称</li>
+<li>javaType:对象属性的类型</li>
+<li>column:所对应的外键字段名称</li>
+<li>select:使用另一个查询封装的结果</li>
+</ul>
+<p>15.</p>
+<h3 id="2-6、MyBatis一对多关联查询总结"><a href="#2-6、MyBatis一对多关联查询总结" class="headerlink" title="2.6、MyBatis一对多关联查询总结"></a>2.6、MyBatis一对多关联查询总结</h3><p>　　MyBatis中使用collection标签来解决一对多的关联查询，ofType属性指定集合中元素的对象类型。</p>
+<p>本文部分转自<a href="http://www.cnblogs.com/xdp-gacl/p/4264440.html" target="_blank" rel="noopener">http://www.cnblogs.com/xdp-gacl/p/4264440.html</a></p>
+<p>16.mybatis调用存储过程</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">三、编辑userMapper.xml</span><br><span class="line"></span><br><span class="line">　　编辑userMapper.xml文件，添加如下的配置项</span><br><span class="line"></span><br><span class="line">复制代码</span><br><span class="line"> 1 &lt;!-- </span><br><span class="line"> 2         查询得到男性或女性的数量, 如果传入的是0就女性否则是男性</span><br><span class="line"> 3      --&gt;</span><br><span class="line"> 4     &lt;select id=&quot;getUserCount&quot; parameterMap=&quot;getUserCountMap&quot; statementType=&quot;CALLABLE&quot;&gt;</span><br><span class="line"> 5         CALL mybatis.ges_user_count(?,?)</span><br><span class="line"> 6     &lt;/select&gt;</span><br><span class="line"> 7     </span><br><span class="line"> 8     &lt;!--</span><br><span class="line"> 9         parameterMap.put(&quot;sexid&quot;, 0);</span><br><span class="line">10         parameterMap.put(&quot;usercount&quot;, -1);</span><br><span class="line">11      --&gt;</span><br><span class="line">12     &lt;parameterMap type=&quot;java.util.Map&quot; id=&quot;getUserCountMap&quot;&gt;</span><br><span class="line">13         &lt;parameter property=&quot;sexid&quot; mode=&quot;IN&quot; jdbcType=&quot;INTEGER&quot;/&gt;</span><br><span class="line">14         &lt;parameter property=&quot;usercount&quot; mode=&quot;OUT&quot; jdbcType=&quot;INTEGER&quot;/&gt;</span><br><span class="line">15     &lt;/parameterMap&gt;</span><br><span class="line">复制代码</span><br><span class="line">四、编写单元测试代码</span><br><span class="line"></span><br><span class="line">复制代码</span><br><span class="line"> 1 package me.gacl.test;</span><br><span class="line"> 2 </span><br><span class="line"> 3 import java.util.HashMap;</span><br><span class="line"> 4 import java.util.List;</span><br><span class="line"> 5 import java.util.Map;</span><br><span class="line"> 6 </span><br><span class="line"> 7 import me.gacl.custom.model.ConditionUser;</span><br><span class="line"> 8 import me.gacl.domain.User;</span><br><span class="line"> 9 import me.gacl.util.MyBatisUtil;</span><br><span class="line">10 import org.apache.ibatis.session.SqlSession;</span><br><span class="line">11 import org.junit.Test;</span><br><span class="line">12 </span><br><span class="line">13 /**</span><br><span class="line">14  * @author gacl</span><br><span class="line">15  * 测试调用存储过程</span><br><span class="line">16  */</span><br><span class="line">17 public class Test6 &#123;</span><br><span class="line">18     </span><br><span class="line">19     @Test</span><br><span class="line">20     public void testGetUserCount()&#123;</span><br><span class="line">21         SqlSession sqlSession = MyBatisUtil.getSqlSession();</span><br><span class="line">22         /**</span><br><span class="line">23          * 映射sql的标识字符串，</span><br><span class="line">24          * me.gacl.mapping.userMapper是userMapper.xml文件中mapper标签的namespace属性的值，</span><br><span class="line">25          * getUserCount是select标签的id属性值，通过select标签的id属性值就可以找到要执行的SQL</span><br><span class="line">26          */</span><br><span class="line">27         String statement = &quot;me.gacl.mapping.userMapper.getUserCount&quot;;//映射sql的标识字符串</span><br><span class="line">28         Map&lt;String, Integer&gt; parameterMap = new HashMap&lt;String, Integer&gt;();</span><br><span class="line">29         parameterMap.put(&quot;sexid&quot;, 1);</span><br><span class="line">30         parameterMap.put(&quot;usercount&quot;, -1);</span><br><span class="line">31         sqlSession.selectOne(statement, parameterMap);</span><br><span class="line">32         Integer result = parameterMap.get(&quot;usercount&quot;);</span><br><span class="line">33         System.out.println(result);</span><br><span class="line">34         sqlSession.close();</span><br><span class="line">35     &#125;</span><br><span class="line">36 &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/mybatis/">mybatis</a><a href="/tags/ORM/">ORM</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
     <article class="post-expand post" itemprop="articleBody"> 
         <header class="article-info clearfix">
   <h1 itemprop="name">
@@ -972,165 +1217,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/28/java实现多线程的方法/" title="java实现多线程的方法" itemprop="url">java实现多线程的方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-05-28T12:14:32.000Z" itemprop="datePublished"> Published 2018-05-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么是线程？"><a href="#什么是线程？" class="headerlink" title="什么是线程？"></a>什么是线程？</h3><p> 是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。线程有就绪、阻塞和运行三种基本状态。</p>
-<h3 id="什么是进程？"><a href="#什么是进程？" class="headerlink" title="什么是进程？"></a>什么是进程？</h3><p>进程是计算机中的程序关于某个数据集合的一次活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。一个可以独立运行的程序单位。是线程的集合。</p>
-<h3 id="什么是多线程"><a href="#什么是多线程" class="headerlink" title="什么是多线程"></a>什么是多线程</h3><p>同一个进程中有多个线程在并发执行。进程的多个执行路径。</p>
-<h3 id="进程和线程之间的区别"><a href="#进程和线程之间的区别" class="headerlink" title="进程和线程之间的区别"></a>进程和线程之间的区别</h3><p>线程是进程的最小运行单位，进程是线程的集合。一个进程由一个或多个线程组成。</p>
-<h3 id="线程的五种状态？—生命周期"><a href="#线程的五种状态？—生命周期" class="headerlink" title="线程的五种状态？—生命周期"></a>线程的五种状态？—生命周期</h3><p>创建（new） 就绪(runnable) 运行(running) 阻塞(blocked) 死亡(dead)</p>
-<p><img src="https://img-blog.csdn.net/20180830182150273?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzNTkxOTAz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
-<h3 id="为什么要用多线程"><a href="#为什么要用多线程" class="headerlink" title="为什么要用多线程?"></a>为什么要用多线程?</h3><p>单进程会出现阻塞，这时整个进程就会挂掉，直到外部条件发生变化。</p>
-<p>1.异步调用: <font color="red">读写分离</font>，IO操作等。如果是单线程，那么程序就必须等待这些操作执行完成之后才能执行其他的操作。使用多线程，可以将耗时任务放在后台继续执行的同时，执行其他任务。</p>
-<p>2.可以提高程序效率。</p>
-<p>缺点：</p>
-<p>1.多线程消耗系统资源，因为线程需要开辟内存。多线程就需要更多的线程。</p>
-<p>2.需要考虑线程操作对程序的影响，如线程挂起，中止等。</p>
-<p>3.线程使用不当会发生很多问题。</p>
-<p>多线程是异步的，但不代表多线程真的是几个线程是在同时进行，实际上是系统不断地在各个线程之间切换(由于切换速度很快，所以给我们在同时运行的错觉）</p>
-<h3 id="实现多线程的方式"><a href="#实现多线程的方式" class="headerlink" title="实现多线程的方式"></a>实现多线程的方式</h3><p>1.继承Thread()类，重写run()方法</p>
-<p>Thread()类本质上是实现了Runnable接口的一个实例，代表一个线程实例。启动线程的唯一方法就是通过Thread()类的start()方法。start是一个native方法，它将启动一个线程，并执行run()方法。这种实现多线程很简单，通过自己的类extends Thread,并复写run()方法，就可以启动并执行自己定义的run()方法。例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"MyThread.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">MyThread myThread1 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">MyThread myThread2 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">myThread1.start();  </span><br><span class="line">myThread2.start();</span><br></pre></td></tr></table></figure>
-<p>start()方法本质是将线程进入就绪状态，等待cpu执行run()方法，如果直接调用thread.run方法，那么就和普通的方法没有区别，不是异步操作。</p>
-<p>2.实现Runnable接口创建线程</p>
-<p>如果自己的类已经继承其他的类，就可以实现Runnable接口，java不支持多继承。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunable</span> <span class="keyword">extends</span> <span class="title">Runnable</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"Runnable.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//启动实现runnable接口创建的线程对象</span></span><br><span class="line">Thread myThread1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunable()); </span><br><span class="line">myThread1.start();</span><br></pre></td></tr></table></figure>
-<p>Runable 避免了java单继承的局限性；更加符合面向对象，线程分为两部分，一部分线程对象，一部分线程任务。</p>
-<p>Runable只是<font color="red">任务，只是定义了线程要执行的任务</font>，Thread才是真正的线程创建者，也就是说线程和任务是分开的，任务放在放在线程里面才会被执行。run()方法是线程的运行者，main只有调用了run()方法才能执行任务。</p>
-<p>strat()方法是创建线程。</p>
-<font color="red">总结：1.start()是线程的启动者；2.run()是线程运行的执行者。</font>
-
-<font color="red">总结：1.实现Runnable接口的实例是线程任务的定义者；2.继承Thread类的实例是线程的创建者</font>
-
-<h3 id="线程的创建，停止，常用方法介绍："><a href="#线程的创建，停止，常用方法介绍：" class="headerlink" title="线程的创建，停止，常用方法介绍："></a>线程的创建，停止，常用方法介绍：</h3><p>停止的3种方法：</p>
-<p>1.线程正常停止，即run()方法运行结束正常停止。</p>
-<p>2.interrupt()方法终止线程。</p>
-<p>3.stop()方法暴力终止。</p>
-<p>　interrupt方法中断线程介绍：</p>
-<p>　　　　interrupt方法其实并不是直接中断线程，只是给线程添加一个中断标志。</p>
-<p>　　判断线程是否是停止状态：</p>
-<p>　　　　this.interrupted(); 判断当前线程是否已经中断。（判断的是这个方法所在的代码对应的线程，而不是调用对象对应的线程）</p>
-<p>　　　　this.isInterrupted(); 判断线程是否已经中断。（谁调用，判断谁）</p>
-<h3 id="什么是线程安全"><a href="#什么是线程安全" class="headerlink" title="什么是线程安全"></a>什么是线程安全</h3><p>当多个线程访问某个类时，这个类始终都能表现出正确的行为，那么就称这个类是线程安全的。</p>
-<h3 id="守护线程："><a href="#守护线程：" class="headerlink" title="守护线程："></a>守护线程：</h3><p>java线程分为两种：</p>
-<p>1.用户线程，运行在前台，执行具体的任务</p>
-<p>2.守护线程，运行在后台，为前台线程服务（GC）</p>
-<p>特点：一旦所有的用户线程都结束运行，守护线程会随着JVM一起结束工作。垃圾回收线程就是一个常见的守护线程。</p>
-<h3 id="Start-和run-方法"><a href="#Start-和run-方法" class="headerlink" title="Start()和run()方法"></a>Start()和run()方法</h3><p><strong>1.start（）</strong>方法来启动线程，真正实现了多线程运行。这时无需等待run方法体代码执行完毕，可以直接继续执行下面的代码；通过调用Thread类的start()方法来启动一个线程， 这时此线程是处于就绪状态， 并没有运行。 然后通过此Thread类调用方法run()来完成其运行操作的， 这里方法run()称为线程体，它包含了要执行的这个线程的内容， Run方法运行结束， 此线程终止。然后CPU再调度其它线程。<br><strong>2.run（）</strong>方法当作普通方法的方式调用。程序还是要顺序执行，要等待run方法体执行完毕后，才可继续执行下面的代码； 程序中只有主线程——这一个线程， 其程序执行路径还是只有一条， 这样就没有达到写线程的目的。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/多线程/">多线程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/26/gc垃圾回收机制/" title="gc垃圾回收机制" itemprop="url">gc垃圾回收机制</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-05-26T12:22:08.000Z" itemprop="datePublished"> Published 2018-05-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>GC garbage collection 垃圾收集，垃圾回收机制。</p>
-<p>java中的GC回收完全是自动的，没有提供相应的api手动回收，所有的内存分配和回收权限都在jvm，不再开发人员手里。</p>
-<p>没有绝对的垃圾回收的方法，不过可以这样去做：</p>
-<p>1.对于不再引用的对象，及时把它的引用赋为null. obj = null</p>
-<p>2.如果内存确实很紧张，调用System.gc()方法来建议垃圾回收器开始回收垃圾。通知GC运行，但是java规范并不一定保证GC一定执行。</p>
-<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>线程分为守护线程和非守护线程（即用户线程）</p>
-<p>只要当前jvm实例中尚存在任何一个    非守护线程没有结束，守护线程就全部工程。只有当最后一个非收获线程结束时，守护线程随着JVM一同结束工作。守护线程最典型的就是GC(垃圾回收器)</p>
-<h3 id="native-关键字"><a href="#native-关键字" class="headerlink" title="native 关键字"></a>native 关键字</h3><p>native是用做java和其他语言进行（如C++）进行协作时用的，也就是native后的函数的实现不是用java写的。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/gc-垃圾回收机制/">gc 垃圾回收机制</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
@@ -1160,7 +1246,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>27</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>29</sup></a></li>
 			
 		
 			
@@ -1172,11 +1258,15 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
 			
 		
 			
@@ -1188,19 +1278,11 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -1212,11 +1294,11 @@
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -1228,15 +1310,19 @@
 			
 		
 			
-				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 		</ul>

@@ -82,6 +82,165 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/05/28/java实现多线程的方法/" title="java实现多线程的方法" itemprop="url">java实现多线程的方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-05-28T12:14:32.000Z" itemprop="datePublished"> Published 2018-05-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么是线程？"><a href="#什么是线程？" class="headerlink" title="什么是线程？"></a>什么是线程？</h3><p> 是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。线程有就绪、阻塞和运行三种基本状态。</p>
+<h3 id="什么是进程？"><a href="#什么是进程？" class="headerlink" title="什么是进程？"></a>什么是进程？</h3><p>进程是计算机中的程序关于某个数据集合的一次活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。一个可以独立运行的程序单位。是线程的集合。</p>
+<h3 id="什么是多线程"><a href="#什么是多线程" class="headerlink" title="什么是多线程"></a>什么是多线程</h3><p>同一个进程中有多个线程在并发执行。进程的多个执行路径。</p>
+<h3 id="进程和线程之间的区别"><a href="#进程和线程之间的区别" class="headerlink" title="进程和线程之间的区别"></a>进程和线程之间的区别</h3><p>线程是进程的最小运行单位，进程是线程的集合。一个进程由一个或多个线程组成。</p>
+<h3 id="线程的五种状态？—生命周期"><a href="#线程的五种状态？—生命周期" class="headerlink" title="线程的五种状态？—生命周期"></a>线程的五种状态？—生命周期</h3><p>创建（new） 就绪(runnable) 运行(running) 阻塞(blocked) 死亡(dead)</p>
+<p><img src="https://img-blog.csdn.net/20180830182150273?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzNTkxOTAz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<h3 id="为什么要用多线程"><a href="#为什么要用多线程" class="headerlink" title="为什么要用多线程?"></a>为什么要用多线程?</h3><p>单进程会出现阻塞，这时整个进程就会挂掉，直到外部条件发生变化。</p>
+<p>1.异步调用: <font color="red">读写分离</font>，IO操作等。如果是单线程，那么程序就必须等待这些操作执行完成之后才能执行其他的操作。使用多线程，可以将耗时任务放在后台继续执行的同时，执行其他任务。</p>
+<p>2.可以提高程序效率。</p>
+<p>缺点：</p>
+<p>1.多线程消耗系统资源，因为线程需要开辟内存。多线程就需要更多的线程。</p>
+<p>2.需要考虑线程操作对程序的影响，如线程挂起，中止等。</p>
+<p>3.线程使用不当会发生很多问题。</p>
+<p>多线程是异步的，但不代表多线程真的是几个线程是在同时进行，实际上是系统不断地在各个线程之间切换(由于切换速度很快，所以给我们在同时运行的错觉）</p>
+<h3 id="实现多线程的方式"><a href="#实现多线程的方式" class="headerlink" title="实现多线程的方式"></a>实现多线程的方式</h3><p>1.继承Thread()类，重写run()方法</p>
+<p>Thread()类本质上是实现了Runnable接口的一个实例，代表一个线程实例。启动线程的唯一方法就是通过Thread()类的start()方法。start是一个native方法，它将启动一个线程，并执行run()方法。这种实现多线程很简单，通过自己的类extends Thread,并复写run()方法，就可以启动并执行自己定义的run()方法。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"MyThread.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">MyThread myThread1 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">MyThread myThread2 = <span class="keyword">new</span> MyThread();  </span><br><span class="line">myThread1.start();  </span><br><span class="line">myThread2.start();</span><br></pre></td></tr></table></figure>
+<p>start()方法本质是将线程进入就绪状态，等待cpu执行run()方法，如果直接调用thread.run方法，那么就和普通的方法没有区别，不是异步操作。</p>
+<p>2.实现Runnable接口创建线程</p>
+<p>如果自己的类已经继承其他的类，就可以实现Runnable接口，java不支持多继承。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunable</span> <span class="keyword">extends</span> <span class="title">Runnable</span> </span>&#123;  </span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">　　 System.out.println(<span class="string">"Runnable.run()"</span>);  </span><br><span class="line">　　&#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//启动实现runnable接口创建的线程对象</span></span><br><span class="line">Thread myThread1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunable()); </span><br><span class="line">myThread1.start();</span><br></pre></td></tr></table></figure>
+<p>Runable 避免了java单继承的局限性；更加符合面向对象，线程分为两部分，一部分线程对象，一部分线程任务。</p>
+<p>Runable只是<font color="red">任务，只是定义了线程要执行的任务</font>，Thread才是真正的线程创建者，也就是说线程和任务是分开的，任务放在放在线程里面才会被执行。run()方法是线程的运行者，main只有调用了run()方法才能执行任务。</p>
+<p>strat()方法是创建线程。</p>
+<font color="red">总结：1.start()是线程的启动者；2.run()是线程运行的执行者。</font>
+
+<font color="red">总结：1.实现Runnable接口的实例是线程任务的定义者；2.继承Thread类的实例是线程的创建者</font>
+
+<h3 id="线程的创建，停止，常用方法介绍："><a href="#线程的创建，停止，常用方法介绍：" class="headerlink" title="线程的创建，停止，常用方法介绍："></a>线程的创建，停止，常用方法介绍：</h3><p>停止的3种方法：</p>
+<p>1.线程正常停止，即run()方法运行结束正常停止。</p>
+<p>2.interrupt()方法终止线程。</p>
+<p>3.stop()方法暴力终止。</p>
+<p>　interrupt方法中断线程介绍：</p>
+<p>　　　　interrupt方法其实并不是直接中断线程，只是给线程添加一个中断标志。</p>
+<p>　　判断线程是否是停止状态：</p>
+<p>　　　　this.interrupted(); 判断当前线程是否已经中断。（判断的是这个方法所在的代码对应的线程，而不是调用对象对应的线程）</p>
+<p>　　　　this.isInterrupted(); 判断线程是否已经中断。（谁调用，判断谁）</p>
+<h3 id="什么是线程安全"><a href="#什么是线程安全" class="headerlink" title="什么是线程安全"></a>什么是线程安全</h3><p>当多个线程访问某个类时，这个类始终都能表现出正确的行为，那么就称这个类是线程安全的。</p>
+<h3 id="守护线程："><a href="#守护线程：" class="headerlink" title="守护线程："></a>守护线程：</h3><p>java线程分为两种：</p>
+<p>1.用户线程，运行在前台，执行具体的任务</p>
+<p>2.守护线程，运行在后台，为前台线程服务（GC）</p>
+<p>特点：一旦所有的用户线程都结束运行，守护线程会随着JVM一起结束工作。垃圾回收线程就是一个常见的守护线程。</p>
+<h3 id="Start-和run-方法"><a href="#Start-和run-方法" class="headerlink" title="Start()和run()方法"></a>Start()和run()方法</h3><p><strong>1.start（）</strong>方法来启动线程，真正实现了多线程运行。这时无需等待run方法体代码执行完毕，可以直接继续执行下面的代码；通过调用Thread类的start()方法来启动一个线程， 这时此线程是处于就绪状态， 并没有运行。 然后通过此Thread类调用方法run()来完成其运行操作的， 这里方法run()称为线程体，它包含了要执行的这个线程的内容， Run方法运行结束， 此线程终止。然后CPU再调度其它线程。<br><strong>2.run（）</strong>方法当作普通方法的方式调用。程序还是要顺序执行，要等待run方法体执行完毕后，才可继续执行下面的代码； 程序中只有主线程——这一个线程， 其程序执行路径还是只有一条， 这样就没有达到写线程的目的。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/多线程/">多线程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/26/gc垃圾回收机制/" title="gc垃圾回收机制" itemprop="url">gc垃圾回收机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-05-26T12:22:08.000Z" itemprop="datePublished"> Published 2018-05-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>GC garbage collection 垃圾收集，垃圾回收机制。</p>
+<p>java中的GC回收完全是自动的，没有提供相应的api手动回收，所有的内存分配和回收权限都在jvm，不再开发人员手里。</p>
+<p>没有绝对的垃圾回收的方法，不过可以这样去做：</p>
+<p>1.对于不再引用的对象，及时把它的引用赋为null. obj = null</p>
+<p>2.如果内存确实很紧张，调用System.gc()方法来建议垃圾回收器开始回收垃圾。通知GC运行，但是java规范并不一定保证GC一定执行。</p>
+<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>线程分为守护线程和非守护线程（即用户线程）</p>
+<p>只要当前jvm实例中尚存在任何一个    非守护线程没有结束，守护线程就全部工程。只有当最后一个非收获线程结束时，守护线程随着JVM一同结束工作。守护线程最典型的就是GC(垃圾回收器)</p>
+<h3 id="native-关键字"><a href="#native-关键字" class="headerlink" title="native 关键字"></a>native 关键字</h3><p>native是用做java和其他语言进行（如C++）进行协作时用的，也就是native后的函数的实现不是用java写的。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/gc-垃圾回收机制/">gc 垃圾回收机制</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/05/19/java-获取字节码以及判断类型/" title="java 获取字节码以及判断类型" itemprop="url">java 获取字节码以及判断类型</a>
   </h1>
   <p class="article-author">By
@@ -404,7 +563,7 @@ TIME+   进程使用CPU总时间
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>27</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>29</sup></a></li>
 			
 		
 			
@@ -416,11 +575,15 @@ TIME+   进程使用CPU总时间
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
 			
 		
 			
@@ -432,19 +595,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -456,11 +611,11 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -472,15 +627,19 @@ TIME+   进程使用CPU总时间
 			
 		
 			
-				<li><a href="/tags/TCP/" title="TCP">TCP<sup>1</sup></a></li>
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ELK/" title="ELK">ELK<sup>1</sup></a></li>
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 		</ul>
