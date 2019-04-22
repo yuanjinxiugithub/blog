@@ -1,0 +1,694 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>Java 集合框架总结 | MyNotes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="YUAN">
+    
+
+    
+    <meta name="description" content="1.java中常用的集合类型  java 集合位于java.util 包中，所以当使用集合框架时需要进行import 2.集合接口集合框架定义了一些接口。本节提供了每个接口的概述：    序号 接口描述     1 Collection 接口 Collection 是最基本的集合接口，一个 Collection 代表一组 Object，即 Collection 的元素, Java不提供直接继承自C">
+<meta name="keywords" content="基础知识,JAVA,集合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 集合框架总结">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/04/22/Java-集合框架总结/index.html">
+<meta property="og:site_name" content="MyNotes">
+<meta property="og:description" content="1.java中常用的集合类型  java 集合位于java.util 包中，所以当使用集合框架时需要进行import 2.集合接口集合框架定义了一些接口。本节提供了每个接口的概述：    序号 接口描述     1 Collection 接口 Collection 是最基本的集合接口，一个 Collection 代表一组 Object，即 Collection 的元素, Java不提供直接继承自C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2014/01/2243690-9cd9c896e0d512ed.gif">
+<meta property="og:updated_time" content="2019-04-22T13:00:52.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 集合框架总结">
+<meta name="twitter:description" content="1.java中常用的集合类型  java 集合位于java.util 包中，所以当使用集合框架时需要进行import 2.集合接口集合框架定义了一些接口。本节提供了每个接口的概述：    序号 接口描述     1 Collection 接口 Collection 是最基本的集合接口，一个 Collection 代表一组 Object，即 Collection 的元素, Java不提供直接继承自C">
+<meta name="twitter:image" content="http://www.runoob.com/wp-content/uploads/2014/01/2243690-9cd9c896e0d512ed.gif">
+
+    
+    <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="MyNotes" title="MyNotes"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="MyNotes">MyNotes</a></h1>
+				<h2 class="blog-motto">温故而知新</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:yuanjinxiugithub.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="w" itemscope="" itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/04/22/Java-集合框架总结/" title="Java 集合框架总结" itemprop="url">Java 集合框架总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-04-22T11:02:11.000Z" itemprop="datePublished"> Published 2019-04-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-java中常用的集合类型"><span class="toc-number">1.</span> <span class="toc-text">1.java中常用的集合类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-集合接口"><span class="toc-number">2.</span> <span class="toc-text">2.集合接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-集合实现类"><span class="toc-number">3.</span> <span class="toc-text">3.集合实现类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-set-和list的区别"><span class="toc-number">4.</span> <span class="toc-text">4.set 和list的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Set的使用"><span class="toc-number">5.</span> <span class="toc-text">5.Set的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-LinkedList和ArrayList的区别："><span class="toc-number">6.</span> <span class="toc-text">6.LinkedList和ArrayList的区别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vector"><span class="toc-number">7.</span> <span class="toc-text">Vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-java中循环删除list中元素的方法总结"><span class="toc-number">8.</span> <span class="toc-text">7.java中循环删除list中元素的方法总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-map的遍历方式"><span class="toc-number">9.</span> <span class="toc-text">8.map的遍历方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-collection-和collections的区别："><span class="toc-number">10.</span> <span class="toc-text">9.collection 和collections的区别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-HashMap和TreeMap的比较"><span class="toc-number">11.</span> <span class="toc-text">10.HashMap和TreeMap的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-HashMap和HashTable的比较"><span class="toc-number">12.</span> <span class="toc-text">11.HashMap和HashTable的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-Vector的同步性"><span class="toc-number">13.</span> <span class="toc-text">12.Vector的同步性</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="1-java中常用的集合类型"><a href="#1-java中常用的集合类型" class="headerlink" title="1.java中常用的集合类型"></a>1.java中常用的集合类型</h3><p><img src="http://www.runoob.com/wp-content/uploads/2014/01/2243690-9cd9c896e0d512ed.gif" alt="img"></p>
+<p> java 集合位于java.util 包中，所以当使用集合框架时需要进行import</p>
+<h3 id="2-集合接口"><a href="#2-集合接口" class="headerlink" title="2.集合接口"></a>2.集合接口</h3><p>集合框架定义了一些接口。本节提供了每个接口的概述：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>接口描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Collection 接口 Collection 是最基本的集合接口，一个 Collection 代表一组 Object，即 Collection 的元素, Java不提供直接继承自Collection的类，只提供继承于的子接口(如List和set)。Collection 接口存储一组不唯一，无序的对象。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>List 接口 List接口是一个有序的 Collection，使用此接口能够精确的控制每个元素插入的位置，能够通过索引(元素在List中位置，类似于数组的下标)来访问List中的元素，第一个元素的索引为 0，而且允许有相同的元素。List 接口存储一组不唯一，有序（插入顺序）的对象。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Set Set 具有与 Collection 完全一样的接口，只是行为上不同，Set 不保存重复的元素。Set 接口存储一组唯一，无序的对象。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>SortedSet  继承于Set保存有序的集合。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Map Map 接口存储一组键值对象，提供key（键）到value（值）的映射。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Map.Entry  描述在一个Map中的一个元素（键/值对）。是一个Map的内部类。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>SortedMap 继承于 Map，使 Key 保持在升序排列。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Enumeration 这是一个传统的接口和定义的方法，通过它可以枚举（一次获得一个）对象集合中的元素。这个传统接口已被迭代器取代。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-集合实现类"><a href="#3-集合实现类" class="headerlink" title="3.集合实现类"></a>3.集合实现类</h3><p>​    标准集合类汇总于下表：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>类描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>AbstractCollection</strong>  实现了大部分的集合接口。</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>AbstractList</strong>  继承于AbstractCollection 并且实现了大部分List接口。</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>AbstractSequentialList</strong>  继承于 AbstractList ，提供了对数据元素的链式访问而不是随机访问。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>LinkedList 该类实现了List接口，允许有null（空）元素。主要用于创建链表数据结构，该类没有同步方法，如果多个线程同时访问一个List，则必须自己实现访问同步，解决方法就是在创建List时候构造一个同步的List。例如：<code>Listlist=Collections.synchronizedList(newLinkedList(...));</code>LinkedList 查找效率低。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ArrayList 该类也是实现了List的接口，实现了可变大小的数组，随机访问和遍历元素时，提供更好的性能。该类也是非同步的,在多线程的情况下不要使用。ArrayList 增长当前长度的50%，插入删除效率低。</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>AbstractSet</strong>  继承于AbstractCollection 并且实现了大部分Set接口。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>HashSet 该类实现了Set接口，不允许出现重复元素，不保证集合中元素的顺序，允许包含值为null的元素，但最多只能一个。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>LinkedHashSet 具有可预知迭代顺序的 <code>Set</code> 接口的哈希表和链接列表实现。</td>
+</tr>
+<tr>
+<td>9</td>
+<td>TreeSet 该类实现了Set接口，可以实现排序等功能。</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>AbstractMap</strong>  实现了大部分的Map接口。</td>
+</tr>
+<tr>
+<td>11</td>
+<td>HashMap  HashMap 是一个散列表，它存储的内容是键值对(key-value)映射。 该类实现了Map接口，根据键的HashCode值存储数据，具有很快的访问速度，最多允许一条记录的键为null，不支持线程同步。</td>
+</tr>
+<tr>
+<td>12</td>
+<td>TreeMap  继承了AbstractMap，并且使用一颗树。</td>
+</tr>
+<tr>
+<td>13</td>
+<td>WeakHashMap  继承AbstractMap类，使用弱密钥的哈希表。</td>
+</tr>
+<tr>
+<td>14</td>
+<td>LinkedHashMap  继承于HashMap，使用元素的自然顺序对元素进行排序.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>IdentityHashMap  继承AbstractMap类，比较文档时使用引用相等。</td>
+</tr>
+</tbody>
+</table>
+<p>在前面的教程中已经讨论通过java.util包中定义的类，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>类描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Vector  该类和ArrayList非常相似，但是该类是同步的，可以用在多线程的情况，该类允许设置默认的增长长度，默认扩容方式为原来的2倍。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Stack  栈是Vector的一个子类，它实现了一个标准的后进先出的栈。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Dictionary  Dictionary 类是一个抽象类，用来存储键/值对，作用和Map类相似。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Hashtable  Hashtable 是 Dictionary(字典) 类的子类，位于 java.util 包中。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Properties  Properties 继承于 Hashtable，表示一个持久的属性集，属性列表中每个键及其对应值都是一个字符串。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>BitSet 一个Bitset类创建一种特殊类型的数组来保存位值。BitSet中数组大小会随需要增加。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-set-和list的区别"><a href="#4-set-和list的区别" class="headerlink" title="4.set 和list的区别"></a>4.set 和list的区别</h3><p>1.都是实现Collection 接口。</p>
+<p>2.set 不允许元素重复，不允许元素为空；list可以重复元素。</p>
+<ol start="3">
+<li>List和数组类似，可以动态增长，根据实际存储的数据的长度自动增长List的长度。查找元素效率高，插入删除效率低，因为会引起其他元素位置改变 <strong>&lt;实现类有ArrayList,LinkedList,Vector&gt;</strong> 。</li>
+</ol>
+<h3 id="5-Set的使用"><a href="#5-Set的使用" class="headerlink" title="5.Set的使用"></a>5.Set的使用</h3><p>set的两大实现类 TreeSet和HashSet </p>
+<p>TreeSet 会将里面的元素默认排序。</p>
+<p>HashSet :允许包含值为null的元素，但最多只能有一个null元素，不允许出现重复的元素。</p>
+<h3 id="6-LinkedList和ArrayList的区别："><a href="#6-LinkedList和ArrayList的区别：" class="headerlink" title="6.LinkedList和ArrayList的区别："></a>6.LinkedList和ArrayList的区别：</h3><p>ArrayList内部是使用可増长数组实现的，所以是用get和set方法是花费常数时间的，但是如果插入元素和删除元素，除非插入和删除的位置都在表末尾，否则代码开销会很大，因为里面需要数组的移动。<br>LinkedList是使用双链表实现的，所以get会非常消耗资源，除非位置离头部很近。但是插入和删除元素花费常数时间。</p>
+<h3 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h3><ol>
+<li>Vector与ArrayList一样，也是通过数组实现的，不同的是它支持线程的同步，即某一时刻只有一个线程能够写Vector，避免多线程同时写而引起的不一致性，但实现同步需要很高的花费，因此，访问它比访问ArrayList慢。</li>
+</ol>
+<h3 id="7-java中循环删除list中元素的方法总结"><a href="#7-java中循环删除list中元素的方法总结" class="headerlink" title="7.java中循环删除list中元素的方法总结"></a>7.java中循环删除list中元素的方法总结</h3><p>1.使用for循环删除</p>
+<p>删除某个元素后，list的大小发生了变化，索引也在变化，会导致遍历的时候漏掉一些元素，比如当你删除第1个元素后，继续根据索引访问第2个元素时，因为删除的关系后面的元素都往前移动了一位，所以实际访问的是第3个元素。因此，这种方式可以用在删除特定的一个元素时使用，但不适合循环删除多个元素时使用。</p>
+<p>2.增强for循环</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(String str:list2)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">"abc2"</span>.equals(str))&#123;</span><br><span class="line">        list2.remove(str);<span class="comment">//发生ConcurrentModificationException因为元素在使用的时候发生了并发的修改，导致异常抛出。但是删除完毕马上使用break跳出，则不会触发报错。</span></span><br><span class="line">        <span class="keyword">break</span>;<span class="comment">//使用 跳出 则不会出发报错</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.在list集合迭代元素中，对元素进行判断，一旦条件满足就添加一个新元素。代码如下</p>
+<p><strong>public</strong> <strong>class</strong> IteratorDemo {</p>
+<p>//在list集合迭代元素中，对元素进行判断，一旦条件满足就添加一个新元素</p>
+<p><strong>public</strong> <strong>static</strong> <strong>void</strong> main(String[] args) {</p>
+<p>//创建List集合</p>
+<p>List<string> list = <strong>new</strong> ArrayList<string>();</string></string></p>
+<p>//给集合中添加元素</p>
+<p>list.add(“abc1”);</p>
+<p>list.add(“abc2”);</p>
+<p>list.add(“abc3”);</p>
+<p>list.add(“abc4”);</p>
+<p>//迭代集合，当有元素为”abc2”时，集合加入新元素”itcast”</p>
+<p>Iterator<string> it = list.iterator();</string></p>
+<p><strong>while</strong>(it.hasNext()){</p>
+<p>String str = it.next();</p>
+<p>//判断取出的元素是否是”abc2”，是就添加一个新元素</p>
+<p><strong>if</strong>(“abc2”.equals(str)){</p>
+<p>list.add(“itcast”);// 该操作会导致程序出错</p>
+<p>}</p>
+<p>}</p>
+<p>//打印容器中的元素</p>
+<p>System.<em>out</em>.println(list);</p>
+<p>}</p>
+<p>}</p>
+<p>运行上述代码发生了错误 java.util.ConcurrentModificationException这是什么原因呢？</p>
+<p>在迭代过程中，使用了集合的方法对元素进行操作。导致迭代器并不知道集合中的变化，容易引发数据的不确定性。</p>
+<p>并发修改异常解决办法：在迭代时，不要使用集合的方法操作元素。</p>
+<p>那么想要在迭代时对元素操作咋办？通过ListIterator迭代器操作元素是可以的，ListIterator的出现，解决了使用Iterator迭代过程中可能会发生的错误情况。</p>
+<h3 id="8-map的遍历方式"><a href="#8-map的遍历方式" class="headerlink" title="8.map的遍历方式"></a>8.map的遍历方式</h3><p>1.Map.Entry keySet的方式</p>
+<p>2.key value 的方式遍历 map.keySet获取所有的key 在获取value</p>
+<p>3.Iterator的方式遍历，map.entrySet().iterator()获取所有的元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">map.put(<span class="string">"key1"</span>,<span class="string">"1"</span>);</span><br><span class="line">map.put(<span class="string">"key2"</span>,<span class="string">"2"</span>);</span><br><span class="line">map.put(<span class="string">"key3"</span>,<span class="string">"3"</span>);</span><br><span class="line"><span class="comment">//Entry 遍历 在容量大的时候推荐使用</span></span><br><span class="line"><span class="keyword">for</span>(Map.Entry&lt;String,String&gt; entry:map.entrySet())&#123;</span><br><span class="line">    System.out.println(entry.getKey()+<span class="string">":"</span>+entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//key value的方式遍历 通过Map.keySet 遍历所有的value和key   元素比较小的情况下推荐使用</span></span><br><span class="line"><span class="keyword">for</span>(String key:map.keySet())&#123;</span><br><span class="line">    String value = map.get(key);</span><br><span class="line">    System.out.println(key+<span class="string">":"</span>+value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Iterator 迭代器的方法 map.entrySet().iterator 方法遍历</span></span><br><span class="line">Iterator&lt;Map.Entry&lt;String,String&gt;&gt; iterator = map.entrySet().iterator();</span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">    Map.Entry&lt;String,String&gt; entry = iterator.next();</span><br><span class="line">    System.out.println(entry.getKey()+<span class="string">":"</span>+entry.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="9-collection-和collections的区别："><a href="#9-collection-和collections的区别：" class="headerlink" title="9.collection 和collections的区别："></a>9.collection 和collections的区别：</h3><p>collection是java.util下的接口，它是各种集合的父接口，继承于它的接口主要包含Set和List.Collections是java.util下的类，针对集合的帮助类。提供一些    静态方法实现以及对各种集合的搜索，排序，线程安全化等操作。</p>
+<h3 id="10-HashMap和TreeMap的比较"><a href="#10-HashMap和TreeMap的比较" class="headerlink" title="10.HashMap和TreeMap的比较"></a>10.HashMap和TreeMap的比较</h3><p>HashMap通过hashcode对其内容进行快速查找，而 TreeMap中所有的元素都保持着某种固定的顺序。</p>
+<p>HashMap：适用于在Map中插入、删除和定位元素。<br>Treemap：适用于按自然顺序或自定义顺序遍历键(key)。</p>
+<p>HashMap通常比TreeMap快一点(树和哈希表的数据结构使然)，建议多使用HashMap，在需要排序的Map时候才用TreeMap。</p>
+<h3 id="11-HashMap和HashTable的比较"><a href="#11-HashMap和HashTable的比较" class="headerlink" title="11.HashMap和HashTable的比较"></a>11.HashMap和HashTable的比较</h3><p>HashTable不允许有空值；</p>
+<p>HashMap可允许有唯一的空值；</p>
+<p>HashTable是线程安全的，HashMap非线程安全。</p>
+<h3 id="12-Vector的同步性"><a href="#12-Vector的同步性" class="headerlink" title="12.Vector的同步性"></a>12.Vector的同步性</h3><p>同步容器中的所有自带方法都是线程安全的，因为方法都使用synchronized关键字标注。但是，对这些集合类的复合操作无法保证其线程安全性。需要客户端通过主动加锁来保证。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/JAVA/">JAVA</a><a href="/tags/集合/">集合</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/04/22/Java-集合框架总结/" data-title="Java 集合框架总结 | MyNotes" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/04/08/mybatis缓存/" title="mybatis缓存">
+ <strong>下一篇：</strong><br> 
+ <span>mybatis缓存
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="https://github.com/yuanjinxiugithub" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+</div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Yuan. <br>
+			This is my blog,it is justu  to improve my skill.</p>
+	</section>
+	 
+	<div class="social-font">
+		
+		<a href="http://weibo.com/1871022901" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/yuanjinxiugithub" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1871022901@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="YUAN">YUAN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

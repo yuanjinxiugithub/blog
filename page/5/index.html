@@ -78,6 +78,285 @@
 
    
     
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/15/微服务是什么？/" title="微服务是什么？" itemprop="url">微服务是什么？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-15T07:03:46.000Z" itemprop="datePublished"> Published 2019-01-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>微服务架构风格是一种将单个应用程序作为一套小型服务开发的方法，每种应用程序都在自己的进程中运行，并与轻量级机制（通常是HTTP资源API）进行通信。 这些服务是围绕业务功能构建的，可以通过全自动部署机制独立部署。 这些服务的集中管理最少，可以用不同的编程语言编写，并使用不同的数据存储技术。</p>
+<p>说了这么多概念，微服务有什么样的具体特点呢？</p>
+<h3 id="1-独立部署，灵活扩展"><a href="#1-独立部署，灵活扩展" class="headerlink" title="1.独立部署，灵活扩展"></a><strong>1.独立部署，灵活扩展</strong></h3><p>传统的单体架构是以整个系统为单位进行部署，而微服务则是以每一个独立组件（例如用户服务，商品服务）为单位进行部署。</p>
+<p>用一张经典的图来表现，就是下面这个样子：</p>
+<p><img src="https://img-blog.csdn.net/20180607104629505" alt="img"></p>
+<p>图中左边是单体架构的集群，右边是微服务集群。</p>
+<p>什么意思呢？比如根据每个服务的吞吐量不同，支付服务需要部署20台机器，用户服务需要部署30台机器，而商品服务只需要部署10台机器。这种灵活部署只有微服务架构才能实现。</p>
+<p>而近几年流行的<strong>Docker</strong>，为微服务架构提供了有效的容器。</p>
+<h3 id="2-资源的有效隔离"><a href="#2-资源的有效隔离" class="headerlink" title="2.资源的有效隔离"></a><strong>2.资源的有效隔离</strong></h3><p>微服务设计的原则之一，就是每一个微服务拥有独立的数据源，假如微服务A想要读写微服务B的数据库，只能调用微服务B对外暴露的接口来完成。这样有效避免了服务之间争用数据库和缓存资源所带来的问题。</p>
+<p><img src="https://img-blog.csdn.net/20180607104746272" alt="img"></p>
+<p>同时，由于每一个微服务实例在Docker容器上运行，实现了服务器资源（内存、CPU资源等）的有效隔离。</p>
+<p><strong>3.团队组织架构的调整</strong></p>
+<p>微服务设计的思想也改变了原有的企业研发团队组织架构。传统的研发组织架构是水平架构，前端有前端的团队，后端有后端的团队，DBA有DBA的团队，测试有测试的团队。</p>
+<p><img src="https://img-blog.csdn.net/20180607104800210" alt="img"></p>
+<p>而微服务的设计思想对团队的划分有着一定的影响，使得团队组织架构的划分更倾向于垂直架构，比如用户业务是一个团队来负责，支付业务是一个团队来负责。</p>
+<p><img src="https://img-blog.csdn.net/20180607104812606" alt="img"></p>
+<p>当然，这种垂直划分只是一个理想的架构，<strong>实际在企业中并不会把团队组织架构拆分得这么绝对</strong>。</p>
+<h3 id="微服务与面向服务架构SOA的区别"><a href="#微服务与面向服务架构SOA的区别" class="headerlink" title="微服务与面向服务架构SOA的区别"></a><strong>微服务与面向服务架构SOA的区别</strong></h3><p><img src="https://img-blog.csdn.net/20180607104840322" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607104902601" alt="img"></p>
+<p>SOA是什么样子呢？可以是下面这样的Web Service：</p>
+<p><img src="https://img-blog.csdn.net/20180607104919855" alt="img"></p>
+<p>也可以是下面这样的ESB企业服务总线：</p>
+<p><img src="https://img-blog.csdn.net/20180607104928294" alt="img"></p>
+<p>总之，<strong>SOA架构强调的是异构系统之间的通信和解耦合，而微服务架构强调的是系统按业务边界做细粒度的拆分和部署。</strong></p>
+<p><img src="https://img-blog.csdn.net/20180607104938707" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607104958465" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/2018060710500616" alt="img"></p>
+<p><strong>微服务架构的不足</strong></p>
+<p><img src="https://img-blog.csdn.net/20180607105043457" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105122271" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105132523" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105144249" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180607105153958" alt="img"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/15/Java基础知识/" title="Java基础知识" itemprop="url">Java基础知识</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-15T06:41:22.000Z" itemprop="datePublished"> Published 2019-01-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="1-与equals-的区别"><a href="#1-与equals-的区别" class="headerlink" title="1. == 与equals()的区别"></a>1. == 与equals()的区别</h3><h3 id="2-遍历map的几种方法"><a href="#2-遍历map的几种方法" class="headerlink" title="2. 遍历map的几种方法"></a>2. 遍历map的几种方法</h3><h3 id="3-Map与Set的区别"><a href="#3-Map与Set的区别" class="headerlink" title="3.Map与Set的区别"></a>3.Map与Set的区别</h3><h3 id="4-java-中常用的集合类型"><a href="#4-java-中常用的集合类型" class="headerlink" title="4.java 中常用的集合类型"></a>4.java 中常用的集合类型</h3><h3 id="5-java访问修饰符"><a href="#5-java访问修饰符" class="headerlink" title="5.java访问修饰符"></a>5.java访问修饰符</h3><h3 id="6-hashmap-实现的原理"><a href="#6-hashmap-实现的原理" class="headerlink" title="6.hashmap 实现的原理"></a>6.hashmap 实现的原理</h3>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/基础知识/">基础知识</a><a href="/tags/java/">java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand _posts" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/10/HTTP-教程总结/" title="HTTP 教程总结" itemprop="url">HTTP 教程总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-10T03:42:10.000Z" itemprop="datePublished"> Published 2019-01-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="http-head-里面的Content-type"><a href="#http-head-里面的Content-type" class="headerlink" title="http head 里面的Content-type"></a>http head 里面的Content-type</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>post 请求中的Content-type方式一般有三种：</p>
+<ul>
+<li><p><code>application/x-www-form-urlencoded</code>：数据被编码为名称/值对。这是标准的编码格式。</p>
+</li>
+<li><p><code>multipart/form-data</code>： 数据被编码为一条消息，页上的每个控件对应消息中的一个部分。</p>
+</li>
+<li><p><code>text/plain</code>： 数据以纯文本形式(text/json/xml/html)进行编码，其中不含任何控件或格式字符。postman软件里标的是RAW。</p>
+</li>
+<li><p>form的<code>enctype</code>属性为编码方式，常用有两种：<code>application/x-www-form-urlencoded</code>和<code>multipart/form-data</code>，默认为<code>application/x-www-form-urlencoded</code></p>
+<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url。</p>
+<p>当action为get时候，浏览器用<code>x-www-form-urlencoded</code>的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串追加到url后面，用<code>?</code>分割，加载这个新的url</p>
+</li>
+<li><p>application/json 用来告诉服务器端消息主体是序列化后的json字符串</p>
+</li>
+</ul>
+<h3 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>客户端/浏览器接受并显示网页时，此网页所在的服务器会返回一个包含http状态码的信息头用以响应浏览器的请求。 HTTP status code。</p>
+<p>下面是常见的HTTP状态码：</p>
+<p>​    200—请求成功</p>
+<p>​        301– 重定向错误（资源被永久移除到其它URL）</p>
+<p>​        404– 请求的网页不存在（客户端错误）</p>
+<p>​        500– 内部服务器错误（服务器错误）</p>
+<h3 id="http请求方法"><a href="#http请求方法" class="headerlink" title="http请求方法"></a>http请求方法</h3><p>根据http标准，http请求可以使用多种请求方法：</p>
+<p>http1.0定义了三种请求方法：GET POST HEAD</p>
+<p>http2.0新增了五种请求方法： PUT DELETE COMMECT OPTIONS  TANCE </p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>GET</td>
+<td>请求指定的页面信息，并返回实体主体。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>HEAD</td>
+<td>类似于get请求，只不过返回的响应中没有具体的内容，用于获取报头</td>
+</tr>
+<tr>
+<td>3</td>
+<td>POST</td>
+<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST请求可能会导致新的资源的建立和/或已有资源的修改。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>PUT</td>
+<td>从客户端向服务器传送的数据取代指定的文档的内容。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>DELETE</td>
+<td>请求服务器删除指定的页面。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>CONNECT</td>
+<td>HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>OPTIONS</td>
+<td>允许客户端查看服务器的性能。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>TRACE</td>
+<td>回显服务器收到的请求，主要用于测试或诊断。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="http-消息结构"><a href="#http-消息结构" class="headerlink" title="http 消息结构"></a>http 消息结构</h3><p>http 是基于客户端/服务器的机构模型，无状态的请求/响应协议。</p>
+<h3 id="POST和GET-方法的区别："><a href="#POST和GET-方法的区别：" class="headerlink" title="POST和GET 方法的区别："></a>POST和GET 方法的区别：</h3><p>POST将请求参数隐藏进行传递，而GET会将参数拼接到请求地址后面传递；</p>
+<p>POST相对比较安全而GET因为暴露参数容易被篡改；</p>
+<p>根据HTTP传输协议两者对参数长度有不同的要求；</p>
+<p>两者在与服务器发生交互时    有所不同，post方法会请求服务端两次，第一次先发送头部进行确认，服务端返回成功后再次发送数据，而GET只需要请求服务器一次。同时强调GET方法中http协议并未做参数长度限制，只是不同浏览器和服务端做了限制而已。</p>
+<h3 id="HTTP-1-1-和HTTP-1-0的区别？"><a href="#HTTP-1-1-和HTTP-1-0的区别？" class="headerlink" title="HTTP/1.1 和HTTP /1.0的区别？"></a>HTTP/1.1 和HTTP /1.0的区别？</h3><p><img src="https://www.javazhiyin.com/wp-content/uploads/2019/02/java10-1550110599.png" alt="é¢è¯ä¸­çé£äºå[ç­ç | ç¯å]"></p>
+<p>HTTP 1.0   无状态，无连接</p>
+<p>HTTP 1.1 持久连接，请求管道化，增加缓存处理（新的字段cache-control）,增加Host字段、支持断点传输（把文件分成几部分）</p>
+<p>HTTP 2.0 二进制分帧，多路复用（或连接共享），头部压缩，服务器推送</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/http协议/">http协议</a><a href="/tags/前端/">前端</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
     <article class="post-expand _posts" itemprop="articleBody"> 
         <header class="article-info clearfix">
   <h1 itemprop="name">
@@ -947,276 +1226,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/10/15/dubbo-的使用和总结/" title="dubbo 的使用和总结" itemprop="url">dubbo 的使用和总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-10-15T06:58:54.000Z" itemprop="datePublished"> Published 2018-10-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/分布式服务框架/">分布式服务框架</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/10/10/String-StringBuilder-StringBuffer的区分/" title="String,StringBuilder,StringBuffer的区分" itemprop="url">String,StringBuilder,StringBuffer的区分</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-10-10T06:19:28.000Z" itemprop="datePublished"> Published 2018-10-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="https://www.cnblogs.com/dolphin0520/p/3778589.html" target="_blank" rel="noopener">参考链接</a></p>
-<h3 id="String-的修改原理"><a href="#String-的修改原理" class="headerlink" title="String 的修改原理"></a>String 的修改原理</h3><p>String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。（注意：append方法并不会new一个新的对象）</p>
-<h3 id="String类的了解"><a href="#String类的了解" class="headerlink" title="String类的了解"></a>String类的了解</h3><p> 查看String源码，发现String类是被final修饰的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** The offset is the first index of the storage that is used. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> offset;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** The count is the number of characters in the String. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> count;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** Cache the hash code for the string */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> hash; <span class="comment">// Default to 0</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">/** use serialVersionUID from JDK 1.0.2 for interoperability */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">6849794470754667710L</span>;</span><br><span class="line"> </span><br><span class="line">    ......</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>　从上面可以看出几点：</p>
-<p>　　1）String类是final类，也即意味着String类不能被继承，并且它的成员方法都默认为final方法。在Java中，被final修饰的类是不允许被继承的，并且该类中的成员方法都默认为final方法。</p>
-<p>​       2) 从上面的三个方法可以看出，无论是sub操、concat还是replace操作都不是在原有的字符串上进行的，而是重新生成了一个新的字符串对象。也就是说进行这些操作后，最原始的字符串并没有被改变。</p>
-<h3 id="深入理解String-StringBuilder-StringBuffer"><a href="#深入理解String-StringBuilder-StringBuffer" class="headerlink" title="深入理解String StringBuilder StringBuffer"></a>深入理解String StringBuilder StringBuffer</h3><ol>
-<li><p>String str=”hello world”和String str=new String(“hello world”)的区别</p>
-<font color="red">JVM内存机制：在class文件中有一部分来存储编译期间生成的字面常量和符号引用，这部分叫做class文件的常量池。在运行期间对应着方法区运行时的常量池。</font>
-
-<p>　因此在上述代码中，String str1 = “hello world”;和String str3 = “hello world”; 都在编译期间生成了 字面常量和符号引用，运行期间字面常量”hello world”被存储在运行时常量池（当然只保存了一份）。通过这种方式来将String对象跟引用绑定的话，JVM执行引擎会先在运行时常量池查找是否存在相同的字面常量，如果存在，则直接将引用指向已经存在的字面常量；否则在运行时常量池开辟一个空间来存储该字面常量，并将引用指向该字面常量。</p>
-<p>　　总所周知，通过new关键字来生成对象是在堆区进行的，而在<font color="red">堆区进行对象生成的过程是不会去检测该对象是否已经存在的。因此通过new来创建对象，创建出的一定是不同的对象，即使字符串的内容是相同的</font>。</p>
-<p>2.String StringBuilder StringBuffer的区别：</p>
-<p>String的修改其实就是new了一个StringBuilder并调用append方法，然后在调用toString返回一个新的String。</p>
-<p>　那么有人会问既然有了StringBuilder类，为什么还需要StringBuffer类？查看源代码便一目了然，事实上，StringBuilder和StringBuffer类拥有的成员属性以及成员方法基本相同，区别是StringBuffer类的成员方法前面多了一个关键字：synchronized，不用多说，这个关键字是在多线程访问时起到安全保护作用的,也就是说StringBuffer是线程安全的。</p>
-<p>　1）对于直接相加字符串，效率很高，因为在编译器便确定了它的值，也就是说形如”I”+”love”+”java”; 的字符串相加，在编译期间便被优化成了”Ilovejava”。这个可以用javap -c命令反编译生成的class文件进行验证。</p>
-<p>　　对于间接相加（即包含字符串引用），形如s1+s2+s3; 效率要比直接相加低，因为在编译器不会对引用变量进行优化。</p>
-<p>2）String、StringBuilder、StringBuffer三者的执行效率：</p>
-<p>　　StringBuilder &gt; StringBuffer &gt; String</p>
-<p>　当然这个是相对的，不一定在所有情况下都是这样。</p>
-<p>　　比如String str = “hello”+ “world”的效率就比 StringBuilder st  = new StringBuilder().append(“hello”).append(“world”)要高。</p>
-<p>　　因此，这三个类是各有利弊，应当根据不同的情况来进行选择使用：</p>
-<p>　　当字符串相加操作或者改动较少的情况下，建议使用 String str=”hello”这种形式；</p>
-<p>　　当字符串相加操作较多的情况下，建议使用StringBuilder，如果采用了多线程，则使用StringBuffer。</p>
-</li>
-</ol>
-<h3 id="常见的关于String、StringBuffer的面试题"><a href="#常见的关于String、StringBuffer的面试题" class="headerlink" title="常见的关于String、StringBuffer的面试题"></a>常见的关于String、StringBuffer的面试题</h3><p>下面是一些常见的关于String、StringBuffer的一些面试笔试题，若有不正之处，请谅解和批评指正。</p>
-<ol>
-<li>下面这段代码的输出结果是什么？</li>
-</ol>
-<p>　　String a = “hello2”; 　　String b = “hello” + 2; 　　System.out.println((a == b));</p>
-<p>　　输出结果为：true。原因很简单，”hello”+2在编译期间就已经被优化成”hello2”，因此在运行期间，变量a和变量b指向的是同一个对象。</p>
-<p>2.下面这段代码的输出结果是什么？</p>
-<p>　　String a = “hello2”; 　  String b = “hello”;       String c = b + 2;       System.out.println((a == c));</p>
-<p>　　输出结果为:false。由于有符号引用的存在，所以  String c = b + 2;不会在编译期间被优化，不会把b+2当做字面常量来处理的，因此这种方式生成的对象事实上是保存在堆上的。因此a和c指向的并不是同一个对象.</p>
-<p>3.下面这段代码的输出结果是什么？</p>
-<p>　　String a = “hello2”;   　 final String b = “hello”;       String c = b + 2;       System.out.println((a == c));</p>
-<p>　　输出结果为：true。对于被final修饰的变量，会在class文件常量池中保存一个副本，也就是说不会通过连接而进行访问，对final变量的访问在编译期间都会直接被替代为真实的值。那么String c = b + 2;在编译期间就会被优化成：String c = “hello” + 2; </p>
-<p>4.下面这段代码输出结果为：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`<span class="keyword">public</span>` `<span class="class"><span class="keyword">class</span>` `<span class="title">Main</span> </span>&#123;``    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``        ``String a = ``<span class="string">"hello2"</span>``;``        ``<span class="keyword">final</span>` `String b = getHello();``        ``String c = b + ``<span class="number">2</span>``;``        ``System.out.println((a == c));``    ``&#125;``    ` `    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="function">String <span class="title">getHello</span><span class="params">()</span> </span>&#123;``        ``<span class="keyword">return</span>` `<span class="string">"hello"</span>``;``    ``&#125;``&#125;`</span><br></pre></td></tr></table></figure>
-<p>　　输出结果为false。这里面虽然将b用final修饰了，但是由于其赋值是通过方法调用返回的，那么它的值只能在运行期间确定，因此a和c指向的不是同一个对象。</p>
-<p>5.下面这段代码的输出结果是什么？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`<span class="keyword">public</span>` `<span class="class"><span class="keyword">class</span>` `<span class="title">Main</span> </span>&#123;``    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``        ``String a = ``<span class="string">"hello"</span>``;``        ``String b =  ``<span class="keyword">new</span>` `String(``<span class="string">"hello"</span>``);``        ``String c =  ``<span class="keyword">new</span>` `String(``<span class="string">"hello"</span>``);``        ``String d = b.intern();``        ` `        ``System.out.println(a==b);``        ``System.out.println(b==c);``        ``System.out.println(b==d);``        ``System.out.println(a==d);``    ``&#125;``&#125;`</span><br></pre></td></tr></table></figure>
-<p>　　输出结果为（JDK版本 JDK6)：</p>
-<p>　　<img src="https://images0.cnblogs.com/i/288799/201406/091536144056475.jpg" alt="img"></p>
-<p>　　这里面涉及到的是String.intern方法的使用。在String类中，intern方法是一个本地方法，在JAVA SE6之前，intern方法会在运行时常量池中查找是否存在内容相同的字符串，如果存在则返回指向该字符串的引用，如果不存在，则会将该字符串入池，并返回一个指向该字符串的引用。因此，a和d指向的是同一个对象。</p>
-<p>7.下面这段代码1）和2）的区别是什么？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`<span class="keyword">public</span>` `<span class="class"><span class="keyword">class</span>` `<span class="title">Main</span> </span>&#123;``    ``<span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``        ``String str1 = ``<span class="string">"I"</span>``;``        ``<span class="comment">//str1 += "love"+"java";        1)``        ``str1 = str1+``"love"``+``"java"``;      ``//2)``        ` `    ``&#125;``&#125;`</span></span><br></pre></td></tr></table></figure>
-<p>　　1）的效率比2）的效率要高，1）中的”love”+”java”在编译期间会被优化成”lovejava”，而2）中的不会被优化</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/06/03/Java单例模式/" title="Java单例模式" itemprop="url">Java单例模式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-06-03T11:17:23.000Z" itemprop="datePublished"> Published 2018-06-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="什么是单例模式"><a href="#什么是单例模式" class="headerlink" title="什么是单例模式"></a>什么是单例模式</h2><p>因程序需要，有时我们只需要某个类同时保留一个对象，不希望有更多对象，此时，我们则应考虑单例模式的设计。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
-<li>单例模式只能有一个实例。</li>
-<li>单例类必须创建自己的唯一实例。</li>
-<li>单例类必须向其他对象提供这一实例。</li>
-</ol>
-<h2 id="单例模式VS静态类"><a href="#单例模式VS静态类" class="headerlink" title="单例模式VS静态类"></a>单例模式VS静态类</h2><p>在知道了什么是单例模式后，我想你一定会想到静态类，“既然只使用一个对象，为何不干脆使用静态类？”，这里我会将单例模式和静态类进行一个比较。</p>
-<ol>
-<li>单例可以继承和被继承，方法可以被override，而静态方法不可以。</li>
-<li>静态方法中产生的对象会在执行后被释放，进而被GC清理，不会一直存在于内存中。</li>
-<li>静态类会在第一次运行时初始化，单例模式可以有其他的选择，即可以延迟加载。</li>
-<li>基于2， 3条，由于单例对象往往存在于DAO层（例如sessionFactory），如果反复的初始化和释放，则会占用很多资源，而使用单例模式将其常驻于内存可以更加节约资源。</li>
-<li>静态方法有更高的访问效率。</li>
-<li>单例模式很容易被测试。</li>
-</ol>
-<p>几个关于静态类的误解：</p>
-<ul>
-<li>误解一：静态方法常驻内存而实例方法不是。</li>
-</ul>
-<blockquote>
-<p>实际上，特殊编写的实例方法可以常驻内存，而静态方法需要不断初始化和释放。</p>
-</blockquote>
-<ul>
-<li>误解二：静态方法在堆(heap)上，实例方法在栈(stack)上。</li>
-</ul>
-<blockquote>
-<p>实际上，都是加载到特殊的不可写的代码内存区域中。</p>
-</blockquote>
-<p>静态类和单例模式情景的选择：</p>
-<p>情景一：不需要维持任何状态，仅仅用于全局访问，此时更适合使用静态类。</p>
-<p>情景二：需要维持一些特定的状态，此时更适合使用单例模式。</p>
-<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><h3 id="1-懒汉模式（线程不安全）"><a href="#1-懒汉模式（线程不安全）" class="headerlink" title="1. 懒汉模式（线程不安全）"></a>1. 懒汉模式（线程不安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance==null)&#123;</span><br><span class="line">            instance=new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上，通过提供一个静态的对象instance，利用private权限的构造方法和getInstance()方法来给予访问者一个单例。</p>
-<p>缺点是，没有考虑到线程安全，可能存在多个访问者同时访问，并同时构造了多个对象的问题。</p>
-<p>之所以叫做懒汉模式，主要是因为此种方法可以非常明显的lazy loading。</p>
-<p>针对懒汉模式线程不安全的问题，我们自然想到了，在getInstance()方法前加锁，于是就有了第二种实现。</p>
-<h3 id="2-懒汉模式二-（线程安全）"><a href="#2-懒汉模式二-（线程安全）" class="headerlink" title="2. 懒汉模式二 （线程安全）"></a>2. 懒汉模式二 （线程安全）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static synchronized SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            instance = new SingletonDemo();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然而并发其实是一种特殊情况，大多时候这个锁占用的额外资源都浪费了，这种打补丁方式写出来的结构效率很低。</p>
-<h3 id="3-饿汉模式"><a href="#3-饿汉模式" class="headerlink" title="3. 饿汉模式"></a>3. 饿汉模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>直接在运行这个类的时候进行一次loading，之后直接访问。显然，这种方法没有起到lazy loading的效果，考虑到前面提到的和静态类的对比，这种方法只比静态类多了一个内存常驻而已。</p>
-<h3 id="4-静态类内部加载"><a href="#4-静态类内部加载" class="headerlink" title="4. 静态类内部加载"></a>4. 静态类内部加载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static SingletonDemo instance = new SingletonDemo();</span><br><span class="line">    &#125;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用内部类的好处是，静态内部类不会在单例加载时就加载，而是在调用getInstance()方法时才进行加载，达到了类似懒汉模式的效果，而这种方法又是线程安全的。</p>
-<h3 id="5-枚举方法"><a href="#5-枚举方法" class="headerlink" title="5. 枚举方法"></a>5. 枚举方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">enum SingletonDemo&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    public void otherMethods()&#123;</span><br><span class="line">        System.out.println(&quot;Something&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Hello &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        SingletonDemo.INSTANCE.otherMethods();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>提倡的方式，在我看来简直是来自神的写法。解决了以下三个问题：</p>
-<ul>
-<li>(1)自由序列化。</li>
-<li>(2)保证只有一个实例。</li>
-<li>(3)线程安全。</li>
-</ul>
-<p>这种充满美感的代码真的已经终结了其他一切实现方法了。</p>
-<h3 id="6-双重校验锁法"><a href="#6-双重校验锁法" class="headerlink" title="6. 双重校验锁法"></a>6. 双重校验锁法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line">    private static SingletonDemo instance;</span><br><span class="line">    private SingletonDemo()&#123;</span><br><span class="line">        System.out.println(&quot;Singleton has loaded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static SingletonDemo getInstance()&#123;</span><br><span class="line">        if(instance == null)&#123;</span><br><span class="line">            synchronized (SingletonDemo.class)&#123;</span><br><span class="line">                if(instance == null)&#123;</span><br><span class="line">                    instance = new SingletonDemo();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>接下来我解释一下在并发时，双重校验锁法会有怎样的情景：</p>
-<p>STEP 1. 线程A访问getInstance()方法，因为单例还没有实例化，所以进入了锁定块。</p>
-<p>STEP 2. 线程B访问getInstance()方法，因为单例还没有实例化，得以访问接下来代码块，而接下来代码块已经被线程1锁定。</p>
-<p>STEP 3. 线程A进入下一判断，因为单例还没有实例化，所以进行单例实例化，成功实例化后退出代码块，解除锁定。</p>
-<p>STEP 4. 线程B进入接下来代码块，锁定线程，进入下一判断，因为已经实例化，退出代码块，解除锁定。</p>
-<p>STEP 5. 线程A初始化并获取到了单例实例并返回，线程B获取了在线程A中初始化的单例。</p>
-<p>理论上双重校验锁法是线程安全的，并且，这种方法实现了lazyloading。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/设计模式/">设计模式</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
@@ -1250,7 +1259,7 @@
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>7</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>8</sup></a></li>
 			
 		
 			
@@ -1258,19 +1267,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+				<li><a href="/tags/前端/" title="前端">前端<sup>5</sup></a></li>
 			
 		
 			
@@ -1278,11 +1279,19 @@
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -1290,15 +1299,15 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
@@ -1318,11 +1327,11 @@
 			
 		
 			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
+				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
 		</ul>

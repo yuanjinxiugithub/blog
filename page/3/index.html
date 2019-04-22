@@ -82,6 +82,75 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/02/26/jvm进阶1/" title="jvm进阶1.0（简介）" itemprop="url">jvm进阶1.0（简介）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-26T08:52:34.000Z" itemprop="datePublished"> Published 2019-02-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么是jvm（java虚拟机）？"><a href="#什么是jvm（java虚拟机）？" class="headerlink" title="什么是jvm（java虚拟机）？"></a>什么是jvm（java虚拟机）？</h3><p> java 虚拟机是可以执行字节码（.class）文件的虚拟机进程。</p>
+<h3 id="为什么java被称为与平台无关的语言？"><a href="#为什么java被称为与平台无关的语言？" class="headerlink" title="为什么java被称为与平台无关的语言？"></a>为什么java被称为与平台无关的语言？</h3><p>因为不同的平台装有不同的jvm，它们能够将相同的.class文件解释成不同平台所需要的机器码。正因为有jvm的存在，java被称为跨平台的编程语言。</p>
+<h3 id="什么是平台"><a href="#什么是平台" class="headerlink" title="什么是平台?"></a>什么是平台?</h3><p>CPU和操作系统的总称。</p>
+<p>cpu进行计算和控制计算机系统；操作系统：管理计算机硬件和软件资源的系统软件，为计算机提供公共服务。</p>
+<h3 id="什么是跨平台？"><a href="#什么是跨平台？" class="headerlink" title="什么是跨平台？"></a>什么是跨平台？</h3><p>平台无关，不是说源程序（.java）和平台无关，能运行在各个不同的平台；而是说     源程序编译后的.class文件能够在不同的平台上运行（只要不同的平台上安装jvm）</p>
+<p>java源程序不是直接编译成机器码，而是二次编译的。第一次对java源程序被javac编译成.class文件（这个文件与平台无关）。第二次.class文件在被jvm中的解释器编译,解释器为不同平台所需要的机器码。</p>
+<p>javac和jvm都包含在jdk（java developement toolkit）</p>
+<h3 id="jvm内存管理"><a href="#jvm内存管理" class="headerlink" title="jvm内存管理"></a>jvm内存管理</h3><p>jvm运行时的几大数据区：</p>
+<p><img src="https://img-blog.csdn.net/20171228224905811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVtaW5nbGlhbmcxOTg3/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<p>方法区，堆，java栈，pc寄存器，本地方法栈。</p>
+<p>堆：存放所有new 对象。堆占据JVM的大部分内存。因此也是java的GC,垃圾收集器的主要工作目标区域。</p>
+<p>方法区：存放类装载进来后的和这个类相关的所有运行时需要的信息（如类的静态变量，常量，类的全局名称，方法信息等）。线程共享区，用于存储已被虚拟机加载的类信息，常量，静态变量，即时编译后的代码等数据。</p>
+<p>运行时常量池：方法区的一部分，用于存放编译器生成的各种字面量和符号引用。</p>
+<p>栈：用于存放基本类型，对象、数组的引用。</p>
+<p>栈内存中存放的可以看做是运行时的临时数据，主要表现为本地变量，操作符，对象引用地址等。这些数据会在方法执行结束后立即会回收，不会驻留。对存储空间的占用也只是执行函数指令时所必须的空间。不会造成内存的瓶颈。而方法区中的对象对应的类信息，函数表，构造函数，静态常量等。这些信息在类加载时按需只会在方法区中存储一份，不会产生额外的存储空间。所以主要的内存消耗是java堆内存。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/jvm/">jvm</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/25/JavaScript中的var-let-const的区别/" title="JavaScript中的var let const的区别" itemprop="url">JavaScript中的var let const的区别</a>
   </h1>
   <p class="article-author">By
@@ -120,7 +189,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/javascript/">javascript</a><a href="/tags/前端/">前端</a>
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/javascript/">javascript</a>
   </div>
 
 </div>
@@ -182,6 +251,65 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/20/JS-事件冒泡/" title="JS 事件冒泡" itemprop="url">JS 事件冒泡</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-20T09:08:20.000Z" itemprop="datePublished"> Published 2019-02-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么是事件冒泡"><a href="#什么是事件冒泡" class="headerlink" title="什么是事件冒泡"></a>什么是事件冒泡</h3><p>子元素的触发会影响到父元素事件。</p>
+<p>取消事件冒泡</p>
+<h3 id="什么是事件捕获"><a href="#什么是事件捕获" class="headerlink" title="什么是事件捕获"></a>什么是事件捕获</h3><p>父元素的事件会影响子元素。</p>
+<h3 id="什么是事件委托"><a href="#什么是事件委托" class="headerlink" title="什么是事件委托"></a>什么是事件委托</h3><p>事件委托也称事件代理，就是利用冒泡的原理把加事件加到父级上，触发执行效果。</p>
+<p>其实事件委托还有第二个优点：就是新添加的元素还会有之前的事件。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/js事件冒泡/">js事件冒泡</a>
   </div>
 
 </div>
@@ -753,150 +881,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/17/前端跨域问题/" title="前端跨域问题?" itemprop="url">前端跨域问题?</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-17T07:26:42.000Z" itemprop="datePublished"> Published 2019-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/CORS/">CORS</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/16/http和https的区别/" title="http和https的区别" itemprop="url">http和https的区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-16T02:05:47.000Z" itemprop="datePublished"> Published 2019-02-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://www.cnblogs.com/wqhwe/p/5407468.html" target="_blank" rel="noopener">参考文章</a></p>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>HTTP超文本传输协议被用于web浏览器和网站服务器之间传递信息，http协议以明文方式发送内容，不提供任何方式的数据加密，如果攻击者截取了Web浏览器和网站服务器之间的传输报文，就可以直接读懂其中的信息，因此，HTTP协议不适合传输一些敏感信息，比如：信用卡号、密码等支付信息。</p>
-<p> 为了解决HTTP协议的这一缺陷，需要使用另一种协议：安全套接字层超文本传输协议HTTPS，为了数据传输的安全，HTTPS在HTTP的基础上加入了SSL协议，SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</p>
-<h3 id="HTTP和HTTPS的基本概念"><a href="#HTTP和HTTPS的基本概念" class="headerlink" title="HTTP和HTTPS的基本概念"></a><strong>HTTP和HTTPS的基本概念</strong></h3><p>　　HTTP：是互联网上应用最为广泛的一种网络协议，是一个客户端和服务器端请求和应答的标准（TCP），用于从WWW服务器传输超文本到本地浏览器的传输协议，它可以使浏览器更加高效，使网络传输减少。</p>
-<p>　　HTTPS：是以安全为目标的HTTP通道，简单讲是HTTP的安全版，即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。</p>
-<p>　　HTTPS协议的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。</p>
-<p>TCP协议：</p>
-<h3 id="HTTP与HTTPS有什么区别？"><a href="#HTTP与HTTPS有什么区别？" class="headerlink" title="HTTP与HTTPS有什么区别？"></a><strong>HTTP与HTTPS有什么区别？</strong></h3><p>　　HTTP协议传输的数据都是未加密的，也就是明文的，因此使用HTTP协议传输隐私信息非常不安全，为了保证这些隐私数据能加密传输，于是网景公司设计了SSL（Secure Sockets Layer）协议用于对HTTP协议传输的数据进行加密，从而就诞生了HTTPS。简单来说，HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全。</p>
-<p>　　<font color="red">HTTPS和HTTP的区别主要如下：</font></p>
-<p>　　1、https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</p>
-<p>　　2、http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</p>
-<p>　　3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
-<p>　　4、http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</p>
-<h3 id="HTTP协议的工作原理"><a href="#HTTP协议的工作原理" class="headerlink" title="HTTP协议的工作原理"></a>HTTP协议的工作原理</h3><p>我们都知道HTTPS能够加密信息，以免敏感信息被第三方获取，所以很多银行网站或电子邮箱等等安全级别较高的服务都会采用HTTPS协议。</p>
-<p><img src="http://www.mahaixiang.cn/uploads/allimg/1507/1-150H120343I41.jpg" alt="HTTPä¸HTTPSçåºå&quot;-é©¬æµ·ç¥¥åå®¢"></p>
-<p>　客户端在使用HTTPS方式与Web服务器通信时有以下几个步骤，如图所示。</p>
-<p>　　（1）客户使用https的URL访问Web服务器，要求与Web服务器建立SSL连接。</p>
-<p>　　（2）Web服务器收到客户端请求后，会将网站的证书信息（证书中包含公钥）传送一份给客户端。</p>
-<p>　　（3）客户端的浏览器与Web服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</p>
-<p>　　（4）客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。</p>
-<p>　　（5）Web服务器利用自己的私钥解密出会话密钥。</p>
-<p>　　（6）Web服务器利用会话密钥加密与客户端之间的通信。</p>
-<p>  <img src="https://pic002.cnblogs.com/images/2012/339704/2012071410212142.gif" alt="img"></p>
-<p><strong>HTTPS的优点</strong></p>
-<p>　　尽管HTTPS并非绝对安全，掌握根证书的机构、掌握加密算法的组织同样可以进行中间人形式的攻击，但HTTPS仍是现行架构下最安全的解决方案，主要有以下几个好处：</p>
-<p>　　（1）使用HTTPS协议可认证用户和服务器，确保数据发送到正确的客户机和服务器；</p>
-<p>　　（2）HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全，可防止数据在传输过程中不被窃取、改变，确保数据的完整性。</p>
-<p>　　（3）HTTPS是现行架构下最安全的解决方案，虽然不是绝对安全，但它大幅增加了中间人攻击的成本。</p>
-<p>　　（4）谷歌曾在2014年8月份调整搜索引擎算法，并称“比起同等HTTP网站，采用HTTPS加密的网站在搜索结果中的排名将会更高”。</p>
-<p><strong>五、HTTPS的缺点</strong></p>
-<p>　　虽然说HTTPS有很大的优势，但其相对来说，还是存在不足之处的：</p>
-<p>　　（1）HTTPS协议握手阶段比较费时，会使页面的加载时间延长近50%，增加10%到20%的耗电；</p>
-<p>　　（2）HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗，甚至已有的安全措施也会因此而受到影响；</p>
-<p>　　（3）SSL证书需要钱，功能越强大的证书费用越高，个人网站、小网站没有必要一般不会用。</p>
-<p>　   （4）SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</p>
-<p>　　（5）HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/http协议/">http协议</a><a href="/tags/前端/">前端</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -930,7 +914,7 @@
 			
 		
 			
-				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>7</sup></a></li>
+				<li><a href="/tags/基础知识/" title="基础知识">基础知识<sup>8</sup></a></li>
 			
 		
 			
@@ -938,19 +922,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>4</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+				<li><a href="/tags/前端/" title="前端">前端<sup>5</sup></a></li>
 			
 		
 			
@@ -958,11 +934,19 @@
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
 			
 		
 			
@@ -970,15 +954,15 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
@@ -998,11 +982,11 @@
 			
 		
 			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
+				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
 			
 		
 		</ul>
