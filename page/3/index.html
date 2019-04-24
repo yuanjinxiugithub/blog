@@ -82,6 +82,331 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/01/有关于synchronized和lock的总结/" title="有关于synchronized和lock的总结" itemprop="url">有关于synchronized和lock的总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-01T00:56:15.000Z" itemprop="datePublished"> Published 2019-03-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="什么叫重入锁？"><a href="#什么叫重入锁？" class="headerlink" title="什么叫重入锁？"></a>什么叫重入锁？</h3><p><a href="https://blog.csdn.net/rickiyeat/article/details/78314451" target="_blank" rel="noopener">博客</a></p>
+<p>重入锁：可重复可递归调用的锁，在外层调用锁，在内层仍然可以使用，并且不发生死锁（前提是同一个对象或者class），ReentrantLock和sychronized都是重入锁。</p>
+<p>不可重入锁：即当前线程执行某个方法已经获取到了该锁，那么在方法中尝试在次获取锁时，就会获取不到被阻塞。</p>
+<p>可中断锁：在等待获取锁的过程可以被中断。</p>
+<p>公平锁:按等待获取锁的线程的等待时间进行获取，等待时间长的具有优先获取锁权利。</p>
+<p>读写锁：对资源读取和写入的时候拆分为2部分处理，读的时候可以多线程一起读，写的时候必须同步的写。</p>
+<h3 id="synchronized与lock的区别？"><a href="#synchronized与lock的区别？" class="headerlink" title="synchronized与lock的区别？"></a>synchronized与lock的区别？</h3><p><a href="https://www.cnblogs.com/iyyy/p/7993788.html" target="_blank" rel="noopener">博客</a></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>synchronized</th>
+<th>Lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存在层次</td>
+<td>Java的关键字，在jvm层面上</td>
+<td>是一个类</td>
+</tr>
+<tr>
+<td>锁的释放</td>
+<td>1、以获取锁的线程执行完同步代码，释放锁   2、线程执行发生异常，jvm会让线程释放锁</td>
+<td>在finally中必须释放锁，不然容易造成线程死锁</td>
+</tr>
+<tr>
+<td>锁的获取</td>
+<td>假设A线程获得锁，B线程等待。如果A线程阻塞，B线程会一直等待</td>
+<td>分情况而定，Lock有多个锁获取的方式，具体下面会说道，大致就是可以尝试获得锁，线程可以不用一直等待</td>
+</tr>
+<tr>
+<td>锁状态</td>
+<td>无法判断</td>
+<td>可以判断</td>
+</tr>
+<tr>
+<td>锁类型</td>
+<td>可重入 不可中断 非公平</td>
+<td>可重入 可判断 可公平（两者皆可）</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>少量同步</td>
+<td>大量同步</td>
+</tr>
+</tbody>
+</table>
+<h3 id="lock常用方法"><a href="#lock常用方法" class="headerlink" title="lock常用方法"></a>lock常用方法</h3><ul>
+<li>lock()：获取锁，如果锁被暂用则一直等待</li>
+<li>unlock():释放锁</li>
+<li>tryLock():      注意返回类型是boolean，如果获取锁的时候锁被占用就返回false，否则返回true</li>
+<li>tryLock(long time, TimeUnit      unit)：比起tryLock()就是给了一个时间期限，保证等待参数时间</li>
+<li>lockInterruptibly()：用该锁的获得方式，如果线程在获取锁的阶段进入了等待，那么可以中断此线程，先去做别的事</li>
+</ul>
+<h3 id="什么时候用ReentrantLock取代synchronied："><a href="#什么时候用ReentrantLock取代synchronied：" class="headerlink" title="什么时候用ReentrantLock取代synchronied："></a>什么时候用ReentrantLock取代synchronied：</h3><p>时间锁等候，无块结构锁，多个条件变量或者锁投票；性能更高：jvm将花费更少的时间来调度线程，把更多的时间用在执行程序上。必须使用finally来释放锁。</p>
+<h3 id="有关于synchronized代码同步块的说明："><a href="#有关于synchronized代码同步块的说明：" class="headerlink" title="有关于synchronized代码同步块的说明："></a>有关于synchronized代码同步块的说明：</h3><p><img src="file:///C:/Users/yjx/AppData/Local/Temp/msohtmlclip1/02/clip_image001.jpg" alt="æ¼«ç» | Javaå¤çº¿ç¨ä¸å¹¶åï¼ä¸ï¼"></p>
+<p>自我总结：</p>
+<p>1.当一个线程在访问一个对象的同步方法时，另一个线程可以同时访问这个对象的非同步方法。</p>
+<p>2.当一个线程访问一个对象的同步方法时，另一个线程是不能同时访问这个同步方法。</p>
+<p>3.当一个线程访问一个对象的同步方法时，另一个线程不能同时访问这个对象的另一个同步方法。</p>
+<p>当一个线程访问的一个对象的同步代码块时，需要视情况而定，看sychronized锁住的是什么，如果锁住的是整个对象的话，当有另一个线程访问该方法还是对象中的其他同步代码块时都是不能同时访问的，但如果锁住的不是同一个对象，是可以同时访问对象中的其他代码块。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/锁/">锁</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/27/面试内容梳理-20190227/" title="面试内容梳理-20190227" itemprop="url">面试内容梳理-20190227</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-27T12:59:55.000Z" itemprop="datePublished"> Published 2019-02-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h4 id="笔试题部分主要注重java基础知识："><a href="#笔试题部分主要注重java基础知识：" class="headerlink" title="笔试题部分主要注重java基础知识："></a>笔试题部分主要注重java基础知识：</h4><p>1.spring AutoWried和Resource的区别？</p>
+<p>   1.AutoWired和Resource都可以用来装配bean，都可以写在字段上，或者写在setter方法上。</p>
+<p>   2.AutoWired默认按照类型装配（这个注解属于spring的），默认情况下必须要求依赖对象必须存在，如果要允许null值，可以设置它的requied属性为false,@Autowired(required=false)</p>
+<p>   3.Resource(这个属于j2ee，减少了与spring的耦合),默认按照名字进行装配，名称可以通过name属性进行指定，如果没有指定name属性，当注解写在字段上时，默认取字段名进行安装名字查找。</p>
+<p>2.mybatis如何分页？如何设置缓存？</p>
+<p>​    方法1：数组分页，查询出全部数据，然后再list中截取需要的部分； ArrayList的subList()方法，截取需要的list.</p>
+<p>​    方法2：</p>
+<p>​    方法3：</p>
+<p>3.简述JMM以及垃圾回收机制？</p>
+<p>4.HashMap原理？</p>
+<p>5.什么是JDBC?解释下驱动在JDBC中的角色和作用？</p>
+<p>6.列出java IO常用的接口，类以及方法？字节流和字符流的区别？IO和NIO的区别？</p>
+<p>7.ArrayList和LinkedList的区别？</p>
+<p>8.Servlet的生命周期？初始化？</p>
+<p>9.java集合框架的基本接口有哪些？</p>
+<ol start="10">
+<li><p>Java支持的数据类型有哪些？什么是自动拆装箱？ </p>
+</li>
+<li><p>Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?</p>
+</li>
+<li><p>接口和抽象类的区别是什么？</p>
+</li>
+<li><p>线程和进程的区别？什么是多线程？如何实现多线程？如何安全的终止线程？run()方法和start()方法的区别？<strong>多线程有几种实现方法,都是什么?同步有几种实现方法,都是什么?</strong></p>
+<p>多线程有两种实现方法：继承Thread类和实现Runnable接口。</p>
+</li>
+</ol>
+<ol start="14">
+<li><p>什么是值传递和引用传递？</p>
+</li>
+<li><p>同步方法和同步代码块的区别是什么？</p>
+</li>
+<li><p>什么死锁（deadlock）?</p>
+</li>
+<li><p>如何保证n个线程可以访问Ng个资源又不会发生死锁？</p>
+</li>
+<li><p>spring的事务机制？sql的事务特性？</p>
+</li>
+<li><p>HashMap和HashTable的区别？</p>
+</li>
+<li><p>数组（Array）和列表（ArrayList）有什么区别？什么时候用Array什么时候用ArrayList?ArrayListheLinkedList的区别？</p>
+</li>
+<li><p>如何权衡是使用无序的数组还是有序的数组？</p>
+</li>
+<li><p>String StringBuffer的区别？</p>
+</li>
+<li><p><strong>说出ArrayList,Vector, LinkedList的存储性能和特性</strong> </p>
+</li>
+<li><p>、Collection 和 Collections的区别 </p>
+</li>
+<li><p>&amp;和&amp;&amp;的区别？</p>
+</li>
+<li><p>final finally finallize的区别？</p>
+</li>
+<li><p>sleep()和wait()有什么区别？</p>
+</li>
+<li><p>接口是否可继承接口？</p>
+</li>
+<li><p>两个对象值相同(x.equals(y) == true)，但却可有不同的hash code，这句话对不对？</p>
+</li>
+<li><p>当一个线程进入一个对象的一个synchronized方法后，其它线程是否可进入此对象的其它方法?</p>
+</li>
+<li><p><strong>编程题: 写一个Singleton出来</strong></p>
+</li>
+<li><p>Java中的异常处理机制的简单原理和应用？ java有多少种异常？</p>
+</li>
+</ol>
+<p>33.<strong>简述synchronized和java.util.concurrent.locks.Lock的异同</strong></p>
+<p>主要相同点：Lock能完成synchronized所实现的所有功能<br>主要不同点：Lock有比synchronized更精确的线程语义和更好的性能。<br>Lock是一个类，synchronized是一个关键字<br>synchronized会自动释放锁，而Lock一定要求程序员手工释放，并且必须在finally从句中释放</p>
+<p>34.<strong>JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？</strong> </p>
+<p>35.<strong>java中有几种类型的流？JDK为每种类型的流提供了一些抽象类以供继承，请说出他们分别是哪些类？</strong></p>
+<p>36.垃圾回收机制的原理</p>
+<p>37.什么是java序列化,如何实现java序列化？</p>
+<p>38.是否可以从一个static方法内部发出对非static方法的调用？</p>
+<p>​     不可以，如果其中包含对象的method();不能保证对象初始化。</p>
+<p>39.List、Map、Set三个接口，存取元素时，各有什么特点？</p>
+<p>​      List 以特定次序来持有元素，可有重复元素。<br>​      Set 无法拥有重复元素,内部排序。<br>​     Map 保存key-value值，value可多值。 </p>
+<p>40.使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
+<p>​     指引用的变量不能变，引用变量所指向的对象中的内容还是可以变的。例如，对于如下语句：</p>
+<p>41.线程如何同步和通讯？</p>
+<p>42.设计4个线程，其中两个线程每次对j增加1，另外两个线程对j每次减少1。写出程序</p>
+<p>43.heap和stack的区别？</p>
+<p>44.单例的实现？</p>
+<p>45.linux 查找文件的命令？</p>
+<p>46.有关泛型的了解？</p>
+<p>​     jdk1.5 新增泛型。</p>
+<p>​    是一种安全的</p>
+<p>47.什么是TreeMap</p>
+<h4 id="面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点"><a href="#面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点" class="headerlink" title="面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点"></a>面试也主要注重java基础知识以及电商行业的知识点还有就是项目中运用到技术点</h4><p>1.常用的数据运算方法？</p>
+<p>2.jdk1.8版本的新特性？</p>
+<p>3.项目中使用软件的版本总结？</p>
+<p>spring.version 4.2.5.RELEASE</p>
+<p>mybatis.version 3.4</p>
+<p>jdk1.8</p>
+<p>mysql 5.7.19</p>
+<p>dubbo.version 2.8.4</p>
+<p>Maven 3.5</p>
+<p>4.平时如何解决问题的？</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a><a href="/tags/面试总结/">面试总结</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/26/java中interface定义变量注意的地方/" title="java中interface定义变量注意的地方" itemprop="url">java中interface定义变量注意的地方</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-02-26T13:01:53.000Z" itemprop="datePublished"> Published 2019-02-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="关于interface中定义变量的注意事项"><a href="#关于interface中定义变量的注意事项" class="headerlink" title="关于interface中定义变量的注意事项"></a>关于interface中定义变量的注意事项</h3><p>1.interface 定义的变量默认修饰符为 public static final 类型。当然，你的变量也可以不定义成static类型，因为成员变量被定义为public型，实例化的对象可以直接访问。</p>
+<p>2.接口可以继承接口，带有成员变量的接口也可以被继承，但是不能对成员变量做修改。</p>
+<p>3.由于接口中的成员变量不能修改，所以在定义接口的时候要为其赋值。</p>
+<p>4.成员变量在定义的时候不加任何修饰符，但是系统在编译的时候会将其默认为static final 类型，所以为了程序的可读性，建议加上修饰符。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/基础知识/">基础知识</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/26/jvm进阶1/" title="jvm进阶1.0（简介）" itemprop="url">jvm进阶1.0（简介）</a>
   </h1>
   <p class="article-author">By
@@ -638,252 +963,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/17/ELK日志分析平台/" title="ELK日志分析平台" itemprop="url">ELK日志分析平台</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-17T09:01:33.000Z" itemprop="datePublished"> Published 2019-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="为什么要用ELK？"><a href="#为什么要用ELK？" class="headerlink" title="为什么要用ELK？"></a>为什么要用ELK？</h3><p>常见的日志分析系统：直接在日志文件中grep,awk 就可以获取自己想要的信息。但在规模较大的场景中，次方法效率比较低。面临问题包括日志量太大如何归档，文本搜索太慢怎么办，如何多维度查询。需要集中化的日志管理，所有服务器上的日志收集汇总。解决思路是建立集中式日志收集系统，将所有节点上的日志统一收集管理，访问。</p>
-<p>一般大型系统是一个分布式部署的架构，不同服务模块部署在不同的服务器上，问题出现时，大部分情况需要根据问题暴露的关键信息，定位到具体的服务器和服务模块，构建一套集中式日志系统，可以提高定位问题的效率。</p>
-<p>一个完整的集中式日志系统。</p>
-<p>一个完整的集中式日志系统，需要包含以下几个主要特点：</p>
-<p>1.收集：采集多种来源的日志数据。</p>
-<p>2.传输：能够稳定的把日志数据传输到中央系统</p>
-<p>3.存储：如何存储日志数据。</p>
-<p>4.分析：可以支持UI分析</p>
-<p>5.警告：能够提供错误报告，监控机制。</p>
-<p>ELK提供了一整套解决方案，并且都市开源软件，之间互相配合使用，完美链接，高效的满足了很多场合的应用。目前主流的一种日志系统。</p>
-<h3 id="ELK简介？"><a href="#ELK简介？" class="headerlink" title="ELK简介？"></a>ELK简介？</h3><p>ELK是三个开源软件的缩写，分别表示：Elasticsearch,LogStash,Kibana 开源软件。 FileBeat 是一个轻量级的日志收集工具。</p>
-<p>elasticsearch：分布式的搜索引擎，提供搜索，分析，存储数据三大功能。它的特点是 分布式，零配置，自动发现，索引自动分片，restful风格接口，多数据源，自动搜索负载等。</p>
-<p>Logstash 主要是用来日志的搜集、分析、过滤日志的工具，支持大量的数据获取方式。一般工作方式为c/s架构，client端安装在需要收集日志的主机上，server端负责将收到的各节点日志进行过滤、修改等操作在一并发往elasticsearch上去。</p>
-<p>Kibana 也是一个开源和免费的工具，Kibana可以为 Logstash 和 ElasticSearch 提供的日志分析友好的 Web 界面，可以帮助汇总、分析和搜索重要数据日志。</p>
-<p>Filebeat隶属于Beats。目前Beats包含四种工具：</p>
-<ol>
-<li><ol>
-<li>Packetbeat（搜集网络流量数据）</li>
-<li>Topbeat（搜集系统、进程和文件系统级别的 CPU 和内存使用情况等数据）</li>
-<li>Filebeat（搜集文件数据）</li>
-<li>Winlogbeat（搜集 Windows 事件日志数据）</li>
-</ol>
-</li>
-</ol>
-<h3 id="官方文档："><a href="#官方文档：" class="headerlink" title="官方文档："></a>官方文档：</h3><p>Filebeat：</p>
-<p><a href="https://www.elastic.co/cn/products/beats/filebeat" target="_blank" rel="noopener">https://www.elastic.co/cn/products/beats/filebeat</a><br><a href="https://www.elastic.co/guide/en/beats/filebeat/5.6/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/beats/filebeat/5.6/index.html</a></p>
-<p>Logstash：<br><a href="https://www.elastic.co/cn/products/logstash" target="_blank" rel="noopener">https://www.elastic.co/cn/products/logstash</a><br><a href="https://www.elastic.co/guide/en/logstash/5.6/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/5.6/index.html</a></p>
-<p>Kibana:</p>
-<p><a href="https://www.elastic.co/cn/products/kibana" target="_blank" rel="noopener">https://www.elastic.co/cn/products/kibana</a></p>
-<p><a href="https://www.elastic.co/guide/en/kibana/5.5/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/kibana/5.5/index.html</a></p>
-<p>Elasticsearch：<br><a href="https://www.elastic.co/cn/products/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/products/elasticsearch</a><br><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.6/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/5.6/index.html</a></p>
-<p>elasticsearch中文社区：<br><a href="https://elasticsearch.cn/" target="_blank" rel="noopener">https://elasticsearch.cn/</a></p>
-<h3 id="ELK架构图："><a href="#ELK架构图：" class="headerlink" title="ELK架构图："></a>ELK架构图：</h3><p>架构图一：</p>
-<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507233846281-213246344.png" alt="img"></p>
-<p>这是最简单的一种ELK架构方式。优点是搭建简单，易于上手。缺点是Logstash耗资源较大，运行占用CPU和内存高。另外没有消息队列缓存，存在数据丢失隐患。</p>
-<p>此架构由Logstash分布于各个节点上搜集相关日志、数据，并经过分析、过滤后发送给远端服务器上的Elasticsearch进行存储。Elasticsearch将数据以分片的形式压缩存储并提供多种API供用户查询，操作。用户亦可以更直观的通过配置Kibana Web方便的对日志查询，并根据数据生成报表。</p>
-<p>架构图二：</p>
-<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507233859333-807727717.png" alt="img"></p>
-<p>此种架构引入了消息队列机制，位于各个节点上的Logstash Agent先将数据/日志传递给Kafka（或者Redis），并将队列中消息或数据间接传递给Logstash，Logstash过滤、分析后将数据传递给Elasticsearch存储。最后由Kibana将日志和数据呈现给用户。因为引入了Kafka（或者Redis）,所以即使远端Logstash server因故障停止运行，数据将会先被存储下来，从而避免数据丢失。</p>
-<p>架构图三：</p>
-<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507233909103-387637909.png" alt="img"></p>
-<p>此种架构将收集端logstash替换为beats，更灵活，消耗资源更少，扩展性更强。同时可配置Logstash 和Elasticsearch 集群用于支持大集群系统的运维日志数据监控和查询。</p>
-<h3 id="Filebeat工作原理："><a href="#Filebeat工作原理：" class="headerlink" title="Filebeat工作原理："></a>Filebeat工作原理：</h3><p>Filebeat由两个主要组件组成：prospectors 和 harvesters。这两个组件协同工作将文件变动发送到指定的输出中。</p>
-<p><img src="https://images2018.cnblogs.com/blog/830693/201805/830693-20180507234215200-1939816692.png" alt="img"></p>
-<p><strong>Harvester（收割机）：</strong>负责读取单个文件内容。每个文件会启动一个Harvester，每个Harvester会逐行读取各个文件，并将文件内容发送到制定输出中。Harvester负责打开和关闭文件，意味在Harvester运行的时候，文件描述符处于打开状态，如果文件在收集中被重命名或者被删除，Filebeat会继续读取此文件。所以在Harvester关闭之前，磁盘不会被释放。默认情况filebeat会保持文件打开的状态，直到达到<a href="https://www.elastic.co/guide/en/beats/filebeat/5.5/configuration-filebeat-options.html#close-inactive" target="_blank" rel="noopener"><code>close_inactive</code></a>（如果此选项开启，filebeat会在指定时间内将不再更新的文件句柄关闭，时间从harvester读取最后一行的时间开始计时。若文件句柄被关闭后，文件发生变化，则会启动一个新的harvester。关闭文件句柄的时间不取决于文件的修改时间，若此参数配置不当，则可能发生日志不实时的情况，由scan_frequency参数决定，默认10s。Harvester使用内部时间戳来记录文件最后被收集的时间。例如：设置5m，则在Harvester读取文件的最后一行之后，开始倒计时5分钟，若5分钟内文件无变化，则关闭文件句柄。默认5m）。</p>
-<p><strong>Prospector（勘测者）：</strong>负责管理Harvester并找到所有读取源。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`filebeat.prospectors:``- input_type: log``  ``paths:``    ``- /apps/logs/*/info.log`</span><br></pre></td></tr></table></figure>
-<p>Prospector会找到/apps/logs/*目录下的所有info.log文件，并为每个文件启动一个Harvester。Prospector会检查每个文件，看Harvester是否已经启动，是否需要启动，或者文件是否可以忽略。若Harvester关闭，只有在文件大小发生变化的时候Prospector才会执行检查。只能检测本地的文件。</p>
-<p><strong>Filebeat如何记录文件状态：</strong></p>
-<p>将文件状态记录在文件中（默认在/var/lib/filebeat/registry）。此状态可以记住Harvester收集文件的偏移量。若连接不上输出设备，如ES等，filebeat会记录发送前的最后一行，并再可以连接的时候继续发送。Filebeat在运行的时候，Prospector状态会被记录在内存中。Filebeat重启的时候，利用registry记录的状态来进行重建，用来还原到重启之前的状态。每个Prospector会为每个找到的文件记录一个状态，对于每个文件，Filebeat存储唯一标识符以检测文件是否先前被收集。</p>
-<p><strong>Filebeat如何保证事件至少被输出一次：</strong></p>
-<p>Filebeat之所以能保证事件至少被传递到配置的输出一次，没有数据丢失，是因为filebeat将每个事件的传递状态保存在文件中。在未得到输出方确认时，filebeat会尝试一直发送，直到得到回应。若filebeat在传输过程中被关闭，则不会再关闭之前确认所有时事件。任何在filebeat关闭之前为确认的时间，都会在filebeat重启之后重新发送。这可确保至少发送一次，但有可能会重复。可通过设置<a href="https://www.elastic.co/guide/en/beats/filebeat/5.5/configuration-global-options.html#shutdown-timeout" target="_blank" rel="noopener"><code>shutdown_timeout</code></a> 参数来设置关闭之前的等待事件回应的时间（默认禁用）。</p>
-<h3 id="Logstash工作原理："><a href="#Logstash工作原理：" class="headerlink" title="Logstash工作原理："></a>Logstash工作原理：</h3><p>Logstash事件处理有三个阶段：inputs → filters → outputs。是一个接收，处理，转发日志的工具。支持系统日志，webserver日志，错误日志，应用日志，总之包括所有可以抛出来的日志类型。</p>
-<p><img src="https://images2017.cnblogs.com/blog/830693/201712/830693-20171214144021295-963037641.png" alt="img"></p>
-<p><strong>Input：输入数据到logstash。</strong></p>
-<p>一些常用的输入为：</p>
-<p>file：从文件系统的文件中读取，类似于tial -f命令</p>
-<p>syslog：在514端口上监听系统日志消息，并根据RFC3164标准进行解析</p>
-<p>redis：从redis service中读取</p>
-<p>beats：从filebeat中读取</p>
-<p><strong>Filters：数据中间处理，对数据进行操作。</strong></p>
-<p>一些常用的过滤器为：</p>
-<p>grok：解析任意文本数据，Grok 是 Logstash 最重要的插件。它的主要作用就是将文本格式的字符串，转换成为具体的结构化的数据，配合正则表达式使用。内置120多个解析语法。</p>
-<p>官方提供的grok表达式：<a href="https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns" target="_blank" rel="noopener">https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns</a><br>grok在线调试：<a href="https://grokdebug.herokuapp.com/" target="_blank" rel="noopener">https://grokdebug.herokuapp.com/</a></p>
-<p>mutate：对字段进行转换。例如对字段进行删除、替换、修改、重命名等。</p>
-<p>drop：丢弃一部分events不进行处理。</p>
-<p>clone：拷贝 event，这个过程中也可以添加或移除字段。</p>
-<p>geoip：添加地理信息(为前台kibana图形化展示使用)</p>
-<p><strong>Outputs：outputs是logstash处理管道的最末端组件。</strong>一个event可以在处理过程中经过多重输出，但是一旦所有的outputs都执行结束，这个event也就完成生命周期。</p>
-<p>一些常见的outputs为：</p>
-<p>elasticsearch：可以高效的保存数据，并且能够方便和简单的进行查询。</p>
-<p>file：将event数据保存到文件中。</p>
-<p>graphite：将event数据发送到图形化组件中，一个很流行的开源存储图形化展示的组件。</p>
-<p><strong>Codecs：codecs 是基于数据流的过滤器，它可以作为input，output的一部分配置</strong>。Codecs可以帮助你轻松的分割发送过来已经被序列化的数据。</p>
-<p>一些常见的codecs：</p>
-<p>json：使用json格式对数据进行编码/解码。</p>
-<p>multiline：将汇多个事件中数据汇总为一个单一的行。比如：java异常信息和堆栈信息。</p>
-<p>分类: <a href="https://www.cnblogs.com/aresxin/category/1130897.html" target="_blank" rel="noopener">ELK</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/ELK/">ELK</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/17/事实和观点-事实有真假-观点无对错/" title="事实和观点:事实有真假,观点无对错" itemprop="url">事实和观点:事实有真假,观点无对错</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-17T08:31:38.000Z" itemprop="datePublished"> Published 2019-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>《5分钟商学院》–得到APP</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/逻辑思维/">逻辑思维</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/17/TCP协议/" title="TCP协议" itemprop="url">TCP协议</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-17T07:48:13.000Z" itemprop="datePublished"> Published 2019-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/网络/">网络</a><a href="/tags/TCP/">TCP</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
@@ -918,23 +1000,15 @@
 			
 		
 			
+				<li><a href="/tags/前端/" title="前端">前端<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/前端/" title="前端">前端<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
@@ -942,27 +1016,15 @@
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -970,11 +1032,15 @@
 			
 		
 			
-				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
 			
 		
 			
@@ -982,11 +1048,27 @@
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 		</ul>

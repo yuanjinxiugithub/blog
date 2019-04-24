@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="jdk1.8新特性之lambda 表达式1.使用()-&amp;gt;{} 代替匿名内部类允许把函数作为一个方法参数传入，使得代码变得更加简洁。强大的函数式编程。 语法lambda 表达式的语法格式如下： (parameters) -&amp;gt; expression 或 (parameters) -&amp;gt;{ statements; } 2.方法引用通过方法的名字来指向一个方法 ：： 3.函数式接口函数式接">
+    <meta name="description" content="jdk1.8新特性之lambda 表达式1.使用()-&amp;gt;{} 代替匿名内部类允许把函数作为一个方法参数传入，使得代码变得更加简洁。强大的函数式编程。 减少代码冗余量，可读性强。 语法lambda 表达式的语法格式如下： (parameters) -&amp;gt; expression 或 (parameters) -&amp;gt;{ statements; } 2.方法引用通过方法的名字来指向一个方法">
 <meta name="keywords" content="Java,jdk1.8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jdk1.8新特性">
 <meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/01/22/jdk1-8新特性/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="jdk1.8新特性之lambda 表达式1.使用()-&amp;gt;{} 代替匿名内部类允许把函数作为一个方法参数传入，使得代码变得更加简洁。强大的函数式编程。 语法lambda 表达式的语法格式如下： (parameters) -&amp;gt; expression 或 (parameters) -&amp;gt;{ statements; } 2.方法引用通过方法的名字来指向一个方法 ：： 3.函数式接口函数式接">
+<meta property="og:description" content="jdk1.8新特性之lambda 表达式1.使用()-&amp;gt;{} 代替匿名内部类允许把函数作为一个方法参数传入，使得代码变得更加简洁。强大的函数式编程。 减少代码冗余量，可读性强。 语法lambda 表达式的语法格式如下： (parameters) -&amp;gt; expression 或 (parameters) -&amp;gt;{ statements; } 2.方法引用通过方法的名字来指向一个方法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-22T13:26:50.882Z">
+<meta property="og:updated_time" content="2019-04-23T07:40:48.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jdk1.8新特性">
-<meta name="twitter:description" content="jdk1.8新特性之lambda 表达式1.使用()-&amp;gt;{} 代替匿名内部类允许把函数作为一个方法参数传入，使得代码变得更加简洁。强大的函数式编程。 语法lambda 表达式的语法格式如下： (parameters) -&amp;gt; expression 或 (parameters) -&amp;gt;{ statements; } 2.方法引用通过方法的名字来指向一个方法 ：： 3.函数式接口函数式接">
+<meta name="twitter:description" content="jdk1.8新特性之lambda 表达式1.使用()-&amp;gt;{} 代替匿名内部类允许把函数作为一个方法参数传入，使得代码变得更加简洁。强大的函数式编程。 减少代码冗余量，可读性强。 语法lambda 表达式的语法格式如下： (parameters) -&amp;gt; expression 或 (parameters) -&amp;gt;{ statements; } 2.方法引用通过方法的名字来指向一个方法">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -98,18 +98,49 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk1-8新特性之lambda-表达式"><span class="toc-number">1.</span> <span class="toc-text">jdk1.8新特性之lambda 表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-使用-gt-代替匿名内部类"><span class="toc-number">1.1.</span> <span class="toc-text">1.使用()-&gt;{} 代替匿名内部类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-number">2.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-方法引用"><span class="toc-number">2.1.</span> <span class="toc-text">2.方法引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-函数式接口"><span class="toc-number">2.2.</span> <span class="toc-text">3.函数式接口</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk1-8新特性之lambda-表达式"><span class="toc-number">1.</span> <span class="toc-text">jdk1.8新特性之lambda 表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-使用-gt-代替匿名内部类"><span class="toc-number">1.1.</span> <span class="toc-text">1.使用()-&gt;{} 代替匿名内部类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-number">2.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-方法引用"><span class="toc-number">2.1.</span> <span class="toc-text">2.方法引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-函数式接口"><span class="toc-number">2.2.</span> <span class="toc-text">3.函数式接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-默认方法"><span class="toc-number">2.3.</span> <span class="toc-text">4.默认方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#静态默认方法"><span class="toc-number">2.3.1.</span> <span class="toc-text">静态默认方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么要有这个特性？"><span class="toc-number">2.3.2.</span> <span class="toc-text">为什么要有这个特性？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Stream-特性"><span class="toc-number">2.4.</span> <span class="toc-text">5.Stream 特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-base64"><span class="toc-number">2.5.</span> <span class="toc-text">6.base64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-java-api-新的日期时间API"><span class="toc-number">2.6.</span> <span class="toc-text">7.java api 新的日期时间API</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<h3 id="jdk1-8新特性之lambda-表达式"><a href="#jdk1-8新特性之lambda-表达式" class="headerlink" title="jdk1.8新特性之lambda 表达式"></a>jdk1.8新特性之lambda 表达式</h3><h4 id="1-使用-gt-代替匿名内部类"><a href="#1-使用-gt-代替匿名内部类" class="headerlink" title="1.使用()-&gt;{} 代替匿名内部类"></a>1.使用()-&gt;{} 代替匿名内部类</h4><p>允许把函数作为一个方法参数传入，使得代码变得更加简洁。强大的函数式编程。</p>
+<p>减少代码冗余量，可读性强。</p>
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>lambda 表达式的语法格式如下：</p>
 <p>(parameters) -&gt; expression 或 (parameters) -&gt;{ statements; }</p>
 <h4 id="2-方法引用"><a href="#2-方法引用" class="headerlink" title="2.方法引用"></a>2.方法引用</h4><p>通过方法的名字来指向一个方法 ：：</p>
 <h4 id="3-函数式接口"><a href="#3-函数式接口" class="headerlink" title="3.函数式接口"></a>3.函数式接口</h4><p>函数式接口(Functional Interface)就是一个有且仅有一个抽象方法，但是可以有多个非抽象方法的接口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@FunctionalInterface</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@FunctionalInterface----  主要用于编译级错误检查</span><br></pre></td></tr></table></figure>
 <p>　定义：“函数式接口”是指仅仅只包含一个抽象方法的接口，每一个该类型的lambda表达式都会被匹配到这个抽象方法。jdk1.8提供了一个@FunctionalInterface注解来定义函数式接口，如果我们定义的接口不符合函数式的规范便会报错。</p>
-  
+<p>若一个接口中包含多个抽象方法，是没有办法通过表达式左侧的参数列表来定位到对应的方法。</p>
+<p>类型推断机制的加入，java编译器可以根据上下文在后台推断出参数的类型，故无需再参数列表中制定参数类型。</p>
+<p>函数式编程可以友好的进行</p>
+<p>Predicate<t> 接口是函数式接口，它接受一个输入参数T,返回一个布尔值结果</t></p>
+<h4 id="4-默认方法"><a href="#4-默认方法" class="headerlink" title="4.默认方法"></a>4.默认方法</h4><p>jdk1.8新增默认方法，就是接口中可以有实现方法，而且不需要实现类去实现其方法。</p>
+<p>只需要在方法前加上default关键字即可实现默认方法。</p>
+<h5 id="静态默认方法"><a href="#静态默认方法" class="headerlink" title="静态默认方法"></a>静态默认方法</h5><p>Java 8 的另一个特性是接口可以声明（并且可以提供实现）静态方法</p>
+<h5 id="为什么要有这个特性？"><a href="#为什么要有这个特性？" class="headerlink" title="为什么要有这个特性？"></a><strong>为什么要有这个特性？</strong></h5><p>首先，之前的接口是个双刃剑，好处是面向抽象而不是面向具体编程，缺陷是，当需要修改接口时候，需要修改全部实现该接口的类，目前的 java 8 之前的集合框架没有 foreach 方法，通常能想到的解决办法是在JDK里给相关的接口添加新的方法及实现。然而，对于已经发布的版本，是没法在给接口添加新方法的同时不影响已有的实现。所以引进的默认方法。他们的目的是为了解决接口的修改与现有的实现不兼容的问题。</p>
+<h4 id="5-Stream-特性"><a href="#5-Stream-特性" class="headerlink" title="5.Stream 特性"></a>5.Stream 特性</h4><p>新的抽象称为Stream ,可以以一种声明方式处理数据。</p>
+<p>理解：</p>
+<p>1.Stream是元素的集合，看起来类似Iterator</p>
+<p>2.可以支持顺序和并行的对原Stream进行汇聚的操作；</p>
+<p>Stream API 可以极大的提高java程序员的生产力，让程序员写出高效率，干净，简洁的代码。</p>
+<p>筛选 排序 聚合等操作</p>
+<p>常用方法：</p>
+<p>1.生成流</p>
+<p>stream() - 为集合创建串行流</p>
+<p>parallelStream() - 为集合创建并行流</p>
+<p>2.forEach()     </p>
+<p>迭代流中的每个元素</p>
+<p>3.map</p>
+<p>map 方法用于映射每个元素到对应的结果，</p>
+<p>4.filter</p>
+<p>filter 方法用于通过设置的条件过滤出元素。以下代码片段使用 filter 方法过滤出空字符串：</p>
+<p>5.limit</p>
+<p>limit 方法用于获取指定数量的流。 以下代码片段使用 limit 方法打印出 10 条数据</p>
+<p>6.sorted</p>
+<p>sorted 方法用于对流进行排序。以下代码片段使用 sorted 方法对输出的 10 个随机数进行排序：</p>
+<p>7.Collectors</p>
+<p>Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素。Collectors 可用于返回列表或字符串</p>
+<h4 id="6-base64"><a href="#6-base64" class="headerlink" title="6.base64"></a>6.base64</h4><h4 id="7-java-api-新的日期时间API"><a href="#7-java-api-新的日期时间API" class="headerlink" title="7.java api 新的日期时间API"></a>7.java api 新的日期时间API</h4>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -168,7 +199,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk1-8新特性之lambda-表达式"><span class="toc-number">1.</span> <span class="toc-text">jdk1.8新特性之lambda 表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-使用-gt-代替匿名内部类"><span class="toc-number">1.1.</span> <span class="toc-text">1.使用()-&gt;{} 代替匿名内部类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-number">2.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-方法引用"><span class="toc-number">2.1.</span> <span class="toc-text">2.方法引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-函数式接口"><span class="toc-number">2.2.</span> <span class="toc-text">3.函数式接口</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk1-8新特性之lambda-表达式"><span class="toc-number">1.</span> <span class="toc-text">jdk1.8新特性之lambda 表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-使用-gt-代替匿名内部类"><span class="toc-number">1.1.</span> <span class="toc-text">1.使用()-&gt;{} 代替匿名内部类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-number">2.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-方法引用"><span class="toc-number">2.1.</span> <span class="toc-text">2.方法引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-函数式接口"><span class="toc-number">2.2.</span> <span class="toc-text">3.函数式接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-默认方法"><span class="toc-number">2.3.</span> <span class="toc-text">4.默认方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#静态默认方法"><span class="toc-number">2.3.1.</span> <span class="toc-text">静态默认方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么要有这个特性？"><span class="toc-number">2.3.2.</span> <span class="toc-text">为什么要有这个特性？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Stream-特性"><span class="toc-number">2.4.</span> <span class="toc-text">5.Stream 特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-base64"><span class="toc-number">2.5.</span> <span class="toc-text">6.base64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-java-api-新的日期时间API"><span class="toc-number">2.6.</span> <span class="toc-text">7.java api 新的日期时间API</span></a></li></ol></li></ol>
  
   </div>
 
@@ -201,23 +232,15 @@
 			
 		
 			
+				<li><a href="/tags/前端/" title="前端">前端<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/前端/" title="前端">前端<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
@@ -225,27 +248,15 @@
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -253,11 +264,15 @@
 			
 		
 			
-				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
 			
 		
 			
@@ -265,11 +280,27 @@
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 		</ul>

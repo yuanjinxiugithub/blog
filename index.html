@@ -78,6 +78,306 @@
 
    
     
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/04/24/npm常用命令/" title="npm常用命令" itemprop="url">npm常用命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-04-24T03:24:31.000Z" itemprop="datePublished"> Published 2019-04-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>序号    </p>
+<p>命令</p>
+<p>作用</p>
+<p>1</p>
+<p>npm install -g npm</p>
+<p>升级npm</p>
+<p>2</p>
+<p>nmp init或者npm  init -y</p>
+<p>初始化package.json文件，若都用默认参数则用 npm init -y</p>
+<p>3</p>
+<p>npm -v</p>
+<p>查看npm版本</p>
+<p>4</p>
+<p>npm config set registry  <a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></p>
+<p>设置npm为淘宝镜像</p>
+<p>5</p>
+<p>npm config get registry</p>
+<p>查看镜像</p>
+<p>6</p>
+<p>npm config edit</p>
+<p>编辑npm 配置文件</p>
+<p>7</p>
+<p>npm help npm</p>
+<p>打开本地的npm帮助文件，内容很详细</p>
+<p>8</p>
+<p>npm help config</p>
+<p>查看config 命令的帮助文件，npm其他命令也可以用此方法看详细帮助</p>
+<p>9</p>
+<p>npm run start</p>
+<p>运行package.json  scripts节中名称为start的命令</p>
+<p>例如：</p>
+<p>{<br>  // …<br>  “scripts”: {<br>​    “start”: “node build.js”<br>  }<br>}</p>
+<p>10</p>
+<p>npm view 模块名 versions</p>
+<p>查看某个模块的所有版本，这个命令会联网，会有延迟。</p>
+<p>11</p>
+<p>(1)、npm install -g 模块名</p>
+<p>(2)、npm install –save-dev 模块名</p>
+<p>(3)、npm install –save 模块名</p>
+<p>(4)、npm install</p>
+<p>（1）全局安装</p>
+<p>  (2)自动把模块和版本号添加到dependencies部分，生产环境</p>
+<p>  (3)自动把模块和版本号添加到devdependencies部分，开发环境</p>
+<p>(4)在带有package.json的文件夹中执行的作用是，按照package.json文件中的依赖包的配置安装所有依赖的包。</p>
+<h3 id="webpack-的学习"><a href="#webpack-的学习" class="headerlink" title="webpack 的学习"></a>webpack 的学习</h3><p>webpack可以打包，编译js，还可以预处理css,使用style-loader css-loader 对css打包，主要从以下几点进行讲述：</p>
+<ul>
+<li><p>css的引入</p>
+</li>
+<li><p>使用style-loader和css-loader打包css</p>
+</li>
+<li><p>使用style-loader/url</p>
+</li>
+<li><p>使用style-loader/useable</p>
+</li>
+<li><p>使用style-loader的options配置</p>
+</li>
+<li><p>使用css-loader的options配置</p>
+<p>loader的加载顺序是从右往左的。这里的编译顺序是先用css-loader将css代码编译，再交给style-loader插入到网页里面去。所以css-loader在右，style-loader在左。</p>
+</li>
+</ul>
+<p>全局安装：</p>
+<p>npm install –global webpack    </p>
+<p>不推荐全局安装，因为全局安装将会锁定指定版本，并且在使用不同的webpack版本的项目中，可能会导致构建失败。</p>
+<p>lodash一个一致性，模块化，高性能的javascript实用工具库</p>
+<p>在安装一个要打包到生产环境的安装包时，你应该使用 <code>npm install --save</code>，如果你在安装一个用于开发环境的安装包（例如，linter, 测试库等），你应该使用 <code>npm install --save-dev</code>。请在 <a href="https://docs.npmjs.com/cli/install" target="_blank" rel="noopener">npm 文档</a> 中查找更多信息。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/webpack/">webpack</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/04/23/Vue-what-can-i-do-tocatch-you/" title="Vue(what can i do tocatch you)" itemprop="url">Vue(what can i do tocatch you)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-04-23T10:48:42.000Z" itemprop="datePublished"> Published 2019-04-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h3><p>今天突发奇想，虽然之前一直从事javaweb开发，一直想的是自己以后的工作方向也是java。其实现在想来自己在工作中前端和后端开发一半一半吧。而且这个个性化时代，页面的展示仿佛已经是重中之重了。但是现在的话自己没经历过一个完整的vue开发项目，所以只能从零开始学习了。</p>
+<h3 id="Vue简介："><a href="#Vue简介：" class="headerlink" title="Vue简介："></a>Vue简介：</h3><p><a href="https://github.com/vuejs/vue" target="_blank" rel="noopener">Vue.js</a>是当下很火的一个JavaScript MVVM库，它是以数据驱动和组件化的思想构建的。相比于Angular.js，Vue.js提供了更加简洁、更易于理解的API。</p>
+<p>特点：</p>
+<p>1.MVVM</p>
+<p>2.组件化</p>
+<p>npm   —nodejs的包管理器</p>
+<p>webpack — vue的组件都是通过.vue等自定义的组建都无法被用户端的各种浏览器解析，需要被翻译和打包生成.js文件。</p>
+<p>vue-cli 用于生成模板的vue工程，脚手架。‘</p>
+<p>vue-cli 脚手架的下载 npm install vue-cli -g</p>
+<p>vue 模板下载 npm install –global vue-cli</p>
+<p>npm install  下载依赖</p>
+<p>npm run dev 启动项目</p>
+<h3 id="vue-项目目录："><a href="#vue-项目目录：" class="headerlink" title="vue 项目目录："></a>vue 项目目录：</h3><table>
+<thead>
+<tr>
+<th>目录/文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>build</td>
+<td>项目构建(webpack)相关代码</td>
+</tr>
+<tr>
+<td>config</td>
+<td>配置目录，包括端口号等。我们初学可以使用默认的。</td>
+</tr>
+<tr>
+<td>node_modules</td>
+<td>npm 加载的项目依赖模块</td>
+</tr>
+<tr>
+<td>src</td>
+<td>这里是我们要开发的目录，基本上要做的事情都在这个目录里。里面包含了几个目录及文件：assets: 放置一些图片，如logo等。components: 目录里面放了一个组件文件，可以不用。App.vue: 项目入口文件，我们也可以直接将组件写这里，而不使用 components 目录。main.js: 项目的核心文件。</td>
+</tr>
+<tr>
+<td>static</td>
+<td>静态资源目录，如图片、字体等。</td>
+</tr>
+<tr>
+<td>test</td>
+<td>初始测试目录，可删除</td>
+</tr>
+<tr>
+<td>.xxxx文件</td>
+<td>这些是一些配置文件，包括语法配置，git配置等。</td>
+</tr>
+<tr>
+<td>index.html</td>
+<td>首页入口文件，你可以添加一些 meta 信息或统计代码啥的。</td>
+</tr>
+<tr>
+<td>package.json</td>
+<td>项目配置文件。</td>
+</tr>
+<tr>
+<td>README.md</td>
+<td>项目的说明文档，markdown 格式</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://images2017.cnblogs.com/blog/916533/201801/916533-20180118181001443-1283702699.png" alt="img"></p>
+<h3 id="axios简介"><a href="#axios简介" class="headerlink" title="axios简介:"></a>axios简介:</h3><p>axios 是基于Promise用于浏览器和nodejs的http客户端，本质上也是对原生XHR的封装，只不过它是对promise的实现版本，符合最新额ES6,本身具有的特性：</p>
+<p>1.从浏览器中创建 XMLHttpRequest<br> 2.支持 Promise API<br> 3.客户端支持防止CSRF<br> 4.提供了一些并发请求的接口（重要，方便了很多的操作）<br> 5.从 node.js 创建 http 请求<br> 6.拦截请求和响应<br> 7.转换请求和响应数据<br> 8.取消请求<br> 9.自动转换JSON数据</p>
+<p><strong>:防止CSRF:就是让你的每个请求都带一个从cookie中拿到的key, 根据浏览器同源策略，假冒的网站是拿不到你cookie中得key的，这样，后台就可以轻松辨别出这个请求是否是用户在假冒网站上的误导输入，从而采取正确的策略</strong></p>
+<p>axios 既提供了并发封装，也没有fetch的各种问题，而且体积较小，是当前最应该选用的请求方式。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/vue/">vue</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/04/23/Spring的作用域/" title="Spring的作用域" itemprop="url">Spring的作用域</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-04-23T09:03:28.000Z" itemprop="datePublished"> Published 2019-04-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>scope 配置项有5个属性，用于描述不同的作用域：</p>
+<p>1.singleton</p>
+<p>2.pototype</p>
+<p>3.request</p>
+<p>4.session </p>
+<p>5.global-session</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Spring/">Spring</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
     <article class="post-expand w" itemprop="articleBody"> 
         <header class="article-info clearfix">
   <h1 itemprop="name">
@@ -777,319 +1077,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/09/Bits和Bytes的区别/" title="Bits和Bytes的区别" itemprop="url">Bits和Bytes的区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-09T09:55:41.000Z" itemprop="datePublished"> Published 2019-03-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Bits 意为 “位”或比特，是计算机运算的基础，属于二进制的范畴。</p>
-<p>Bytes意为字节，是计算机文件大小的基本计算单位。</p>
-<p>这两者应用场合不同。通常用bit来做数据传输的单位，因为在物理层，数据链路层的传输对用户是透明的，而这种通信传输是基于二进制的传输。在应用层通常使用byte来作单位，表示文件的大小，在用户看来就是可见的数据大小。比如一个字符就是1byte,如果是汉字则是2byte。</p>
-<h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><p>字节是内存的基本单位，也是编址单位，例如，某计算机的内存是4GB,指的是该计算机内存中共有4×1024×1024×1024个字节</p>
-<p><a href="https://www.baidu.com/s?wd=Bps&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">Bps</a>即是Byte per second 的简称。而电脑一般都以Bps 显示速度，如1MBps 大约等同 128 KBps。<br>bps 是 bits per second 的简称。一般数据机及网络通讯的传输速率都是以「bps」为单位。如56Kbps、100.0Mbps 等等。 </p>
-<p>即宽带运营商以bps作为单位，而实际下载速度则是Bps，所以100.0Mbps百兆宽带的下载速度约为10MBps，(通常的十兆每秒，在这里运营商用的小单位，而用户实际看的网速为大单位)约八分之一。</p>
-<p>usb2.0标准接口传输速率。许多人都将“480Mbps”误解为480兆/秒。其实，这是错误的，事实上“480Mbps”应为“480兆比特/秒”或“480兆位/秒”，它等于“60兆字节/秒”。</p>
-<h3 id="换算"><a href="#换算" class="headerlink" title="换算"></a>换算</h3><p>1 Byte = 8 Bits<br>1 KB = 1024 Bytes<br>1 MB = 1024 KB<br>1 GB = 1024 MB<br>另外，Byte通常简写为B(大写），而bit通常简写为b（小写）。可以这么记忆，大写的为大单位，实际数值小，小写的为小单位，实际数值较大，1B=8b。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/基础知识/">基础知识</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/09/Mysql数字类型int与tinyint-float与decimal的选择/" title="Mysql数字类型int与tinyint,float与decimal的选择" itemprop="url">Mysql数字类型int与tinyint,float与decimal的选择</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-09T09:32:05.000Z" itemprop="datePublished"> Published 2019-03-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="int-tinyint与bigint的比较"><a href="#int-tinyint与bigint的比较" class="headerlink" title="int tinyint与bigint的比较"></a>int tinyint与bigint的比较</h3><p>它们都是（精确）数据类型，但是占用字节数和表达的范围不同</p>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Storage</th>
-<th>Minimum Value</th>
-<th>Maximum Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>(Bytes)</td>
-<td>(Signed/Unsigned)</td>
-<td>(Signed/Unsigned)</td>
-</tr>
-<tr>
-<td>TINYINT</td>
-<td>1</td>
-<td>-128</td>
-<td>127</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>0</td>
-<td>255</td>
-</tr>
-<tr>
-<td>SMALLINT</td>
-<td>2</td>
-<td>-32768</td>
-<td>32767</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>0</td>
-<td>65535</td>
-</tr>
-<tr>
-<td>MEDIUMINT</td>
-<td>3</td>
-<td>-8388608</td>
-<td>8388607</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>0</td>
-<td>16777215</td>
-</tr>
-<tr>
-<td>INT</td>
-<td>4</td>
-<td>-2147483648</td>
-<td>2147483647</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>0</td>
-<td>4294967295</td>
-</tr>
-<tr>
-<td>BIGINT</td>
-<td>8</td>
-<td>-9223372036854775808</td>
-<td>9223372036854775807</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>0</td>
-<td>18446744073709551615</td>
-</tr>
-</tbody>
-</table>
-<font color="red">遇到比较多的是tinyint和bigint，tinyint一般用于存放status,type这种数值小的数据，不够用时可能会用smallint。bigint一般用于自增主键.</font>
-
-<font color="red">为了避免数据库被过度设计，布尔、枚举类型也采用tinyint。</font>
-
-<p>还有一点也是经常被提到的关于 int(M) 中M的理解，int型数据无论是int(4)还是int(11)，都已经占用了 4 bytes 存储空间，M表示的只是显示宽度(display width, max value 255)，并不是定义int的长度。</p>
-<h3 id="float和decimal"><a href="#float和decimal" class="headerlink" title="float和decimal"></a>float和decimal</h3><p>MYSQL使用DECIMAL类型去存储对精度要求比较高的数值，比如金额，也叫定点数，decimal在mysql内存是以字符串二进制存储的。声明DECIMAL(M,D),M是数字最大位数（精度precision），范围1-65；D是小数点右侧数字个数（标度scale），范围0-30，但不得超过M。</p>
-<p>比如<code>DECIMAL(18,9)</code>，整数部分和小数部分各9位，所以各占4字节，共8bytes<br>再比如<code>DECIMAL(20,6)</code>，整数14位，需要4字节存9位，还需3字节存5位；小数6位，需3字节。共10bytes<br>（感谢 consatan 在评论区提出文中错误）</p>
-<p>比如定义<code>DECIMAL(7,3)</code>：</p>
-<ul>
-<li>能存的数值范围是 -9999.999 ~ 9999.999，占用4个字节</li>
-<li>123.12 -&gt; 123.120，因为小数点后未满3位，补0</li>
-<li>123.1245 -&gt; 123.125，小数点只留3位，多余的自动四舍五入截断</li>
-<li>12345.12 -&gt; 保存失败，因为小数点未满3位，补0变成12345.120，超过了7位。严格模式下报错，非严格模式存成9999.999</li>
-</ul>
-<p>MySQL使用<code>FLOAT</code>和<code>DOUBLE</code>来表示近似数值类型，这是因为十进制0.1在电脑里用二进制是无法精确表示的，<a href="https://segmentfault.com/a/1190000004112565" target="_blank" rel="noopener">只能尽可能的接近</a>。</p>
-<p>单精度浮点数float占4字节，float标准语法允许通过<code>FLOAT(M)</code>的形式指定精度，但是这个精度值M只是决定存储大小： 0-23与默认不指定效果相同，24-53就变成双精度的<code>DOUBLE</code>了。</p>
-<p>float还有非MySQL自己实现的<em>非标准</em>语法<code>FLOAT(M,D)</code>，代表最多存储M个数字长度，其中小数点后数字个数为D。效果与 DECIMAL(M,D)很相似。</p>
-<p>double 和 float 的区别是double精度高，有效数字16位（float精度7位）。但double消耗内存是float的两倍，占8字节，double的运算速度比float慢得多。</p>
-<p>msyql&gt; create table tc_float(fid int primary key auto_increment,f_float float, f_float10 float(10), f_float25 float(25), f_float7_3 float(7,3), f_float9_2 float(9,2), f_float30_3 float(30,3), f_decimal9_2 decimal(9,2)); mysql&gt; insert into tc_float(f_float,f_float10,f_float25) values(123456,123456,123456);mysql&gt; insert into tc_float(f_float,f_float10,f_float25) values(1234567.89,12345.67,1234567.89);mysql&gt; select * from tc_float;+—–+———-+———–+————+————+————+————-+————–+| fid | f_float | f_float10 | f_float25 | f_float7_3 | f_float9_2 | f_float30_3 | f_decimal9_2 |+—–+———-+———–+————+————+————+————-+————–+| 1 | 123456 | 123456 | 123456 | NULL | NULL | NULL | NULL || 2 | 1234570 | 12345.7 | 1234567.89 | NULL | NULL | NULL | NULL |+—–+———-+———–+————+————+————+————-+————–+</p>
-<ul>
-<li>可以看到float与float(10)是没区别的，float默认能精确到6位有效数字</li>
-</ul>
-<p>mysql&gt; insert into tc_float(f_float9_2,f_decimal9_2) values(123456.78,123456.78);mysql&gt; insert into tc_float(f_float9_2,f_decimal9_2) values(1234567.1,1234567.125);Query OK, 1 row affected, 1 warning (0.00 sec) mysql&gt; show warnings;+——-+——+—————————————————+| Level | Code | Message |+——-+——+—————————————————+| Note | 1265 | Data truncated for column ‘f_decimal9_2’ at row 1 |+——-+——+—————————————————+1 row in set (0.00 sec) mysql&gt; select * from tc_float;+—–+———-+———–+————+————+————+————-+————–+| fid | f_float | f_float10 | f_float25 | f_float7_3 | f_float9_2 | f_float30_3 | f_decimal9_2 |+—–+———-+———–+————+————+————+————-+————–+| 6 | NULL | NULL | NULL | NULL | 123456.78 | NULL | 123456.78 || 9 | NULL | NULL | NULL | NULL | 1234567.12 | NULL | 1234567.13 |+—–+———-+———–+————+————+————+————-+————–+ mysql&gt; insert into tc_float(f_float7_3) values(12345.1);ERROR 1264 (22003): Out of range value for column ‘f_float7_3’ at row 1</p>
-<ul>
-<li>float(9,2)与decimal(9,2)是很像的，并没有前面提到24位一下6位有效数字的限制</li>
-<li>他们俩之间的差别就在精度上，f_float9_2本应该是 1234567.10，结果小数点变成 .12 。f_decimal9_2因为标度为2，所以 .125 四舍五入成 .13</li>
-<li>将 12345.1 插入f_float7_3列，因为转成标度3时 12345.100，整个位数大于7，所以 out of range 了</li>
-</ul>
-<p>另外在编程中应尽量避免做浮点数的比较，否则可能会导致一些潜在的问题。</p>
-<p>坚决不允许使用float去存money，使用decimal更加稳妥，但使用decimal做除法依旧会产生浮点型，所以特殊情况请考虑使用整型，货币单位使用 分 ，或者除法在最后进行。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mysql/">mysql</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/05/SpringBoot结合Maven打包发布/" title="SpringBoot结合Maven打包发布" itemprop="url">SpringBoot结合Maven打包发布</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-05T13:26:59.000Z" itemprop="datePublished"> Published 2019-03-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="多模块的项目-maven命令打包"><a href="#多模块的项目-maven命令打包" class="headerlink" title="多模块的项目 maven命令打包"></a>多模块的项目 maven命令打包</h3><p>般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作；</p>
-<p>要对多个module的项目做打包，一般情况都是在父级pom中配置打包的插件，其他module的pom不需要特别的配置，当配置完成后，点击idea中maven工具的package，就能执行一系列打包操作；</p>
-<p><img src="https://yqfile.alicdn.com/79959aa914726d4f40c016358d39328d21126053.png" alt="img"></p>
-<p>这里先使用maven-jar-plugin插件，在父级pom中添加配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> 1 &lt;!--通过maven-jar-plugin插件打jar包--&gt;</span><br><span class="line"> 2 &lt;plugin&gt;</span><br><span class="line"> 3     &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line"> 4     &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span><br><span class="line"> 5     &lt;version&gt;2.4&lt;/version&gt;</span><br><span class="line"> 6     &lt;configuration&gt;</span><br><span class="line"> 7         &lt;archive&gt;</span><br><span class="line"> 8             &lt;manifest&gt;</span><br><span class="line"> 9                 &lt;addClasspath&gt;true&lt;/addClasspath&gt;</span><br><span class="line">10                 &lt;classpathPrefix&gt;lib/&lt;/classpathPrefix&gt;</span><br><span class="line">11                 &lt;!--main入口--&gt;</span><br><span class="line">12                 &lt;mainClass&gt;com.platform.WebApplication&lt;/mainClass&gt;</span><br><span class="line">13             &lt;/manifest&gt;</span><br><span class="line">14         &lt;/archive&gt;</span><br><span class="line">15         &lt;!--包含的配置文件--&gt;</span><br><span class="line">16         &lt;includes&gt;</span><br><span class="line">17         &lt;/includes&gt;</span><br><span class="line">18         &lt;excludes&gt;</span><br><span class="line">19         &lt;/excludes&gt;</span><br><span class="line">20     &lt;/configuration&gt;</span><br><span class="line">21 &lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
-<p>上面的配置我们需要注意以下几个节点：</p>
-<ul>
-<li>mainClass：我们需要指定main入口，当然这不是必须的，如果同一个project中有多个main入口，那打包的时候才需要，仅仅就一个main入口这个其实忽略；</li>
-<li>classpathPrefix：指定加入classpath中依赖包所在的前缀文件夹名</li>
-<li>addClasspath：依赖包放加入到classpath中，默认true</li>
-<li>includes：需要包含在jar中的文件，一般不配置(注意：如果配置路径不合适，可能会吧class排除掉)</li>
-<li>excludes：如果是要做jar包外部配置文件的话，这里需要用excludes排除这些配置文件一起打包在jar中</li>
-</ul>
-<p><font color="red">使用maven-jar-plugin插件针对项目工程来打包，这个时候通过maven的package命令打包，能看到jar中有一个lib文件夹(默认)，其中包含了工程项目中所引入的第三方依赖包，</font>通过java -jar xxx.jar能看到jar成功启动：</p>
-<p><img src="https://yqfile.alicdn.com/5a170a00ddde5795bd313c37f8442ec995e5be59.png" alt="img"></p>
-<p>在规范的项目中，一般有dev，test，uat，pro等环境，针对这些个环境需要有不同的配置，springboot中可以通过application-dev|test|…yml来区分不同的配置，仅仅需要在默认的application.yml中加入spring.profiles.active=dev|test…就行了；</p>
-<p>这种方式有个不便的地方，<font color="red">比如本地调试或发布上线都需要来回修改active的值(当然通过jar启动时，设置命令行active参数也可以)，不是很方便</font>；下面采用在pom中配置profiles，然后通过在idea界面上鼠标点击选择启动所用的配置；首先，在main层创建配置文件目录如下结构：</p>
-<p><img src="https://yqfile.alicdn.com/9ee0d15901101e06a924a097cd3ce1170d6fb50c.png" alt="img"></p>
-<p>为了区分测试，这里对不同环境配置文件设置了server.port来指定不同端口(dev:3082，pro：3182)<br>然后，在父级pom中配置如下profiles信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> 1     &lt;profiles&gt;</span><br><span class="line"> 2         &lt;profile&gt;</span><br><span class="line"> 3             &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line"> 4             &lt;!--默认运行配置--&gt;</span><br><span class="line"> 5             &lt;activation&gt;</span><br><span class="line"> 6                 &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line"> 7             &lt;/activation&gt;</span><br><span class="line"> 8             &lt;properties&gt;</span><br><span class="line"> 9                 &lt;activeProfile&gt;dev&lt;/activeProfile&gt;</span><br><span class="line">10             &lt;/properties&gt;</span><br><span class="line">11         &lt;/profile&gt;</span><br><span class="line">12         &lt;profile&gt;</span><br><span class="line">13             &lt;id&gt;test&lt;/id&gt;</span><br><span class="line">14             &lt;properties&gt;</span><br><span class="line">15                 &lt;activeProfile&gt;test&lt;/activeProfile&gt;</span><br><span class="line">16             &lt;/properties&gt;</span><br><span class="line">17         &lt;/profile&gt;</span><br><span class="line">18         &lt;profile&gt;</span><br><span class="line">19             &lt;id&gt;uat&lt;/id&gt;</span><br><span class="line">20             &lt;properties&gt;</span><br><span class="line">21                 &lt;activeProfile&gt;uat&lt;/activeProfile&gt;</span><br><span class="line">22             &lt;/properties&gt;</span><br><span class="line">23         &lt;/profile&gt;</span><br><span class="line">24         &lt;profile&gt;</span><br><span class="line">25             &lt;id&gt;pro&lt;/id&gt;</span><br><span class="line">26             &lt;properties&gt;</span><br><span class="line">27                 &lt;activeProfile&gt;pro&lt;/activeProfile&gt;</span><br><span class="line">28             &lt;/properties&gt;</span><br><span class="line">29         &lt;/profile&gt;</span><br><span class="line">30     &lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
-<p>节点说明：</p>
-<ul>
-<li>activeByDefault：设置为默认运行配置</li>
-<li>activeProfile：所选择的启动配置，它的值对应上面创建profiles下面的dev|test|pro文件夹</li>
-</ul>
-<p>然后，在pom中的build增加resources节点配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;resources&gt;</span><br><span class="line">2     &lt;!--指定所使用的配置文件目录--&gt;</span><br><span class="line">3     &lt;resource&gt;</span><br><span class="line">4         &lt;directory&gt;src/main/profiles/$&#123;activeProfile&#125;&lt;/directory&gt;</span><br><span class="line">5     &lt;/resource&gt;</span><br><span class="line">6 &lt;/resources&gt;</span><br></pre></td></tr></table></figure>
-<p>此刻我们的配置就完成了，正常情况下idea上maven模块能看到这样的图面：</p>
-<p><img src="https://yqfile.alicdn.com/03602ee937529a5f35c45164e4378286f3d00013.png" alt="img"></p>
-<p>这个时候仅仅只需要我们勾选这些个按钮就行了，不管是调试还是最后打包，都按照这个来获取所需的配置文件。</p>
-<h3 id="maven打包命令"><a href="#maven打包命令" class="headerlink" title="maven打包命令"></a>maven打包命令</h3><p>mvn clean package -P dev|pro|test</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/SpringBoot/">SpringBoot</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -1124,23 +1114,15 @@
 			
 		
 			
+				<li><a href="/tags/前端/" title="前端">前端<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/前端/" title="前端">前端<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
@@ -1148,27 +1130,15 @@
 			
 		
 			
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>3</sup></a></li>
 			
 		
 			
@@ -1176,11 +1146,15 @@
 			
 		
 			
-				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
 			
 		
 			
@@ -1188,11 +1162,27 @@
 			
 		
 			
-				<li><a href="/tags/io/" title="io">io<sup>1</sup></a></li>
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MYSQL数据库/" title="MYSQL数据库">MYSQL数据库<sup>1</sup></a></li>
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
 			
 		
 		</ul>
