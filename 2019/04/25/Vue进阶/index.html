@@ -4,25 +4,27 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>java 获取字节码以及判断类型 | MyNotes</title>
+    <title>Vue进阶 | MyNotes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YUAN">
     
 
     
-    <meta name="description" content="一、获取类的字节码的三种方法: 　　 　　1.使用Class.class 　　 1 Class&amp;lt;?&amp;gt; c1=String.class;  　　2.使用实例.getClass() 　　 1 String s=new String(“1”); 2 Class&amp;lt;?&amp;gt; c2=s.getClass();  　　3.使用Class.forName(“类全名”); 　　 1 Class&amp;">
-<meta name="keywords" content="java,字节码">
+    <meta name="description" content="Vue进阶：vue的初始化的选项中用了data,methods,el,computed。 vue实例的data对象数据绑定离不开data里面的数据，也是vue的核心属性，vue绑定数据到html标签的数据源泉，另外Vue框架会自动监视data里面的数据变化，自动更新到HTML标签上。本质原理是：Vue自动将data里面的数据进行递归抓取换成getter和setter,然后就可以自动转化成HTML标">
+<meta name="keywords" content="前端,vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java 获取字节码以及判断类型">
-<meta property="og:url" content="https://yuanjinxiugithub.github.io/2018/05/19/java-获取字节码以及判断类型/index.html">
+<meta property="og:title" content="Vue进阶">
+<meta property="og:url" content="https://yuanjinxiugithub.github.io/2019/04/25/Vue进阶/index.html">
 <meta property="og:site_name" content="MyNotes">
-<meta property="og:description" content="一、获取类的字节码的三种方法: 　　 　　1.使用Class.class 　　 1 Class&amp;lt;?&amp;gt; c1=String.class;  　　2.使用实例.getClass() 　　 1 String s=new String(“1”); 2 Class&amp;lt;?&amp;gt; c2=s.getClass();  　　3.使用Class.forName(“类全名”); 　　 1 Class&amp;">
+<meta property="og:description" content="Vue进阶：vue的初始化的选项中用了data,methods,el,computed。 vue实例的data对象数据绑定离不开data里面的数据，也是vue的核心属性，vue绑定数据到html标签的数据源泉，另外Vue框架会自动监视data里面的数据变化，自动更新到HTML标签上。本质原理是：Vue自动将data里面的数据进行递归抓取换成getter和setter,然后就可以自动转化成HTML标">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-03T13:19:18.666Z">
+<meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/fly_dragon/276813/o_lifecycle-%E6%A0%87%E6%B3%A8%E7%89%88%E6%9C%AC.png">
+<meta property="og:updated_time" content="2019-04-25T14:26:33.172Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java 获取字节码以及判断类型">
-<meta name="twitter:description" content="一、获取类的字节码的三种方法: 　　 　　1.使用Class.class 　　 1 Class&amp;lt;?&amp;gt; c1=String.class;  　　2.使用实例.getClass() 　　 1 String s=new String(“1”); 2 Class&amp;lt;?&amp;gt; c2=s.getClass();  　　3.使用Class.forName(“类全名”); 　　 1 Class&amp;">
+<meta name="twitter:title" content="Vue进阶">
+<meta name="twitter:description" content="Vue进阶：vue的初始化的选项中用了data,methods,el,computed。 vue实例的data对象数据绑定离不开data里面的数据，也是vue的核心属性，vue绑定数据到html标签的数据源泉，另外Vue框架会自动监视data里面的数据变化，自动更新到HTML标签上。本质原理是：Vue自动将data里面的数据进行递归抓取换成getter和setter,然后就可以自动转化成HTML标">
+<meta name="twitter:image" content="https://images.cnblogs.com/cnblogs_com/fly_dragon/276813/o_lifecycle-%E6%A0%87%E6%B3%A8%E7%89%88%E6%9C%AC.png">
 
     
     <link rel="alternative" href="/atom.xml" title="MyNotes" type="application/atom+xml">
@@ -82,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/05/19/java-获取字节码以及判断类型/" title="java 获取字节码以及判断类型" itemprop="url">java 获取字节码以及判断类型</a>
+      <a href="/2019/04/25/Vue进阶/" title="Vue进阶" itemprop="url">Vue进阶</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
 		
   </p><p class="article-time">
-    <time datetime="2018-05-19T03:33:17.000Z" itemprop="datePublished"> Published 2018-05-19</time>
+    <time datetime="2019-04-25T14:24:34.000Z" itemprop="datePublished"> Published 2019-04-25</time>
     
   </p>
 </header>
@@ -98,24 +100,63 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue进阶："><span class="toc-number">1.</span> <span class="toc-text">Vue进阶：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vue实例的data对象"><span class="toc-number">1.1.</span> <span class="toc-text">vue实例的data对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vue实例的computed"><span class="toc-number">1.2.</span> <span class="toc-text">vue实例的computed</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#methods"><span class="toc-number">1.3.</span> <span class="toc-text">methods</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#watch"><span class="toc-number">1.4.</span> <span class="toc-text">watch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置el的详解"><span class="toc-number">1.5.</span> <span class="toc-text">设置el的详解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue的生命周期"><span class="toc-number">1.6.</span> <span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue实例的全局配置"><span class="toc-number">1.7.</span> <span class="toc-text">Vue实例的全局配置</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>一、获取类的字节码的三种方法:
-　　</p>
-<p>　　1.使用Class.class</p>
-<p>　　 1 Class&lt;?&gt; c1=String.class; </p>
-<p>　　2.使用实例.getClass()</p>
-<p>　　 1 String s=new String(“1”); 2 Class&lt;?&gt; c2=s.getClass(); </p>
-<p>　　3.使用Class.forName(“类全名”);</p>
-<p>　　 1 Class&lt;?&gt; c3 = Class.forName(“java.lang.String”);</p>
-<p>二、判断字节码是不是基本类型 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`//判断是不是基本类型``System.out.println(c1.isPrimitive());``//false`</span><br></pre></td></tr></table></figure>
-<p> 三、判断是不是数组：</p>
-<p> 1 //判断是不是数组 2 System.out.println(String[].class.isArray());//true </p>
-<p>四、判断基本类型的详细类型</p>
-<p> 1 // 判断是不是int 基本类型 2 System.out.println(int.class==Integer.TYPE); </p>
+		<h3 id="Vue进阶："><a href="#Vue进阶：" class="headerlink" title="Vue进阶："></a>Vue进阶：</h3><p>vue的初始化的选项中用了data,methods,el,computed。</p>
+<h4 id="vue实例的data对象"><a href="#vue实例的data对象" class="headerlink" title="vue实例的data对象"></a>vue实例的data对象</h4><p>数据绑定离不开data里面的数据，也是vue的核心属性，vue绑定数据到html标签的数据源泉，另外Vue框架会自动监视data里面的数据变化，自动更新到HTML标签上。本质原理是：<strong>Vue自动将data里面的数据进行递归抓取换成getter和setter,然后就可以自动转化成HTML标签，当然用getter和setter所以老的浏览器Vue支持的不够友好</strong>。</p>
+<p>data的数据类型：</p>
+<p>1.类型是Object或者Function</p>
+<p>2.如果是组件对象中，data必须是Function类型。</p>
+<h4 id="vue实例的computed"><a href="#vue实例的computed" class="headerlink" title="vue实例的computed"></a>vue实例的computed</h4><p>vue的计算属性会自动混入vue的实例中，所有的getter和setter的this上下文自动绑定为Vue实例，计算属性中定义的函数里面可以直接指向Vue实例的this;</p>
+<h4 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h4><p>methods 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 this 自动绑定为 Vue 实例。</p>
+<p><strong>注意，不应该使用箭头函数来定义 method 函数 (例如 plus: () =&gt; this.a++)。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例，this.a 将是 undefined。</strong></p>
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p>一个对象，键是需要观察的表达式，值是对应回调函数。值也可以是方法名，或者包含选项的对象。Vue 实例将会在实例化时调用 $watch()，遍历 watch 对象的每一个属性。</p>
+<h4 id="设置el的详解"><a href="#设置el的详解" class="headerlink" title="设置el的详解"></a>设置el的详解</h4><p>限制：只在new创建的实例中遵守。</p>
+<p>提供页面上已存在的DOM元素作为Vue实例的挂载目标，也就是说Vue绑定的元素去哪里找，可以是CSS选择器，也可以是HTMLElemenet实例。</p>
+<p>在实例挂载之后，元素可以用vm.$el访问。</p>
+<p>如果这个选项在实例化时有作用，实例将立即进入编译过程，否则，需要显示调用vm.$mount()手动开启编译。</p>
+<h4 id="Vue的生命周期"><a href="#Vue的生命周期" class="headerlink" title="Vue的生命周期"></a>Vue的生命周期</h4><p>Vue实例有一个完整的生命周期，<strong>开始创建，初始化创建，编译模板，挂载DOM，渲染，更新，渲染，卸载等一系列的过程</strong>  生命周期就是指Vue实例从创建到销毁的过程就是生命周期。</p>
+<p>vue的整个生命周期提供了一系列的js事件。</p>
+<p><img src="https://images.cnblogs.com/cnblogs_com/fly_dragon/276813/o_lifecycle-%E6%A0%87%E6%B3%A8%E7%89%88%E6%9C%AC.png" alt="vueçå½å¨æ"></p>
+<p>ue提供的可以注册的钩子都在上图片的红色框标注。 他们是：</p>
+<ul>
+<li><code>beforeCreate</code></li>
+</ul>
+<p>在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。</p>
+<ul>
+<li><code>created</code></li>
+</ul>
+<p>实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。</p>
+<ul>
+<li><code>beforeMount</code></li>
+</ul>
+<p>在挂载开始之前被调用：相关的 render 函数首次被调用。</p>
+<ul>
+<li><code>mounted</code></li>
+</ul>
+<p>el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$el 也在文档内。</p>
+<ul>
+<li><code>beforeUpdate</code></li>
+</ul>
+<p>数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。 你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。</p>
+<ul>
+<li><code>updated</code></li>
+</ul>
+<p>由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。</p>
+<p>当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态，因为这可能会导致更新无限循环。</p>
+<p>该钩子在服务器端渲染期间不被调用。</p>
+<ul>
+<li><code>beforeDestroy</code></li>
+</ul>
+<p>实例销毁之前调用。在这一步，实例仍然完全可用。</p>
+<ul>
+<li><code>destroyed</code></li>
+</ul>
+<p>Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。 该钩子在服务器端渲染期间不被调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="Vue实例的全局配置"><a href="#Vue实例的全局配置" class="headerlink" title="Vue实例的全局配置"></a>Vue实例的全局配置</h4><p><a href="https://cn.vuejs.org/v2/api/#silent" target="_blank" rel="noopener">官网</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -124,7 +165,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/字节码/">字节码</a>
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/vue/">vue</a>
   </div>
 
 </div>
@@ -133,7 +174,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://yuanjinxiugithub.github.io/2018/05/19/java-获取字节码以及判断类型/" data-title="java 获取字节码以及判断类型 | MyNotes" data-tsina="" class="share clearfix">
+	  <div data-url="https://yuanjinxiugithub.github.io/2019/04/25/Vue进阶/" data-title="Vue进阶 | MyNotes" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,19 +187,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev">
- <a href="/2018/05/26/gc垃圾回收机制/" title="gc垃圾回收机制">
-  <strong>上一篇：</strong><br>
-  <span>
-  gc垃圾回收机制</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2018/03/01/剑指offer-record/" title="剑指offer-record">
+<a href="/2019/04/24/npm常用命令/" title="npm常用命令">
  <strong>下一篇：</strong><br> 
- <span>剑指offer-record
+ <span>npm常用命令
 </span>
 </a>
 </div>
@@ -175,7 +208,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue进阶："><span class="toc-number">1.</span> <span class="toc-text">Vue进阶：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vue实例的data对象"><span class="toc-number">1.1.</span> <span class="toc-text">vue实例的data对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vue实例的computed"><span class="toc-number">1.2.</span> <span class="toc-text">vue实例的computed</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#methods"><span class="toc-number">1.3.</span> <span class="toc-text">methods</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#watch"><span class="toc-number">1.4.</span> <span class="toc-text">watch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置el的详解"><span class="toc-number">1.5.</span> <span class="toc-text">设置el的详解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue的生命周期"><span class="toc-number">1.6.</span> <span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue实例的全局配置"><span class="toc-number">1.7.</span> <span class="toc-text">Vue实例的全局配置</span></a></li></ol></li></ol>
  
   </div>
 
