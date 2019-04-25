@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="MyNotes">
 <meta property="og:description" content="序号     命令 作用 1 npm install -g npm 升级npm 2 nmp init或者npm  init -y 初始化package.json文件，若都用默认参数则用 npm init -y 3 npm -v 查看npm版本 4 npm config set registry  https://registry.npm.taobao.org 设置npm为淘宝镜像 5 npm co">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-24T07:06:10.866Z">
+<meta property="og:updated_time" content="2019-04-25T12:04:15.142Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="npm常用命令">
 <meta name="twitter:description" content="序号     命令 作用 1 npm install -g npm 升级npm 2 nmp init或者npm  init -y 初始化package.json文件，若都用默认参数则用 npm init -y 3 npm -v 查看npm版本 4 npm config set registry  https://registry.npm.taobao.org 设置npm为淘宝镜像 5 npm co">
@@ -167,6 +167,14 @@
 <p>不推荐全局安装，因为全局安装将会锁定指定版本，并且在使用不同的webpack版本的项目中，可能会导致构建失败。</p>
 <p>lodash一个一致性，模块化，高性能的javascript实用工具库</p>
 <p>在安装一个要打包到生产环境的安装包时，你应该使用 <code>npm install --save</code>，如果你在安装一个用于开发环境的安装包（例如，linter, 测试库等），你应该使用 <code>npm install --save-dev</code>。请在 <a href="https://docs.npmjs.com/cli/install" target="_blank" rel="noopener">npm 文档</a> 中查找更多信息。</p>
+<p>npx npm包的一个执行器</p>
+<p>ES5中的Import和Export </p>
+<p>一个js文件代表一个模块，ES6 模块化使用到了import和export 在浏览器中导入和导出各个模块，</p>
+<p>webpack 如何管理资源和图片？</p>
+<p>webpack 打包思想：</p>
+<p>webpack可以将网页所需要的js css 图片等资源整体打包压缩，用户只需要请求你打包后的文件，请求数量大大减少，节省浏览器响应时间，减少用户的等待时间。</p>
+<p>webpack打包的思想：chunk思想；</p>
+<p>webpack分析网页中的所需要的js文件，css文件，font文件，每个文件都是一块一块的，以及各自文件所依赖的文件，形成依赖树，然后 webpack根据文件类型，采用不同的loader进行处理加载， js文件用babel-loader将ES6转换，css根据post-loader做兼容处理，然后输入到html文件中。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -263,14 +271,6 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
@@ -279,35 +279,11 @@
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
 			
 		
 			
@@ -319,7 +295,39 @@
 			
 		
 			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 		</ul>

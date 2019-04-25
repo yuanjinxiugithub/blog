@@ -20,9 +20,8 @@
 <meta property="og:description" content="项目中使用到的RabbitMQ的总结：rabbitMQ 本身基于erlang语言开发，erlang语言具有高并发的特性，其管理界面用起来也十分方便。单机吞吐量为万级，一般多用于中小型企业的消息中间件。 RabbitMQ结构图 几个概念说明Broker: 消息交换机  指定消息按什么规则，路由到哪个队列 Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。 Queue: 消息队列载体">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://img-blog.csdn.net/20171030200129162?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvX2Nob3Nlbl8x/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg">
 <meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvkeGvFC5ic87z1vlG9Bskxe9Kmzv1NXgBiaLibpwibnRwRf9lEyFm5k4rIA/640?wx_fmt=png">
-<meta property="og:updated_time" content="2019-02-27T12:55:55.857Z">
+<meta property="og:updated_time" content="2019-04-25T11:55:20.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈项目中用到的RabbitMQ">
 <meta name="twitter:description" content="项目中使用到的RabbitMQ的总结：rabbitMQ 本身基于erlang语言开发，erlang语言具有高并发的特性，其管理界面用起来也十分方便。单机吞吐量为万级，一般多用于中小型企业的消息中间件。 RabbitMQ结构图 几个概念说明Broker: 消息交换机  指定消息按什么规则，路由到哪个队列 Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。 Queue: 消息队列载体">
@@ -178,7 +177,6 @@
 <p>安装插件，只要启用rabbitmq的MQTT插件即可：rabbitmq-plugins enable rabbitmq-mqtt 启用后重启一下rabbitmq-server</p>
 <h3 id="消息队列MQ和RPC远程调用的区别："><a href="#消息队列MQ和RPC远程调用的区别：" class="headerlink" title="消息队列MQ和RPC远程调用的区别："></a>消息队列MQ和RPC远程调用的区别：</h3><p>什么是RPC?</p>
 <p>RPC（Remote Procedure Call）远程过程调用，主要解决远程通信间的问题，不需要了解底层网络的通信机制。如：dubbo</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/M37cUQ9AX6nfRyVbGCRgQW9UwJWnyiaBvfgDrcSCPpURFpvCnQuXR8rprK8j1eK1vbeZUIJ9iavIJlJNkBpoCNHw/640?wx_fmt=jpeg" alt="img"></p>
 <p> RPC的一般需要经历4个步骤：</p>
 <p>1、建立通信</p>
 <p>首先要解决通讯的问题：即A机器想要调用B机器，首先得建立起通信连接，主要是通过在客户端和服务器之间建立TCP连接。</p>
@@ -318,14 +316,6 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-boot/" title="spring boot">spring boot<sup>3</sup></a></li>
 			
 		
@@ -334,35 +324,11 @@
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+				<li><a href="/tags/版本控制工具/" title="版本控制工具">版本控制工具<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>3</sup></a></li>
 			
 		
 			
@@ -374,7 +340,39 @@
 			
 		
 			
-				<li><a href="/tags/持久层/" title="持久层">持久层<sup>1</sup></a></li>
+				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mybatis/" title="mybatis">mybatis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mvn命令/" title="mvn命令">mvn命令<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/消息队列/" title="消息队列">消息队列<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>1</sup></a></li>
 			
 		
 		</ul>
