@@ -82,6 +82,62 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/04/mysql函数FIND-IN-SET-的使用方法/" title="mysql函数FIND_IN_SET()的使用方法" itemprop="url">mysql函数FIND_IN_SET()的使用方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-04T10:56:25.000Z" itemprop="datePublished"> Published 2019-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Mysql函数FIND-IN-SET-的使用方法"><a href="#Mysql函数FIND-IN-SET-的使用方法" class="headerlink" title="Mysql函数FIND_IN_SET()的使用方法"></a>Mysql函数FIND_IN_SET()的使用方法</h3><p>FIND_IN_SET(str,strlist)</p>
+<p>字符串str 在由N个子链组成的字符串列表strlist 中，则返回值的范围在 1 到 N 之间。一个字符串列表就是一个由一些被‘,’符号分开的自链组成的字符串。如果第一个参数是一个常数字符串，而第二个是type SET列，则   FIND_IN_SET() 函数被优化，使用比特计算。如果str不在strlist 或strlist 为空字符串，则返回值为 0 。如任意一个参数为NULL，则返回值为 NULL。这个函数在第一个参数包含一个逗号(‘,’)时将无法正常运行.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mysql/">mysql</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/03/IO和NIO/" title="IO和NIO" itemprop="url">IO和NIO</a>
   </h1>
   <p class="article-author">By
@@ -817,102 +873,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/18/基于springsecurity的权限认证/" title="基于springsecurity的权限认证" itemprop="url">基于springsecurity的权限认证</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-02-18T01:43:58.000Z" itemprop="datePublished"> Published 2019-02-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>本文在SpringMVC和MyBatis项目框架的基础上整合Spring Security作为权限管理。并且完全实现一套自定义的权限管理规则。</p>
-<p><strong>1.权限管理</strong><br>在本例中所使用的权限管理的思路如下图所示，在系统中存在着许多帐号，同时存在着许多资源，在一个Web系统中一个典型的资源就是访问页面的URL，控制了这个就能够直接控制用户的访问权。</p>
-<p>由于资源非常多，直接针对资源与用户进行设置关系会比较繁琐，因此针对同一类或者同一组的资源打个包，称为一组权限，这样将权限分配给用户的时候，一组权限中的资源也就都分配给用户了。</p>
-<p><img src="https://images2017.cnblogs.com/blog/1071354/201711/1071354-20171114134807999-455536739.png" alt="img"></p>
-<p>这个只是一个非常简单的权限管理方案，并且只能适用于较小的项目，因为此处给出这个只是为了便于理解自定义的Spring Security认证规则。</p>
-<p><strong>2.Spring Security的认证规则</strong><br>要编写自定义的认证规则，首先需要对Spring Security中的认证规则有一定的了解，下面简单介绍下Spring Security的认证规则。</p>
-<p>1）在Spring Security中每个URL都是一个资源，当系统启动的时候，Spring Security会根据配置将所有的URL与访问这个URL所需要的权限的映射数据加载到Spring Security中。</p>
-<p>2）当一个请求访问一个资源时，Spring Security会判断这个URL是否需要权限验证，如果不需要，那么直接访问即可。</p>
-<p>3）如果这个URL需要进行权限验证，那么Spring Security会检查当前请求来源所属用户是否登录，如果没有登录，则跳转到登录页面，进行登录操作，并加载这个用户的相关信息</p>
-<p>4）如果登录，那么判断这个用户所拥有的权限是否包含访问这个URL所需要的权限，如果有则允许访问</p>
-<p>5）如果没有权限，那么就给出相应的提示信息</p>
-<p><strong>3.自定义认证规则思路</strong><br>根据上面一小节介绍的Spring Security认证的过程，我们相应的就能够分析出对于这个过程我们如果要修改的话，需要进行哪些方面的改动。</p>
-<p><strong>3.1.自定义SecurityMetadataSource</strong><br>在Spring Security中的 SecurityMetadataSource 处于上面的步骤一中，也就是用于加载URL与权限对应关系的，对于这个我们需要自己进行定义</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Set;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.access.SecurityConfig;</span><br><span class="line">import org.springframework.security.web.FilterInvocation;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 加载URL与权限资源，并提供根据URL匹配权限的方法</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:18:52</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomSecurityMetadataSource </span><br><span class="line">        implements FilterInvocationSecurityMetadataSource &#123;</span><br><span class="line"> </span><br><span class="line">    private Map&lt;String, List&lt;ConfigAttribute&gt;&gt; resources;</span><br><span class="line">    </span><br><span class="line">    public CustomSecurityMetadataSource() &#123;</span><br><span class="line">        loadAuthorityResources();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private void loadAuthorityResources() &#123;</span><br><span class="line">        // 此处在创建时从数据库中初始化权限数据</span><br><span class="line">        // 将权限与资源数据整理成 Map&lt;resource, List&lt;Authority&gt;&gt; 的形式</span><br><span class="line">        // 注意：加载URL资源时，需要对资源进行排序，要由精确到粗略进行排序，让精确的URL优先匹配</span><br><span class="line">        resources = new HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        // 此处先伪造一些数据</span><br><span class="line">        List&lt;ConfigAttribute&gt; authorityList = new ArrayList&lt;&gt;();</span><br><span class="line">        ConfigAttribute auth = new SecurityConfig(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        authorityList.add(auth);</span><br><span class="line">        resources.put(&quot;/welcome&quot;, authorityList);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAttributes(Object object) throws IllegalArgumentException &#123;</span><br><span class="line">        </span><br><span class="line">        String url = ((FilterInvocation) object).getRequestUrl();</span><br><span class="line">        </span><br><span class="line">        Set&lt;String&gt; keys = resources.keySet();</span><br><span class="line">        </span><br><span class="line">        for (String k : keys) &#123;</span><br><span class="line">            if (url.indexOf(k) &gt;= 0) &#123;</span><br><span class="line">                return resources.get(k);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public Collection&lt;ConfigAttribute&gt; getAllConfigAttributes() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p>在这个类中，实现了FilterInvocationSecurityMetadataSource接口，这个接口中的 getAttributes(Object object)方法能够根据请求的URL，获取这个URL所需要的权限，那么我们就可以在这个类初始化的时候将所有需要的权限加载进来，然后根据我们的规则进行获取，因此这里还需要编写一个加载数据的方法 loadAuthorityResources()，并且在构造函数中调用。</p>
-<p>此处加载资源为了简化，只是随意填充了一些数据，实际可以从数据库中获取。</p>
-<p><strong>3.2.自定义AccessDecisionManager</strong><br>编写自定义的决策管理器，决策管理器是Spring Security用来决定对于一个用户的请求是否基于通过的中心控制。</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.access.AccessDecisionManager;</span><br><span class="line">import org.springframework.security.access.AccessDeniedException;</span><br><span class="line">import org.springframework.security.access.ConfigAttribute;</span><br><span class="line">import org.springframework.security.authentication.InsufficientAuthenticationException;</span><br><span class="line">import org.springframework.security.core.Authentication;</span><br><span class="line">import org.springframework.security.core.GrantedAuthority;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 进行决策，根据URL获得访问这个资源所需要的权限，然后在与当前用户所拥有的权限进行对比</span><br><span class="line"> * 如果当前用户拥有相关权限，就直接返回，否则抛出 AccessDeniedException异常</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 上午11:30:40</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomAccessDecisionManager implements AccessDecisionManager &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void decide(Authentication authentication, Object object, Collection&lt;ConfigAttribute&gt; configAttributes)</span><br><span class="line">            throws AccessDeniedException, InsufficientAuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">        LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (configAttributes == null) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (configAttributes.size() &lt;= 0) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Iterator&lt;ConfigAttribute&gt; authorities = configAttributes.iterator();</span><br><span class="line">        String needAuthority = null;</span><br><span class="line">        </span><br><span class="line">        while(authorities.hasNext()) &#123;</span><br><span class="line">            ConfigAttribute authority = authorities.next();</span><br><span class="line">            </span><br><span class="line">            if (authority == null || (needAuthority = authority.getAttribute()) == null) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            LogManager.getLogger(&quot;CustomAccessDecisionManager&quot;).info(&quot;decide == &quot; + needAuthority);</span><br><span class="line">            </span><br><span class="line">            for (GrantedAuthority ga : authentication.getAuthorities()) &#123;</span><br><span class="line">                if (needAuthority.equals(ga.getAuthority().trim())) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        throw new AccessDeniedException(&quot;No Authority&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(ConfigAttribute attribute) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean supports(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p>决策管理器最重要的就是这个 decide()方法，Spring Security会将当前登录用户信息包装到一个 Authentication对象中，并传入这个方法；并且调用 SecurityMetadataSource.getAttributes() 方法获取这个URL相关的权限以参数 Collection<configattribute> 的形式传入这个方法。</configattribute></p>
-<p>然后这个decide方法获取到这两个信息之后就可以进行对比决策了。如果当前用户允许登录，那么直接return即可。如果当前用户不许运行登录，则抛出一个 AccessDeniedException异常。</p>
-<p><strong>3.3.自定义 UserDetailsService 和 AuthenticationProvider</strong></p>
-<p>前面说过，要进行验证，除了有URL与权限的映射关系，还需要有用户的权限信息。要编写自定义的用户数据加载，就需要实现这两个接口。</p>
-<p><strong>3.3.1.UserDetailsService</strong></p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">import com.oolong.model.AccountInfoModel;</span><br><span class="line">import com.oolong.model.AuthorityModel;</span><br><span class="line"> </span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsService implements UserDetailsService &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsService&quot;).info(&quot;loadUserByUsername invoke&quot;);</span><br><span class="line"> </span><br><span class="line">        // 提供到数据库查询该用户的权限信息</span><br><span class="line">        // 关于角色和权限的转换关系在此处处理，根据用户与角色的关系、角色与权限的关系，</span><br><span class="line">        // 将用户与权限的管理整理出来</span><br><span class="line">        </span><br><span class="line">        // 此处伪造一些数据</span><br><span class="line">        // 伪造权限</span><br><span class="line">        AuthorityModel authority = new AuthorityModel(&quot;AUTH_WELCOME&quot;);</span><br><span class="line">        List&lt;AuthorityModel&gt; authorities = new ArrayList&lt;&gt;();</span><br><span class="line">        authorities.add(authority);</span><br><span class="line">        </span><br><span class="line">        AccountInfoModel account = new AccountInfoModel(&quot;oolong&quot;, &quot;12345&quot;);</span><br><span class="line">        account.setAuthorities(authorities);</span><br><span class="line">        </span><br><span class="line">        return account;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p><strong>3.3.2.AuthenticationProvider</strong><br>AuthenticationProvider用于包装UserDetailsService，并将其提供给 Spring Security使用。这个接口中最重要的是实现 retrieveUser() 方法，这个请参考接口的说明进行实现，此处不再赘述。</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.customsecurity;</span><br><span class="line"> </span><br><span class="line">import org.apache.log4j.LogManager;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.security.authentication.AuthenticationServiceException;</span><br><span class="line">import org.springframework.security.authentication.BadCredentialsException;</span><br><span class="line">import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;</span><br><span class="line">import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;</span><br><span class="line">import org.springframework.security.core.AuthenticationException;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line">import org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line">import org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * 这两个方法用于添加额外的检查功能，此处不需要添加，因此空着，直接实现这个抽象类即可。</span><br><span class="line"> * @author weilu2</span><br><span class="line"> * @date 2016年12月17日 下午12:20:27</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CustomUserDetailsAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider &#123;</span><br><span class="line"> </span><br><span class="line">    @Autowired</span><br><span class="line">    private UserDetailsService userDetailsService;</span><br><span class="line">    </span><br><span class="line">    public UserDetailsService getUserDetailService() &#123;</span><br><span class="line">        return this.userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void setUserDetailService(UserDetailsService userDetailsService) &#123;</span><br><span class="line">        this.userDetailsService = userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected void additionalAuthenticationChecks(UserDetails userDetails,</span><br><span class="line">            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)</span><br><span class="line">            throws AuthenticationException &#123;</span><br><span class="line"> </span><br><span class="line">        LogManager.getLogger(&quot;CustomUserDetailsAuthenticationProvider&quot;).info(&quot;retrieveUser invoke&quot;);</span><br><span class="line">        </span><br><span class="line">        if (userDetailsService == null) &#123;</span><br><span class="line">            throw new AuthenticationServiceException(&quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        UserDetails userDetails = userDetailsService.loadUserByUsername(username);</span><br><span class="line">        </span><br><span class="line">        if (userDetails == null) &#123;</span><br><span class="line">            throw new UsernameNotFoundException(username);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (userDetails.getUsername().equals(authentication.getPrincipal().toString()) </span><br><span class="line">                &amp;&amp; userDetails.getPassword().equals(authentication.getCredentials().toString())) &#123;</span><br><span class="line">            return userDetails;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        throw new BadCredentialsException(username + authentication.getCredentials());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p><strong>3.4.UserDetails和GrantedAuthority</strong><br>这两个接口非常简单，请参考源码，此处不再赘述</p>
-<p><strong>4.配置</strong><br>上面编写的这些自定义的实现都有了，但是仅仅这样是没有用的，如何配置能够让它们起作用呢？</p>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">package com.oolong.config;</span><br><span class="line"> </span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.ComponentScan;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;</span><br><span class="line">import org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line">import org.springframework.security.web.access.ExceptionTranslationFilter;</span><br><span class="line">import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;</span><br><span class="line"> </span><br><span class="line">import com.oolong.customsecurity.CustomAccessDecisionManager;</span><br><span class="line">import com.oolong.customsecurity.CustomSecurityMetadataSource;</span><br><span class="line">import com.oolong.customsecurity.CustomUserDetailsAuthenticationProvider;</span><br><span class="line">import com.oolong.customsecurity.TempHook;</span><br><span class="line"> </span><br><span class="line">@Configuration</span><br><span class="line">@ComponentScan(basePackageClasses=&#123;TempHook.class&#125;)</span><br><span class="line">@EnableWebSecurity</span><br><span class="line">public class SecurityConfig extends WebSecurityConfigurerAdapter &#123;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomUserDetailsAuthenticationProvider customAuthenticationProvider;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomAccessDecisionManager customAccessDecisionManager;</span><br><span class="line">    </span><br><span class="line">    @Autowired</span><br><span class="line">    private CustomSecurityMetadataSource customSecurityMetadataSource;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(AuthenticationManagerBuilder auth) throws Exception &#123;</span><br><span class="line">        auth.authenticationProvider(customAuthenticationProvider);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(HttpSecurity http) throws Exception &#123;</span><br><span class="line">        http.addFilterAfter(customFilterSecurityInterceptor(), ExceptionTranslationFilter.class);</span><br><span class="line">        http.formLogin();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Bean</span><br><span class="line">    public FilterSecurityInterceptor customFilterSecurityInterceptor() &#123;</span><br><span class="line">        FilterSecurityInterceptor fsi = new FilterSecurityInterceptor();</span><br><span class="line">        fsi.setAccessDecisionManager(customAccessDecisionManager);</span><br><span class="line">        fsi.setSecurityMetadataSource(customSecurityMetadataSource);</span><br><span class="line">        </span><br><span class="line">        return fsi;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
-<p>在Spring MVC中，Spring Security是通过过滤器发挥作用的，因此我们就爱那个决策管理器与数据加载放到一个过滤器中，然后将这个过滤器插入到系统的过滤器链中。</p>
-<p>此外，我们向系统中提供了一个用于检索用户的 AuthenticationProvicer。</p>
-<p>还有，别忘记了，告诉系统，如果用户没有权限应该怎么办，http.formLogin()，告诉Spring Security要跳转到表单登录页面。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/spring-boot/">spring boot</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -946,7 +906,7 @@
 			
 		
 			
-				<li><a href="/tags/前端/" title="前端">前端<sup>8</sup></a></li>
+				<li><a href="/tags/前端/" title="前端">前端<sup>9</sup></a></li>
 			
 		
 			
@@ -954,11 +914,11 @@
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -978,15 +938,15 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
@@ -998,7 +958,7 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
 			
 		
 			

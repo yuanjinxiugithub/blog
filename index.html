@@ -82,6 +82,200 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/05/03/“React进阶/" title="“React进阶" itemprop="url">“React进阶</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-05-03T03:55:10.000Z" itemprop="datePublished"> Published 2019-05-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="1-React简介"><a href="#1-React简介" class="headerlink" title="1.React简介"></a>1.React简介</h3><p>React 起源于FackBook的内部项目，用于架设Instagram的网站。react拥有较高的性能，代码逻辑非常简单，越来越多的人开始关注和使用它。</p>
+<p>特性：</p>
+<p>1.声明式设计：React声明范式，可以轻松描述应用。</p>
+<p>2.高效：React通过对DOM的模拟，最大限度地减少与DOM的交互。</p>
+<p>3.灵活：React可以与已知的库或者框架很好的配合。</p>
+<p>优点：</p>
+<ol>
+<li><p>速度快：在UI渲染过程中，React通过在虚拟DOM中的微操作来实现对实际DOM的局部更新。</p>
+</li>
+<li><p>跨浏览器兼容：虚拟DOM帮助我们解决了跨浏览器问题，它为我们提供了标准化的API，甚至在IE8中都是没问题的。</p>
+</li>
+<li><p>模块化：为你程序编写独立的模块化UI组件，这样当某个或某些组件出现问题是，可以方便地进行隔离。</p>
+</li>
+<li><p>单向数据流：Flux是一个用于在JavaScript应用中创建单向数据层的架构，它随着React视图库的开发而被Facebook概念化。</p>
+</li>
+<li><p>同构、纯粹的javascript：因为搜索引擎的爬虫程序依赖的是服务端响应而不是JavaScript的执行，预渲染你的应用有助于搜索引擎优化。</p>
+<p>6.兼容性好：比如使用RequireJS来加载和打包，而Browserify和Webpack适用于构建大型应用。它们使得那些艰难的任务不再让人望而生畏。</p>
+</li>
+</ol>
+<p>缺点：</p>
+<p>React本身只是一个V而已，并不是一个完整的框架，所以如果是大型项目想要一套完整的框架的话，基本都需要加上ReactRouter和Flux才能写大型应用。</p>
+<h3 id="2-Vue简介："><a href="#2-Vue简介：" class="headerlink" title="2.Vue简介："></a>2.Vue简介：</h3><p>vue是一个构建数据驱动的web界面的库，准确来说不是一个框架，聚焦在V(view)视图层。</p>
+<p>有以下特性：</p>
+<p>1.轻量级框架</p>
+<p>2.双向数据绑定</p>
+<p>3.自定义指定</p>
+<p>4.插件化</p>
+<p>优点：</p>
+<ol>
+<li><p>简单：官方文档很清晰，比 Angular 简单易学。</p>
+</li>
+<li><p>快速：异步批处理方式更新 DOM。</p>
+</li>
+<li><p>组合：用解耦的、可复用的组件组合你的应用程序。</p>
+</li>
+<li><p>紧凑：~18kb min+gzip，且无依赖。</p>
+</li>
+<li><p>强大：表达式 无需声明依赖的可推导属性 (computed properties)。</p>
+</li>
+<li><p>对模块友好：可以通过 NPM、Bower 或 Duo 安装，不强迫你所有的代码都遵循 Angular 的各种规定，使用场景更加灵活。</p>
+</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li><p>新生儿：Vue.js是一个新的项目，没有angular那么成熟。</p>
+</li>
+<li><p>影响度不是很大：google了一下，有关于Vue.js多样性或者说丰富性少于其他一些有名的库。</p>
+</li>
+<li><p>不支持IE8</p>
+</li>
+</ol>
+<h3 id="3-Angular-简介"><a href="#3-Angular-简介" class="headerlink" title="3.Angular 简介"></a>3.Angular 简介</h3><p>angular是一款优秀的前端js框架，已经被用于Google多款产品当中。</p>
+<p>特性：</p>
+<p>1.良好的应用程序架构。</p>
+<p>2.双向数据绑定。</p>
+<p>3.指定。</p>
+<p>4.HTML模板。</p>
+<p>5.可嵌入，注入和测试。</p>
+<p>优点：</p>
+<ol>
+<li><p>模板功能强大丰富，自带了极其丰富的angular指令。</p>
+</li>
+<li><p>是一个比较完善的前端框架，包含服务，模板，数据双向绑定，模块化，路由，过滤器，依赖注入等所有功能；</p>
+</li>
+<li><p>自定义指令，自定义指令后可以在项目中多次使用。</p>
+</li>
+<li><p>ng模块化比较大胆的引入了Java的一些东西（依赖注入），能够很容易的写出可复用的代码，对于敏捷开发的团队来说非常有帮助。</p>
+</li>
+<li><p>angularjs是互联网巨人谷歌开发，这也意味着他有一个坚实的基础和社区支持。</p>
+</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li><p>angular 入门很容易 但深入后概念很多, 学习中较难理解.</p>
+</li>
+<li><p>文档例子非常少, 官方的文档基本只写了api, 一个例子都没有, 很多时候具体怎么用都是google来的, 或直接问misko,angular的作者.</p>
+</li>
+<li><p>对IE6/7 兼容不算特别好, 就是可以用jQuery自己手写代码解决一些.</p>
+</li>
+<li><p>指令的应用的最佳实践教程少, angular其实很灵活, 如果不看一些作者的使用原则,很容易写出 四不像的代码, 例如js中还是像jQuery的思想有很多dom操作.</p>
+</li>
+<li><p>DI 依赖注入 如果代码压缩需要显示声明.</p>
+</li>
+</ol>
+<h3 id="4-React-JSX简介"><a href="#4-React-JSX简介" class="headerlink" title="4.React JSX简介"></a>4.React JSX简介</h3><p>jsx javascript的语法扩展。推荐在React 中使用JSX来描述用户界面。JSX咋看可能比较像是模板语言，但事实上它完全是在JavaScript内部实现的。</p>
+<h4 id="在jsx中使用表达式"><a href="#在jsx中使用表达式" class="headerlink" title="在jsx中使用表达式"></a>在jsx中使用表达式</h4><p>可以任意的在Jsx当中使用JavaScript表达式，在JSX当中的表达式要包含在大括号里。</p>
+<h4 id="jsx本身其实也是一种表达式"><a href="#jsx本身其实也是一种表达式" class="headerlink" title="jsx本身其实也是一种表达式"></a>jsx本身其实也是一种表达式</h4><p>在编译之后，jsx其实会被编译成普通的javascript对象。</p>
+<h4 id="jsx属性"><a href="#jsx属性" class="headerlink" title="jsx属性"></a>jsx属性</h4><p> 可以使用引号来定义以字符串为值得属性。</p>
+<h4 id="jsx嵌套"><a href="#jsx嵌套" class="headerlink" title="jsx嵌套"></a>jsx嵌套</h4><p>如果jsx标签是闭合的，那么需要在结尾处 /&gt; ,就好像xml/html一样。</p>
+<p><strong>警告:</strong></p>
+<p>因为 JSX 的特性更接近 JavaScript 而不是 HTML , 所以 React DOM 使用 <code>camelCase</code> 小驼峰命名 来定义属性的名称，而不是使用 HTML 的属性名称。</p>
+<h4 id="Jsx-防注入攻击"><a href="#Jsx-防注入攻击" class="headerlink" title="Jsx 防注入攻击"></a>Jsx 防注入攻击</h4><p>React Dom在渲染之前默认会过滤所传入的值。它可以确保你的应用不会被注入攻击。所有的内容在渲染之前都被转换成了字符串。这样可以有效地防止 <a href="https://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank" rel="noopener">XSS(跨站脚本)</a> 攻击。</p>
+<h4 id="Jsx-代表Objects"><a href="#Jsx-代表Objects" class="headerlink" title="Jsx 代表Objects"></a>Jsx 代表Objects</h4><p>babel 转义器会把Jsx转换成一个名为React.createElement()的方法调用。</p>
+<h4 id="React对象，读取DOC并保持数据内容一致"><a href="#React对象，读取DOC并保持数据内容一致" class="headerlink" title="React对象，读取DOC并保持数据内容一致"></a>React对象，读取DOC并保持数据内容一致</h4><h4 id="JSX-优势："><a href="#JSX-优势：" class="headerlink" title="JSX 优势："></a>JSX 优势：</h4><p>1.执行更快，在编译javascript后进行了优化。</p>
+<p>2.类型安全，在编译过程中能发现错误。</p>
+<p>3.使用jsx编写模板更加简单快速。</p>
+<p>jsx推荐使用内联样式，camelStyle语法来设置内联样式</p>
+<h3 id="5-react-demo-工程创建"><a href="#5-react-demo-工程创建" class="headerlink" title="5.react  demo 工程创建"></a>5.react  demo 工程创建</h3><p>如何使用react 命令搭建脚手架</p>
+<p>安装全局的react的脚手架：npm install -g create-react-app  /cnpm isntall -g create-react-app</p>
+<p>安装react项目：创建项目文件夹  使用cmd命令 create-react-app project-name</p>
+<p>启动项目命令：npm start </p>
+<p>项目发布：npm run build</p>
+<h3 id="6-安装antd工程-antd-基于react开发ui框架"><a href="#6-安装antd工程-antd-基于react开发ui框架" class="headerlink" title="6.安装antd工程(antd 基于react开发ui框架)"></a>6.安装antd工程(antd 基于react开发ui框架)</h3><p>全局安装antdesign命令： npm install antd-init -g </p>
+<p>创建工程文件夹：antd-init </p>
+<p>运行demo：npm start  </p>
+<h3 id="7-react-进阶"><a href="#7-react-进阶" class="headerlink" title="7.react 进阶"></a>7.react 进阶</h3><p>react 采用声明式组件，高效而且灵活的用来构建用户界面的框架。</p>
+<p>组件的好处：重复利用。</p>
+<p>组件创建</p>
+<p>props 属性传递 在组件属性中传递。</p>
+<h3 id="8-元素渲染"><a href="#8-元素渲染" class="headerlink" title="8.元素渲染"></a>8.元素渲染</h3><p>元素是构成react的最小单位i。</p>
+<p>将元素渲染到DOM中</p>
+<p>React开发应用中一般只会定义一个根节点。但是如果是在一个已有的项目中引入React的话，可能需要在不同的部分单独定义React根节点。</p>
+<h3 id="9-state-amp-生命周期"><a href="#9-state-amp-生命周期" class="headerlink" title="9.state &amp;生命周期"></a>9.state &amp;生命周期</h3><p>react 的生命周期<br><img src="https://upload-images.jianshu.io/upload_images/5287253-bd799f87556b5ecc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>属性：基本不会被更改</p>
+<p>状态：可以被更改</p>
+<p>this.setState(); 更改状态</p>
+<h3 id="10-事件处理"><a href="#10-事件处理" class="headerlink" title="10.事件处理"></a>10.事件处理</h3><p>参数传递方式</p>
+<p>1.箭头函数</p>
+<p>2.传递事件 定义函数</p>
+<p>React元素的事件处理和DOM元素很相似，但是语法是有所不同：</p>
+<p>1 react 事件绑定属性的命名采用驼峰命名，而不是小写。</p>
+<p>2 <strong>如果采用jsx的语法需要传入一个函数作为函数作为事件处理函数，而不是一个字符串json(DOM元素的写法)</strong></p>
+<h3 id="11-列表-amp-amp-key"><a href="#11-列表-amp-amp-key" class="headerlink" title="11.列表&amp;&amp; key"></a>11.列表&amp;&amp; key</h3><p>渲染多个组件</p>
+<p>可以通过使用{}在jsx内构建一个元素集合</p>
+<p>key 用于识别DOM中的某些元素被增加或删除的时候帮助React识别哪些元素发生了变化。给数组中的每一个元素赋予一个确定的标识。</p>
+<p>元素的key 只有放在其环绕数组的上下文中才有意义。</p>
+<h3 id="12-表单"><a href="#12-表单" class="headerlink" title="12.表单"></a>12.表单</h3><p>HTML表单元素与React中的其他DOM元素有所不同，因为表单元素生来就保留一些内部状态。</p>
+<h3 id="13-如何引入css样式"><a href="#13-如何引入css样式" class="headerlink" title="13.如何引入css样式"></a>13.如何引入css样式</h3><p>import ‘css文件名’</p>
+<p>两种方式：</p>
+<p>1.内联</p>
+<p>在js文件中引入css样式  import ‘./App.css’</p>
+<p>在css文件中引入css样式 @import ‘绝对路径’</p>
+<p>2.直接引用</p>
+<h3 id="14-如何使用for循环进行遍历"><a href="#14-如何使用for循环进行遍历" class="headerlink" title="14.如何使用for循环进行遍历"></a>14.如何使用for循环进行遍历</h3><p>使用ES6中 的map 方法进行遍历 filter 方法遍历  foreach 遍历</p>
+<h3 id="15-状态提升"><a href="#15-状态提升" class="headerlink" title="15 状态提升"></a>15 状态提升</h3><p>几个组件需要共用状态数据的情况，将共享数据进行状态提升到最近的父级组件当中进行管理。</p>
+<h2 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h2><p>快速入门-demo</p>
+<p>简介：javascript 状态容器 可以存储数据的状态  统一管理和维护组件</p>
+<p>使用原因： react 在一些问题上处理不好，如： 两个组件之间的通信—解决方案 提升state，通过父级进行分发。</p>
+<p>react 的数据只能向下分发。</p>
+<p>某个状态需要在任务状态下都要拿到的时候，如token。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a><a href="/tags/react/">react</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/04/25/Vue进阶/" title="Vue进阶" itemprop="url">Vue进阶</a>
   </h1>
   <p class="article-author">By
@@ -1064,65 +1258,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/18/sonar持续集成之代码质质量管管理/" title="sonar持续集成之代码质质量管管理" itemprop="url">sonar持续集成之代码质质量管管理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-18T12:45:01.000Z" itemprop="datePublished"> Published 2019-03-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Sonar简介"><a href="#Sonar简介" class="headerlink" title="Sonar简介"></a>Sonar简介</h3><p>sonar是一个用于代码质量管理的开发平台。通过插件机制，sonar可以集成不同的测试工具，代码分析工具，以及持续集成工具。与持续集成工具（Jenkins等）不同，sonar并不是简单地把不同的代码检查工具结果直接显示在web页面上，而是通过不同的插件对这些结果进行再加工处理，通过量化的方式度量代码质量的变化，从而可以方便对不同规模和种类的工程进行代码质量管理。</p>
-<h3 id="eclipse代码质量检查插件SonarLint的正确配置以及使用"><a href="#eclipse代码质量检查插件SonarLint的正确配置以及使用" class="headerlink" title="eclipse代码质量检查插件SonarLint的正确配置以及使用"></a>eclipse代码质量检查插件SonarLint的正确配置以及使用</h3><p><a href="https://blog.csdn.net/mengxiangxingdong/article/details/82868404" target="_blank" rel="noopener">参考博客</a></p>
-<p>sonarlint是eclipse的一个代码质量检查的。</p>
-<p><img src="https://img-blog.csdn.net/20160416113329585?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
-<h3 id="如何搭建sonar进行代码管理"><a href="#如何搭建sonar进行代码管理" class="headerlink" title="如何搭建sonar进行代码管理"></a>如何搭建sonar进行代码管理</h3><p><a href="https://blog.csdn.net/tuzongxun/article/details/78280322" target="_blank" rel="noopener">参考博客</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/持续集成之高质量代码管理Sonar/">持续集成之高质量代码管理Sonar</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1156,7 +1291,7 @@
 			
 		
 			
-				<li><a href="/tags/前端/" title="前端">前端<sup>8</sup></a></li>
+				<li><a href="/tags/前端/" title="前端">前端<sup>9</sup></a></li>
 			
 		
 			
@@ -1164,11 +1299,11 @@
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -1188,15 +1323,15 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
@@ -1208,7 +1343,7 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
 			
 		
 			

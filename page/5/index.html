@@ -82,6 +82,372 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/01/28/SpringCloud之Eureka/" title="SpringCloud之Eureka" itemprop="url">SpringCloud之Eureka</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-01-28T13:21:02.000Z" itemprop="datePublished"> Published 2019-01-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h1><p>Spring Cloud Eureka是spring cloud 微服务套件中的一部分，她基于Netflix Eureka做了二次封装，主要负责完成微服务架构中的服务治理功能</p>
+<p>在了解Eureka之前，我们先来讲下服务发现的由来</p>
+<h2 id="1-服务发现的由来"><a href="#1-服务发现的由来" class="headerlink" title="1 服务发现的由来"></a>1 服务发现的由来</h2><p>服务发现及注册中心是与软件开发的架构方式演化而来的，大概归纳如下</p>
+<h3 id="1-1-单体架构"><a href="#1-1-单体架构" class="headerlink" title="1.1 单体架构"></a>1.1 单体架构</h3><p>最早的开发中，大多使用单体架构，服务自成一体。对于依赖的少数外部服务，会采用配置地址的方式进行访问。比如第三方接口，会使用appId和appKey来进行调用。</p>
+<h3 id="1-2-SOA架构"><a href="#1-2-SOA架构" class="headerlink" title="1.2 SOA架构"></a>1.2 SOA架构</h3><p>随着SOA架构流行，有些公司的内部开始将单体应用拆分成粒度较为粗的服务化架构。</p>
+<p>查看： <a href="https://blog.csdn.net/chenleixing/article/details/44926955" target="_blank" rel="noopener">https://blog.csdn.net/chenleixing/article/details/44926955</a></p>
+<h3 id="1-3-微服务时代"><a href="#1-3-微服务时代" class="headerlink" title="1.3 微服务时代"></a>1.3 微服务时代</h3><p>在微服务时代，底层运维方式发生了很大的变化，并且随着docker和kubernetes的流行，业务服务不在部署在固定的虚拟机上，其ip地址也不再固定，这个时候前面的解决方式就显得有点儿吃力了。针对这个问题，提出了一些解决方案，例如</p>
+<p>1：以nginx为例，在没有引入服务注册中心的时候，那么需要我们手工或是通过脚本的方式，在部署的受去更新nginx的配置文件，然后reload。或是使用ngx_http_dyups_module通过rest api在运行的受进行更新upstream而不需要reload</p>
+<p>2: 将服务中心作为一个标配的分布式服务组件，网管等都从服务注册中心获取相关服务的实例信息，实现动态路由。例如consule-template+nginx方案，然后通过consul监听服务实例变化，再更新nginx的配置文件。</p>
+<p>从上面的例子我们可以看出，随着服务架构模式以及底层运维方式的变化，服务注册中心逐步再分布式系统架构中占据了一个重要的地位。</p>
+<h2 id="2-Eureka简介"><a href="#2-Eureka简介" class="headerlink" title="2 Eureka简介"></a>2 Eureka简介</h2><p>Eureka是Netflix公司开源的一款服务发现组件，该组件提供的服务发现可以为负载均衡、failover等提供了支持。Eureka包括Eureka Server和Eureka Client。Eureka Server提供了RESTFul服务，而Eureka Client则是使用Java编写的客户端，用于简化Eureka Server的交互。</p>
+<h3 id="2-1-服务发现技术选型"><a href="#2-1-服务发现技术选型" class="headerlink" title="2.1 服务发现技术选型"></a>2.1 服务发现技术选型</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>AP或CP</th>
+<th>语言</th>
+<th>依赖</th>
+<th>集成</th>
+<th>一致性算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zookeeper</td>
+<td>General</td>
+<td>CP</td>
+<td>Java</td>
+<td>JVM</td>
+<td>Client Binding</td>
+<td>Paxos</td>
+</tr>
+<tr>
+<td>Doozer</td>
+<td>General</td>
+<td>CP</td>
+<td>Go</td>
+<td></td>
+<td>Client Binding</td>
+<td>Paxos</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td>General</td>
+<td>CP</td>
+<td>GO</td>
+<td></td>
+<td>HTTP/DNS Library</td>
+<td>Raft</td>
+</tr>
+<tr>
+<td>Etcd</td>
+<td>General</td>
+<td>Mixed (1)</td>
+<td>Go</td>
+<td></td>
+<td>Client Binding/HTTP</td>
+<td>Raft</td>
+</tr>
+<tr>
+<td>SmartStack</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Ruby</td>
+<td>haproxy/Zookeeper</td>
+<td>Sidekick (nerve/synapse)</td>
+<td></td>
+</tr>
+<tr>
+<td>Eureka</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Java</td>
+<td>JVM</td>
+<td>Java Client</td>
+<td></td>
+</tr>
+<tr>
+<td>NSQ (lookupd)</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Go</td>
+<td></td>
+<td>Client Binding</td>
+<td></td>
+</tr>
+<tr>
+<td>Serf</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>Go</td>
+<td></td>
+<td>Local CLI</td>
+<td></td>
+</tr>
+<tr>
+<td>Spotify (DNS)</td>
+<td>Dedicated</td>
+<td>AP</td>
+<td>N/A</td>
+<td>Bind</td>
+<td>DNS Library</td>
+<td></td>
+</tr>
+<tr>
+<td>SkyDNS</td>
+<td>Dedicated</td>
+<td>Mixed (2)</td>
+<td>Go</td>
+<td></td>
+<td>HTTP/DNS Library</td>
+</tr>
+</tbody>
+</table>
+<p>CAP原则又称CAP定理，指的是在一个分布式系统中，Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），三者不可兼得  。</p>
+<p>查看：<a href="http://www.ruanyifeng.com/blog/2018/07/cap.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/07/cap.html</a></p>
+<p><img src="https://www.wangbase.com/blogimg/asset/201807/bg2018071607.jpg" alt="img"></p>
+<p>从列表中我们可以看出，有很多服务组件可以选择，针对AP及CP这里我们主要选择Eureka来进行讲解</p>
+<p>EurekaServer采用P2P（Peer To Peer）模式<a href="https://www.cnblogs.com/linsanshu/p/5546948.html，不保证复制操作一定能成功，因此提供的是一个最终一致性的服务实例视图。Client端再Server端的注册信息有一个带期限的租约，一旦Server端再指定期间没有收到Client端发送的心跳，则Server端会认为Client端注册的服务是不健康的，定时任务会将从注册表中删除。" target="_blank" rel="noopener">https://www.cnblogs.com/linsanshu/p/5546948.html，不保证复制操作一定能成功，因此提供的是一个最终一致性的服务实例视图。Client端再Server端的注册信息有一个带期限的租约，一旦Server端再指定期间没有收到Client端发送的心跳，则Server端会认为Client端注册的服务是不健康的，定时任务会将从注册表中删除。</a></p>
+<p>那么我们为什么要选择Eureka呢？主要有以下几点</p>
+<ul>
+<li>Eureka是基于AP而不是CP</li>
+<li>团队是Java开发，除了问题好排查</li>
+<li>Eureka能和zuul ribbon整合性好</li>
+</ul>
+<h2 id="3-Eureka入门"><a href="#3-Eureka入门" class="headerlink" title="3 Eureka入门"></a>3 Eureka入门</h2><p>eureka配置参数</p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务注册中心配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka.server.EurekaServerConfigBean</td>
+</tr>
+<tr>
+<td>eureka.server.enable-self-preservation</td>
+<td>false</td>
+<td>关闭注册中心的保护机制，Eureka 会统计15分钟之内心跳失败的比例低于85%将会触发保护机制，不剔除服务提供者，如果关闭服务注册中心将不可用的实例正确剔除</td>
+</tr>
+<tr>
+<td>服务实例类配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean</td>
+</tr>
+<tr>
+<td>eureka.instance.prefer-ip-address</td>
+<td>false</td>
+<td>不使用主机名来定义注册中心的地址，而使用IP地址的形式，如果设置了eureka.instance.ip-address 属性，则使用该属性配置的IP，否则自动获取除环路IP外的第一个IP地址</td>
+</tr>
+<tr>
+<td>eureka.instance.ip-address</td>
+<td></td>
+<td>IP地址</td>
+</tr>
+<tr>
+<td>eureka.instance.hostname</td>
+<td></td>
+<td>设置当前实例的主机名称</td>
+</tr>
+<tr>
+<td>eureka.instance.appname</td>
+<td></td>
+<td>服务名，默认取 spring.application.name 配置值，如果没有则为 unknown</td>
+</tr>
+<tr>
+<td>eureka.instance.lease-renewal-interval-in-seconds</td>
+<td>30</td>
+<td>定义服务续约任务（心跳）的调用间隔，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.instance.lease-expiration-duration-in-seconds</td>
+<td>90</td>
+<td>定义服务失效的时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.instance.status-page-url-path</td>
+<td>/info</td>
+<td>状态页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
+</tr>
+<tr>
+<td>eureka.instance.status-page-url</td>
+<td></td>
+<td>状态页面的URL，绝对路径</td>
+</tr>
+<tr>
+<td>eureka.instance.health-check-url-path</td>
+<td>/health</td>
+<td>健康检查页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
+</tr>
+<tr>
+<td>eureka.instance.health-check-url</td>
+<td></td>
+<td>健康检查页面的URL，绝对路径</td>
+</tr>
+<tr>
+<td>服务注册类配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka.EurekaClientConfigBean</td>
+</tr>
+<tr>
+<td>eureka.client.service-url.</td>
+<td></td>
+<td>指定服务注册中心地址，类型为 HashMap，并设置有一组默认值，默认的Key为 defaultZone；默认的Value为 <a href="http://localhost:8761/eureka" target="_blank" rel="noopener">http://localhost:8761/eureka</a> ，如果服务注册中心为高可用集群时，多个注册中心地址以逗号分隔。如果服务注册中心加入了安全验证，这里配置的地址格式为：<a href="http://%3cusername%3e:%3cpassword%3e@localhost:8761/eureka" target="_blank" rel="noopener">http://:@localhost:8761/eureka</a> 其中 <username> 为安全校验的用户名；<password> 为该用户的密码</password></username></td>
+</tr>
+<tr>
+<td>eureka.client.fetch-registery</td>
+<td>true</td>
+<td>检索服务</td>
+</tr>
+<tr>
+<td>eureka.client.registery-fetch-interval-seconds</td>
+<td>30</td>
+<td>从Eureka服务器端获取注册信息的间隔时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.register-with-eureka</td>
+<td>true</td>
+<td>启动服务注册</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-connect-timeout-seconds</td>
+<td>5</td>
+<td>连接 Eureka Server 的超时时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-read-timeout-seconds</td>
+<td>8</td>
+<td>读取 Eureka Server 信息的超时时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.filter-only-up-instances</td>
+<td>true</td>
+<td>获取实例时是否过滤，只保留UP状态的实例</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-connection-idle-timeout-seconds</td>
+<td>30</td>
+<td>Eureka 服务端连接空闲关闭时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-total-connections</td>
+<td>200</td>
+<td>从Eureka 客户端到所有Eureka服务端的连接总数</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-total-connections-per-host</td>
+<td>50</td>
+<td>从Eureka客户端到每个Eureka服务主机的连接总数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-单机版"><a href="#3-1-单机版" class="headerlink" title="3.1 单机版"></a>3.1 单机版</h3><h4 id="3-1-1-Eureka-Server"><a href="#3-1-1-Eureka-Server" class="headerlink" title="3.1.1 Eureka Server"></a>3.1.1 Eureka Server</h4><h5 id="3-1-1-1-引入Eureka-Server依赖"><a href="#3-1-1-1-引入Eureka-Server依赖" class="headerlink" title="3.1.1.1 引入Eureka Server依赖"></a>3.1.1.1 引入Eureka Server依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="3-1-1-2-配置启动类"><a href="#3-1-1-2-配置启动类" class="headerlink" title="3.1.1.2 配置启动类"></a>3.1.1.2 配置启动类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-1-1-3-配置properties或yml文件"><a href="#3-1-1-3-配置properties或yml文件" class="headerlink" title="3.1.1.3 配置properties或yml文件"></a>3.1.1.3 配置properties或yml文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#服务名称</span><br><span class="line">spring.application.name=smartke-cloud-eureka-server</span><br><span class="line">#服务端口</span><br><span class="line">server.port=8761</span><br><span class="line">#eureka设置</span><br><span class="line">eureka.instance.hostname=localhost</span><br><span class="line"># 表示是否注册自身到eureka服务器</span><br><span class="line">eureka.client.register-with-eureka=false</span><br><span class="line"># 是否从eureka上获取注册信息</span><br><span class="line">eureka.client.fetch-registry=false</span><br><span class="line">#关闭eureka自我保护机制</span><br><span class="line">eureka.server.enable-self-preservation=false</span><br><span class="line">#剔除失效服务间隔</span><br><span class="line">eureka.server.eviction-interval-timer-in-ms=2000</span><br><span class="line">#设置访问eureka的时候需要使用用户名和密码进行登录</span><br><span class="line">#security.basic.enabled=true</span><br><span class="line">#spring.security.user.name=smartke</span><br><span class="line">#spring.security.user.password=smartke</span><br><span class="line">#日志设置</span><br><span class="line">logging.level.root=error</span><br><span class="line">logging.level.org.springframework=info</span><br><span class="line">logging.file=$&#123;spring.application.name&#125;.log</span><br></pre></td></tr></table></figure>
+<h4 id="3-1-2-Eureka-Client"><a href="#3-1-2-Eureka-Client" class="headerlink" title="3.1.2 Eureka Client"></a>3.1.2 Eureka Client</h4><h5 id="3-1-2-1-引入依赖"><a href="#3-1-2-1-引入依赖" class="headerlink" title="3.1.2.1 引入依赖"></a>3.1.2.1 引入依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="3-1-2-2-配置启动类"><a href="#3-1-2-2-配置启动类" class="headerlink" title="3.1.2.2 配置启动类"></a>3.1.2.2 配置启动类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(EurekaClientApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-1-2-3-配置properties或yml文件"><a href="#3-1-2-3-配置properties或yml文件" class="headerlink" title="3.1.2.3 配置properties或yml文件"></a>3.1.2.3 配置properties或yml文件</h5><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#port</span></span><br><span class="line"><span class="string">server.port=8002</span></span><br><span class="line"><span class="comment">###application name</span></span><br><span class="line"><span class="string">spring.application.name=smartke-portal</span></span><br><span class="line"><span class="comment">###eureka</span></span><br><span class="line"><span class="string">eureka.client.serviceUrl.defaultZone=http://admin:admin@localhost:8761/eureka/</span></span><br><span class="line"><span class="comment">#Eureka客户端向服务端发送心跳的时间间隔，单位为秒（客户端告诉服务端自己会按照该规则）默认为30</span></span><br><span class="line"><span class="string">eureka.instance.lease-renewal-interval-in-seconds=1</span></span><br><span class="line"><span class="comment">#Eureka服务端在收到最后一次心跳之后等待的时间上限，单位为秒，超过则剔除（客户端告诉服务端按照此规则等待自己）默认为90</span></span><br><span class="line"><span class="string">eureka.instance.lease-expiration-duration-in-seconds=2</span></span><br></pre></td></tr></table></figure>
+<p>说明一下，这里需要指定<code>spring.application.name</code>不然会再Eureka Server界面显示为UNKNOW</p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106102425.png" alt="20190106102425"></p>
+<p>eureka错误解释</p>
+<p>自我保护机制</p>
+<p>当我们再本地调式基于eureka的程序时，基本上都会碰到这样一个问题，再服务注册中心的信息面板中出现以下红色的警告信息</p>
+<p><strong>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</strong></p>
+<p>实际上，该警告触发了eureka server的自我保护机制。服务注册到eureka server之后，会维护一个心跳连接，告诉eureka server自己还活着。eureka server再运行期间，会统计心跳失败比例再15分钟之内是否低于85%，如果出现低于的情况(在本地单机调试的时候十分容易满足，生产环境的情况下，通常是由于网络不稳定导致)，eureka server 会将当前的实例注册信息保护起来，让这些实例不会过期，尽可能保护这些注册信息(这就是为什么选择Eureka，因为eureka是AP的)但是，在这段时间之内实例若出现问题，那么客户端很容易拿到实际上已经不存在的服务实例，会出现调用失败的情况，所以客户端必须要有容错机制，比如可以使用请求重试、断路器等机制。</p>
+<p>那么出现上面的情况，我们该怎么解决呢？可以在本地配置文件中加入<code>eureka.server.enable-self-preservation=false</code>参数来关闭，以确保注册中心可以将不可用的实例及时剔除。</p>
+<p>关闭自我保护之后，启动eureka server会出现以下提示，可以忽略。</p>
+<p><strong>THE SELF PRESERVATION MODE IS TURNED OFF. THIS MAY NOT PROTECT INSTANCE EXPIRY IN CASE OF NETWORK/OTHER PROBLEMS</strong></p>
+<h3 id="3-2-Peer-to-Peer架构"><a href="#3-2-Peer-to-Peer架构" class="headerlink" title="3.2 Peer to Peer架构"></a>3.2 Peer to Peer架构</h3><p>一般而言，分布式系统的数据在多个副本之间的复制方式，可以分为主从复制和对等复制</p>
+<h4 id="3-2-1-主从复制"><a href="#3-2-1-主从复制" class="headerlink" title="3.2.1 主从复制"></a>3.2.1 主从复制</h4><p>主从复制就是我们熟知的Master-Slave模式，即有一个主副本，其他副本为从副本。所有对数据的写操作都提交到主副本，最后再由主副本更新到其他从副本。具体更新的方式，还可以细分为同步更新、异步更新、同步及异步混合。</p>
+<p>对于主从复制模式来讲，写操作的压力都在主副本上面，她是整个系统的瓶颈，但是从副本可以帮主副本分担读请求。</p>
+<h4 id="3-2-2-对等复制"><a href="#3-2-2-对等复制" class="headerlink" title="3.2.2 对等复制"></a>3.2.2 对等复制</h4><p>即P2P的模式，副本之间部分主从，任何副本都可以接受写操作，然后每个副本之间相互进行数据更i性能。对于对等复制模式来讲，由于任何副本都可以进行写操作，各个副本之间的数据哦同步及冲突处理是一个比较棘手的问题。</p>
+<p>Eureka Server就是采用的Peer to Peer 模式。</p>
+<p>Eureka Server从一开始设计就考虑了高可用的问题，在Eureka的服务治理设计中，所有的节点即是服务提供方，又是服务消费方，服务注册中心也不例外。Eureka Server的高可用实际上就是将自己作为服务向其他服务注册中心注册自己，这样就可以形成一组互相注册的服务注册中心，以实现服务清单的互相同步。达到高可用的效果。</p>
+<h4 id="3-2-3-代码示例"><a href="#3-2-3-代码示例" class="headerlink" title="3.2.3 代码示例"></a>3.2.3 代码示例</h4><p>依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.com.bmsmart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>eureka-server<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Finchley.SR2<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建application-peer1.properties，作为peer1服务中心的配置，并将serviceUrl指向peer2:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-server</span><br><span class="line">server.port=8761</span><br><span class="line"></span><br><span class="line">eureka.instance.hostname=peer1</span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer2:8762/eureka/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建 application-peer2.properties，作为peer2服务中心的配置，并将serviceUrl指向peer1</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-server</span><br><span class="line">server.port=8762</span><br><span class="line"></span><br><span class="line">eureka.instance.hostname=peer2</span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer1:8761/eureka/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.eurekaserver;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过<code>spring.profiles.active</code>属性来分别启动peer1和peer2</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar eureka-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer1</span><br><span class="line">java -jar eureka-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer2</span><br></pre></td></tr></table></figure>
+<p>此时访问peer1的注册中心<a href="http://localhost:8761，我们可以看到`registered-replicas`中有peer2的节点`http://peer2:8762/eureka/`" target="_blank" rel="noopener">http://localhost:8761，我们可以看到`registered-replicas`中有peer2的节点`http://peer2:8762/eureka/`</a> 同样访问peer2 <a href="http://lcoalhost:8762也能看到`registered-replicas`中有peer1的节点`http://peer1:8761/eureka/`" target="_blank" rel="noopener">http://lcoalhost:8762也能看到`registered-replicas`中有peer1的节点`http://peer1:8761/eureka/`</a></p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106102425.png" alt="1546746477978"></p>
+<p><img src="D:/DPP%E8%B5%84%E6%96%99/spring%20cloud%20%E7%B3%BB%E5%88%97/image/20190106114838.png" alt="20190106114838"></p>
+<p>eureka-client</p>
+<p>依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.com.bmsmart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>eureka-client<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Finchley.SR2<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=eureka-client</span><br><span class="line">server.port=8080</span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://peer1:8761/eureka/,http://peer2:8762/eureka/</span><br><span class="line">logging.file=$&#123;spring.application.name&#125;.log</span><br><span class="line">eureka.instance.prefer-ip-address=true</span><br><span class="line"># 健康检查</span><br><span class="line">#eureka.client.healthcheck.enabled=true</span><br><span class="line"># 随机端口配置</span><br><span class="line">#eureka.instance.instance-id=$&#123;spring.application.name&#125;:$&#123;random.int&#125;</span><br><span class="line">#server.port=0</span><br><span class="line">#server.port=$&#123;random.int[10000,19999]&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.com.bmsmart.eurekaclient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.EnableEurekaClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/微服务/">微服务</a><a href="/tags/Spring-Cloud/">Spring Cloud</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/01/22/jdk1-8新特性/" title="jdk1.8新特性" itemprop="url">jdk1.8新特性</a>
   </h1>
   <p class="article-author">By
@@ -898,250 +1264,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/ORM/">ORM</a><a href="/tags/mybatis/">mybatis</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/12/19/MYSQL-数据库常见锁机制以及存储类型/" title="MYSQL 数据库 相关知识点" itemprop="url">MYSQL 数据库 相关知识点</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-12-19T03:33:20.000Z" itemprop="datePublished"> Published 2018-12-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Mysql的数据类型"><a href="#Mysql的数据类型" class="headerlink" title="Mysql的数据类型"></a>Mysql的数据类型</h3><p>Mysql中定义的数据类型对数据库的优化是非常重要的。</p>
-<p>mysql支持多种类型，大致可以分为三类：数值，日期/时间和字符串（字符）类型</p>
-<p>1.数值类型</p>
-<p> mysql支持所有的sql数值数据类型。这些数据包括<font color="red">严格数值数据类型</font>（INTEGER,SMALLINT,DECIMAL,NUMERIC）,以及<font color="red">近似数据类型</font>（FLOAT,REAL和DOUBLE）</p>
-<p><img src="https://images2015.cnblogs.com/blog/1101622/201706/1101622-20170622142338116-336967700.png" alt="img"></p>
-<p>2.日期/时间类型</p>
-<p>表示时间值得日期和时间类型为DATETIME,DATE,TIMESTAMP,TIME和YEAR。</p>
-<p>每一个时间类型有一个有效值范值。</p>
-<p>3.字符类型</p>
-<p>CHAR—-定长字符串</p>
-<p> VARCHAR—-变长字符串</p>
-<p> BINARY–</p>
-<font color="red">注意：</font>
-
-<p>1.Mysql一个汉字占多少长度和编码有关：</p>
-<p>UTF-8:一个汉字=3个字节</p>
-<p>GBK： 一个汉字=2个字节</p>
-<p>2.varchar(n)表示n个字符，无论汉字和英文，mysql都能存n个字符，仅是实际字节长度有所区别。</p>
-<p>3.mysql检查长度，length()函数来实现。</p>
-<p>总结：</p>
-<p><strong>1、整型</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义（有符号）</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>tinyint(m)</td>
-<td>1个字节  范围(-128~127)</td>
-</tr>
-<tr>
-<td>smallint(m)</td>
-<td>2个字节  范围(-32768~32767)</td>
-</tr>
-<tr>
-<td>mediumint(m)</td>
-<td>3个字节  范围(-8388608~8388607)</td>
-</tr>
-<tr>
-<td>int(m)</td>
-<td>4个字节  范围(-2147483648~2147483647)</td>
-</tr>
-<tr>
-<td>bigint(m)</td>
-<td>8个字节  范围(+-9.22*10的18次方)</td>
-</tr>
-</tbody>
-</table>
-<p>取值范围如果加了 unsigned，则最大值翻倍，如 tinyint unsigned 的取值范围为(0~255)。</p>
-<p><strong>2、浮点型(float 和 double)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float(m,d)</td>
-<td>单精度浮点型    8位精度(4字节)     m总个数，d小数位</td>
-</tr>
-<tr>
-<td>double(m,d)</td>
-<td>双精度浮点型    16位精度(8字节)    m总个数，d小数位</td>
-</tr>
-</tbody>
-</table>
-<p>设一个字段定义为 float(5,3)，如果插入一个数 123.45678,实际数据库里存的是 123.457，但总个数还以实际为准，即 6 位。</p>
-<p><strong>3、定点数</strong></p>
-<p>浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值。</p>
-<p>decimal(m,d) 参数 m&lt;65 是总个数，d&lt;30 且 d&lt;m 是小数位。</p>
-<p><strong>4、字符串(char,varchar,_text)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>MySQL数据类型</strong></th>
-<th><strong>含义</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>char(n)</td>
-<td>固定长度，最多255个字符</td>
-</tr>
-<tr>
-<td>varchar(n)</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>tinytext</td>
-<td>可变长度，最多255个字符</td>
-</tr>
-<tr>
-<td>text</td>
-<td>可变长度，最多65535个字符</td>
-</tr>
-<tr>
-<td>mediumtext</td>
-<td>可变长度，最多2的24次方-1个字符</td>
-</tr>
-<tr>
-<td>longtext</td>
-<td>可变长度，最多2的32次方-1个字符</td>
-</tr>
-</tbody>
-</table>
-<p>char 和 varchar：</p>
-<ul>
-<li>1.char(n) 若存入字符数小于n，则以空格补于其后，查询之时再将空格去掉。所以 char 类型存储的字符串末尾不能有空格，varchar 不限于此。</li>
-<li>2.char(n) 固定长度，char(4) 不管是存入几个字符，都将占用 4 个字节，varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或2个字节(n&gt;255)，所以 varchar(4),存入 3 个字符将占用 4 个字节。</li>
-<li>3.char 类型的字符串检索速度要比 varchar 类型的快。</li>
-</ul>
-<p>varchar 和 text：</p>
-<ul>
-<li>1.varchar 可指定 n，text 不能指定，内部存储 varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节(n&gt;255)，text 是实际字符数 +2 个字节。</li>
-<li>2.text 类型不能有默认值。</li>
-<li>3.varchar 可直接创建索引，text 创建索引要指定前多少个字符。varchar 查询速度快于 text, 在都创建索引的情况下，text 的索引似乎不起作用。</li>
-</ul>
-<h3 id="mysql的存储过程"><a href="#mysql的存储过程" class="headerlink" title="mysql的存储过程"></a>mysql的存储过程</h3><h5 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h5><h5 id="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"><a href="#什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。" class="headerlink" title="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"></a>什么是存储过程：一组<font color="red">sql语句集</font>，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。</h5><p>mysql 5.0以前并不支持存储过程，在5.0以后支持存储过程，可以大大提高数据库的处理过程，同时可以提高</p>
-<p>是主动调用的，功能比触发器更加强大。</p>
-<h5 id="存储过程的优点："><a href="#存储过程的优点：" class="headerlink" title="存储过程的优点："></a>存储过程的优点：</h5><p>1.增强SQL语言的功能和灵活性。</p>
-<p>2.标准组件式编程。</p>
-<p>3.较快的执行速度。</p>
-<h5 id="存储过程的创建："><a href="#存储过程的创建：" class="headerlink" title="存储过程的创建："></a>存储过程的创建：</h5><h5 id="存储过程的三个参数：IN-OUT-INOUT"><a href="#存储过程的三个参数：IN-OUT-INOUT" class="headerlink" title="存储过程的三个参数：IN OUT INOUT"></a>存储过程的三个参数：IN OUT INOUT</h5><p>存储过程根据需要会有输入，输出，输入输出参数，如果有多个参数用， 分割开。存储过程的参数用在存储过程的定义。</p>
-<p><strong>IN</strong>参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值</p>
-<p><strong>OUT**</strong>:**该值可在存储过程内部被改变，并可返回</p>
-<p><strong>INOUT**</strong>:**调用时指定，并且可被改变和返回</p>
-<h5 id="存储过程使用的案例：（只保留近三天的数据）"><a href="#存储过程使用的案例：（只保留近三天的数据）" class="headerlink" title="存储过程使用的案例：（只保留近三天的数据）"></a>存储过程使用的案例：（只保留近三天的数据）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	#Routine body goes here...</span><br><span class="line">	DECLARE s int DEFAULT 0;</span><br><span class="line">  DECLARE tableName VARCHAR(32);</span><br><span class="line">	DECLARE c_tableNames CURSOR FOR select table_name from information_schema.tables where table_schema=&apos;ikms_exec&apos; and table_name NOT LIKE &apos;base%&apos; AND table_name  LIKE &apos;%_his&apos;;</span><br><span class="line">	DECLARE CONTINUE HANDLER FOR SQLSTATE &apos;02000&apos; SET s=1;</span><br><span class="line">	set @timenow=DATE_ADD(NOW(),INTERVAL -3 DAY);</span><br><span class="line">	OPEN c_tableNames;</span><br><span class="line">		while s &lt;&gt; 1 DO</span><br><span class="line">	 		FETCH c_tableNames into tableName;</span><br><span class="line">			SET @v_sql=CONCAT(&quot;DELETE FROM &quot;,tableName,&quot; WHERE create_time&lt;&apos;&quot;,@timenow,&quot;&apos;&quot;);</span><br><span class="line">			prepare stmt from @v_sql;</span><br><span class="line">			EXECUTE stmt;</span><br><span class="line">      deallocate prepare stmt;</span><br><span class="line">	 	end while;</span><br><span class="line">	CLOSE c_tableNames;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-<p>如何执行存储过程：CALL procedure_name()</p>
-<h5 id="mysql存储过程的查询："><a href="#mysql存储过程的查询：" class="headerlink" title="mysql存储过程的查询："></a>mysql存储过程的查询：</h5><p>select name from mysql.proc where db = “数据库名”</p>
-<p>修改 Alert</p>
-<p>删除 DROP </p>
-<h3 id="MYSQL-创建视图"><a href="#MYSQL-创建视图" class="headerlink" title="MYSQL 创建视图"></a>MYSQL 创建视图</h3><h5 id="什么是视图："><a href="#什么是视图：" class="headerlink" title="什么是视图："></a>什么是视图：</h5><p>select　语句返回的结果。</p>
-<h5 id="视图的特性："><a href="#视图的特性：" class="headerlink" title="视图的特性："></a>视图的特性：</h5><p>视图是若张基本表的引用，一张虚拟表；查询语句执行的结果，不存储具体的数据，只能做查询，基本的表数据发生了变化，视图就跟着发生变化。</p>
-<h5 id="视图的作用："><a href="#视图的作用：" class="headerlink" title="视图的作用："></a>视图的作用：</h5><p>方便操作，特别是查询操作，减少负责的ＳＱＬ语句，增强可读性；</p>
-<h5 id="视图的优点："><a href="#视图的优点：" class="headerlink" title="视图的优点："></a>视图的优点：</h5><p>1.使用视图可以执行用户数据，聚集特定数据。</p>
-<p>2.使用视图，可以简化数据操作。</p>
-<p>3.使用视图，基表的数据就有一定的安全性，因为视图是虚拟的，物理上是不存在的，只是存储</p>
-<p>4.可以合并分离的数据，创建分区视图。</p>
-<h5 id="视图的缺点："><a href="#视图的缺点：" class="headerlink" title="视图的缺点："></a>视图的缺点：</h5><p>1性能差：需要将对视图查询转化成对基表的查询，需要花费一点的时间。</p>
-<p>2.修改权限：如果需要修改视图的某些信息后，数据库必须把它转化成对基本表的某些信息的修改。</p>
-<h5 id="使用场合"><a href="#使用场合" class="headerlink" title="使用场合"></a>使用场合</h5><p>多表复杂查询的时候，返回用户特性信息时。</p>
-<h3 id="MYSQL索引"><a href="#MYSQL索引" class="headerlink" title="MYSQL索引"></a>MYSQL索引</h3><p>mysql目前支持的索引有：普通索引，唯一索引，主键索引，组合索引，全文唯一</p>
-<h5 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h5><p>最基本的索引，没有任何限制 INDEX</p>
-<h5 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h5><p>唯一索引的值必须是唯一的，但是允许有空值。如果是组合索引的话，则列值的组合必须是唯一，它有以下几种创建方式。 UNION INDEX</p>
-<h5 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h5><p>主键索引是特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般在创建表的时候创建主键索引。</p>
-<h5 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h5><p>指多个字段上创建的索引，只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。遵循最左原则。</p>
-<h5 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h5><p>主要用来查找文本的关键字，而不是直接与索引中的值相比较。 FULLTEXT</p>
-<p>FULLTEXT索引跟其它索引大不相同，它更像是一个搜索引擎，而不是简单的where语句的参数匹配。FULLTEXT索引配合match against操作使用，而不是一般的where语句加like.目前只支持 char，varchar，text列上可以创建全文索引</p>
-<h5 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h5><p>1.虽然索引提高了查询速度，同时会降低更新表的速度。 因为更新表时，不仅要保存数据，还要保存一下索引文件。</p>
-<p>2.建立索引会占用磁盘空间的索引文件。一般情况这个问题不太严重，但如果你在一个大表上创建了多种组合索引，索引文件的会增长很快。</p>
-<h3 id="MYSQL优化"><a href="#MYSQL优化" class="headerlink" title="MYSQL优化"></a>MYSQL优化</h3><h5 id="1-sql语句优化："><a href="#1-sql语句优化：" class="headerlink" title="1.sql语句优化："></a>1.sql语句优化：</h5><p>（1）使用limit对查询结果的记录进行限定<br>（2）避免select *，将需要查找的字段列出来<br>（3）使用连接（join）来代替子查询<br>（4）拆分大的delete或insert语句</p>
-<h5 id="2-选择合适的数据类型"><a href="#2-选择合适的数据类型" class="headerlink" title="2.选择合适的数据类型"></a>2.选择合适的数据类型</h5><p>1）使用可存下数据的最小的数据类型，整型 &lt; date,time &lt; char,varchar &lt; blob<br>（2）使用简单的数据类型，整型比字符处理开销更小，因为字符串的比较更复杂。如，int类型存储时间类型，bigint类型转ip函数<br>（3）使用合理的字段属性长度，固定长度的表会更快。使用enum、char而不是varchar<br>（4）尽可能使用not null定义字段<br>（5）尽量少用text，非用不可最好分表</p>
-<h5 id="3-选择合适的索引列"><a href="#3-选择合适的索引列" class="headerlink" title="3.选择合适的索引列"></a>3.选择合适的索引列</h5><p>（1）查询频繁的列，在where，group by，order by，on从句中出现的列<br>（2）where条件中&lt;，&lt;=，=，&gt;，&gt;=，between，in，以及like 字符串+通配符（%）出现的列<br>（3）长度小的列，索引字段越小越好，因为数据库的存储单位是页，一页中能存下的数据越多越好<br>（4）离散度大（不同的值多）的列，放在联合索引前面。查看离散度，通过统计不同的列值来实现，count越大，离散程度越高：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h5 id="4-用命令分析"><a href="#4-用命令分析" class="headerlink" title="4.用命令分析"></a>4.用命令分析</h5><p>（1）SHOW查看状态<br>1.显示状态信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW [SESSION|GLOBAL] STATUS LIKE &apos;%Status_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>session（默认）：取出当前窗口的执行<br>global：从mysql启动到现在<br>（a）查看查询次数（插入次数com_insert、修改次数com_insert、删除次数com_delete）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;com_select&apos;;</span><br></pre></td></tr></table></figure>
-<p>（b）查看连接数(登录次数)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;connections&apos;;</span><br></pre></td></tr></table></figure>
-<p>（c）数据库运行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;uptime&apos;;</span><br></pre></td></tr></table></figure>
-<p>（d）查看慢查询次数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;slow_queries&apos;;</span><br></pre></td></tr></table></figure>
-<p>（e）查看索引使用的情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;handler_read%&apos;;</span><br></pre></td></tr></table></figure>
-<p>handler_read_key：这个值越高越好，越高表示使用索引查询到的次数。<br>handler_read_rnd_next：这个值越高，说明查询低效。</p>
-<p>2.显示系统变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &apos;%Variables_name%&apos;;</span><br></pre></td></tr></table></figure>
-<p>3.显示InnoDB存储引擎的状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW ENGINE INNODB STATUS;</span><br></pre></td></tr></table></figure>
-<p>（2）EXPLAIN分析查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT column_name FROM table_name;</span><br></pre></td></tr></table></figure>
-<p>explain查询sql执行计划，各列含义：<br>table：表名；<br>type：连接的类型<br>​    -const：主键、索引；<br>​    -eq_reg：主键、索引的范围查找；<br>​    -ref：连接的查找（join）<br>​    -range：索引的范围查找；<br>​    -index：索引的扫描；<br>​    -all：全表扫描；<br>possible_keys：可能用到的索引；<br>key：实际使用的索引；<br>key_len：索引的长度，越短越好；<br>ref：索引的哪一列被使用了，常数较好；<br>rows：mysql认为必须检查的用来返回请求数据的行数；<br>extra：using filesort、using temporary（常出现在使用order by时）时需要优化。<br>​    -Using filesort  额外排序。看到这个的时候，查询就需要优化了<br>​    -Using temporary 使用了临时表。看到这个的时候，也需要优化<br>（3）PROFILING分析SQL语句<br>1.开启profile。查看当前SQL执行时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET PROFILING=ON; </span><br><span class="line">mysql&gt; SHOW profiles;</span><br></pre></td></tr></table></figure>
-<p>2.查看所有用户的当前连接。包括执行状态、是否锁表等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW processlist;</span><br></pre></td></tr></table></figure>
-<p>（4）PROCEDURE ANALYSE()取得建议<br>通过分析select查询结果对现有的表的每一列给出优化的建议</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT column_name FROM table_name PROCEDURE ANALYSE();</span><br></pre></td></tr></table></figure>
-<p>（5）OPTIMIZE TABLE回收闲置的数据库空间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; OPTIMIZE TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>对于MyISAM表，当表上的数据行被删除时，所占据的磁盘空间并没有立即被回收，使用命令后这些空间将被回收，并且对磁盘上的数据行进行重排（注意：是磁盘上，而非数据库）。<br>对于InnoDB表，OPTIMIZE TABLE被映射到ALTER TABLE上，这会重建表。重建操作能更新索引统计数据并释放成簇索引中的未使用的空间。<br>只需在批量删除数据行之后，或定期（每周一次或每月一次）进行一次数据表优化操作即可，只对那些特定的表运行。<br>（6）REPAIR TABLE修复被破坏的表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; REPAIR TABLE table_name;</span><br></pre></td></tr></table></figure>
-<p>（7）CHECK TABLE检查表是否有错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CHECK TABLE table_name;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/MYSQL数据库/">MYSQL数据库</a><a href="/tags/锁机制/">锁机制</a>
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/mybatis/">mybatis</a><a href="/tags/ORM/">ORM</a>
   </div>
 
 </div>
@@ -1196,7 +1319,7 @@
 			
 		
 			
-				<li><a href="/tags/前端/" title="前端">前端<sup>8</sup></a></li>
+				<li><a href="/tags/前端/" title="前端">前端<sup>9</sup></a></li>
 			
 		
 			
@@ -1204,11 +1327,11 @@
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -1228,15 +1351,15 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
@@ -1248,7 +1371,7 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
 			
 		
 			

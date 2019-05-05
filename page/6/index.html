@@ -82,6 +82,249 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/12/19/MYSQL-数据库常见锁机制以及存储类型/" title="MYSQL 数据库 相关知识点" itemprop="url">MYSQL 数据库 相关知识点</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
+		
+  </p><p class="article-time">
+    <time datetime="2018-12-19T03:33:20.000Z" itemprop="datePublished"> Published 2018-12-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Mysql的数据类型"><a href="#Mysql的数据类型" class="headerlink" title="Mysql的数据类型"></a>Mysql的数据类型</h3><p>Mysql中定义的数据类型对数据库的优化是非常重要的。</p>
+<p>mysql支持多种类型，大致可以分为三类：数值，日期/时间和字符串（字符）类型</p>
+<p>1.数值类型</p>
+<p> mysql支持所有的sql数值数据类型。这些数据包括<font color="red">严格数值数据类型</font>（INTEGER,SMALLINT,DECIMAL,NUMERIC）,以及<font color="red">近似数据类型</font>（FLOAT,REAL和DOUBLE）</p>
+<p><img src="https://images2015.cnblogs.com/blog/1101622/201706/1101622-20170622142338116-336967700.png" alt="img"></p>
+<p>2.日期/时间类型</p>
+<p>表示时间值得日期和时间类型为DATETIME,DATE,TIMESTAMP,TIME和YEAR。</p>
+<p>每一个时间类型有一个有效值范值。</p>
+<p>3.字符类型</p>
+<p>CHAR—-定长字符串</p>
+<p> VARCHAR—-变长字符串</p>
+<p> BINARY–</p>
+<font color="red">注意：</font>
+
+<p>1.Mysql一个汉字占多少长度和编码有关：</p>
+<p>UTF-8:一个汉字=3个字节</p>
+<p>GBK： 一个汉字=2个字节</p>
+<p>2.varchar(n)表示n个字符，无论汉字和英文，mysql都能存n个字符，仅是实际字节长度有所区别。</p>
+<p>3.mysql检查长度，length()函数来实现。</p>
+<p>总结：</p>
+<p><strong>1、整型</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>MySQL数据类型</strong></th>
+<th><strong>含义（有符号）</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tinyint(m)</td>
+<td>1个字节  范围(-128~127)</td>
+</tr>
+<tr>
+<td>smallint(m)</td>
+<td>2个字节  范围(-32768~32767)</td>
+</tr>
+<tr>
+<td>mediumint(m)</td>
+<td>3个字节  范围(-8388608~8388607)</td>
+</tr>
+<tr>
+<td>int(m)</td>
+<td>4个字节  范围(-2147483648~2147483647)</td>
+</tr>
+<tr>
+<td>bigint(m)</td>
+<td>8个字节  范围(+-9.22*10的18次方)</td>
+</tr>
+</tbody>
+</table>
+<p>取值范围如果加了 unsigned，则最大值翻倍，如 tinyint unsigned 的取值范围为(0~255)。</p>
+<p><strong>2、浮点型(float 和 double)</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>MySQL数据类型</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float(m,d)</td>
+<td>单精度浮点型    8位精度(4字节)     m总个数，d小数位</td>
+</tr>
+<tr>
+<td>double(m,d)</td>
+<td>双精度浮点型    16位精度(8字节)    m总个数，d小数位</td>
+</tr>
+</tbody>
+</table>
+<p>设一个字段定义为 float(5,3)，如果插入一个数 123.45678,实际数据库里存的是 123.457，但总个数还以实际为准，即 6 位。</p>
+<p><strong>3、定点数</strong></p>
+<p>浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值。</p>
+<p>decimal(m,d) 参数 m&lt;65 是总个数，d&lt;30 且 d&lt;m 是小数位。</p>
+<p><strong>4、字符串(char,varchar,_text)</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>MySQL数据类型</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char(n)</td>
+<td>固定长度，最多255个字符</td>
+</tr>
+<tr>
+<td>varchar(n)</td>
+<td>可变长度，最多65535个字符</td>
+</tr>
+<tr>
+<td>tinytext</td>
+<td>可变长度，最多255个字符</td>
+</tr>
+<tr>
+<td>text</td>
+<td>可变长度，最多65535个字符</td>
+</tr>
+<tr>
+<td>mediumtext</td>
+<td>可变长度，最多2的24次方-1个字符</td>
+</tr>
+<tr>
+<td>longtext</td>
+<td>可变长度，最多2的32次方-1个字符</td>
+</tr>
+</tbody>
+</table>
+<p>char 和 varchar：</p>
+<ul>
+<li>1.char(n) 若存入字符数小于n，则以空格补于其后，查询之时再将空格去掉。所以 char 类型存储的字符串末尾不能有空格，varchar 不限于此。</li>
+<li>2.char(n) 固定长度，char(4) 不管是存入几个字符，都将占用 4 个字节，varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或2个字节(n&gt;255)，所以 varchar(4),存入 3 个字符将占用 4 个字节。</li>
+<li>3.char 类型的字符串检索速度要比 varchar 类型的快。</li>
+</ul>
+<p>varchar 和 text：</p>
+<ul>
+<li>1.varchar 可指定 n，text 不能指定，内部存储 varchar 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节(n&gt;255)，text 是实际字符数 +2 个字节。</li>
+<li>2.text 类型不能有默认值。</li>
+<li>3.varchar 可直接创建索引，text 创建索引要指定前多少个字符。varchar 查询速度快于 text, 在都创建索引的情况下，text 的索引似乎不起作用。</li>
+</ul>
+<h3 id="mysql的存储过程"><a href="#mysql的存储过程" class="headerlink" title="mysql的存储过程"></a>mysql的存储过程</h3><h5 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h5><h5 id="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"><a href="#什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。" class="headerlink" title="什么是存储过程：一组sql语句集，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。"></a>什么是存储过程：一组<font color="red">sql语句集</font>，功能强大，可以实现一些比较复杂的逻辑功能，类似java程序中的方法。</h5><p>mysql 5.0以前并不支持存储过程，在5.0以后支持存储过程，可以大大提高数据库的处理过程，同时可以提高</p>
+<p>是主动调用的，功能比触发器更加强大。</p>
+<h5 id="存储过程的优点："><a href="#存储过程的优点：" class="headerlink" title="存储过程的优点："></a>存储过程的优点：</h5><p>1.增强SQL语言的功能和灵活性。</p>
+<p>2.标准组件式编程。</p>
+<p>3.较快的执行速度。</p>
+<h5 id="存储过程的创建："><a href="#存储过程的创建：" class="headerlink" title="存储过程的创建："></a>存储过程的创建：</h5><h5 id="存储过程的三个参数：IN-OUT-INOUT"><a href="#存储过程的三个参数：IN-OUT-INOUT" class="headerlink" title="存储过程的三个参数：IN OUT INOUT"></a>存储过程的三个参数：IN OUT INOUT</h5><p>存储过程根据需要会有输入，输出，输入输出参数，如果有多个参数用， 分割开。存储过程的参数用在存储过程的定义。</p>
+<p><strong>IN</strong>参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值</p>
+<p><strong>OUT**</strong>:**该值可在存储过程内部被改变，并可返回</p>
+<p><strong>INOUT**</strong>:**调用时指定，并且可被改变和返回</p>
+<h5 id="存储过程使用的案例：（只保留近三天的数据）"><a href="#存储过程使用的案例：（只保留近三天的数据）" class="headerlink" title="存储过程使用的案例：（只保留近三天的数据）"></a>存储过程使用的案例：（只保留近三天的数据）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	#Routine body goes here...</span><br><span class="line">	DECLARE s int DEFAULT 0;</span><br><span class="line">  DECLARE tableName VARCHAR(32);</span><br><span class="line">	DECLARE c_tableNames CURSOR FOR select table_name from information_schema.tables where table_schema=&apos;ikms_exec&apos; and table_name NOT LIKE &apos;base%&apos; AND table_name  LIKE &apos;%_his&apos;;</span><br><span class="line">	DECLARE CONTINUE HANDLER FOR SQLSTATE &apos;02000&apos; SET s=1;</span><br><span class="line">	set @timenow=DATE_ADD(NOW(),INTERVAL -3 DAY);</span><br><span class="line">	OPEN c_tableNames;</span><br><span class="line">		while s &lt;&gt; 1 DO</span><br><span class="line">	 		FETCH c_tableNames into tableName;</span><br><span class="line">			SET @v_sql=CONCAT(&quot;DELETE FROM &quot;,tableName,&quot; WHERE create_time&lt;&apos;&quot;,@timenow,&quot;&apos;&quot;);</span><br><span class="line">			prepare stmt from @v_sql;</span><br><span class="line">			EXECUTE stmt;</span><br><span class="line">      deallocate prepare stmt;</span><br><span class="line">	 	end while;</span><br><span class="line">	CLOSE c_tableNames;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+<p>如何执行存储过程：CALL procedure_name()</p>
+<h5 id="mysql存储过程的查询："><a href="#mysql存储过程的查询：" class="headerlink" title="mysql存储过程的查询："></a>mysql存储过程的查询：</h5><p>select name from mysql.proc where db = “数据库名”</p>
+<p>修改 Alert</p>
+<p>删除 DROP </p>
+<h3 id="MYSQL-创建视图"><a href="#MYSQL-创建视图" class="headerlink" title="MYSQL 创建视图"></a>MYSQL 创建视图</h3><h5 id="什么是视图："><a href="#什么是视图：" class="headerlink" title="什么是视图："></a>什么是视图：</h5><p>select　语句返回的结果。</p>
+<h5 id="视图的特性："><a href="#视图的特性：" class="headerlink" title="视图的特性："></a>视图的特性：</h5><p>视图是若张基本表的引用，一张虚拟表；查询语句执行的结果，不存储具体的数据，只能做查询，基本的表数据发生了变化，视图就跟着发生变化。</p>
+<h5 id="视图的作用："><a href="#视图的作用：" class="headerlink" title="视图的作用："></a>视图的作用：</h5><p>方便操作，特别是查询操作，减少负责的ＳＱＬ语句，增强可读性；</p>
+<h5 id="视图的优点："><a href="#视图的优点：" class="headerlink" title="视图的优点："></a>视图的优点：</h5><p>1.使用视图可以执行用户数据，聚集特定数据。</p>
+<p>2.使用视图，可以简化数据操作。</p>
+<p>3.使用视图，基表的数据就有一定的安全性，因为视图是虚拟的，物理上是不存在的，只是存储</p>
+<p>4.可以合并分离的数据，创建分区视图。</p>
+<h5 id="视图的缺点："><a href="#视图的缺点：" class="headerlink" title="视图的缺点："></a>视图的缺点：</h5><p>1性能差：需要将对视图查询转化成对基表的查询，需要花费一点的时间。</p>
+<p>2.修改权限：如果需要修改视图的某些信息后，数据库必须把它转化成对基本表的某些信息的修改。</p>
+<h5 id="使用场合"><a href="#使用场合" class="headerlink" title="使用场合"></a>使用场合</h5><p>多表复杂查询的时候，返回用户特性信息时。</p>
+<h3 id="MYSQL索引"><a href="#MYSQL索引" class="headerlink" title="MYSQL索引"></a>MYSQL索引</h3><p>mysql目前支持的索引有：普通索引，唯一索引，主键索引，组合索引，全文唯一</p>
+<h5 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h5><p>最基本的索引，没有任何限制 INDEX</p>
+<h5 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h5><p>唯一索引的值必须是唯一的，但是允许有空值。如果是组合索引的话，则列值的组合必须是唯一，它有以下几种创建方式。 UNION INDEX</p>
+<h5 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h5><p>主键索引是特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般在创建表的时候创建主键索引。</p>
+<h5 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h5><p>指多个字段上创建的索引，只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。遵循最左原则。</p>
+<h5 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h5><p>主要用来查找文本的关键字，而不是直接与索引中的值相比较。 FULLTEXT</p>
+<p>FULLTEXT索引跟其它索引大不相同，它更像是一个搜索引擎，而不是简单的where语句的参数匹配。FULLTEXT索引配合match against操作使用，而不是一般的where语句加like.目前只支持 char，varchar，text列上可以创建全文索引</p>
+<h5 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h5><p>1.虽然索引提高了查询速度，同时会降低更新表的速度。 因为更新表时，不仅要保存数据，还要保存一下索引文件。</p>
+<p>2.建立索引会占用磁盘空间的索引文件。一般情况这个问题不太严重，但如果你在一个大表上创建了多种组合索引，索引文件的会增长很快。</p>
+<h3 id="MYSQL优化"><a href="#MYSQL优化" class="headerlink" title="MYSQL优化"></a>MYSQL优化</h3><h5 id="1-sql语句优化："><a href="#1-sql语句优化：" class="headerlink" title="1.sql语句优化："></a>1.sql语句优化：</h5><p>（1）使用limit对查询结果的记录进行限定<br>（2）避免select *，将需要查找的字段列出来<br>（3）使用连接（join）来代替子查询<br>（4）拆分大的delete或insert语句</p>
+<h5 id="2-选择合适的数据类型"><a href="#2-选择合适的数据类型" class="headerlink" title="2.选择合适的数据类型"></a>2.选择合适的数据类型</h5><p>1）使用可存下数据的最小的数据类型，整型 &lt; date,time &lt; char,varchar &lt; blob<br>（2）使用简单的数据类型，整型比字符处理开销更小，因为字符串的比较更复杂。如，int类型存储时间类型，bigint类型转ip函数<br>（3）使用合理的字段属性长度，固定长度的表会更快。使用enum、char而不是varchar<br>（4）尽可能使用not null定义字段<br>（5）尽量少用text，非用不可最好分表</p>
+<h5 id="3-选择合适的索引列"><a href="#3-选择合适的索引列" class="headerlink" title="3.选择合适的索引列"></a>3.选择合适的索引列</h5><p>（1）查询频繁的列，在where，group by，order by，on从句中出现的列<br>（2）where条件中&lt;，&lt;=，=，&gt;，&gt;=，between，in，以及like 字符串+通配符（%）出现的列<br>（3）长度小的列，索引字段越小越好，因为数据库的存储单位是页，一页中能存下的数据越多越好<br>（4）离散度大（不同的值多）的列，放在联合索引前面。查看离散度，通过统计不同的列值来实现，count越大，离散程度越高：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
+<h5 id="4-用命令分析"><a href="#4-用命令分析" class="headerlink" title="4.用命令分析"></a>4.用命令分析</h5><p>（1）SHOW查看状态<br>1.显示状态信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW [SESSION|GLOBAL] STATUS LIKE &apos;%Status_name%&apos;;</span><br></pre></td></tr></table></figure>
+<p>session（默认）：取出当前窗口的执行<br>global：从mysql启动到现在<br>（a）查看查询次数（插入次数com_insert、修改次数com_insert、删除次数com_delete）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;com_select&apos;;</span><br></pre></td></tr></table></figure>
+<p>（b）查看连接数(登录次数)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;connections&apos;;</span><br></pre></td></tr></table></figure>
+<p>（c）数据库运行时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;uptime&apos;;</span><br></pre></td></tr></table></figure>
+<p>（d）查看慢查询次数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;slow_queries&apos;;</span><br></pre></td></tr></table></figure>
+<p>（e）查看索引使用的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE &apos;handler_read%&apos;;</span><br></pre></td></tr></table></figure>
+<p>handler_read_key：这个值越高越好，越高表示使用索引查询到的次数。<br>handler_read_rnd_next：这个值越高，说明查询低效。</p>
+<p>2.显示系统变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &apos;%Variables_name%&apos;;</span><br></pre></td></tr></table></figure>
+<p>3.显示InnoDB存储引擎的状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW ENGINE INNODB STATUS;</span><br></pre></td></tr></table></figure>
+<p>（2）EXPLAIN分析查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT column_name FROM table_name;</span><br></pre></td></tr></table></figure>
+<p>explain查询sql执行计划，各列含义：<br>table：表名；<br>type：连接的类型<br>​    -const：主键、索引；<br>​    -eq_reg：主键、索引的范围查找；<br>​    -ref：连接的查找（join）<br>​    -range：索引的范围查找；<br>​    -index：索引的扫描；<br>​    -all：全表扫描；<br>possible_keys：可能用到的索引；<br>key：实际使用的索引；<br>key_len：索引的长度，越短越好；<br>ref：索引的哪一列被使用了，常数较好；<br>rows：mysql认为必须检查的用来返回请求数据的行数；<br>extra：using filesort、using temporary（常出现在使用order by时）时需要优化。<br>​    -Using filesort  额外排序。看到这个的时候，查询就需要优化了<br>​    -Using temporary 使用了临时表。看到这个的时候，也需要优化<br>（3）PROFILING分析SQL语句<br>1.开启profile。查看当前SQL执行时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET PROFILING=ON; </span><br><span class="line">mysql&gt; SHOW profiles;</span><br></pre></td></tr></table></figure>
+<p>2.查看所有用户的当前连接。包括执行状态、是否锁表等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW processlist;</span><br></pre></td></tr></table></figure>
+<p>（4）PROCEDURE ANALYSE()取得建议<br>通过分析select查询结果对现有的表的每一列给出优化的建议</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT column_name FROM table_name PROCEDURE ANALYSE();</span><br></pre></td></tr></table></figure>
+<p>（5）OPTIMIZE TABLE回收闲置的数据库空间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; OPTIMIZE TABLE table_name;</span><br></pre></td></tr></table></figure>
+<p>对于MyISAM表，当表上的数据行被删除时，所占据的磁盘空间并没有立即被回收，使用命令后这些空间将被回收，并且对磁盘上的数据行进行重排（注意：是磁盘上，而非数据库）。<br>对于InnoDB表，OPTIMIZE TABLE被映射到ALTER TABLE上，这会重建表。重建操作能更新索引统计数据并释放成簇索引中的未使用的空间。<br>只需在批量删除数据行之后，或定期（每周一次或每月一次）进行一次数据表优化操作即可，只对那些特定的表运行。<br>（6）REPAIR TABLE修复被破坏的表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; REPAIR TABLE table_name;</span><br></pre></td></tr></table></figure>
+<p>（7）CHECK TABLE检查表是否有错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CHECK TABLE table_name;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MYSQL数据库/">MYSQL数据库</a><a href="/tags/锁机制/">锁机制</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/12/19/数据库SQl优化总结/" title="数据库SQl优化总结" itemprop="url">数据库SQl优化总结</a>
   </h1>
   <p class="article-author">By
@@ -888,74 +1131,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/19/java-获取字节码以及判断类型/" title="java 获取字节码以及判断类型" itemprop="url">java 获取字节码以及判断类型</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YUAN" target="_blank" itemprop="author">YUAN</a>
-		
-  </p><p class="article-time">
-    <time datetime="2018-05-19T03:33:17.000Z" itemprop="datePublished"> Published 2018-05-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>一、获取类的字节码的三种方法:
-　　</p>
-<p>　　1.使用Class.class</p>
-<p>　　 1 Class&lt;?&gt; c1=String.class; </p>
-<p>　　2.使用实例.getClass()</p>
-<p>　　 1 String s=new String(“1”); 2 Class&lt;?&gt; c2=s.getClass(); </p>
-<p>　　3.使用Class.forName(“类全名”);</p>
-<p>　　 1 Class&lt;?&gt; c3 = Class.forName(“java.lang.String”);</p>
-<p>二、判断字节码是不是基本类型 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`//判断是不是基本类型``System.out.println(c1.isPrimitive());``//false`</span><br></pre></td></tr></table></figure>
-<p> 三、判断是不是数组：</p>
-<p> 1 //判断是不是数组 2 System.out.println(String[].class.isArray());//true </p>
-<p>四、判断基本类型的详细类型</p>
-<p> 1 // 判断是不是int 基本类型 2 System.out.println(int.class==Integer.TYPE); </p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/字节码/">字节码</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/5/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next<span></span></a>
@@ -989,7 +1164,7 @@
 			
 		
 			
-				<li><a href="/tags/前端/" title="前端">前端<sup>8</sup></a></li>
+				<li><a href="/tags/前端/" title="前端">前端<sup>9</sup></a></li>
 			
 		
 			
@@ -997,11 +1172,11 @@
 			
 		
 			
-				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+				<li><a href="/tags/微服务/" title="微服务">微服务<sup>6</sup></a></li>
 			
 		
 			
@@ -1021,15 +1196,15 @@
 			
 		
 			
-				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>2</sup></a></li>
 			
 		
 			
@@ -1041,7 +1216,7 @@
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
 			
 		
 			
